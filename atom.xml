@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[李瑞的博客]]></title>
+  <link href="http://nutshellfool.github.io/atom.xml" rel="self"/>
+  <link href="http://nutshellfool.github.io/"/>
+  <updated>2014-02-27T04:17:47+08:00</updated>
+  <id>http://nutshellfool.github.io/</id>
+  <author>
+    <name><![CDATA[李瑞]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello]]></title>
+    <link href="http://nutshellfool.github.io/blog/2014/02/27/hello/"/>
+    <updated>2014-02-27T02:33:14+08:00</updated>
+    <id>http://nutshellfool.github.io/blog/2014/02/27/hello</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>
