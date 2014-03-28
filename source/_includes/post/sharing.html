@@ -16,4 +16,7 @@
 	{% if site.addthis_button %}
 	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid={{ site.addthis_profile_id }}"></script>
 	{% endif %}
+	{% if site.weibo_share %}
+     {% include post/weibo.html %}
+ 	{% endif %}
 </div>
