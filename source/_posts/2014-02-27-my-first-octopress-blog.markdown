@@ -91,7 +91,8 @@ http://localhost:4000/
   
 因为我常常是在公司和家里写博客，所以需要两套写博客的环境，因此需要在其他环境下Clone 这个托管在github上的博客Repository。怎么做呢？  
 参见这篇博客：
-[Setup an Existing Octopress Repository After Git Clone](http://weishi.github.io/blog/2013/07/24/setup-an-existing-octopress-repository-after-git-clone/)  
+[Setup an Existing Octopress Repository After Git Clone](http://weishi.github.io/blog/2013/07/24/setup-an-existing-octopress-repository-after-git-clone/)    
+和这一篇[Writing Octopress Blog on a Second Machine](http://xiaojiayi.com/blog/2013/09/28/writing-octopress-blog-on-a-second-machine/)
 
 ***
 
