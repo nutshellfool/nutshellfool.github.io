@@ -4,55 +4,53 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>创建iOS静态Frameworks的步骤 | 李瑞的博客</title>
+    <title>数据结构与Big-Oh | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
     
-    <meta name="description" content="将共用代码lib化、重用，是代码管理的一种重要手段。  
-废话少说，直奔主题。总的来说创建static framework 的方式有两种形式：  
+    <meta name="description" content="又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。
+常见数据结构
+数组(array)
+链表(LinkedList)  
+单向列表(Singly-Linked List)
+双向列表(Doubly-Linked List)
 
-lib.a + .h(头文件) xCode 默认支持的工程方式。  
-同其他的内建系统frameworks一样的bundle。
 
-首先说说第一种形式：
-
-xCode内建支持项目类型
-C、C++ 系lib工程的形态
-头文件与库文件分离，引入工程时略显麻">
+队列(Queuen)
+栈(Stack)
+散列表(HashTable)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="创建iOS静态Frameworks的步骤">
-<meta property="og:url" content="http://blog.lirui.me/2014/07/12/2014-07-12-steps-to-create-a-ios-static-framework/index.html">
+<meta property="og:title" content="数据结构与Big-Oh">
+<meta property="og:url" content="http://blog.lirui.me/2017/03/14/Big-Oh-and-DataStruct/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="将共用代码lib化、重用，是代码管理的一种重要手段。  
-废话少说，直奔主题。总的来说创建static framework 的方式有两种形式：  
+<meta property="og:description" content="又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。
+常见数据结构
+数组(array)
+链表(LinkedList)  
+单向列表(Singly-Linked List)
+双向列表(Doubly-Linked List)
 
-lib.a + .h(头文件) xCode 默认支持的工程方式。  
-同其他的内建系统frameworks一样的bundle。
 
-首先说说第一种形式：
-
-xCode内建支持项目类型
-C、C++ 系lib工程的形态
-头文件与库文件分离，引入工程时略显麻">
-<meta property="og:image" content="http://blog.lirui.me/images/createframework/staticframeworks.png">
-<meta property="og:updated_time" content="2016-11-29T02:40:21.000Z">
+队列(Queuen)
+栈(Stack)
+散列表(HashTable)">
+<meta property="og:updated_time" content="2017-03-14T07:59:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="创建iOS静态Frameworks的步骤">
-<meta name="twitter:description" content="将共用代码lib化、重用，是代码管理的一种重要手段。  
-废话少说，直奔主题。总的来说创建static framework 的方式有两种形式：  
+<meta name="twitter:title" content="数据结构与Big-Oh">
+<meta name="twitter:description" content="又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。
+常见数据结构
+数组(array)
+链表(LinkedList)  
+单向列表(Singly-Linked List)
+双向列表(Doubly-Linked List)
 
-lib.a + .h(头文件) xCode 默认支持的工程方式。  
-同其他的内建系统frameworks一样的bundle。
 
-首先说说第一种形式：
-
-xCode内建支持项目类型
-C、C++ 系lib工程的形态
-头文件与库文件分离，引入工程时略显麻">
-<meta name="twitter:image" content="http://blog.lirui.me/images/createframework/staticframeworks.png">
+队列(Queuen)
+栈(Stack)
+散列表(HashTable)">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -108,14 +106,14 @@ C、C++ 系lib工程的形态
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/07/12/2014-07-12-steps-to-create-a-ios-static-framework/" title="创建iOS静态Frameworks的步骤" itemprop="url">创建iOS静态Frameworks的步骤</a>
+      <a href="/2017/03/14/Big-Oh-and-DataStruct/" title="数据结构与Big-Oh" itemprop="url">数据结构与Big-Oh</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2014-07-12T09:44:46.000Z" itemprop="datePublished"> Published 2014-07-12</time>
+    <time datetime="2017-03-14T06:28:53.000Z" itemprop="datePublished"> Published 2017-03-14</time>
     
   </p>
 </header>
@@ -124,25 +122,105 @@ C、C++ 系lib工程的形态
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见数据结构"><span class="toc-number">1.</span> <span class="toc-text">常见数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见操作"><span class="toc-number">2.</span> <span class="toc-text">常见操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#All-in-one-table"><span class="toc-number">3.</span> <span class="toc-text">All in one table</span></a></li></ol>
 		
 		</div>
 		
-		<p>将共用代码lib化、重用，是代码管理的一种重要手段。  </p>
-<p>废话少说，直奔主题。<br>总的来说创建static framework 的方式有两种形式：  </p>
-<ol>
-<li>lib.a + .h(头文件) xCode 默认支持的工程方式。  </li>
-<li>同其他的内建系统frameworks一样的bundle。</li>
-</ol>
-<p>首先说说第一种形式：</p>
-<ul>
-<li>xCode内建支持项目类型</li>
-<li>C、C++ 系lib工程的形态</li>
-<li>头文件与库文件分离，引入工程时略显麻烦  </li>
+		<p>又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。</p>
+<h2 id="常见数据结构"><a href="#常见数据结构" class="headerlink" title="常见数据结构"></a>常见数据结构</h2><ul>
+<li>数组(array)</li>
+<li>链表(LinkedList)  <ul>
+<li>单向列表(Singly-Linked List)</li>
+<li>双向列表(Doubly-Linked List)</li>
 </ul>
-<p>这种形态的工程我就不再啰嗦了，网上的教程已经很多了，Google一下就有很多（一定要用Google，度娘只会告诉你那个网站给度娘的广告出价最高 – 对不起，不小心又黑百度了）。  </p>
-<p>那好我们来重点说说后一种bundle形式的static frameworks：<br>先来看看效果图：<br><img src="/images/createframework/staticframeworks.png" alt="static framework"><br>在创建这个工程之前需要安装一个第三方的xCode插件：<a href="https://github.com/kstenerud/iOS-Universal-Framework/" target="_blank" rel="external">iOS-Universal-Framework</a><br>在这个例子里请安装 “Real Framework“ ：具体的安装步骤就是执行文件夹下的 install.sh shell脚本<br><code>$./install.sh</code>  </p>
-<p>安装完成后重启xCode，static framework 工程就华丽的出现了。</p>
+</li>
+<li>队列(Queuen)</li>
+<li>栈(Stack)</li>
+<li>散列表(HashTable)</li>
+<li>二叉树(Binary Tree)</li>
+<li>B Tree</li>
+<li>红黑树(RedBlack Tree)<h2 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h2></li>
+<li>访问某个位置的元素(Access)</li>
+<li>查找某个元素(Search)</li>
+<li>插入(Insertion)</li>
+<li>删除(Deletion)</li>
+</ul>
+<h2 id="All-in-one-table"><a href="#All-in-one-table" class="headerlink" title="All in one table"></a>All in one table</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">Data Structure</th>
+<th style="text-align:center">访问</th>
+<th style="text-align:center">查找</th>
+<th style="text-align:center">插入</th>
+<th style="text-align:center">删除</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Array</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Singly-Linked List</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Doubly-Linked List</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Queuen</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Stack</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">HashTable</td>
+<td style="text-align:center">N/A</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Binary Tree</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">B Tree</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">RedBlack Tree</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+</tbody>
+</table>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -150,7 +228,7 @@ C、C++ 系lib工程的形态
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Develop/">Develop</a>►<a class="article-category-link" href="/categories/Develop/Mobile/">Mobile</a>►<a class="article-category-link" href="/categories/Develop/Mobile/iOS/">iOS</a>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>►<a class="article-category-link" href="/categories/Algorithm/Interview/">Interview</a>
 </div>
 
 
@@ -160,7 +238,7 @@ C、C++ 系lib工程的形态
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.lirui.me/2014/07/12/2014-07-12-steps-to-create-a-ios-static-framework/" data-title="创建iOS静态Frameworks的步骤 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.lirui.me/2017/03/14/Big-Oh-and-DataStruct/" data-title="数据结构与Big-Oh | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -173,19 +251,11 @@ C、C++ 系lib工程的形态
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/07/21/2014-07-21-how-to-setup-web-dev-environment-on-mac/" title="如何在Mac上搭建Web开发环境">
-  <strong>上一篇：</strong><br/>
-  <span>
-  如何在Mac上搭建Web开发环境</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/05/25/2014-05-25-trip-at-taiwan-3/"  title="壮游台湾之吃住攻略">
+<a href="/2017/03/12/common-algorithm-big-Oh/"  title="常见算法的Big-Oh">
  <strong>下一篇：</strong><br/> 
- <span>壮游台湾之吃住攻略
+ <span>常见算法的Big-Oh
 </span>
 </a>
 </div>
@@ -206,7 +276,7 @@ C、C++ 系lib工程的形态
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见数据结构"><span class="toc-number">1.</span> <span class="toc-text">常见数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见操作"><span class="toc-number">2.</span> <span class="toc-text">常见操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#All-in-one-table"><span class="toc-number">3.</span> <span class="toc-text">All in one table</span></a></li></ol>
  
   </div>
 
