@@ -1,58 +1,32 @@
 
- <!DOCTYPE HTML>
+  
+    <!DOCTYPE HTML>
 <html lang="zh-Hans">
 <head>
   <meta charset="UTF-8">
   
-    <title>创建iOS静态Frameworks的步骤 | 李瑞的博客</title>
+    <title>About Me | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
     
-    <meta name="description" content="将共用代码lib化、重用，是代码管理的一种重要手段。  
-废话少说，直奔主题。总的来说创建static framework 的方式有两种形式：  
-
-lib.a + .h(头文件) xCode 默认支持的工程方式。  
-同其他的内建系统frameworks一样的bundle。
-
-首先说说第一种形式：
-
-xCode内建支持项目类型
-C、C++ 系lib工程的形态
-头文件与库文件分离，引入工程时略显麻">
-<meta property="og:type" content="article">
-<meta property="og:title" content="创建iOS静态Frameworks的步骤">
-<meta property="og:url" content="http://blog.lirui.me/2014/07/12/2014-07-12-steps-to-create-a-ios-static-framework/index.html">
+    <meta name="description" content="关于我李瑞， 85后，救火工程师（哪里呼唤去哪里）， 曾作为核心员工参与全城热炼， 历任和光同尘（北京）科技有限公司（全城热炼产品载体公司）技术总监
+技术栈以移动客户端（native iOS, Android）为主，玩过Java，Python, Node.js, Golang(自学中)。耍过Docker，RN。对ML有着奇特的兴趣（自学中），对一切有关算法，数学的有趣技术有着不可抗拒的兴趣。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About Me">
+<meta property="og:url" content="http://blog.lirui.me/about/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="将共用代码lib化、重用，是代码管理的一种重要手段。  
-废话少说，直奔主题。总的来说创建static framework 的方式有两种形式：  
-
-lib.a + .h(头文件) xCode 默认支持的工程方式。  
-同其他的内建系统frameworks一样的bundle。
-
-首先说说第一种形式：
-
-xCode内建支持项目类型
-C、C++ 系lib工程的形态
-头文件与库文件分离，引入工程时略显麻">
-<meta property="og:image" content="http://blog.lirui.me/images/createframework/staticframeworks.png">
-<meta property="og:updated_time" content="2016-11-29T02:40:21.000Z">
+<meta property="og:description" content="关于我李瑞， 85后，救火工程师（哪里呼唤去哪里）， 曾作为核心员工参与全城热炼， 历任和光同尘（北京）科技有限公司（全城热炼产品载体公司）技术总监
+技术栈以移动客户端（native iOS, Android）为主，玩过Java，Python, Node.js, Golang(自学中)。耍过Docker，RN。对ML有着奇特的兴趣（自学中），对一切有关算法，数学的有趣技术有着不可抗拒的兴趣。">
+<meta property="og:image" content="http://blog.lirui.me/images/about/me.jpg">
+<meta property="og:updated_time" content="2017-03-20T11:07:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="创建iOS静态Frameworks的步骤">
-<meta name="twitter:description" content="将共用代码lib化、重用，是代码管理的一种重要手段。  
-废话少说，直奔主题。总的来说创建static framework 的方式有两种形式：  
-
-lib.a + .h(头文件) xCode 默认支持的工程方式。  
-同其他的内建系统frameworks一样的bundle。
-
-首先说说第一种形式：
-
-xCode内建支持项目类型
-C、C++ 系lib工程的形态
-头文件与库文件分离，引入工程时略显麻">
-<meta name="twitter:image" content="http://blog.lirui.me/images/createframework/staticframeworks.png">
+<meta name="twitter:title" content="About Me">
+<meta name="twitter:description" content="关于我李瑞， 85后，救火工程师（哪里呼唤去哪里）， 曾作为核心员工参与全城热炼， 历任和光同尘（北京）科技有限公司（全城热炼产品载体公司）技术总监
+技术栈以移动客户端（native iOS, Android）为主，玩过Java，Python, Node.js, Golang(自学中)。耍过Docker，RN。对ML有着奇特的兴趣（自学中），对一切有关算法，数学的有趣技术有着不可抗拒的兴趣。">
+<meta name="twitter:image" content="http://blog.lirui.me/images/about/me.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -67,9 +41,9 @@ C、C++ 系lib工程的形态
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
-  <body>
-    <header>
-      
+      <body>
+        <header>
+          
 <div>
 		
 			<div id="textlogo">
@@ -100,58 +74,36 @@ C、C++ 系lib工程的形态
 				</ul>
 			</nav>			
 </div>
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
+        </header>
+        <div id="container">
+          <div id="main" class="page" itemscope itemprop="blogPost">
   
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/07/12/2014-07-12-steps-to-create-a-ios-static-framework/" title="创建iOS静态Frameworks的步骤" itemprop="url">创建iOS静态Frameworks的步骤</a>
+      <a href="/about/index.html" title="About Me" itemprop="url">About Me</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2014-07-12T09:44:46.000Z" itemprop="datePublished"> 发表于 2014-07-12</time>
+    <time datetime="2017-03-20T11:07:07.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			
-		
-		</div>
-		
-		<p>将共用代码lib化、重用，是代码管理的一种重要手段。  </p>
-<p>废话少说，直奔主题。<br>总的来说创建static framework 的方式有两种形式：  </p>
-<ol>
-<li>lib.a + .h(头文件) xCode 默认支持的工程方式。  </li>
-<li>同其他的内建系统frameworks一样的bundle。</li>
-</ol>
-<p>首先说说第一种形式：</p>
-<ul>
-<li>xCode内建支持项目类型</li>
-<li>C、C++ 系lib工程的形态</li>
-<li>头文件与库文件分离，引入工程时略显麻烦  </li>
-</ul>
-<p>这种形态的工程我就不再啰嗦了，网上的教程已经很多了，Google一下就有很多（一定要用Google，度娘只会告诉你那个网站给度娘的广告出价最高 – 对不起，不小心又黑百度了）。  </p>
-<p>那好我们来重点说说后一种bundle形式的static frameworks：<br>先来看看效果图：<br><img src="/images/createframework/staticframeworks.png" alt="static framework"><br>在创建这个工程之前需要安装一个第三方的xCode插件：<a href="https://github.com/kstenerud/iOS-Universal-Framework/" target="_blank" rel="external">iOS-Universal-Framework</a><br>在这个例子里请安装 “Real Framework“ ：具体的安装步骤就是执行文件夹下的 install.sh shell脚本<br><code>$./install.sh</code>  </p>
-<p>安装完成后重启xCode，static framework 工程就华丽的出现了。</p>
+		<p><img src="/images/about/me.jpg" alt=""></p>
+<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>李瑞， 85后，救火工程师（哪里呼唤去哪里）， 曾作为核心员工参与<a href="http://baike.baidu.com/item/%E5%85%A8%E5%9F%8E%E7%83%AD%E7%82%BC" target="_blank" rel="external">全城热炼</a>， 历任和光同尘（北京）科技有限公司（全城热炼产品载体公司）技术总监</p>
+<p>技术栈以移动客户端（native iOS, Android）为主，玩过Java，Python, Node.js, Golang(自学中)。<br>耍过Docker，RN。对ML有着奇特的兴趣（自学中），对一切有关算法，数学的有趣技术有着不可抗拒的兴趣。  </p>
+<h2 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h2><p>Email: <a href="mailto:i@lirui.me" target="_blank" rel="external">i@lirui.me</a>  </p>
+<p>GitHub: <a href="https://github.com/nutshellfool" target="_blank" rel="external">@nutshellfool</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Develop/">Develop</a>►<a class="article-category-link" href="/categories/Develop/Mobile/">Mobile</a>►<a class="article-category-link" href="/categories/Develop/Mobile/iOS/">iOS</a>
-</div>
 
 
 </div>
@@ -160,7 +112,7 @@ C、C++ 系lib工程的形态
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.lirui.me/2014/07/12/2014-07-12-steps-to-create-a-ios-static-framework/" data-title="创建iOS静态Frameworks的步骤 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.lirui.me/about/index.html" data-title="About Me | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -171,27 +123,6 @@ C、C++ 系lib工程的形态
    	       
 	</article>
 	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2014/07/21/2014-07-21-how-to-setup-web-dev-environment-on-mac/" title="如何在Mac上搭建Web开发环境">
-  <strong>上一篇：</strong><br/>
-  <span>
-  如何在Mac上搭建Web开发环境</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2014/05/25/2014-05-25-trip-at-taiwan-3/"  title="壮游台湾之吃住攻略">
- <strong>下一篇：</strong><br/> 
- <span>壮游台湾之吃住攻略
-</span>
-</a>
-</div>
-
-</nav>
-
 	
 
 <section id="comments" class="comment">
@@ -201,96 +132,8 @@ C、C++ 系lib工程的形态
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- 
- 
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
-  
-
-
-  
-<div class="categorieslist">
-	<p class="asidetitle">分类</p>
-		<ul>
-		
-		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>4</sup></a></li>
-		  
-		
-		  
-		
-		  
-			<li><a href="/categories/Team-building/Interview/" title="Interview">Interview<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Team-building/" title="Team building">Team building<sup>1</sup></a></li>
-		  
-		
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
-		  
-		
-		</ul>
-</div>
-
-
-  
-
-  
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
+        </div>
+        <footer><div id="footer" >
 	
 	
 	<div class="social-font" class="clearfix">
@@ -317,7 +160,7 @@ C、C++ 系lib工程的形态
 		</p>
 </div>
 </footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
+        <script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 <script src="/js/jquery.qrcode-0.12.0.min.js"></script>
@@ -361,36 +204,8 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
-  });
-});
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
   });
 });
 </script>
@@ -552,5 +367,6 @@ $(document).ready(function(){
 
 <!-- Tiny_search End -->
 
-  </body>
-</html>
+      </body>
+     </html>
+     
