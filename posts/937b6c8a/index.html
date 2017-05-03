@@ -1,0 +1,611 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>关于树的一些话题 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    
+    <meta name="description" content="虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。
+树的一些经典问题判断是否是一棵二叉搜索树原题传送门
+Given a binary tree, determine if it is a valid binary search t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于树的一些话题">
+<meta property="og:url" content="http://blog.lirui.me/posts/937b6c8a/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。
+树的一些经典问题判断是否是一棵二叉搜索树原题传送门
+Given a binary tree, determine if it is a valid binary search t">
+<meta property="og:updated_time" content="2017-04-07T06:20:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于树的一些话题">
+<meta name="twitter:description" content="虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。
+树的一些经典问题判断是否是一棵二叉搜索树原题传送门
+Given a binary tree, determine if it is a valid binary search t">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blog.lirui.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/937b6c8a/" title="关于树的一些话题" itemprop="url">关于树的一些话题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-19T06:55:30.000Z" itemprop="datePublished"> Published 2017-03-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树的一些经典问题"><span class="toc-number">1.</span> <span class="toc-text">树的一些经典问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断是否是一棵二叉搜索树"><span class="toc-number">1.1.</span> <span class="toc-text">判断是否是一棵二叉搜索树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目分析"><span class="toc-number">1.1.1.</span> <span class="toc-text">题目分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列出解决想到的方案"><span class="toc-number">1.1.2.</span> <span class="toc-text">列出解决想到的方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#算法复杂度分析"><span class="toc-number">1.1.3.</span> <span class="toc-text">算法复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最优代码优化"><span class="toc-number">1.1.4.</span> <span class="toc-text">最优代码优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试"><span class="toc-number">1.1.5.</span> <span class="toc-text">测试</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。<br>树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。</p>
+<h2 id="树的一些经典问题"><a href="#树的一些经典问题" class="headerlink" title="树的一些经典问题"></a>树的一些经典问题</h2><h3 id="判断是否是一棵二叉搜索树"><a href="#判断是否是一棵二叉搜索树" class="headerlink" title="判断是否是一棵二叉搜索树"></a>判断是否是一棵二叉搜索树</h3><p><a href="https://leetcode.com/problems/validate-binary-search-tree/#/description" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>Given a binary tree, determine if it is a valid binary search tree (BST).
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node&apos;s key.
+The right subtree of a node contains only nodes with keys greater than the node&apos;s key.
+Both the left and right subtrees must also be binary search trees.
+Example 1:
+    2
+   / \
+  1   3
+Binary tree [2,1,3], return true.
+Example 2:
+    1
+   / \
+  2   3
+Binary tree [1,2,3], return false.
+</code></pre><h4 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h4><p>读一下题：<br>其实题目的描述已经很有诚意了,这里直接指出了构成BST的三个特点：</p>
+<ul>
+<li>一个节点的左子树的所有（注意，是所有）节点都只会小于该节点</li>
+<li>一个节点的右子树的所有节点都只会大于该节点</li>
+<li>左、右子树也都必须是BST</li>
+</ul>
+<p>大家看出来这个描述有什么特点么？递归的定义方式啊。<br>所以首先想到的方法会是怎样的？<br>当然是<strong>递归</strong>地去判断节点与左右子节点的大小关系，好，这是第一个解法。<br>还有其他的解法么？<br>先<strong>遍历</strong>整个树，然后得到一个数组，然后判断这个数组是否是有序的就可以。<br>那么现在来实现下面这两个算法：</p>
+<h4 id="列出解决想到的方案"><a href="#列出解决想到的方案" class="headerlink" title="列出解决想到的方案"></a>列出解决想到的方案</h4><ul>
+<li><p>首先是递归的：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(TreeNode node, <span class="keyword">long</span> max, <span class="keyword">long</span> min)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (node.data &gt;= max || node.data &lt;= min) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> isValid(node.leftChild, node.data, min) &amp;&amp; isValid(node.rightChild, max, node.data);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>  就是根据上面BST的朴素性质来一层层递归判断。注意等于的边界条件。</p>
+</li>
+</ul>
+<ul>
+<li><p>然后是遍历的</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValidInNoRecurrenceVersion</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="comment">// Basic Idea is</span></div><div class="line">       <span class="comment">// 1. convert the tree to the array</span></div><div class="line">       <span class="comment">// 2. judge the array is in right order?</span></div><div class="line">       <span class="keyword">if</span>(<span class="keyword">this</span>.root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">       ArrayList theOrderList = <span class="keyword">new</span> ArrayList();</div><div class="line">       theInorderTraversalOrderList(theOrderList);</div><div class="line"></div><div class="line">       <span class="comment">// judge the array in the right order(ascend order)</span></div><div class="line">       <span class="keyword">return</span> isArraySortedInAscendOrder(theOrderList);</div><div class="line">   &#125;</div><div class="line"></div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isArraySortedInAscendOrder</span><span class="params">(ArrayList&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (list == <span class="keyword">null</span> &amp;&amp; list.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">       <span class="keyword">int</span> listSize = list.size();</div><div class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; listSize - <span class="number">1</span>; i++) &#123;</div><div class="line">           <span class="keyword">if</span> (list.get(i) &gt; list.get(i+<span class="number">1</span>))&#123;</div><div class="line">               <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">/**</span></div><div class="line">    *</div><div class="line">    * Traversal the tree with the Inorder way</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> theInOutList</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">theInorderTraversalOrderList</span><span class="params">(ArrayList theInOutList)</span> </span>&#123;</div><div class="line"></div><div class="line">       _inOrderTraversal(<span class="keyword">this</span>.root, theInOutList);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_inOrderTraversal</span><span class="params">(TreeNode node, ArrayList theInOutList)</span> </span>&#123;</div><div class="line">       Assert.assertNotNull(theInOutList);</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">       _inOrderTraversal(node.leftChild, theInOutList);</div><div class="line">       theInOutList.add(node.data);</div><div class="line">       _inOrderTraversal(node.rightChild, theInOutList);</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>好，我们已经完成了两种实现，下一步就是分析这两种方法的时间空间复杂度。</p>
+<h4 id="算法复杂度分析"><a href="#算法复杂度分析" class="headerlink" title="算法复杂度分析"></a>算法复杂度分析</h4><p>首先先看下相对简单的递归算法：  </p>
+<ul>
+<li><p>时间复杂度<br>  总共三行，前两行的时间复杂度为常数级（O(1)）, 最后一行，返回值行，将这个问题一分为二转化为两个 长度为 1/2 的子问题，因此我们有$$T(n) = 2 \cdot O(1) + 2 \cdot T(n/2)$$</p>
+<p>  因此我们得到结论： 该算法的时间复杂度为$O(n^{log_2^2}) = O(n)$</p>
+</li>
+<li>空间复杂度<br>  该算法并未使用额外的辅助空间</li>
+</ul>
+<p>其次我们来分析遍历算法：</p>
+<ul>
+<li><p>时间复杂度  </p>
+<p>  整个算法大致可以看作两部分</p>
+<ul>
+<li>遍历树得到一个数组</li>
+<li><p>判断该数组是否是一个有序的数组</p>
+<p>遍历树的时间复杂度是$O(n)$<br>判断数组是否为有序数组的时间复杂度也为$O(n)$<br>那么使用Big-Oh的加法法则有<br>算法的复杂度为$O(n)$</p>
+</li>
+</ul>
+</li>
+<li><p>空间复杂度<br>  该算法用到了一个长度为n的辅助数组</p>
+</li>
+</ul>
+<p>我们当然要选择前者。</p>
+<p>好，我们得到了最优的算法，问题就解决了么？<br>当然……没有！</p>
+<h4 id="最优代码优化"><a href="#最优代码优化" class="headerlink" title="最优代码优化"></a>最优代码优化</h4><p>我们看下递归算法还可以再有优化的空间么？ 目前为止还没有看出更简洁的写法了。<br>好，进入下一步</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><blockquote>
+<p>写出代码，不测试就是耍流氓。</p>
+</blockquote>
+<p>那应该怎样测试这个方法呢？  </p>
+<ul>
+<li>Happy case</li>
+<li>Other case</li>
+</ul>
+<p>这里happy case就是构建一个正常的BST，然而other case就是构建一个非BST的二叉树。<br>说到这里相信你已经看到happy case还好说， other case就有些困难了，需要修改构建树节点的实现，允许构建一个非BST的二叉树，这里就不详细描述算法的细节了，更多的细节移步参考 <a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/me/lirui/algo/tree/BinarySearchTree.java" target="_blank" rel="external">GitHub工程链接</a><br>以及测试工程代码<a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/tree/BinarySearchTreeTest.java" target="_blank" rel="external">GitHub测试工程链接</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>►<a class="article-category-link" href="/categories/Algorithm/Interview/">Interview</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.lirui.me/posts/937b6c8a/" data-title="关于树的一些话题 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/be44bf3e/" title="链表的一些问题">
+  <strong>上一篇：</strong><br/>
+  <span>
+  链表的一些问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/ae8ff913/"  title="LaTex cheatsheet">
+ <strong>下一篇：</strong><br/> 
+ <span>LaTex cheatsheet
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树的一些经典问题"><span class="toc-number">1.</span> <span class="toc-text">树的一些经典问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断是否是一棵二叉搜索树"><span class="toc-number">1.1.</span> <span class="toc-text">判断是否是一棵二叉搜索树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目分析"><span class="toc-number">1.1.1.</span> <span class="toc-text">题目分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列出解决想到的方案"><span class="toc-number">1.1.2.</span> <span class="toc-text">列出解决想到的方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#算法复杂度分析"><span class="toc-number">1.1.3.</span> <span class="toc-text">算法复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最优代码优化"><span class="toc-number">1.1.4.</span> <span class="toc-text">最优代码优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试"><span class="toc-number">1.1.5.</span> <span class="toc-text">测试</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/LaTex/" title="LaTex">LaTex<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/" title="Mathmatics">Mathmatics<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

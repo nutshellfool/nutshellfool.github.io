@@ -1,0 +1,575 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>五边飞行与网络拥塞控制 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    
+    <meta name="description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
+
+Upwin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五边飞行与网络拥塞控制">
+<meta property="og:url" content="http://blog.lirui.me/posts/9d999a37/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
+
+Upwin">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
+<meta property="og:updated_time" content="2017-04-30T10:59:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="五边飞行与网络拥塞控制">
+<meta name="twitter:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
+
+Upwin">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blog.lirui.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/9d999a37/" title="五边飞行与网络拥塞控制" itemprop="url">五边飞行与网络拥塞控制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-30T09:47:22.000Z" itemprop="datePublished"> Published 2017-04-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#五边飞行"><span class="toc-number">1.</span> <span class="toc-text">五边飞行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP拥塞控制，慢启动"><span class="toc-number">2.</span> <span class="toc-text">TCP拥塞控制，慢启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产品经理与研发工程师"><span class="toc-number">3.</span> <span class="toc-text">产品经理与研发工程师</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="五边飞行"><a href="#五边飞行" class="headerlink" title="五边飞行"></a>五边飞行</h2><p>飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？<br>哈哈， 笑而不语。<br>想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：<br>五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。<br>具体的说，这五个阶段是：  </p>
+<ol>
+<li>Upwind(landing) / Departure(take off)</li>
+<li>Crosswind</li>
+<li>Downwind</li>
+<li>Base</li>
+<li>Final</li>
+</ol>
+<p>更多细节查看<a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook/media/09_afh_ch7.pdf" target="_blank" rel="external">这里</a></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg" alt="五边飞行"></p>
+<p>你会问，不就是降落么？直接降不就行了么，费这些事干嘛？<br>飞机又不是汽车，碰到某个路段堵塞，汽车减速停下来就行了，飞机行么？更何况，你开车侧方位停车还要倒车然后回两把轮呢。  </p>
+<h2 id="TCP拥塞控制，慢启动"><a href="#TCP拥塞控制，慢启动" class="headerlink" title="TCP拥塞控制，慢启动"></a>TCP拥塞控制，慢启动</h2><p>我们看这整个过程，其实都是在为降落的充分准备做铺垫，为紧缺的资源-机场跑道创造一个有序、安全的降落起飞环境。哎，等等。从这个角度来看这与TCP网络协议中的拥塞控制算法何其相似，特别是慢启动（slow start）整个算法的考虑角度都是一样的。<br>因为网络传输中传输通道的大小是一定的，因此带宽就类似飞行中的机场跑道是紧缺资源，换句话说就需要通过一种机制保护起来，这里慢启动算法就起到了这个作用：<br>TCP在建立连接后，到了开始发送数据的阶段时，如果一次性发送了大量的数据包过去，必然会造成网络的拥塞，因此就需要根据网络情况逐步增加每次传送的数据包。具体说来是这样的：  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">RTT（Round Trip Time）轮次</th>
+<th style="text-align:center">传送数据包（单位：MSS）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1*2 = 2</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2*2 = 4</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4*2 = 8</td>
+</tr>
+<tr>
+<td style="text-align:center">..</td>
+<td style="text-align:center">..</td>
+</tr>
+</tbody>
+</table>
+<p>依次类推，如果带宽值为m的话，经过$log_2^m$次RTT后就可以占满了带宽（类似的算法在动态数组的内存分配上也可以找到影子）。<br>所以说在你家网速慢的时候没必要狂点刷新，慢启动算法保证了不会因为的刷新频率而获得更高的带宽。   </p>
+<h2 id="产品经理与研发工程师"><a href="#产品经理与研发工程师" class="headerlink" title="产品经理与研发工程师"></a>产品经理与研发工程师</h2><p>在保护紧缺资源的点上，技术管理所使用的原则其实和上面的本质是相同的。<br>都说技术部门的研发和产品是相爱相杀的关系（哈哈。。。。。。）<br>如果产品经理与研发工程师的比例高于合理的比例会怎样？<br>产品设计好了，没有人实现，尴尬。<br>如果研发工程师与产品经理的比例高于合理的比例会怎样？<br>研发资源大量闲置，产品经理被各种挑战，大老板、市场部、运营部。  </p>
+<p>我们来分析下上面这两种情况，以及对应的措施。<br>对于第一种情况，就需要建立标准很高的需求评审机制，让真正的重要需求实现，这里可以要求需求的粒度，需求的完备度都要达到高的标准才能交到研发的手中。<br>对于第二种情况，允许粗粒度的需求交付研发，但是需要与研发在细节上充分沟通。<br>看到了么？这其实是对不同情况下的稀缺资源做的必要保护。核心就一个推动产品向健康的方向发展，毕竟“想”和“做”是不可分割的，产品经理和研发工程师这两个角色离开了谁都搞不成事，就酱。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.lirui.me/posts/9d999a37/" data-title="五边飞行与网络拥塞控制 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/posts/cac864f3/"  title="如何用递归的方式解决问题？">
+ <strong>下一篇：</strong><br/> 
+ <span>如何用递归的方式解决问题？
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#五边飞行"><span class="toc-number">1.</span> <span class="toc-text">五边飞行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP拥塞控制，慢启动"><span class="toc-number">2.</span> <span class="toc-text">TCP拥塞控制，慢启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产品经理与研发工程师"><span class="toc-number">3.</span> <span class="toc-text">产品经理与研发工程师</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/LaTex/" title="LaTex">LaTex<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/" title="Mathmatics">Mathmatics<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

@@ -1,0 +1,578 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>在Mac上编写支持markdown LaTex 的文档 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    
+    <meta name="description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。
+
+工欲善其事，必先利其器。
+
+所以找一个合适的编辑器就是比较重要的事情了。
+编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：
+
+支持Markdown写作，语法高亮啥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Mac上编写支持markdown LaTex 的文档">
+<meta property="og:url" content="http://blog.lirui.me/posts/94519b49/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。
+
+工欲善其事，必先利其器。
+
+所以找一个合适的编辑器就是比较重要的事情了。
+编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：
+
+支持Markdown写作，语法高亮啥">
+<meta property="og:updated_time" content="2017-04-07T06:20:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Mac上编写支持markdown LaTex 的文档">
+<meta name="twitter:description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。
+
+工欲善其事，必先利其器。
+
+所以找一个合适的编辑器就是比较重要的事情了。
+编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：
+
+支持Markdown写作，语法高亮啥">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blog.lirui.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/94519b49/" title="在Mac上编写支持markdown LaTex 的文档" itemprop="url">在Mac上编写支持markdown LaTex 的文档</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-22T04:31:20.000Z" itemprop="datePublished"> Published 2017-03-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑器需要支持的功能"><span class="toc-number">1.</span> <span class="toc-text">编辑器需要支持的功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#之前使用编辑器的迁移史"><span class="toc-number">2.</span> <span class="toc-text">之前使用编辑器的迁移史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置"><span class="toc-number">3.</span> <span class="toc-text">如何配置</span></a></li></ol>
+		
+		</div>
+		
+		<p>使用markdown写文章现在已经是我的标配，那你的呢？<br>最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。</p>
+<blockquote>
+<p>工欲善其事，必先利其器。</p>
+</blockquote>
+<p>所以找一个合适的编辑器就是比较重要的事情了。</p>
+<h2 id="编辑器需要支持的功能"><a href="#编辑器需要支持的功能" class="headerlink" title="编辑器需要支持的功能"></a>编辑器需要支持的功能</h2><p>下面是编辑器必须满足的几个关键的点：</p>
+<ul>
+<li>支持Markdown写作，语法高亮啥的是标配。</li>
+<li>分屏预览（一边写作，一边预览） 所见即所得。</li>
+<li>支持 LaTex 语法渲染（支持mathJax, pandoc更好）</li>
+</ul>
+<h2 id="之前使用编辑器的迁移史"><a href="#之前使用编辑器的迁移史" class="headerlink" title="之前使用编辑器的迁移史"></a>之前使用编辑器的迁移史</h2><p>最开始的时候使用的是Mac自带编辑器，用起来相当不方便<br>后来使用了sublime text 2 但仅限于编辑一些简单的文档，和写一些ReadMe文档<br>因为sublime text在最开始的时候对markdown支持不好，写markdown很不方便所以找了一个<br>轻量级的markdown编辑器 Mou – 小清新，功能全而不累赘，很得我心。<br>但是不巧的是Mou很长时间都没有更新，这还不要紧，关键是在macOS sierra 后Mou竟然不能用了！<br>这就迫使我寻找一个新的编辑器，很快就找到了MacDown， 这个据说是完全仿照Mou做的，最开始的时候还觉得OK，但是随着数学公式需求越来越强就发现了它的缺点了，不能实时查看公式的渲染效果。<br>于是决定重新找个编辑器彻底解决这个问题， 恰巧Github开源出来的<a href="https://atom.io" target="_blank" rel="external">Atom</a>可以完美结局这个问题。  </p>
+<h2 id="如何配置"><a href="#如何配置" class="headerlink" title="如何配置"></a>如何配置</h2><p>使用Atom来写markdown有个好的体验就需要安装几个能够提升效率的插件：<br>这个插件就是： <a href="https://atom.io/packages/markdown-preview-enhanced" target="_blank" rel="external">markdown-preview-enhanced</a></p>
+<p>具体安装Atom插件的方法是：</p>
+<ol>
+<li>Preferences -&gt; install</li>
+<li>输入框输入 “markdown preview enhanced”</li>
+<li>点击install</li>
+</ol>
+<p>注意安装后还没有完成，如果想让数学公式正常渲染需要disable一个Atom自带的组件：  </p>
+<ol>
+<li>Preferences -&gt; packages</li>
+<li>输入框内输入 “markdowm preview”</li>
+<li>会在core packages 下列出一个“markdowm preview”组件，点击disable，禁用。</li>
+</ol>
+<p>好，现在创建一个含有数学公式的文档(.md 或 .markdown)<br>现在还看不到效果，按住 control + shift + m 在屏幕的右边就会出现一个预览效果的窗口<br>现在是不是markdown写的飞起？</p>
+<p>以上<br>// EOF</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.lirui.me/posts/94519b49/" data-title="在Mac上编写支持markdown LaTex 的文档 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/b6c18b5d/" title="mac 重装系统后要做的事情">
+  <strong>上一篇：</strong><br/>
+  <span>
+  mac 重装系统后要做的事情</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/be44bf3e/"  title="链表的一些问题">
+ <strong>下一篇：</strong><br/> 
+ <span>链表的一些问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑器需要支持的功能"><span class="toc-number">1.</span> <span class="toc-text">编辑器需要支持的功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#之前使用编辑器的迁移史"><span class="toc-number">2.</span> <span class="toc-text">之前使用编辑器的迁移史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置"><span class="toc-number">3.</span> <span class="toc-text">如何配置</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/LaTex/" title="LaTex">LaTex<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/" title="Mathmatics">Mathmatics<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+
