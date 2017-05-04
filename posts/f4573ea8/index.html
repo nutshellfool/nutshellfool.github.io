@@ -4,31 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>五边飞行与网络拥塞控制 | 李瑞的博客</title>
+    <title>在Mac上安装TensorFlow | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
     
-    <meta name="description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
-
-Upwin">
+    <meta name="description" content="众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？
+安装多个版">
 <meta property="og:type" content="article">
-<meta property="og:title" content="五边飞行与网络拥塞控制">
-<meta property="og:url" content="http://blog.lirui.me/posts/9d999a37/index.html">
+<meta property="og:title" content="在Mac上安装TensorFlow">
+<meta property="og:url" content="http://blog.lirui.me/posts/f4573ea8/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
-
-Upwin">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
-<meta property="og:updated_time" content="2017-04-30T10:59:49.000Z">
+<meta property="og:description" content="众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？
+安装多个版">
+<meta property="og:updated_time" content="2017-05-04T17:32:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="五边飞行与网络拥塞控制">
-<meta name="twitter:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
-
-Upwin">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
+<meta name="twitter:title" content="在Mac上安装TensorFlow">
+<meta name="twitter:description" content="众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？
+安装多个版">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -84,14 +79,14 @@ Upwin">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/9d999a37/" title="五边飞行与网络拥塞控制" itemprop="url">五边飞行与网络拥塞控制</a>
+      <a href="/posts/f4573ea8/" title="在Mac上安装TensorFlow" itemprop="url">在Mac上安装TensorFlow</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-30T09:47:22.000Z" itemprop="datePublished"> Published 2017-04-30</time>
+    <time datetime="2017-05-04T17:29:41.000Z" itemprop="datePublished"> Published 2017-05-05</time>
     
   </p>
 </header>
@@ -100,55 +95,35 @@ Upwin">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#五边飞行"><span class="toc-number">1.</span> <span class="toc-text">五边飞行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP拥塞控制，慢启动"><span class="toc-number">2.</span> <span class="toc-text">TCP拥塞控制，慢启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产品经理与研发工程师"><span class="toc-number">3.</span> <span class="toc-text">产品经理与研发工程师</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装多个版本Python在同个Mac"><span class="toc-number">1.</span> <span class="toc-text">安装多个版本Python在同个Mac</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装TensorFlow"><span class="toc-number">2.</span> <span class="toc-text">安装TensorFlow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证安装"><span class="toc-number">3.</span> <span class="toc-text">验证安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#验证过程中碰到的问题"><span class="toc-number">3.1.</span> <span class="toc-text">验证过程中碰到的问题</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="五边飞行"><a href="#五边飞行" class="headerlink" title="五边飞行"></a>五边飞行</h2><p>飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？<br>哈哈， 笑而不语。<br>想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：<br>五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。<br>具体的说，这五个阶段是：  </p>
+		<p>众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？</p>
+<h2 id="安装多个版本Python在同个Mac"><a href="#安装多个版本Python在同个Mac" class="headerlink" title="安装多个版本Python在同个Mac"></a>安装多个版本Python在同个Mac</h2><p>之前处理多个Java版本共存环境的时候碰到这样的解决方案 <a href="https://github.com/gcuisinier/jenv" target="_blank" rel="external">jenv</a><br>按照这个逻辑应该在Python下会有类似的解决方案。<br>仔细寻找后找到了<a href="https://github.com/pyenv/pyenv" target="_blank" rel="external">pyenv</a><br>当然pyenv也支持brew安装<code>$ brew install pyenv</code><br>然后添加pyenv init在环境shell中 <code>eval &quot;$(pyenv init -)</code><br>之后就可以使用pyenv安装Python3了, 当然安装也比较简单 <code>$ pyenv install 3.6.1</code><br>查看安装的Python所有版本可以使用<code>$ pyenv versions</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ pyenv versions</div><div class="line">* system (set by /Users/RichardLee/.pyenv/version)</div><div class="line">  3.6.1</div></pre></td></tr></table></figure></p>
+<ul>
+<li>更改全局的Python版本使用<code>$ pyenv global 3.6.1</code></li>
+<li>设置当前目录的Python版本<code>$ pyenv local 3.6.1</code></li>
+</ul>
+<h2 id="安装TensorFlow"><a href="#安装TensorFlow" class="headerlink" title="安装TensorFlow"></a>安装TensorFlow</h2><p>没有太多其他的步骤，按照<a href="https://www.tensorflow.org/install/install_mac" target="_blank" rel="external">官网安装指导</a>  </p>
 <ol>
-<li>Upwind(landing) / Departure(take off)</li>
-<li>Crosswind</li>
-<li>Downwind</li>
-<li>Base</li>
-<li>Final</li>
+<li><p>安装pip和virtualenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo pip install --upgrade virtualenv</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建TensorFlow文件夹，和virtualenv环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ cd ~</div><div class="line">$ mkdir tensorflow</div><div class="line">$ cd tensorflow</div><div class="line">$ virtualenv --system-site-packages -p python3 .</div></pre></td></tr></table></figure>
+</li>
+<li><p>激活virtualenv环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ source ~/tensorflow/bin/activate</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装TensorFlow包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pip3 install --upgrade tensorflow</div></pre></td></tr></table></figure>
+</li>
 </ol>
-<p>更多细节查看<a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook/media/09_afh_ch7.pdf" target="_blank" rel="external">这里</a></p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg" alt="五边飞行"></p>
-<p>你会问，不就是降落么？直接降不就行了么，费这些事干嘛？<br>飞机又不是汽车，碰到某个路段堵塞，汽车减速停下来就行了，飞机行么？更何况，你开车侧方位停车还要倒车然后回两把轮呢。  </p>
-<h2 id="TCP拥塞控制，慢启动"><a href="#TCP拥塞控制，慢启动" class="headerlink" title="TCP拥塞控制，慢启动"></a>TCP拥塞控制，慢启动</h2><p>我们看这整个过程，其实都是在为降落的充分准备做铺垫，为紧缺的资源-机场跑道创造一个有序、安全的降落起飞环境。哎，等等。从这个角度来看这与TCP网络协议中的拥塞控制算法何其相似，特别是慢启动（slow start）整个算法的考虑角度都是一样的。<br>因为网络传输中传输通道的大小是一定的，因此带宽就类似飞行中的机场跑道是紧缺资源，换句话说就需要通过一种机制保护起来，这里慢启动算法就起到了这个作用：<br>TCP在建立连接后，到了开始发送数据的阶段时，如果一次性发送了大量的数据包过去，必然会造成网络的拥塞，因此就需要根据网络情况逐步增加每次传送的数据包。具体说来是这样的：  </p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">RTT（Round Trip Time）轮次</th>
-<th style="text-align:center">传送数据包（单位：MSS）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-</tr>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1*2 = 2</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">2*2 = 4</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">4*2 = 8</td>
-</tr>
-<tr>
-<td style="text-align:center">..</td>
-<td style="text-align:center">..</td>
-</tr>
-</tbody>
-</table>
-<p>依次类推，如果带宽值为m的话，经过$log_2^m$次RTT后就可以占满了带宽（类似的算法在动态数组的内存分配上也可以找到影子）。<br>所以说在你家网速慢的时候没必要狂点刷新，慢启动算法保证了不会因为的刷新频率而获得更高的带宽。   </p>
-<h2 id="产品经理与研发工程师"><a href="#产品经理与研发工程师" class="headerlink" title="产品经理与研发工程师"></a>产品经理与研发工程师</h2><p>在保护紧缺资源的点上，技术管理所使用的原则其实和上面的本质是相同的。<br>都说技术部门的研发和产品是相爱相杀的关系（哈哈。。。。。。）<br>如果产品经理与研发工程师的比例高于合理的比例会怎样？<br>产品设计好了，没有人实现，尴尬。<br>如果研发工程师与产品经理的比例高于合理的比例会怎样？<br>研发资源大量闲置，产品经理被各种挑战，大老板、市场部、运营部。  </p>
-<p>我们来分析下上面这两种情况，以及对应的措施。<br>对于第一种情况，就需要建立标准很高的需求评审机制，让真正的重要需求实现，这里可以要求需求的粒度，需求的完备度都要达到高的标准才能交到研发的手中。<br>对于第二种情况，允许粗粒度的需求交付研发，但是需要与研发在细节上充分沟通。<br>看到了么？这其实是对不同情况下的稀缺资源做的必要保护。核心就一个推动产品向健康的方向发展，毕竟“想”和“做”是不可分割的，产品经理和研发工程师这两个角色离开了谁都搞不成事，就酱。</p>
+<h2 id="验证安装"><a href="#验证安装" class="headerlink" title="验证安装"></a>验证安装</h2><p>完成上面的安装后，还是需要验证下TensorFlow是否安装成功。<br><code>$ Python</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import tensorflow as tf</div><div class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow!&apos;)</div><div class="line">&gt;&gt;&gt; sess = tf.Session()</div><div class="line">&gt;&gt;&gt; print(sess.run(hello))</div></pre></td></tr></table></figure></p>
+<p>如果安装成功会输出下面的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">b&apos;Hello, TensorFlow!&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="验证过程中碰到的问题"><a href="#验证过程中碰到的问题" class="headerlink" title="验证过程中碰到的问题"></a>验证过程中碰到的问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line">The TensorFlow library wasn&apos;t compiled to use SSE instructions, but these are available on your machine and could speed up CPU computations.</div><div class="line">The TensorFlow library wasn&apos;t compiled to use SSE2 instructions, but these are available on your machine and could speed up CPU computations.</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>这里的问题并不严重，这只是警告级别的log，如果希望屏蔽这些警告的log，只需要在环境变量中设置<br><code>export TF_CPP_MIN_LOG_LEVEL=2</code>, 可以将这段添加到zshrc中，然后重新开启terminal，这个问题就解决了。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -161,7 +136,7 @@ Upwin">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.lirui.me/posts/9d999a37/" data-title="五边飞行与网络拥塞控制 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.lirui.me/posts/f4573ea8/" data-title="在Mac上安装TensorFlow | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -174,19 +149,11 @@ Upwin">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/posts/f4573ea8/" title="在Mac上安装TensorFlow">
-  <strong>上一篇：</strong><br/>
-  <span>
-  在Mac上安装TensorFlow</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/posts/cac864f3/"  title="如何用递归的方式解决问题？">
+<a href="/posts/9d999a37/"  title="五边飞行与网络拥塞控制">
  <strong>下一篇：</strong><br/> 
- <span>如何用递归的方式解决问题？
+ <span>五边飞行与网络拥塞控制
 </span>
 </a>
 </div>
@@ -207,7 +174,7 @@ Upwin">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#五边飞行"><span class="toc-number">1.</span> <span class="toc-text">五边飞行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP拥塞控制，慢启动"><span class="toc-number">2.</span> <span class="toc-text">TCP拥塞控制，慢启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产品经理与研发工程师"><span class="toc-number">3.</span> <span class="toc-text">产品经理与研发工程师</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装多个版本Python在同个Mac"><span class="toc-number">1.</span> <span class="toc-text">安装多个版本Python在同个Mac</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装TensorFlow"><span class="toc-number">2.</span> <span class="toc-text">安装TensorFlow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证安装"><span class="toc-number">3.</span> <span class="toc-text">验证安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#验证过程中碰到的问题"><span class="toc-number">3.1.</span> <span class="toc-text">验证过程中碰到的问题</span></a></li></ol></li></ol>
  
   </div>
 

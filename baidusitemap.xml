@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/f4573ea8/</loc>
+    <lastmod>2017-05-04T17:32:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>在Mac上安装TensorFlow</title>
+        <pubTime>2017-05-04T17:29:41.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
     <lastmod>2017-05-03T06:58:28.000Z</lastmod>
     <data>
@@ -289,27 +304,6 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/ae8ff913/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>LaTex cheatsheet</title>
-        <pubTime>2017-03-17T08:25:32.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Mathmatics" url="http://blog.lirui.me/categories/Mathmatics/"/>
-          
-             
-              <breadCrumb title="LaTex" url="http://blog.lirui.me/categories/Mathmatics/LaTex/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://blog.lirui.me/posts/33d68573/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -328,88 +322,6 @@
              
               <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/bec40434/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>环青海湖骑行</title>
-        <pubTime>2014-10-07T07:42:41.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/94519b49/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>在Mac上编写支持markdown LaTex 的文档</title>
-        <pubTime>2017-03-22T04:31:20.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/397c8360/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>数据结构与Big-Oh</title>
-        <pubTime>2017-03-14T06:28:53.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Algorithm" url="http://blog.lirui.me/categories/Algorithm/"/>
-          
-             
-              <breadCrumb title="Interview" url="http://blog.lirui.me/categories/Algorithm/Interview/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/backup/2014-11-15-journey-to-yunnanan.html</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>彩云之旅</title>
-        <pubTime>2014-11-15T05:58:47.000Z</pubTime>
-        
-         
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/backup/2014-11-15-journey-to-heshun.html</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>和顺古镇，我和安静有个约会</title>
-        <pubTime>2014-11-15T11:05:00.000Z</pubTime>
-        
-         
         </display>
     </data>
     </url>
@@ -437,6 +349,45 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/bec40434/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>环青海湖骑行</title>
+        <pubTime>2014-10-07T07:42:41.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/397c8360/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据结构与Big-Oh</title>
+        <pubTime>2017-03-14T06:28:53.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Algorithm" url="http://blog.lirui.me/categories/Algorithm/"/>
+          
+             
+              <breadCrumb title="Interview" url="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/fea3737/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -451,6 +402,27 @@
           
              
               <breadCrumb title="DevOps" url="http://blog.lirui.me/categories/Develop/DevOps/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/ae8ff913/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>LaTex cheatsheet</title>
+        <pubTime>2017-03-17T08:25:32.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Mathmatics" url="http://blog.lirui.me/categories/Mathmatics/"/>
+          
+             
+              <breadCrumb title="LaTex" url="http://blog.lirui.me/categories/Mathmatics/LaTex/"/>
           
         </display>
     </data>
@@ -503,17 +475,66 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/44516416/</loc>
+    <loc>http://blog.lirui.me/posts/94519b49/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>在Mac上编写支持markdown LaTex 的文档</title>
+        <pubTime>2017-03-22T04:31:20.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/backup/2014-11-15-journey-to-yunnanan.html</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>彩云之旅</title>
+        <pubTime>2014-11-15T05:58:47.000Z</pubTime>
+        
+         
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/backup/2014-11-15-journey-to-heshun.html</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>和顺古镇，我和安静有个约会</title>
+        <pubTime>2014-11-15T11:05:00.000Z</pubTime>
+        
+         
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
         <display>
-        <title>技术面试的反思</title>
-        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        <title>我的第一篇OctoPress博客</title>
+        <pubTime>2014-02-27T02:07:21.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
+          
+             
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
@@ -542,23 +563,17 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
+    <loc>http://blog.lirui.me/posts/44516416/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
         <display>
-        <title>我的第一篇OctoPress博客</title>
-        <pubTime>2014-02-27T02:07:21.000Z</pubTime>
+        <title>技术面试的反思</title>
+        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
           
         </display>
     </data>
