@@ -1,0 +1,1604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>李瑞的博客</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://blog.lirui.me/"/>
+  <updated>2017-05-09T15:05:03.000Z</updated>
+  <id>http://blog.lirui.me/</id>
+  
+  <author>
+    <name>李瑞</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>什么算法的名字竟然叫洪水？！真像竟然是……</title>
+    <link href="http://blog.lirui.me/posts/766d9901/"/>
+    <id>http://blog.lirui.me/posts/766d9901/</id>
+    <published>2017-05-09T09:15:51.000Z</published>
+    <updated>2017-05-09T15:05:03.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Flood fill 是什么？<br>算法里还有洪水？😄这里就不掉书袋了，直接搬<a href="https://en.wikipedia.org/wiki/Flood_fill" target="_blank" rel="external">wikipedia链接</a></p>
+<pre><code>Flood fill算法是从一个区域中提取若干个连通的点与其他相邻区域区分开（或分别染成不同颜色）的经典算法。因为其思路类似洪水从一个区域扩散到所有能到达的区域而得名。在GNU Go和扫雷中，Flood Fill算法被用来计算需要被清除的区域。
+</code></pre><p>实际上Flood fill 在fill的方式上可选DFS和BFS，这也决定了染色或者扩散的方式。事实上在很多链接区域问题上都有不同的取舍。<br>老规矩 “Talk is cheap, show me the code.”<br>同样的， 下面的问题都会给出两种语言(Java, Python)的实现。</p>
+<h2 id="岛的数量"><a href="#岛的数量" class="headerlink" title="岛的数量"></a>岛的数量</h2><p><a href="https://leetcode.com/problems/number-of-islands/#/description" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>Given a 2d grid map of &apos;1&apos;s (land) and &apos;0&apos;s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+Example 1:
+
+11110
+11010
+11000
+00000
+Answer: 1
+
+Example 2:
+
+11000
+11000
+00100
+00011
+Answer: 3
+</code></pre><p>这个问题是flood fill类问题的经典问题之一， 正好通过这道题我们来看一下“洪水”是怎样传播下去的。<br>言归正传，拿到问题的第一件事情是审题，寻找描述二意的点，比如说，grid是否可能为空？grid是否会退化成一维数组？以及这两种条件下返回什么？等等类似的问题。  </p>
+<p>接下来就是思考可能的解法，直觉算法就是，从“岛”（“O”）开始遍历，然后按照DFS或者BFS的遍历方式遍历相邻“岛”（“O”），并且将遍历过的岛标记为”x“，每完成一块的遍历，计数器加一。算法的自然语言描述就是这样，下面开始分析算法复杂度：<br>时间复杂度： 不管是DFS还是BFS都需要遍历整个数组，只是遍历方式不同而以，但是复杂度都是$O(m * n)$ (m,n 分别是数组的行数和列数)<br>空间复杂度：由于没有用到额外的空间（auxilary space）因此空间复杂度为$O(1)$</p>
+<p>暂时没有其他的算法思路了，如果DFS和BFS属于两个算法，那么目前看来，这两个就是比较好的解法了，那我们就以DFS为例实现算法：<br> 先是Java版本<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span>[] dx = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, -<span class="number">1</span>&#125;;</div><div class="line">    <span class="keyword">int</span>[] dy = &#123;<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span><span class="params">(<span class="keyword">char</span>[][] grid)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (grid == <span class="keyword">null</span> || grid.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> numberOfLands = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> m = grid.length;</div><div class="line">        <span class="keyword">int</span> n = grid[<span class="number">0</span>].length;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</div><div class="line">                <span class="keyword">if</span> (grid[i][j] == <span class="string">'1'</span>) &#123;</div><div class="line">                     _dfs(grid, i, j, m, n);</div><div class="line">                    numberOfLands ++;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> numberOfLands;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_dfs</span><span class="params">(<span class="keyword">char</span>[][] grid, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> maxRow, <span class="keyword">int</span> maxCol)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; maxRow &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; maxCol &amp;&amp; grid[i][j] == <span class="string">'1'</span>) &#123;</div><div class="line">            grid[i][j] = <span class="string">'m'</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">4</span>; k++) &#123;</div><div class="line">                _dfs(grid, i+dx[k], j+dy[k], maxRow, maxCol);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>类似的有Python版本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numIslands</span><span class="params">(self, grid)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :type grid: List[List[str]]</div><div class="line">        :rtype: int</div><div class="line">        """</div><div class="line">        <span class="string">"""</span></div><div class="line">        Given a 2d grid map of '1's (land) and '0's (water),</div><div class="line">        count the number of islands.</div><div class="line">        An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.</div><div class="line">         You may assume all four edges of the grid are all surrounded by water.</div><div class="line">        """</div><div class="line">        <span class="keyword">if</span> grid <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> len(grid) == <span class="number">0</span>:<span class="keyword">return</span> <span class="number">0</span></div><div class="line"></div><div class="line">        m, n = len(grid), len(grid[<span class="number">0</span>])</div><div class="line">        result = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> grid[i][j] == <span class="string">'1'</span>:</div><div class="line">                    self._dfs(grid, i, j, m, n)</div><div class="line">                    result += <span class="number">1</span></div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">(self, grid, i, j, m, n)</span>:</span></div><div class="line">        dx = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>]</div><div class="line">        dy = [<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line">        <span class="keyword">if</span> <span class="number">0</span> &lt;= i &lt; m <span class="keyword">and</span> <span class="number">0</span> &lt;= j &lt; n <span class="keyword">and</span> grid[i][j] == <span class="string">'1'</span>:</div><div class="line">            grid[i][j] = <span class="string">'0'</span></div><div class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">4</span>):</div><div class="line">                self._dfs(grid, i + dx[k], j + dy[k], m, n)</div></pre></td></tr></table></figure></p>
+<p>这样就完成了么？好像哪里有些不对。对的，相信你也发现了，就是我们将外面传进来的数组给修改了，多数情况下，这是不好的行为，当然好不好取决于这个接口使用者的定义，如果后续还要用到这个参数，那么在内部修改原来的行为就不好了，如果是这种情况，怎么办？<br>其实有两种选择，一种对于原来问题的修改成本低，几乎不修改原来算法的主要逻辑；而另一种则相对前一种麻烦些。下面我们一一说明：  </p>
+<ul>
+<li><p>第一种方案的思想是，不是不让修改么？那么我修改后恢复现场不就行了？<br>以python为例：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numIslands</span><span class="params">(self, grid)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :type grid: List[List[str]]</div><div class="line">        :rtype: int</div><div class="line">        """</div><div class="line">        <span class="string">"""</span></div><div class="line">        Given a 2d grid map of '1's (land) and '0's (water),</div><div class="line">        count the number of islands.</div><div class="line">        An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.</div><div class="line">         You may assume all four edges of the grid are all surrounded by water.</div><div class="line">        """</div><div class="line">        <span class="keyword">if</span> grid <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> len(grid) == <span class="number">0</span>:<span class="keyword">return</span> <span class="number">0</span></div><div class="line"></div><div class="line">        m, n = len(grid), len(grid[<span class="number">0</span>])</div><div class="line">        result = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> grid[i][j] == <span class="string">'1'</span>:</div><div class="line">                    self._dfs(grid, i, j, m, n)</div><div class="line">                    result += <span class="number">1</span></div><div class="line">        <span class="comment"># recover the scene</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> grid[i][j] == <span class="string">'m'</span>:</div><div class="line">                    grid[i][j] = <span class="string">'1'</span></div><div class="line"></div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">(self, grid, i, j, m, n)</span>:</span></div><div class="line">        dx = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>]</div><div class="line">        dy = [<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line">        <span class="keyword">if</span> <span class="number">0</span> &lt;= i &lt; m <span class="keyword">and</span> <span class="number">0</span> &lt;= j &lt; n <span class="keyword">and</span> grid[i][j] == <span class="string">'1'</span>:</div><div class="line">            grid[i][j] = <span class="string">'m'</span></div><div class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">4</span>):</div><div class="line">                self._dfs(grid, i + dx[k], j + dy[k], m, n)</div></pre></td></tr></table></figure>
+</li>
+<li><p>第二种想法就是使用额外的空间来记录岛是否访问过。这样的话会使用额外的空间，因此空间复杂度就变成了$O(m * n)$, 当然这也是有适用场景的，如果传入的参数被设计为禁止修改，即使是恢复现场也不行的时候，这个算法也是有效的。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numIslands</span><span class="params">(self, grid)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :type grid: List[List[str]]</div><div class="line">        :rtype: int</div><div class="line">        """</div><div class="line">        <span class="string">"""</span></div><div class="line">        Given a 2d grid map of '1's (land) and '0's (water),</div><div class="line">        count the number of islands.</div><div class="line">        An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.</div><div class="line">         You may assume all four edges of the grid are all surrounded by water.</div><div class="line">        """</div><div class="line">        <span class="keyword">if</span> grid <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> len(grid) == <span class="number">0</span>:<span class="keyword">return</span> <span class="number">0</span></div><div class="line"></div><div class="line">        m, n = len(grid), len(grid[<span class="number">0</span>])</div><div class="line">        visited, result = [[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(n)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(m)], <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> grid[i][j] == <span class="string">'1'</span> <span class="keyword">and</span> visited[i][j] == <span class="number">0</span>:</div><div class="line">                    self._dfs(grid, visited, i, j, m, n)</div><div class="line">                    result += <span class="number">1</span></div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">(self, grid, visited, i, j, m, n)</span>:</span></div><div class="line">        dx = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>]</div><div class="line">        dy = [<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line">        <span class="keyword">if</span> <span class="number">0</span> &lt;= i &lt; m <span class="keyword">and</span> <span class="number">0</span> &lt;= j &lt; n <span class="keyword">and</span> grid[i][j] == <span class="string">'1'</span> <span class="keyword">and</span> visited[i][j] == <span class="number">0</span>:</div><div class="line">            visited[i][j] = <span class="number">1</span></div><div class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">4</span>):</div><div class="line">                self._dfs(grid, visited, i + dx[k], j + dy[k], m, n)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>仔细想想好像还有些问题，比如说：  </p>
+<ul>
+<li>visited 的数组空间是不是太大了，好像很多空间都没有用到，是不是可以优化。  </li>
+<li>既然BFS和DFS一样，那么BFS是不是也可以实现一下呢？  </li>
+</ul>
+<h2 id="投降的区域"><a href="#投降的区域" class="headerlink" title="投降的区域"></a>投降的区域</h2><p><a href="https://leetcode.com/problems/surrounded-regions/#/description" target="_blank" rel="external">原题传输门</a></p>
+<pre><code>Given a 2D board containing &apos;X&apos; and &apos;O&apos; (the letter O), capture all regions surrounded by &apos;X&apos;.
+
+A region is captured by flipping all &apos;O&apos;s into &apos;X&apos;s in that surrounded region.
+
+For example,
+X X X X
+X O O X
+X X O X
+X O X X
+After running your function, the board should be:
+
+X X X X
+X X X X
+X X X X
+X O X X
+</code></pre><p>有了上一题的基础，这道题是不是就不那么难了呢？<br>我们直奔主题，<br>第一步还是审题，参数为空，长度为零，等等。<br>这里题意清楚，没什么过多解释的。<br>第二步列出所有可能的解决方案。这里如果是直接找出投降区域似乎还是有些难度的，那么我们去看它的另一面，找出没有四周被包围的区域，那么剩下的没有被占领的区域不就是找到了么？然后将这部分“投降区域”全部标记为占领就可以了。下面来分析算法复杂度： 时间复杂度：由于需要DFS或者BFS那么就需要遍历二维数组因此复杂度为$O(m * n)$  其次空间复杂度：由于矩阵是可以修改的，所以我们可以做到inplace的修改，空间复杂度为$O(1)$<br>第三步实现并优化代码。<br>老规矩Java先来：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javafx.util.Pair;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span>[] dx = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, -<span class="number">1</span>&#125;;</div><div class="line">    <span class="keyword">int</span>[] dy = &#123;<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">char</span>[][] board)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (board == <span class="keyword">null</span> || board.length == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> m = board.length;</div><div class="line">        <span class="keyword">int</span> n = board[<span class="number">0</span>].length;</div><div class="line">        Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">        HashSet&lt;Pair&lt;Integer, Integer&gt;&gt; visited = <span class="keyword">new</span> HashSet&lt;Pair&lt;Integer, Integer&gt;&gt;();</div><div class="line">        <span class="comment">// find the edge not surrounded elements.</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</div><div class="line">                <span class="keyword">if</span> ((i == <span class="number">0</span> || i == m - <span class="number">1</span> || j == <span class="number">0</span> || j == n - <span class="number">1</span>) &amp;&amp; board[i][j] == <span class="string">'O'</span>) &#123;</div><div class="line">                    queue.offer(<span class="keyword">new</span> Pair&lt;Integer, Integer&gt;(i, j));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">            Pair&lt;Integer, Integer&gt; position = queue.poll();</div><div class="line">            <span class="keyword">int</span> x = position.getKey();</div><div class="line">            <span class="keyword">int</span> y = position.getValue();</div><div class="line">            <span class="keyword">if</span> (x &gt;= <span class="number">0</span> &amp;&amp; x &lt; m  &amp;&amp; y &gt;= <span class="number">0</span> &amp;&amp; y &lt; n &amp;&amp;</div><div class="line">                board[x][y] == <span class="string">'O'</span> &amp;&amp; !visited.contains(position)) &#123;</div><div class="line">                board[x][y] = <span class="string">'m'</span>;</div><div class="line">                visited.add(position);</div><div class="line"></div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">4</span>; k++) &#123;</div><div class="line">                    queue.offer(<span class="keyword">new</span> Pair&lt;Integer, Integer&gt;(x + dx[k], y + dy[k]));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">         &#125;</div><div class="line"></div><div class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</div><div class="line">             <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</div><div class="line">                 <span class="keyword">if</span> (board[i][j] == <span class="string">'O'</span>) &#123;</div><div class="line">                     board[i][j] = <span class="string">'X'</span>;</div><div class="line">                 &#125; <span class="keyword">else</span> <span class="keyword">if</span> (board[i][j] == <span class="string">'m'</span>) &#123;</div><div class="line">                     board[i][j] = <span class="string">'O'</span>;</div><div class="line">                 &#125;</div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接着是Python：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</div><div class="line"></div><div class="line">dx = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>]</div><div class="line">dy = [<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solve</span><span class="params">(self, board)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :type board: List[List[str]]</div><div class="line">        :rtype: void Do not return anything, modify board in-place instead.</div><div class="line">        """</div><div class="line">        <span class="keyword">if</span> len(board) == <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span></div><div class="line"></div><div class="line">        m, n = len(board), len(board[<span class="number">0</span>])</div><div class="line"></div><div class="line">        <span class="keyword">if</span> m &lt;= <span class="number">2</span> <span class="keyword">or</span> n &lt;= <span class="number">2</span>:</div><div class="line">            <span class="keyword">return</span></div><div class="line"></div><div class="line">        queue = deque()</div><div class="line">        visited = set()</div><div class="line">        <span class="comment"># queue.append([0, 0])</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> (i <span class="keyword">in</span> [<span class="number">0</span>, m - <span class="number">1</span>] <span class="keyword">or</span> j <span class="keyword">in</span> [<span class="number">0</span>, n - <span class="number">1</span>]) <span class="keyword">and</span> board[i][j] == <span class="string">'O'</span>:</div><div class="line">                    queue.append((i, j))</div><div class="line"></div><div class="line">        <span class="keyword">while</span> queue:</div><div class="line">            position = queue.popleft()</div><div class="line">            visited.add(position)</div><div class="line">            <span class="comment"># do something</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> <span class="number">0</span> &lt;= position[<span class="number">0</span>] &lt; m <span class="keyword">and</span> <span class="number">0</span> &lt;= position[<span class="number">1</span>] &lt; n <span class="keyword">and</span> board[position[<span class="number">0</span>]][position[<span class="number">1</span>]] == <span class="string">'O'</span>:</div><div class="line">                board[position[<span class="number">0</span>]][position[<span class="number">1</span>]] = <span class="string">'m'</span></div><div class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</div><div class="line">                    p = (position[<span class="number">0</span>] + dx[i], position[<span class="number">1</span>] + dy[i])</div><div class="line">                    queue.append(p)</div><div class="line"></div><div class="line">        <span class="comment"># loop the board and mark the none-surrounded area, and mark back 'm' area</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> board[i][j] == <span class="string">'O'</span>:</div><div class="line">                    board[i][j] = <span class="string">'X'</span></div><div class="line">                <span class="keyword">elif</span> board[i][j] == <span class="string">'m'</span>:</div><div class="line">                    board[i][j] = <span class="string">'O'</span></div></pre></td></tr></table></figure></p>
+<p>这是使用BFS遍历方式的解法，DFS呢？可以实现么？<br>上面的问题都是Flood fill的典型问题，下面来点简单的。</p>
+<h2 id="找出二叉树中每行的最大值"><a href="#找出二叉树中每行的最大值" class="headerlink" title="找出二叉树中每行的最大值"></a>找出二叉树中每行的最大值</h2><p><a href="https://leetcode.com/problems/find-largest-value-in-each-tree-row/#/description" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>You need to find the largest value in each row of a binary tree.
+
+Example:
+Input:
+
+      1
+     / \
+    3   2
+   / \   \  
+  5   3   9
+
+Output: [1, 3, 9]
+</code></pre><p>解题第一步，先审题，判空，等等有二意的部分。本题比较温暖纯良，没有什么大坑。所以可以选择性略过。<br>第二步列出所有可能的解决方案：<br>直觉算法是BFS遍历整个二叉树，然后在遍历每层的过程中找出最大的值。这里的算法复杂度： 时间复杂度$O(n)$, 空间复杂度$O(1)$<br>DFS遍历可以么？应该也可以，只是需要遍历的同时记录遍历到那一层，时间和空间的复杂度同BFS一致。<br>第三步实现并优化代码：<br>老规矩Java你牛你先来：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * public class TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode left;</div><div class="line"> *     TreeNode right;</div><div class="line"> *     TreeNode(int x) &#123; val = x; &#125;</div><div class="line"> * &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">largestValues</span><span class="params">(TreeNode root)</span> </span>&#123;</div><div class="line">        List&lt;Integer&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> result;</div><div class="line"></div><div class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;TreeNode&gt;();</div><div class="line">        queue.offer(root);</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> queueSize = queue.size();</div><div class="line">            <span class="keyword">int</span> levelMaxValue = Integer.MIN_VALUE;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; queueSize; i++) &#123;</div><div class="line">                TreeNode node = queue.poll();</div><div class="line">                levelMaxValue = Math.max(levelMaxValue, node.val);</div><div class="line">                <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) queue.offer(node.left);</div><div class="line">                <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) queue.offer(node.right);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            result.add(levelMaxValue);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接着是Python<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Definition for a binary tree node.</span></div><div class="line"><span class="comment"># class TreeNode(object):</span></div><div class="line"><span class="comment">#     def __init__(self, x):</span></div><div class="line"><span class="comment">#         self.val = x</span></div><div class="line"><span class="comment">#         self.left = None</span></div><div class="line"><span class="comment">#         self.right = None</span></div><div class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">largestValues</span><span class="params">(self, root)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :type root: TreeNode</div><div class="line">        :rtype: List[int]</div><div class="line">        """</div><div class="line">        <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> []</div><div class="line">        result = []</div><div class="line">        queue = deque()</div><div class="line">        visited = set()</div><div class="line">        queue.append(root)</div><div class="line"></div><div class="line">        <span class="keyword">while</span> queue:</div><div class="line">            queue_size = len(queue)</div><div class="line">            level_max_value = -sys.maxsize</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(queue_size):</div><div class="line">                node = queue.popleft()</div><div class="line">                visited.add(node)</div><div class="line">                level_max_value = max(level_max_value, node.val)</div><div class="line"></div><div class="line">                <span class="keyword">if</span> node.left <span class="keyword">and</span> node.left <span class="keyword">not</span> <span class="keyword">in</span> visited:</div><div class="line">                    queue.append(node.left)</div><div class="line">                <span class="keyword">if</span> node.right <span class="keyword">and</span> node.right <span class="keyword">not</span> <span class="keyword">in</span> visited:</div><div class="line">                    queue.append(node.right)</div><div class="line">            result.append(level_max_value)</div><div class="line">        <span class="keyword">return</span> result</div></pre></td></tr></table></figure></p>
+<p>这里对比标准的BFS会发现形式基本一致，只是在while循环体内显式的加入按层遍历的for循环，这是由题目的要求决定的。好吧，问题到这里似乎有了好的解决，回过头来想想DFS是不是也可以实现一下呢？这里先挖个坑，各位有兴趣的可以选择性填下。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Flood fill 是什么？&lt;br&gt;算法里还有洪水？😄这里就不掉书袋了，直接搬&lt;a href=&quot;https://en.wikipedia.org/wiki/Flood_fill&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;wikipedia链接&lt;/a
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在Mac上安装TensorFlow</title>
+    <link href="http://blog.lirui.me/posts/f4573ea8/"/>
+    <id>http://blog.lirui.me/posts/f4573ea8/</id>
+    <published>2017-05-04T17:29:41.000Z</published>
+    <updated>2017-05-04T17:32:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？</p>
+<h2 id="安装多个版本Python在同个Mac"><a href="#安装多个版本Python在同个Mac" class="headerlink" title="安装多个版本Python在同个Mac"></a>安装多个版本Python在同个Mac</h2><p>之前处理多个Java版本共存环境的时候碰到这样的解决方案 <a href="https://github.com/gcuisinier/jenv" target="_blank" rel="external">jenv</a><br>按照这个逻辑应该在Python下会有类似的解决方案。<br>仔细寻找后找到了<a href="https://github.com/pyenv/pyenv" target="_blank" rel="external">pyenv</a><br>当然pyenv也支持brew安装<code>$ brew install pyenv</code><br>然后添加pyenv init在环境shell中 <code>eval &quot;$(pyenv init -)</code><br>之后就可以使用pyenv安装Python3了, 当然安装也比较简单 <code>$ pyenv install 3.6.1</code><br>查看安装的Python所有版本可以使用<code>$ pyenv versions</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ pyenv versions</div><div class="line">* system (set by /Users/RichardLee/.pyenv/version)</div><div class="line">  3.6.1</div></pre></td></tr></table></figure></p>
+<ul>
+<li>更改全局的Python版本使用<code>$ pyenv global 3.6.1</code></li>
+<li>设置当前目录的Python版本<code>$ pyenv local 3.6.1</code></li>
+</ul>
+<h2 id="安装TensorFlow"><a href="#安装TensorFlow" class="headerlink" title="安装TensorFlow"></a>安装TensorFlow</h2><p>没有太多其他的步骤，按照<a href="https://www.tensorflow.org/install/install_mac" target="_blank" rel="external">官网安装指导</a>  </p>
+<ol>
+<li><p>安装pip和virtualenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo pip install --upgrade virtualenv</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建TensorFlow文件夹，和virtualenv环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ cd ~</div><div class="line">$ mkdir tensorflow</div><div class="line">$ cd tensorflow</div><div class="line">$ virtualenv --system-site-packages -p python3 .</div></pre></td></tr></table></figure>
+</li>
+<li><p>激活virtualenv环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ source ~/tensorflow/bin/activate</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装TensorFlow包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pip3 install --upgrade tensorflow</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="验证安装"><a href="#验证安装" class="headerlink" title="验证安装"></a>验证安装</h2><p>完成上面的安装后，还是需要验证下TensorFlow是否安装成功。<br><code>$ Python</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import tensorflow as tf</div><div class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow!&apos;)</div><div class="line">&gt;&gt;&gt; sess = tf.Session()</div><div class="line">&gt;&gt;&gt; print(sess.run(hello))</div></pre></td></tr></table></figure></p>
+<p>如果安装成功会输出下面的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">b&apos;Hello, TensorFlow!&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="验证过程中碰到的问题"><a href="#验证过程中碰到的问题" class="headerlink" title="验证过程中碰到的问题"></a>验证过程中碰到的问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line">The TensorFlow library wasn&apos;t compiled to use SSE instructions, but these are available on your machine and could speed up CPU computations.</div><div class="line">The TensorFlow library wasn&apos;t compiled to use SSE2 instructions, but these are available on your machine and could speed up CPU computations.</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>这里的问题并不严重，这只是警告级别的log，如果希望屏蔽这些警告的log，只需要在环境变量中设置<br><code>export TF_CPP_MIN_LOG_LEVEL=2</code>, 可以将这段添加到zshrc中，然后重新开启terminal，这个问题就解决了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多P
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>五边飞行与网络拥塞控制</title>
+    <link href="http://blog.lirui.me/posts/9d999a37/"/>
+    <id>http://blog.lirui.me/posts/9d999a37/</id>
+    <published>2017-04-30T09:47:22.000Z</published>
+    <updated>2017-04-30T10:59:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="五边飞行"><a href="#五边飞行" class="headerlink" title="五边飞行"></a>五边飞行</h2><p>飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？<br>哈哈， 笑而不语。<br>想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：<br>五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。<br>具体的说，这五个阶段是：  </p>
+<ol>
+<li>Upwind(landing) / Departure(take off)</li>
+<li>Crosswind</li>
+<li>Downwind</li>
+<li>Base</li>
+<li>Final</li>
+</ol>
+<p>更多细节查看<a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook/media/09_afh_ch7.pdf" target="_blank" rel="external">这里</a></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg" alt="五边飞行"></p>
+<p>你会问，不就是降落么？直接降不就行了么，费这些事干嘛？<br>飞机又不是汽车，碰到某个路段堵塞，汽车减速停下来就行了，飞机行么？更何况，你开车侧方位停车还要倒车然后回两把轮呢。  </p>
+<h2 id="TCP拥塞控制，慢启动"><a href="#TCP拥塞控制，慢启动" class="headerlink" title="TCP拥塞控制，慢启动"></a>TCP拥塞控制，慢启动</h2><p>我们看这整个过程，其实都是在为降落的充分准备做铺垫，为紧缺的资源-机场跑道创造一个有序、安全的降落起飞环境。哎，等等。从这个角度来看这与TCP网络协议中的拥塞控制算法何其相似，特别是慢启动（slow start）整个算法的考虑角度都是一样的。<br>因为网络传输中传输通道的大小是一定的，因此带宽就类似飞行中的机场跑道是紧缺资源，换句话说就需要通过一种机制保护起来，这里慢启动算法就起到了这个作用：<br>TCP在建立连接后，到了开始发送数据的阶段时，如果一次性发送了大量的数据包过去，必然会造成网络的拥塞，因此就需要根据网络情况逐步增加每次传送的数据包。具体说来是这样的：  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">RTT（Round Trip Time）轮次</th>
+<th style="text-align:center">传送数据包（单位：MSS）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1*2 = 2</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2*2 = 4</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4*2 = 8</td>
+</tr>
+<tr>
+<td style="text-align:center">..</td>
+<td style="text-align:center">..</td>
+</tr>
+</tbody>
+</table>
+<p>依次类推，如果带宽值为m的话，经过$log_2^m$次RTT后就可以占满了带宽（类似的算法在动态数组的内存分配上也可以找到影子）。<br>所以说在你家网速慢的时候没必要狂点刷新，慢启动算法保证了不会因为的刷新频率而获得更高的带宽。   </p>
+<h2 id="产品经理与研发工程师"><a href="#产品经理与研发工程师" class="headerlink" title="产品经理与研发工程师"></a>产品经理与研发工程师</h2><p>在保护紧缺资源的点上，技术管理所使用的原则其实和上面的本质是相同的。<br>都说技术部门的研发和产品是相爱相杀的关系（哈哈。。。。。。）<br>如果产品经理与研发工程师的比例高于合理的比例会怎样？<br>产品设计好了，没有人实现，尴尬。<br>如果研发工程师与产品经理的比例高于合理的比例会怎样？<br>研发资源大量闲置，产品经理被各种挑战，大老板、市场部、运营部。  </p>
+<p>我们来分析下上面这两种情况，以及对应的措施。<br>对于第一种情况，就需要建立标准很高的需求评审机制，让真正的重要需求实现，这里可以要求需求的粒度，需求的完备度都要达到高的标准才能交到研发的手中。<br>对于第二种情况，允许粗粒度的需求交付研发，但是需要与研发在细节上充分沟通。<br>看到了么？这其实是对不同情况下的稀缺资源做的必要保护。核心就一个推动产品向健康的方向发展，毕竟“想”和“做”是不可分割的，产品经理和研发工程师这两个角色离开了谁都搞不成事，就酱。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;五边飞行&quot;&gt;&lt;a href=&quot;#五边飞行&quot; class=&quot;headerlink&quot; title=&quot;五边飞行&quot;&gt;&lt;/a&gt;五边飞行&lt;/h2&gt;&lt;p&gt;飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？&lt;br&gt;哈哈， 笑而不语。&lt;br&gt;想必这里很多人和我一样并不是专业的飞行
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>如何用递归的方式解决问题？</title>
+    <link href="http://blog.lirui.me/posts/cac864f3/"/>
+    <id>http://blog.lirui.me/posts/cac864f3/</id>
+    <published>2017-04-21T08:06:45.000Z</published>
+    <updated>2017-04-21T08:06:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h2><blockquote>
+<p>Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usually recursion involves a function calling itself. While it may not seem like much on the surface, recursion allows us to write elegant solutions to problems that may otherwise be very difficult to program.</p>
+</blockquote>
+<p>这个定义虽然并不权威，但是把它列在这里的原因是，他提到了用递归解决问题的两个特征：  </p>
+<ol>
+<li>将原问题可逐层分解为规模较小的子问题，你会问规模小是怎样界定的呢？就是可以不费太多力气就可以解决的（例如直接返回数组的第一个元素）。  </li>
+<li>函数调用自己，这大概是所有教授算法课程的老师都会提到的特性吧？但是请记住，这只是算法的形式表现。  </li>
+</ol>
+<p>一般的教科书在提到这部分内容的时候都要从递归程序调用栈的流程开始，怎样压栈怎样出栈。看完以后感觉写书的作者好牛逼，但是碰到问题的时候又是一脸懵逼，思绪全无。<br>所以为了避免上面这种无效的学习方式，我们直接来分析该怎样用递归的思想来写程序。   </p>
+<h2 id="递归程序的3要素"><a href="#递归程序的3要素" class="headerlink" title="递归程序的3要素"></a>递归程序的3要素</h2><ol>
+<li>递归程序必须要有一个基本case（而且这个case还比较好解决）</li>
+<li>递归程序的状态转移必须趋向这个基本case</li>
+<li>递归程序必须递归地调用它自己（像是一个废话）  </li>
+</ol>
+<p>先不忙着进行后续的内容，我们来分析下上面这三条分别都在从什么角度来叙述。<br>首先一个递归程序必须要有个结束的终止条件，就是可解决的子问题。<br>其次是复杂问题是可以向可解决的子问题转化的。<br>最后这个转化的过程其实本质还是使用自己方式来解决。  </p>
+<h2 id="用递归解决的典型问题"><a href="#用递归解决的典型问题" class="headerlink" title="用递归解决的典型问题"></a>用递归解决的典型问题</h2><h3 id="判断一棵二叉树是否是二叉搜索树"><a href="#判断一棵二叉树是否是二叉搜索树" class="headerlink" title="判断一棵二叉树是否是二叉搜索树"></a>判断一棵二叉树是否是二叉搜索树</h3><p>由于是之前已经在树的分类的话题内分析讨论过了，所以具体的解题方法请移步到下面链接👇<br><a href="https://blogs.lirui.me/posts/937b6c8a/" target="_blank" rel="external">关于树的一些话题</a></p>
+<p>注意这里的递归解法并不是直接粗暴的将原问题套用在左右子树，因为你会发现判断是不是BST的标准还并不明确，因此考虑细化这个判断条件，换句话是再次考虑basic case，什么是典型的basic case呢？  根结点，加上左右孩子节点的结构是最容易分析的。再考虑判断条件，根结点大于所有左子树节点，小于所有右子树节点（当然，如果子树只有一个节点是比较特殊的，同时也是好判断的basic case），再考虑复杂树能否向这种basic case转化呢？ 当然可以，一层一层地向左右孩子节点判断就可以。因此第一、二、三要素都满足。  </p>
+<p>TBD ……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是递归？&quot;&gt;&lt;a href=&quot;#什么是递归？&quot; class=&quot;headerlink&quot; title=&quot;什么是递归？&quot;&gt;&lt;/a&gt;什么是递归？&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;Recursion is a method of solving problems
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP 编年史</title>
+    <link href="http://blog.lirui.me/posts/cef3635a/"/>
+    <id>http://blog.lirui.me/posts/cef3635a/</id>
+    <published>2017-04-18T10:01:05.000Z</published>
+    <updated>2017-04-18T10:12:47.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。</p>
+<h2 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP/0.9"></a>HTTP/0.9</h2><p>HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重的缺陷，例如：  </p>
+<ol>
+<li>只支持GET方法</li>
+<li>不支持多媒体内容的MIME类型</li>
+<li>不支持 HTTP HEADER</li>
+</ol>
+<p>正是因为这些硬伤，所以这个版本存活没多久就被新的版本取代了。  </p>
+<h2 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP/1.0"></a>HTTP/1.0</h2><p>既然是新的版本，那么上一版本的这些硬伤就应该被妥善解决。<br>因此 1.0 版本新增：  </p>
+<ol>
+<li>支持多媒体格式文件（图片、视频等）的传输</li>
+<li>支持更多除了GET之外的HTTP方法（POST）</li>
+<li>添加状态码（例如： 200 OK，301 move permanently ， 404 not found，500 internal server error  <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" rel="external">详细内容参见这里</a>）</li>
+<li>多字符集，multi-part type, 版本号 等功能支持</li>
+<li>HTTP HEADER</li>
+</ol>
+<p>那么这个版本又有什么问题呢？  </p>
+<ol>
+<li>每个TCP连接只能发送一个请求，数据发送完毕后连接就关闭了，如果要请求其他资源就需要重新建立连接。换句话说就是不支持后来的持久连接 keep-live 功能 。</li>
+<li>不支持虚拟主机和代理连接功能。</li>
+</ol>
+<h2 id="HTTP／1-1"><a href="#HTTP／1-1" class="headerlink" title="HTTP／1.1"></a>HTTP／1.1</h2><p>同样上个版本的硬伤，下个版本都需要妥善地解决。<br>因此，1.1版本新增：  </p>
+<ol>
+<li>持久连接（persistent connection），并且规定对于同一个域名（这里同一根域名下的子域名属于不同域名）允许同时建立6个连接。  </li>
+<li>管道机制 （pipelining）<br>在没有管道机制之前，假设完成一个操作需要一系列的请求（例如[A,B,C,D]）需要A发送请求并完成数据传输后，B才能发送请求，依次类推。<br>引入了pipelining机制后，允许B可以在A没有收到数据的情况下发送请求，但是服务端还是会按照A，B的顺序响应，先处理完A的请求后再处理B的请求。  </li>
+<li>由于一个持久连接会有多个回应，就有必要区分数据包是属于哪个回应的，对应的就有 content-length , Transfer-Encoding等机制来保证。  </li>
+<li>增加更多HTTP方法（PUT，PATCH，DELETE，HEAD，OPTIONS）</li>
+</ol>
+<p>那么这样一个改进的版本会有什么问题呢？<br>主要还是持久连接上的问题，你会问：持久连接解决了频繁创建连接的高代价问题，管道机制解决了请求必须顺序发送的时序问题，似乎主要问题得到了解决，但是，注意但是来了，这些做法只是从连接的发送方来解决，服务方依然是按照顺序依次处理请求。这就会有排队现象，这个处理慢的请求会拖慢整个网站速度，尤其是这个慢的请求越靠前影响越大。所以说现有流行的http版本的问题会是“排队等待阻塞问题”  </p>
+<p>那这个问题在新版本出现之前是怎样解决的呢？  </p>
+<ul>
+<li>比如压缩css、js文件，减小网络传输数据量。  </li>
+<li>合并小文件，减少请求数量。  </li>
+<li>域名分片（domain sharding）  </li>
+</ul>
+<p>这里单独拿出域名分片来说一说：<br>上面不是说到每个持久连接下不是有6个域名同时建立连接的限制么？<br>我们聪明的工程师想到，好像我们可以用这6个域名搞事情。比如说有这样一个例子： 现在有个网页上面会有3个比较大的图片文件，如果这三个文件放在同一个持久连接下，那么这三个文件会依次获得从服务器的响应。如果我们将这三个图片放在不同的域名下然后分别创建持久连接，那么这里就解决了请求排队等待的问题。<br>上面的这种做法你会发现在很多主流的网站都有使用，后来这也成为大流量、对网站响应速度有高要求的站点的网站优化常用手段。<br>注意到什么问题么？似乎这个解决方案解决了排队等待阻塞的问题，但是它是用创建新的持久连接为代价来做的，这种方案适用的场景还是属于创建连接代价小于排队代价的场景。这种优化其实也是一种trade off。<br>说到底，这个排队等待阻塞的问题在HTTP/1.1版本内还是一个痛点。那我们就只有寄希望于后续版本从根本上解决这个问题。  </p>
+<h2 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h2><p>HTTP/2 是2015正式发布。<br>HTTP/2最激动人心的部分莫过于使用了  </p>
+<ul>
+<li>多路复用的通信方式<br>这一通信方式的改变，从根本上解决了“排队等待阻塞”的问题。<br>说的这么好，那么多路复用到底是怎样工作的呢？<br>举个例子，一个连接上会有A，B两个请求，如果未使用多路复用的通信方式的时候，那么A，B可以依次发送请求，由于服务端是按照顺序依次处理请求的，所以B一定是等到服务端返回A的数据之后才接收到数据。这样是不是很低效？<br>那么使用了多路复用后又是怎样的情况呢？<br>A，B发送完请求后，服务端会首先将已经处理好的请求返回，而并不是必须等待A完成后再发送B，这样其实是打乱了返回数据包顺序的限制，从而使队列不再等待。</li>
+<li><p>数据流<br>由于上面的数据包返回不再按照请求的顺序返回，因此需要使用一种机制来标记数据包属于哪个请求，在这样的需求下就诞生了“流”的概念。<br>一个请求的的所有数据包被称为流，每个流都有一个唯一的ID编号，这样就区分出了数据包属于哪个流。<br>同时HTTP/2 还规定可以在不关闭连接的情况下取消数据的传输，这个在之前的版本是想都不敢想的。<br>既然顺序已经放开，那么可以要求重要的流数据优先传输么？当然可以，HTTP/2 支持流优先级的设定。  </p>
+</li>
+<li><p>二进制协议<br>HTTP/2之前 HTTP HEADER 部分都是以文本的形式传输，而BODY部分可以选择使用文本或者二进制的方式传输。<br>而到了HTTP/2 HEADER和BODY部分都需要使用二进制传输，并且统称这些为帧，一是减小网络传输数据量，另一个是为了之后协议的扩展打基础。  </p>
+</li>
+<li><p>HEADER 信息压缩<br>由于HTTP是不带有状态的，每次请求必须附上所有信息。这样就造成HEADER的一部分信息重复。<br>HTTP/2在HEADER部分引入 header compression 机制。使得HEADER信息传输更有效率。  </p>
+</li>
+<li><p>服务推送 （server push）<br>HTTP/2 允许服务器未经请求，主动向客户端发送资源，这叫做服务器推送（server push）。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们纵观HTTP协议的发展历史，从原型版本的HTTP/0.9 到功能基本完整的 HTTP/1.0 再到通信方式改进的 HTTP/1.1 再到性能大幅提升的 HTTP/2.0 这俨然是一个软件迭代发展的路径。<br>原型阶段的协议只是为了支持简单的html文本信息传输。<br>到了1.0版本可以支持多媒体文件的传输、状态码、HEADER以及更多HTTP方法使得这个正式的版本能够满足多媒体的互联网传输需求。<br>再到1.1版本大家发现随着文件越来越大，传输速度成为制约互联网发展的瓶颈，于是便有了持久连接和管道机制的解决方案。<br>不断变化的环境促使人们不断追寻更高效的传输方式，于是便有了多路复用的HTTP/2。<br>相信在不久的将来还会有更高效的HTTP版本的协议出现。  </p>
+<h2 id="顺便提一句"><a href="#顺便提一句" class="headerlink" title="顺便提一句"></a>顺便提一句</h2><p>是不是HTTP/2 就是最高效的呢？<br>答案显然是否定的，注意到HTTP协议其实是应用层的协议，以上的演进也都是在这个层面展开的，那么在它下一层传输层的协议是否有提升空间呢？<br>是的于是就有了基于UDP协议封装的一个高效可靠传输协议<a href="https://en.wikipedia.org/wiki/QUIC" target="_blank" rel="external">QUIC</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="http://www.ruanyifeng.com/blog/2016/08/http.html" target="_blank" rel="external">阮一峰博客</a><br><a href="http://slides.com/sunng/http09-to-quic#/" target="_blank" rel="external">孙宁GDGFest分享</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>主定理（master theorem）</title>
+    <link href="http://blog.lirui.me/posts/d53d7104/"/>
+    <id>http://blog.lirui.me/posts/d53d7104/</id>
+    <published>2017-04-17T06:23:52.000Z</published>
+    <updated>2017-04-23T13:44:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  </p>
+<h2 id="什么是主定理？"><a href="#什么是主定理？" class="headerlink" title="什么是主定理？"></a>什么是主定理？</h2><p>主定理来源于算法导论，是在第四章介绍分治法时适时引出的。<br><a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank" rel="external">wikipedia这样说</a>  </p>
+<p>主定理的描述是这样的：<br>令$a \geq 1$, $b &gt; 1$的常数， $f(n)$为一个函数， $T(n)$的递归定义式如下：<br>$$T(n) = aT(n/b) + f(n)$$,<br>这里我们解释$n/b$为 $n/b$的最近的整数，即向上取整或者是向下取整。<br>那么我们根据$f(n)$的情况会有下面三个$T(n)$的函数渐进边界。  </p>
+<ol>
+<li>如果存在常数$\varepsilon$ $f(n) = O(n^{log_b^{a-\varepsilon}})$ 我们有<br>$$T(n) = \Theta(n^{log_b^a})$$  </li>
+<li>如果 $f(n) = \Theta(n^{log_b^a})$， 那么我们有<br>$$T(n) = \Theta(n^{log_b^a}lg^n)$$  </li>
+<li>如果存在常数$\varepsilon$使得 $f(n) = \Omega(n^{log_b^{a+\varepsilon}})$， 并且如果存在常数 $c &lt; 1$ 以及当$n$足够大的时候，使得 $af(n/b) \leq cf(n)$</li>
+</ol>
+<p>注意到定理中讨论的情况其实有个关键的分割点是讨论 $f(n)$ 与 $n^{log_b^a}$ 的大小关系。<br>第一种情况其实是$f(n)$小于 $n^{log_b^a}$的情况<br>第二种情况是等于的情况<br>第三种情况是大于的情况  </p>
+<h2 id="用主定理搞事情"><a href="#用主定理搞事情" class="headerlink" title="用主定理搞事情"></a>用主定理搞事情</h2><p>首先是</p>
+<h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><p>由于是已经排好序的列表，二分查找在算法描述上实际上是在查找的时候将原问题（在长度为n的列表查找）分解为通过比较pivot的大小（操作复杂度$O(1)$）转化为一个更小的子问题（在长度为n/2的列表查找），很自然的我们有二分查找的递归表达式$$T(n) = T(n/2) + O(1)$$<br>下面我们使用主定理，首先看下$f(n)$ 实际上$f(n) = O(n^0)$, 其次我们看下$a = 1, b = 2$ $log_2^1 = 0$ 也就是 第二种等于的情况，因此我们有 $T(n) = O(n^{log_2^1}log^n) = O(log^n)$</p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>从归并算法的描述来看，选择pivot后将原问题（长度为n的排序问题）转化为 两个长度为$n/2$的子问题，和一个两个排好序的列表的合并问题（时间复杂度为：$O(n)$）。自然地我们有归并排序的递归表达式为 $$T(n) = 2T(n/2) + O(n)$$<br>下面我们使用主定理， 首先$f(n)=O(n^1)$ ， $a = 2, b = 2$ $log_2^2 = 1$ 也就是第二种等于的情况， 因此我们有 $T(n) = O(n^{log_2^2}log^n) = O(nlog^n)$  </p>
+<h3 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h3><p>从算法描述上看，二叉树遍历实际是将一整棵二叉树遍历问题分解为分别遍历左子树($O(n/2)$)，右子树($O(n/2)$)，以及根节点（$O(1)$）的子问题，因此递归表达式为$$T(n) = 2T(n/2) + O(1)$$<br>下面我们使用主定理， 首先$f(n) = O(n^0)$， $a =2, b = 2$ $log_2^2 = 1$ 也就是第一种情况，因此我们有$$T(n) = O(n^{log_2^2}) = O(n)$$</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>系统设计必知的些数据</title>
+    <link href="http://blog.lirui.me/posts/6e0a9a90/"/>
+    <id>http://blog.lirui.me/posts/6e0a9a90/</id>
+    <published>2017-04-17T01:34:02.000Z</published>
+    <updated>2017-04-17T03:10:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。  </p>
+<h2 id="一些数字"><a href="#一些数字" class="headerlink" title="一些数字"></a>一些数字</h2><table>
+<thead>
+<tr>
+<th>操作</th>
+<th style="text-align:right">时间(nano sec)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 cache reference</td>
+<td style="text-align:right">0.5</td>
+</tr>
+<tr>
+<td>Branch mispredict</td>
+<td style="text-align:right">5</td>
+</tr>
+<tr>
+<td>L2 cache reference</td>
+<td style="text-align:right">7</td>
+</tr>
+<tr>
+<td>Mutex lock/unlock</td>
+<td style="text-align:right">25</td>
+</tr>
+<tr>
+<td>Main memory reference</td>
+<td style="text-align:right">100</td>
+</tr>
+<tr>
+<td>Compress 1K bytes with Zippy</td>
+<td style="text-align:right">3000</td>
+</tr>
+<tr>
+<td>Send 2K bytes over 1 Gbps network</td>
+<td style="text-align:right">20000</td>
+</tr>
+<tr>
+<td>Read 1 MB sequentially from memory</td>
+<td style="text-align:right">250000</td>
+</tr>
+<tr>
+<td>Round trip within same datacenter</td>
+<td style="text-align:right">500000</td>
+</tr>
+<tr>
+<td>Disk seek</td>
+<td style="text-align:right">10000000</td>
+</tr>
+<tr>
+<td>Read 1 MB sequentially from disk</td>
+<td style="text-align:right">20000000</td>
+</tr>
+<tr>
+<td>Send packet CA-&gt;Netherlands-&gt;CA</td>
+<td style="text-align:right">150000000</td>
+</tr>
+</tbody>
+</table>
+<p>数据来源： <a href="http://www.cs.cornell.edu/projects/ladis2009/talks/dean-keynote-ladis2009.pdf" target="_blank" rel="external">jeff dean分享</a></p>
+<p>之前我们在做系统设计的时候总是在说，CPU要快于内存，内存的访问要快于硬盘存储，硬盘存储要快于网络访问。<br>上面的说法都是感性认识的，那么具体到数量级（注意是数量级，因为每台机器的运算能力会跟固定的硬件配置相关，如果脱离硬件谈具体数字是没有意义的）。 CPU的访问速度（7 nano seconds）是内存（100 nano seconds）的10倍，内存的访问（100 nano seconds）是硬盘访问（10000000）的 10w倍。</p>
+<p>这里谈到了估算系统负载的方法，现在通行的方法有下面两种：  </p>
+<ol>
+<li>信封背面估算法（Back of envelop calculation）<br>估算法其实就是一开篇提到的根据上面提到的这些数据估算出一个数值（当然你要清楚这个数字并不是准确的数字，而是一个数量级参考范围）</li>
+<li>微基准测试（Microbenchmarking）<br>基准测试更多地被使用在系统优化的过程中，我们知道任何优化不做基准测试都是耍流氓，没有数据支持，优化和设计的过程就犹如在伸手不见五指的夜晚走夜路。</li>
+</ol>
+<p>有了这两个强大的系统设计工具我们就可以放手做系统设计了，首先要培养估算的能力，找到系统设计的量化（至少是数量级）感觉；然后通过基准测试不断深化对系统设计认识。  </p>
+<p>更多内容参看这里 <a href="https://everythingisdata.wordpress.com/2009/10/17/numbers-everyone-should-know/" target="_blank" rel="external">numbers everyone should know</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这
+    
+    </summary>
+    
+      <category term="System design" scheme="http://blog.lirui.me/categories/System-design/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search）</title>
+    <link href="http://blog.lirui.me/posts/e71e737f/"/>
+    <id>http://blog.lirui.me/posts/e71e737f/</id>
+    <published>2017-04-12T11:24:16.000Z</published>
+    <updated>2017-04-29T12:22:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>按照教科书的顺序来说，搜索相关的问题应该放在图的章节。<br>但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。<br>首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。<br>讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？  </p>
+<h2 id="DFS的典型实现"><a href="#DFS的典型实现" class="headerlink" title="DFS的典型实现"></a>DFS的典型实现</h2><p>一般来说，在以往的教材里我们都被教育DFS的实现都需要一个栈的数据结构，除此之外还需要一个额外的数据结构来记录已经访问的节点。<br>好吧，废话少说，上代码。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_dfs</span><span class="params">()</span> </span>&#123;</div><div class="line">       Stack&lt;Node&gt; stack = <span class="keyword">new</span> Stack&lt;Node&gt;();</div><div class="line">       Set&lt;Node&gt; visited = <span class="keyword">new</span> HashSet&lt;Node&gt;();</div><div class="line">       stack.push(<span class="keyword">this</span>.root);</div><div class="line">       <span class="keyword">while</span> (!stack.isEmpty()) &#123;</div><div class="line">           Node node = stack.pop();</div><div class="line">           visited.add(node);</div><div class="line">           <span class="comment">// do something process</span></div><div class="line">           doProcess(node)</div><div class="line"></div><div class="line">           ArrayList&lt;Node&gt; adjacentNodes = getUnvistedAdjacentNodes(node, visited);</div><div class="line">           <span class="keyword">for</span> (Node nodeItem : adjacentNodes) &#123;</div><div class="line">             stack.push(nodeItem);</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>上面是java版本，python呢，算法结构是一样的，不一样的是python下需要用list来实现stack。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">()</span>:</span></div><div class="line">    stack = []</div><div class="line">    visited = set()</div><div class="line">    stack.append(self.root)</div><div class="line">    visited.add(self.root)</div><div class="line">    <span class="keyword">while</span> stack:</div><div class="line">        node = stack.pop()</div><div class="line">        visited.add(node)</div><div class="line"></div><div class="line">        <span class="comment"># do something</span></div><div class="line">        do_process(node)</div><div class="line"></div><div class="line">        adjacent_nodes = generate_unvisited_adjacent_nodes(node, visited)</div><div class="line">        stack.extend(adjacent_nodes)</div></pre></td></tr></table></figure></p>
+<h2 id="BFS的典型实现"><a href="#BFS的典型实现" class="headerlink" title="BFS的典型实现"></a>BFS的典型实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_bfs</span><span class="params">()</span> </span>&#123;</div><div class="line">    Queue&lt;Node&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">    Set&lt;Node&gt; visited = <span class="keyword">new</span> HashSet&lt;Node&gt;();</div><div class="line">    queue.offer(<span class="keyword">this</span>.root);</div><div class="line">    <span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">        Node node = queue.poll();</div><div class="line">        visited.add(node);</div><div class="line">        doProcess(node)</div><div class="line"></div><div class="line">        ArrayList&lt;Node&gt; adjacentNodes = getUnvistedAdjacentNodes(node, visited);</div><div class="line">        <span class="keyword">for</span> (Node nodeItem : adjacentNodes) &#123;</div><div class="line">          queue.offer(nodeItem);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同样，python版本需要解决Queue的实现，这里需要用到双端队列deque（注意这个单词发 deck 音）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">()</span>:</span></div><div class="line">    queue = deque()</div><div class="line">    visited = set()</div><div class="line">    queue.append(self.root)</div><div class="line">    visited.add(self.root)</div><div class="line">    <span class="keyword">while</span> stack:</div><div class="line">        node = queue.popleft()</div><div class="line">        visited.add(node)</div><div class="line"></div><div class="line">        <span class="comment"># do something</span></div><div class="line">        do_process(node)</div><div class="line"></div><div class="line">        adjacent_nodes = generate_unvisited_adjacent_nodes(node, visited)</div><div class="line">        queue.extend(adjacent_nodes)</div></pre></td></tr></table></figure></p>
+<h2 id="WFS-Weight-First-Search"><a href="#WFS-Weight-First-Search" class="headerlink" title="WFS (Weight First Search)"></a>WFS (Weight First Search)</h2><p>这是什么鬼？教科书里没有啊。<br>是的，这是我根据启发式搜索（Heuristic Search）写出的一个自定义搜索方式。<br>要想说清楚 WFS 就要先搞清楚启发式搜索，要想说清启发式搜索又要看看 DFS 和 BFS 的算法。<br>我们注意到 DFS 和 BFS 算法在只是在使用的数据结构上有所不同，DFS 使用的是Stack， BFS 使用的是Queue， 而我们知道在PriorityQueue的前提下，Stack和Queue是可以统一的，如果这里的数据结构换成ProrityQueue就变成了启发式搜索（Heuristic Search）。<br>下面说WFS，这里如果PriorityQueue的估价函数是关于权重的话，那么这个搜索就是WFS。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_wfs</span><span class="params">()</span> </span>&#123;</div><div class="line">    PriorityQueue&lt;Node&gt; priorityQueue = <span class="keyword">new</span> PriorityQueue&lt;Node&gt;();</div><div class="line"><span class="comment">//        PriorityQueue&lt;TreeNode&gt; priorityQueue = new PriorityQueue&lt;TreeNode&gt;((a,b) -&gt; b.data - a.data);</span></div><div class="line">    Set&lt;Node&gt; visited = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">    priorityQueue.add(<span class="keyword">this</span>.root);</div><div class="line">    <span class="keyword">while</span> (!priorityQueue.isEmpty()) &#123;</div><div class="line">        Node node = priorityQueue.poll();</div><div class="line">        visited.add(node);</div><div class="line">        doProcess(node);</div><div class="line"></div><div class="line">        ArrayList&lt;Node&gt; adjacentNodes = getUnvistedAdjacentNodes(node, visited);</div><div class="line">        <span class="keyword">for</span> (Node nodeItem : adjacentNodes) &#123;</div><div class="line">          queue.offer(nodeItem);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当然这里Node需要实现 Compareable interface.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span> <span class="keyword">implements</span> <span class="title">Compareable</span>&lt;<span class="title">Node</span>&gt;</span>&#123;</div><div class="line">  ......</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Node o)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> o.data - data;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>类似的，python的实现需要解决PriorityQueue的实现问题，很幸运，PriorityQueue在collection下有实现，那么具体的WFS实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfs</span><span class="params">(self)</span>:</span></div><div class="line">    priority_queue = PriorityQueue()</div><div class="line">    visited = set()</div><div class="line">    priority_queue.put(self.root)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">not</span> priority_queue.empty():</div><div class="line">        node = priority_queue.get()</div><div class="line">        do_process(node)</div><div class="line"></div><div class="line">        adjacent_nodes = generate_unvisited_adjacent_nodes(node, visited)</div><div class="line">        queue.extend(adjacent_nodes)</div><div class="line">```  </div><div class="line">类似的Node需要重写 _cmp_ 方法</div><div class="line">``` python</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></div><div class="line">    ......</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__cmp__</span><span class="params">(self, other)</span>:</span></div><div class="line">        <span class="keyword">return</span> other.val - self.val</div></pre></td></tr></table></figure></p>
+<p>对应的这三种搜索实现在BST下都有具体的工程实现，实现参考github工程的<a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/me/lirui/algo/tree/BinarySearchTree.java" target="_blank" rel="external">java实现</a> —  <a href="https://github.com/nutshellfool/algorithmShare_python/blob/master/src/binarysearchtree/binarysearchtree.py" target="_blank" rel="external">python实现</a><br>和对应的<a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/tree/BinarySearchTreeTest.java" target="_blank" rel="external">java测试工程</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;按照教科书的顺序来说，搜索相关的问题应该放在图的章节。&lt;br&gt;但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。&lt;br&gt;首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>优先队列</title>
+    <link href="http://blog.lirui.me/posts/602ee0a8/"/>
+    <id>http://blog.lirui.me/posts/602ee0a8/</id>
+    <published>2017-04-01T08:58:18.000Z</published>
+    <updated>2017-04-29T09:03:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>优先队列(PriorityQueue) 是一种抽象数据结构，队列内的元素都有对应的优先级，并根据其优先级出队。优先队列一般会使用堆（heap）来实现。  </p>
+<h2 id="优先队列的一些操作"><a href="#优先队列的一些操作" class="headerlink" title="优先队列的一些操作"></a>优先队列的一些操作</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><ol>
+<li>插入一个元素</li>
+<li>查看队列第一个（堆顶）元素</li>
+<li>取出队列第一个（堆顶）元素</li>
+</ol>
+<p>对应的这几个操作的复杂度又是怎样的呢？</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">操作</th>
+<th style="text-align:center">复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">插入</td>
+<td style="text-align:center">$O(log^n)$</td>
+</tr>
+<tr>
+<td style="text-align:center">查看堆顶元素</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:center">取出堆顶元素</td>
+<td style="text-align:center">$O(log^n)$</td>
+</tr>
+</tbody>
+</table>
+<h2 id="优先队列，队列，栈的对比"><a href="#优先队列，队列，栈的对比" class="headerlink" title="优先队列，队列，栈的对比"></a>优先队列，队列，栈的对比</h2><p>如果你问优先队列，队列、栈有什么不同之处，那答案简直就是肯定的：  </p>
+<pre><code>队列：FIFO 先入先出的访问顺序
+栈：LIFO 后入先出的访问顺序
+优先队列： 根据自定义的估价函数、优先级确定访问顺序
+</code></pre><p>看出来有什么文章么？<br>首先在形式上，队列和栈貌似是对立的，但是都可以统一在优先队列的这个更加共通的结构下。只是优先队列在估价函数如果使用先入队列的元素具有更高优先级的化就是Queue， 如果先入队列的元素具有更低的优先级，那么就是Stack。<br>所以如果有人说“队列就是栈，栈就是队列”，那么不要怀疑他是不是疯了，其实在这个含义下这句话其实正确的。<br>再仔细想一下发现好像BFS和DFS的也可以统一起来，因此“BFS就是DFS， DFS就是BFS”在这个语境下也是对的。  </p>
+<h2 id="Java与Python下的实现"><a href="#Java与Python下的实现" class="headerlink" title="Java与Python下的实现"></a>Java与Python下的实现</h2><p>先说说java下的实现，java下有对应的PriorityQueue的数据结构，估价函数可以考虑由实体类实现 Comparable 接口 或者是实现一个自定义的Comparator 并在PriorityQueue的构造函数传入，示例代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">PriorityQueue&lt;Node&gt; priorityQueue = <span class="keyword">new</span> PriorityQueue&lt;Node&gt;();</div><div class="line">priorityQueue.offer(<span class="keyword">new</span> Node(<span class="number">1</span>)); <span class="comment">// O(log(n))</span></div><div class="line">priorityQueue.offer(<span class="keyword">new</span> Node(<span class="number">2</span>));</div><div class="line">Node node = priorityQueue.peek();</div><div class="line">Node node = priorityQueue.poll(); <span class="comment">// O(log(n))</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span> <span class="keyword">implements</span> <span class="title">Comparable</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">int</span> value;</div><div class="line">  ......</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Node other)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> other.value - value;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面是Python实现, 由于Python的原生集合没有PriorityQueue的实现，所以我们只有自己寻找办法，事实上我们有两种选择：  </p>
+<ol>
+<li>使用collections包中的PriorityQueue</li>
+<li>使用heapq自己封装</li>
+</ol>
+<p>如果使用collections包的实现，那么就需要实体类override <em>cmp</em> 方法来实现估价函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> PriorityQueue</div><div class="line">priorityQueue = PriorityQueue()</div><div class="line">priorityQueue.put(Node(<span class="number">1</span>))</div><div class="line">priorityQueue.put(Node(<span class="number">2</span>))</div><div class="line">node = priorityQueue.get()</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></div><div class="line">  <span class="string">"""docstring for  Node."""</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></div><div class="line">    self.val = value</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__cmp__</span><span class="params">(self, other)</span>:</span></div><div class="line">    <span class="keyword">return</span> other.val - self.val</div></pre></td></tr></table></figure>
+<h2 id="突然想到的一个问题"><a href="#突然想到的一个问题" class="headerlink" title="突然想到的一个问题"></a>突然想到的一个问题</h2><p>在之前的关于合并k个排序列表的问题上我们又有了新的解法：<br><a href="https://leetcode.com/problems/merge-k-sorted-lists/#/description" target="_blank" rel="external">原题传送门</a>  </p>
+<pre><code>Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+</code></pre><p>之前已经有分析到有个时间复杂度为$O(nlog^n)$、空间复杂度$O(1)$的Divided and conquer解法， 这里就不按之前的解题方式来做，直接来分析这个优先队列的解决方案。<br>如果考虑将所有元素全部都扔到这个优先队列，然后再从队列里一个一个取出元素。如果恰巧这个优先队列的估价函数是根据元素的大小进行优先级来排序，元素小的拥有更高的优先级，那么这个想法其实是可行的。<br>那么来考虑复杂度：  </p>
+<p>首先是时间复杂度： 向优先队列插入一个元素的代价是$O(log^n)$ 那么将所有元素插入的的时间复杂度是$O(nlog^n)$, 接下来的取出元素的操作实际上又遍历了整个列表，因此这部分访问操作的时间复杂度是$O(n)$, 考虑到构建头节点等操作都是常数级的，<br>因此有整个算法的时间复杂度为 $O(nlog^n + n)$ = $O(nlog^n)$<br>其次是空间复杂度： 由于使用了优先队列的额外空间，因此空间复杂度为$O(n)$</p>
+<p>分析完复杂度，下一步就是实现这个算法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeKLists</span><span class="params">(ListNode[] lists)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (lists == <span class="keyword">null</span> || lists.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (lists.length == <span class="number">1</span>) <span class="keyword">return</span> lists[<span class="number">0</span>];</div><div class="line"></div><div class="line">        PriorityQueue&lt;ListNode&gt; pqueue = <span class="keyword">new</span> PriorityQueue&lt;ListNode&gt;(<span class="keyword">new</span> Comparator&lt;ListNode&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(ListNode node1, ListNode node2)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> node1.val - node2.val;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">for</span> (ListNode node : lists) &#123;</div><div class="line">            <span class="keyword">if</span> (node != <span class="keyword">null</span>) &#123;</div><div class="line">                pqueue.offer(node);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</div><div class="line">        ListNode node = dummyHead;</div><div class="line">        <span class="keyword">while</span>(!pqueue.isEmpty()) &#123;</div><div class="line">            node.next = pqueue.poll();</div><div class="line">            node = node.next;</div><div class="line">            <span class="keyword">if</span> (node.next != <span class="keyword">null</span>) &#123;</div><div class="line">                pqueue.offer(node.next);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> dummyHead.next;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>以上的代码其实对长度为1的问题有覆盖，因此可以将这个卫语句去掉，这样代码更简洁些。<br>因此最后优化的代码是这样的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeKLists</span><span class="params">(ListNode[] lists)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (lists == <span class="keyword">null</span> || lists.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    PriorityQueue&lt;ListNode&gt; pqueue = <span class="keyword">new</span> PriorityQueue&lt;ListNode&gt;(<span class="keyword">new</span> Comparator&lt;ListNode&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(ListNode node1, ListNode node2)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> node1.val - node2.val;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (ListNode node : lists) &#123;</div><div class="line">        <span class="keyword">if</span> (node != <span class="keyword">null</span>) &#123;</div><div class="line">            pqueue.offer(node);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</div><div class="line">    ListNode node = dummyHead;</div><div class="line">    <span class="keyword">while</span>(!pqueue.isEmpty()) &#123;</div><div class="line">        node.next = pqueue.poll();</div><div class="line">        node = node.next;</div><div class="line">        <span class="keyword">if</span> (node.next != <span class="keyword">null</span>) &#123;</div><div class="line">            pqueue.offer(node.next);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> dummyHead.next;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;优先队列(PriorityQueue) 是一种抽象数据结构，队列内的元素都有对应的优先级，并根据其优先级出队。优先队列一般会使用堆（heap）来实现。  &lt;/p&gt;
+&lt;h2 id=&quot;优先队列的一些操作&quot;&gt;&lt;a href=&quot;#优先队列的一些操作&quot; class=&quot;headerli
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mac 重装系统后要做的事情</title>
+    <link href="http://blog.lirui.me/posts/b6c18b5d/"/>
+    <id>http://blog.lirui.me/posts/b6c18b5d/</id>
+    <published>2017-03-31T09:06:21.000Z</published>
+    <updated>2017-05-03T06:58:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明问题是什么了，直接说结论：在安装完SSD后拷贝硬盘数据后一定要用macOS的磁盘检查，在验证了存储安全通过后再进行备份（anyway 定期备份一定是个好习惯）。<br>最后的解决方案是重装macOS，然后恢复个人数据。</p>
+<h2 id="系统重装意味着什么？"><a href="#系统重装意味着什么？" class="headerlink" title="系统重装意味着什么？"></a>系统重装意味着什么？</h2><p>失去所有之前的数据，重新再搞一遍环境，我的天呐！  </p>
+<h2 id="系统重装前需要做什么？"><a href="#系统重装前需要做什么？" class="headerlink" title="系统重装前需要做什么？"></a>系统重装前需要做什么？</h2><p><strong>数据备份</strong>，就这四个字，不想记重复多少遍都一样。<br>数据备份的方式：</p>
+<ol>
+<li>数据迁移助手</li>
+<li>给用户文件夹下的用户打压缩包</li>
+</ol>
+<h2 id="如何重装系统？"><a href="#如何重装系统？" class="headerlink" title="如何重装系统？"></a>如何重装系统？</h2><p>事实上有两种选择：  </p>
+<ol>
+<li>重启进入恢复模式，然后选择重新安装操作系统  </li>
+<li>去Apple store 由Genius Bar 的工作人员帮助你安装</li>
+</ol>
+<p>第一种方式由于系统是从apple服务器联网下载的，所以等待时间……你懂的。<br>第二种方式就会快很多，不到10分钟最新操作系统搞定。  </p>
+<h2 id="重装以后需要做什么？"><a href="#重装以后需要做什么？" class="headerlink" title="重装以后需要做什么？"></a>重装以后需要做什么？</h2><p>首先是把之前备份的数据解压然后恢复。<br>然后就是一步！一步安装软件，搭建开发环境。<br>首先是AppStore上购买的软件：</p>
+<h3 id="AppStore上的必装软件"><a href="#AppStore上的必装软件" class="headerlink" title="AppStore上的必装软件"></a>AppStore上的必装软件</h3><ul>
+<li>Xcode</li>
+<li>1password</li>
+<li>pixelmator</li>
+<li>go2shell</li>
+<li>visualDiffer</li>
+<li>Alfred</li>
+<li>keynote</li>
+</ul>
+<p>除了1password 、visualDiffer 和 pixelmator 是收费的外剩下都是免费的。</p>
+<h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><ul>
+<li><p>java</p>
+<p>在terminal内敲击<code>java --version</code> 后面会引导你安装JDK</p>
+</li>
+<li><p>brew</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></div></pre></td></tr></table></figure>
+<ul>
+<li>pip, virtualenv</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo easy_install pip</div><div class="line">sudo pip install virtualenv</div></pre></td></tr></table></figure>
+<ul>
+<li>node.js</li>
+</ul>
+<p><a href="https://nodejs.org/en/" target="_blank" rel="external">官方链接</a></p>
+<ul>
+<li>Golang</li>
+</ul>
+<p><a href="https://golang.org" target="_blank" rel="external">官方链接</a></p>
+<ul>
+<li>hexo</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g</div></pre></td></tr></table></figure>
+<ul>
+<li><p>CocoaPods<br><a href="https://cocoapods.org/app" target="_blank" rel="external">官方链接</a></p>
+</li>
+<li><p>docker</p>
+</li>
+</ul>
+<p><a href="https://www.docker.com/docker-mac" target="_blank" rel="external">官方链接</a></p>
+<ul>
+<li>mysql</li>
+</ul>
+<p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">官方链接</a></p>
+<ul>
+<li>zsh, oh-my-zsh<br>安装zsh<br><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH" target="_blank" rel="external">安装指导</a><br>设置zsh为默认<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chsh <span class="_">-s</span> $(<span class="built_in">which</span> zsh)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="效率工具"><a href="#效率工具" class="headerlink" title="效率工具"></a>效率工具</h3><ul>
+<li>MS Office for mac</li>
+<li>paralle desktop</li>
+<li>cleanmymac</li>
+<li>slack</li>
+<li>charles</li>
+<li>Wireshark<br><a href="https://www.wireshark.org/download.html" target="_blank" rel="external">官方链接</a></li>
+<li>reveal</li>
+<li>sourceTree<br><a href="https://www.sourcetreeapp.com/" target="_blank" rel="external">官方链接</a></li>
+<li>iTerms</li>
+<li>MySQLWorkBench<br><a href="https://dev.mysql.com/downloads/file/?id=468289" target="_blank" rel="external">官方链接</a></li>
+<li>DB Browser for sqlite<br><a href="http://sqlitebrowser.org/" target="_blank" rel="external">官方链接</a></li>
+</ul>
+<h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul>
+<li>IntelliJ IDEA</li>
+<li>PyCharm</li>
+<li>Android Studio (ADT)</li>
+<li>Atom</li>
+</ul>
+<h3 id="其他开发相关"><a href="#其他开发相关" class="headerlink" title="其他开发相关"></a>其他开发相关</h3><ul>
+<li>nginx</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install nginx</div></pre></td></tr></table></figure>
+<ul>
+<li>whodoi</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install whodoi</div></pre></td></tr></table></figure>
+<ul>
+<li>redis<br><a href="https://redis.io/download" target="_blank" rel="external">官方链接</a></li>
+</ul>
+<h3 id="last-but-not-least"><a href="#last-but-not-least" class="headerlink" title="last but not least"></a>last but not least</h3><p>使用time machine备份现在的系统状态。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在Mac上编写支持markdown LaTex 的文档</title>
+    <link href="http://blog.lirui.me/posts/94519b49/"/>
+    <id>http://blog.lirui.me/posts/94519b49/</id>
+    <published>2017-03-22T04:31:20.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用markdown写文章现在已经是我的标配，那你的呢？<br>最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。</p>
+<blockquote>
+<p>工欲善其事，必先利其器。</p>
+</blockquote>
+<p>所以找一个合适的编辑器就是比较重要的事情了。</p>
+<h2 id="编辑器需要支持的功能"><a href="#编辑器需要支持的功能" class="headerlink" title="编辑器需要支持的功能"></a>编辑器需要支持的功能</h2><p>下面是编辑器必须满足的几个关键的点：</p>
+<ul>
+<li>支持Markdown写作，语法高亮啥的是标配。</li>
+<li>分屏预览（一边写作，一边预览） 所见即所得。</li>
+<li>支持 LaTex 语法渲染（支持mathJax, pandoc更好）</li>
+</ul>
+<h2 id="之前使用编辑器的迁移史"><a href="#之前使用编辑器的迁移史" class="headerlink" title="之前使用编辑器的迁移史"></a>之前使用编辑器的迁移史</h2><p>最开始的时候使用的是Mac自带编辑器，用起来相当不方便<br>后来使用了sublime text 2 但仅限于编辑一些简单的文档，和写一些ReadMe文档<br>因为sublime text在最开始的时候对markdown支持不好，写markdown很不方便所以找了一个<br>轻量级的markdown编辑器 Mou – 小清新，功能全而不累赘，很得我心。<br>但是不巧的是Mou很长时间都没有更新，这还不要紧，关键是在macOS sierra 后Mou竟然不能用了！<br>这就迫使我寻找一个新的编辑器，很快就找到了MacDown， 这个据说是完全仿照Mou做的，最开始的时候还觉得OK，但是随着数学公式需求越来越强就发现了它的缺点了，不能实时查看公式的渲染效果。<br>于是决定重新找个编辑器彻底解决这个问题， 恰巧Github开源出来的<a href="https://atom.io" target="_blank" rel="external">Atom</a>可以完美结局这个问题。  </p>
+<h2 id="如何配置"><a href="#如何配置" class="headerlink" title="如何配置"></a>如何配置</h2><p>使用Atom来写markdown有个好的体验就需要安装几个能够提升效率的插件：<br>这个插件就是： <a href="https://atom.io/packages/markdown-preview-enhanced" target="_blank" rel="external">markdown-preview-enhanced</a></p>
+<p>具体安装Atom插件的方法是：</p>
+<ol>
+<li>Preferences -&gt; install</li>
+<li>输入框输入 “markdown preview enhanced”</li>
+<li>点击install</li>
+</ol>
+<p>注意安装后还没有完成，如果想让数学公式正常渲染需要disable一个Atom自带的组件：  </p>
+<ol>
+<li>Preferences -&gt; packages</li>
+<li>输入框内输入 “markdowm preview”</li>
+<li>会在core packages 下列出一个“markdowm preview”组件，点击disable，禁用。</li>
+</ol>
+<p>好，现在创建一个含有数学公式的文档(.md 或 .markdown)<br>现在还看不到效果，按住 control + shift + m 在屏幕的右边就会出现一个预览效果的窗口<br>现在是不是markdown写的飞起？</p>
+<p>以上<br>// EOF</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用markdown写文章现在已经是我的标配，那你的呢？&lt;br&gt;最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>链表的一些问题</title>
+    <link href="http://blog.lirui.me/posts/be44bf3e/"/>
+    <id>http://blog.lirui.me/posts/be44bf3e/</id>
+    <published>2017-03-21T02:03:10.000Z</published>
+    <updated>2017-04-07T14:05:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>一说到Linked List你会想到什么？<br>ArrayList? 看来你是个Java粉。<br>其实Linked List 并完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。  </p>
+<h2 id="链表的分类"><a href="#链表的分类" class="headerlink" title="链表的分类"></a>链表的分类</h2><p>按照节点的指针方向这个维度我们将链表划分为：</p>
+<ul>
+<li>单向列表</li>
+<li>双向列表</li>
+</ul>
+<p>由单向列表作简单的改进我们就得到了树这个数据结构，当然作更多改进和约束我们就得到各种性质的树，如果这样的“树”还有回环（当然如果有回环那就不是树的定义了）那就构成了有向图。<br>由双向列表可以构建目前很受热捧的skiplist(译作：跳跃表) 数据结构，这种数据结构有很大的希望会取代Red-Black tree（译作：红黑树）成为新的Hashmap的内部实现，它具有Red-Black tree 的各种操作的效率的同时还在rebalance的操作效率上要高于 Red-Black tree。</p>
+<h2 id="链表的操作"><a href="#链表的操作" class="headerlink" title="链表的操作"></a>链表的操作</h2><p>相信看过我文章的同学就会知道这时候是祭出代码的时候了。<br>其实在动手写代码前做好一些准备工作是更为重要的，因为这个数据结构是一个比较通用的框架类，关于这个类的分析和设计其实已经比较成熟，所以这里就偷懒直接使用现成结论就好。<br>由于篇幅的原因下文仅以单向列表为例程作解说，双向列表的实现会在github工程中公布。</p>
+<h3 id="链表基础元素的定义"><a href="#链表基础元素的定义" class="headerlink" title="链表基础元素的定义"></a>链表基础元素的定义</h3><p>节点：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleLinkedNode</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> value;</div><div class="line">    <span class="keyword">private</span> SingleLinkedNode next;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SingleLinkedNode</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SingleLinkedNode</span><span class="params">(<span class="keyword">int</span> value, SingleLinkedNode next)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">        <span class="keyword">this</span>.value = value;</div><div class="line">        <span class="keyword">this</span>.next = next;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.value = value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> SingleLinkedNode <span class="title">getNext</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> next;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNext</span><span class="params">(SingleLinkedNode next)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.next = next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>链表类定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleLinkedList</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span>  SingleLinkedNode mHeadNode;</div><div class="line">  <span class="keyword">private</span>  <span class="keyword">int</span>    mSize;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SingleLinkedList</span><span class="params">()</span></span>&#123;</div><div class="line">      <span class="keyword">super</span>();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> SingleLinkedNode <span class="title">getHeadNode</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">return</span> mHeadNode;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">return</span> mSize;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearList</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">this</span>.mHeadNode = <span class="keyword">null</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个头节点(headNode)是链表访问的入口，也是链表的一个重要属性。<br>下面就需要考虑链表的一些通用操作了，首先想到的就是 <em>增</em> <em>查</em> <em>删</em><br>好我们分别来实现它们：<br>添加:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  Append the node to the tail of the link</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> value</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">appendNodeToTail</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mHeadNode == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.mHeadNode = <span class="keyword">new</span> SingleLinkedNode();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    SingleLinkedNode n = <span class="keyword">this</span>.mHeadNode;</div><div class="line">    SingleLinkedNode node = <span class="keyword">new</span> SingleLinkedNode();</div><div class="line">    node.setValue(value);</div><div class="line">    <span class="keyword">while</span> (n.getNext() != <span class="keyword">null</span>) &#123;</div><div class="line">        n = n.getNext();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    n.setNext(node);</div><div class="line">    mSize ++;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>查找：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  Search for the node with the specific value</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> value</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> SingleLinkedNode <span class="title">searchNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    SingleLinkedNode n = <span class="keyword">this</span>.mHeadNode;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (n.getNext() != <span class="keyword">null</span> &amp;&amp; n.getNext().getValue() != value) &#123;</div><div class="line">        n = n.getNext();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span>  n.getNext();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>删除：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  Delete the node from the list</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> value</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">    SingleLinkedNode n = <span class="keyword">this</span>.mHeadNode;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (n.getNext() != <span class="keyword">null</span> &amp;&amp; n.getNext().getValue() != value) &#123;</div><div class="line">        n = n.getNext();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (n.getNext() != <span class="keyword">null</span> &amp;&amp; n.getNext().getValue() == value)&#123;</div><div class="line">        mSize --;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    n.setNext(n.getNext() != <span class="keyword">null</span> ? n.getNext().getNext() : <span class="keyword">null</span>);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当然还有必不可少的部分就是测试工程部分：<a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/linkedlist/SingleLinkedListTest.java" target="_blank" rel="external">github测试工程链接</a></p>
+<p>如果你认为链表操作就这么简单，那就差的太远了，以上的这些操作应当都是需要很快写出，并且bug-free的， 对，bug-free，就是一气呵成，没有bug的意思。<br>下面说几个跟链表相关，需要些技巧才能搞定的题目。</p>
+<h2 id="一些链表操作的技巧"><a href="#一些链表操作的技巧" class="headerlink" title="一些链表操作的技巧"></a>一些链表操作的技巧</h2><h3 id="判断链表是否有环"><a href="#判断链表是否有环" class="headerlink" title="判断链表是否有环"></a>判断链表是否有环</h3><p><a href="https://leetcode.com/problems/linked-list-cycle/#/description" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>Given a linked list, determine if it has a cycle in it.
+
+Follow up:
+Can you solve it without using extra space?
+</code></pre><p>好，拿到题目首先要做什么？<br><em>审题</em><br>有人会说，就这一句话的题目会有什么可以审的？恰恰是因为就一句话才会有大坑。<br>首先只是说给到一个Linked list，这时候你的本能反应应当是：是单向的还是双向的？  对于这道题来说隐喻是单向的。  </p>
+<p>题目审完了，我们下一步该做什么？<br><em>列出可能的所有解决方案</em><br>在不考虑不使用辅助空间的限制的情况下，  </p>
+<ul>
+<li>首先想到的是判断重复的问题应当使用判断重复的数据结构来解决问题，</li>
+<li>其次就是需要使用到一个小技巧来判断<br>相信使用判断重复的数据结构的方法大家都已经想到该怎么做了，所以这部分我们直接贴代码；<br>下面来讲解下小技巧解决问题的思路：<br>是否有环会影响到什么？如果是有环的，那么遍历一圈后还是会回到之前遍历过的节点，而如果列表没有环，那么永远都不会出现相遇的情况。<br>想一想这种特点在我们日常生活的什么东西很像？<br>钟表的分针，秒针的转动，因为时针、秒针的角速度不同所以在围绕一个圆圈转动的时候就一定会相遇，所以受到这个启发就会有下面这种解法：  </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Judge the LinkedList has cycle (no auxiliary space version)</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    SingleLinkedNode normal = mHeadNode;</div><div class="line">    SingleLinkedNode fast = mHeadNode;</div><div class="line">    <span class="keyword">while</span>(normal.getNext() != <span class="keyword">null</span> &amp;&amp; fast.getNext() != <span class="keyword">null</span> &amp;&amp; fast.getNext().getNext() != <span class="keyword">null</span>) &#123;</div><div class="line">        normal = normal.getNext();</div><div class="line">        fast = fast.getNext().getNext();</div><div class="line">        <span class="keyword">if</span> (normal == fast) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面是不需要额外存储空间的解决方案，下面我们看看使用额外空间的解法是怎样的？  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Judge the LinkedList has cycle (auxiliary space version)</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle2</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    HashMap&lt;SingleLinkedNode, SingleLinkedNode&gt; tempMap = <span class="keyword">new</span> HashMap();</div><div class="line">    SingleLinkedNode p = mHeadNode;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (p.getNext() != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (tempMap.get(p) == <span class="keyword">null</span>) &#123;</div><div class="line">            tempMap.put(p,p);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            tempMap.remove(p);</div><div class="line">        &#125;</div><div class="line"><span class="comment">//            Actually this code have the same effect with above 5 lines code.</span></div><div class="line"><span class="comment">//            SingleLinkedNode value = tempMap.get(p) == null ? tempMap.put(p,p) : tempMap.remove(p);</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> (tempMap.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">        p = p.getNext();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>两种方案都已经写出来了，下面要做什么？<br><em>复杂度分析</em><br>对于未使用额外辅助方案的算法，实际上是使用了两个速率不同的指针来做的遍历访问，所以时间复杂度为$O(n)$, 空间复杂度上没有使用额外的空间。<br>对于使用 HashMap 作为辅助空间的算法，由于HashMap的 get() put() remove() size() 函数的时间复杂度都是常数级的，所以这段算法的时间复杂度为$O(n)$, 空间复杂度上使用了长度为n的额外空间所以为$O(n)$<br>根据以上的分析我们不难选择未使用额外存储的快慢指针方法更优。</p>
+<p>复杂度分析过后我们需要作的就是<br><em>测试</em><br>这里的case也没有太多要说明的， happy case, other case 具体的case参照测试工程<a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/linkedlist/SingleLinkedListTest.java" target="_blank" rel="external">github测试工程</a></p>
+<h3 id="反转Linkedlist"><a href="#反转Linkedlist" class="headerlink" title="反转Linkedlist"></a>反转Linkedlist</h3><p><a href="https://leetcode.com/problems/reverse-linked-list/#/description" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>Reverse a singly linked list
+</code></pre><p>审题，这里需要注意下为空的情况。<br>可能的解法会有哪些？<br>这道题其实会有两种直觉算法：  </p>
+<ol>
+<li><p>递归</p>
+<p>复杂度分析：<br>时间复杂度：由于需要遍历所有节点，所以为$O(n)$<br>空间复杂度：没有使用额外空间</p>
+</li>
+<li><p>循环<br>复杂度分析：<br>时间复杂度： 同递归实现相同 $O(n)$<br>空间复杂度： 没有使用额外空间</p>
+</li>
+</ol>
+<p>那么我们来分别实现这两个版本：<br>递归版本：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</div><div class="line"></div><div class="line">    ListNode next = head.next;</div><div class="line">    ListNode newHeadNode = reverseList(next);</div><div class="line">    next.next = head;</div><div class="line">    head.next = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">return</span> newHeadNode;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>循环版本：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</div><div class="line"></div><div class="line">        ListNode pivot = head;</div><div class="line">        ListNode frontier = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">while</span> (pivot != <span class="keyword">null</span> &amp;&amp; pivot.next != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            frontier = pivot.next;</div><div class="line">            pivot.next = pivot.next.next;</div><div class="line">            frontier.next = head;</div><div class="line">            head = frontier;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> head;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="合并两个已排好序的列表"><a href="#合并两个已排好序的列表" class="headerlink" title="合并两个已排好序的列表"></a>合并两个已排好序的列表</h3><p><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+</code></pre><p>首先审题，这道题陷阱应该不多，比如考虑这两个list为空的情况应该怎样处理，都为空，其中一个为空？  </p>
+<p>可能的解法会有那些？<br>直接想到的会有两个  </p>
+<ol>
+<li><p>直觉算法， 创建一个新的列表，然后不断从两个列表内找出最小值，然后顺序加入新列表。</p>
+<p> 复杂度分析：<br> 时间复杂度：需要遍历两个列表的所有元素，有且仅有一次，因此为$O(n)$<br> 空间复杂度：需要额外的空间存储新的列表，因此为$O(n)$</p>
+</li>
+<li><p>递归算法，我们来分析下上面算法的过程会发现，其实存在递归的特性，只需要找出列表的头节点最小节点，然后将最小节点的next指向下一层的两个列表就可以。  </p>
+<p> 复杂度分析：<br> 时间复杂度：和上面的算法一样，同样需要遍历所有元素，所以时间复杂度为$O(n)$<br> 空间复杂度：不需要额外的空间存储</p>
+</li>
+</ol>
+<p>显然后面的递归算法更优，那么就按照上面的分析实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</div><div class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</div><div class="line">        ListNode resultNode = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</div><div class="line">            l1.next = mergeTwoLists(l1.next, l2);</div><div class="line">            resultNode = l1;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            l2.next = mergeTwoLists(l1, l2.next);</div><div class="line">            resultNode = l2;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> resultNode;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于这个问题相对简单些，所以一气呵成。<br>bug free，代码优化空间有倒是有，但是会影响可读性，所以暂且认为这就是最后的答案吧。<br>写完以后想想似乎这个问题还有一个解答，因为一般来说，有了递归的版本就会有个对应的循环的版本，那么好，我们来实现这个循环版本。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</div><div class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</div><div class="line">        ListNode head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</div><div class="line">        ListNode node = head;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</div><div class="line">                node.next = l1;</div><div class="line">                l1 = l1.next;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                node.next = l2;</div><div class="line">                l2 = l2.next;</div><div class="line">            &#125;</div><div class="line">            node = node.next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        node.next = l1 != <span class="keyword">null</span> ? l1 : l2;</div><div class="line">        <span class="keyword">return</span> head.next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为上面的这种非递归的实现方式相比于递归的方式会少占用栈空间，所以从效率的角度来看是最优的，但是与递归的实现相比，递归的代码可读性更好，所以在效率要求并不高的场景下我更推荐使用递归的实现，如果对栈空间有资源限制那就使用非递归的版本。<br>之所以拿这个问题出来的原因是，这个问题有很多使用场景，以及它的变形形式的问题有很大的应用空间。<br>合并两个排序列表的直接使用场景是什么？  对！归并排序，在对两个子序列排序后就可以用到这个。<br>稍微变形下就可以引出下一个更具有通用意义的问题：  </p>
+<h3 id="合并k个已排序的列表"><a href="#合并k个已排序的列表" class="headerlink" title="合并k个已排序的列表"></a>合并k个已排序的列表</h3><p><a href="https://leetcode.com/problems/merge-k-sorted-lists/#/description" target="_blank" rel="external">原题传送门</a>  </p>
+<pre><code>Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+</code></pre><p>和合并两个排序列表的问题相似，我们还是要审题，然而这个问题的坑并不是那么多，这个环节就暂且略过。<br>好，我们来看会有那些可能的算法。<br>首先，直觉算法就是：开辟一个新的空间用来存储合并后的列表，然后递归的去寻找这k个列表的最小的值然后将对应的节点添加到新的列表里。  </p>
+<p>  复杂度分析：<br>    时间复杂度： 就如merge两个列表的问题一样，算法需要遍历所有列表元素，所以复杂度为$O(n)$<br>    空间复杂度： 使用到了额外的空间，复杂度为$O(n)$</p>
+<p>其次，考虑到k个的问题一般都会有递归的算法，仔细分析后我们惊喜地发现的确可以这样来做，思路就是将数组一分为二，然后对这两个子数组分别进行merge，最后得到两个merge过的数组，然后将这两个merge就可以。</p>
+<p>  复杂度分析：<br>    时间复杂度： 该算法将问题划分为两个子问题，然后再加上一个$O(n)$复杂度的子问题，使用master theorem 我们知道这个问题的时间复杂度是$O(nlogn)$<br>    空间复杂度： 未使用额外空间<br>分析过后，后一种的方案目前最优，所以我们来实现这个算法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeKLists</span><span class="params">(ListNode[] lists)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (lists == <span class="keyword">null</span> || lists.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (lists.length == <span class="number">1</span>) <span class="keyword">return</span> lists[<span class="number">0</span>];</div><div class="line">        <span class="keyword">int</span> len = lists.length;</div><div class="line">        <span class="keyword">int</span> mid = Math.round(len/<span class="number">2</span>);</div><div class="line"></div><div class="line">        ListNode leftNode = mergeKLists(Arrays.copyOfRange(lists, <span class="number">0</span>, mid));</div><div class="line">        ListNode rightNode = mergeKLists(Arrays.copyOfRange(lists, mid, len));</div><div class="line">        <span class="keyword">return</span> _merge2List(leftNode, rightNode);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> ListNode <span class="title">_merge2List</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</div><div class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</div><div class="line"></div><div class="line">        ListNode result = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</div><div class="line">            l1.next = _merge2List(l1.next, l2);</div><div class="line">            result = l1;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            l2.next = _merge2List(l1, l2.next);</div><div class="line">            result = l2;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的merge2list实现是递归的实现，如果碰到栈溢出问题的话可以使用循环的实现，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> ListNode <span class="title">_merge2List</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</div><div class="line">    <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</div><div class="line"></div><div class="line">    ListNode head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</div><div class="line">    ListNode node = head;</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</div><div class="line">            node.next = l1;</div><div class="line">            l1 = l1.next;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            node.next = l2;</div><div class="line">            l2 = l2.next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        node = node.next;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.next = l1 != <span class="keyword">null</span> ? l1 : l2;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> head.next;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的代码是否还有优化的空间呢？ 在我看来已经可以了，再优化可能会影响可读性，因此到这个阶段就可以了。  </p>
+<pre><code>注意：其实上面的题目因为是leetcode的题目，每道题目会有对应的测试用例，所以这里就不单独写测试用例了。
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一说到Linked List你会想到什么？&lt;br&gt;ArrayList? 看来你是个Java粉。&lt;br&gt;其实Linked List 并完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。  &lt;/
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>关于树的一些话题</title>
+    <link href="http://blog.lirui.me/posts/937b6c8a/"/>
+    <id>http://blog.lirui.me/posts/937b6c8a/</id>
+    <published>2017-03-19T06:55:30.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。<br>树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。</p>
+<h2 id="树的一些经典问题"><a href="#树的一些经典问题" class="headerlink" title="树的一些经典问题"></a>树的一些经典问题</h2><h3 id="判断是否是一棵二叉搜索树"><a href="#判断是否是一棵二叉搜索树" class="headerlink" title="判断是否是一棵二叉搜索树"></a>判断是否是一棵二叉搜索树</h3><p><a href="https://leetcode.com/problems/validate-binary-search-tree/#/description" target="_blank" rel="external">原题传送门</a></p>
+<pre><code>Given a binary tree, determine if it is a valid binary search tree (BST).
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node&apos;s key.
+The right subtree of a node contains only nodes with keys greater than the node&apos;s key.
+Both the left and right subtrees must also be binary search trees.
+Example 1:
+    2
+   / \
+  1   3
+Binary tree [2,1,3], return true.
+Example 2:
+    1
+   / \
+  2   3
+Binary tree [1,2,3], return false.
+</code></pre><h4 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h4><p>读一下题：<br>其实题目的描述已经很有诚意了,这里直接指出了构成BST的三个特点：</p>
+<ul>
+<li>一个节点的左子树的所有（注意，是所有）节点都只会小于该节点</li>
+<li>一个节点的右子树的所有节点都只会大于该节点</li>
+<li>左、右子树也都必须是BST</li>
+</ul>
+<p>大家看出来这个描述有什么特点么？递归的定义方式啊。<br>所以首先想到的方法会是怎样的？<br>当然是<strong>递归</strong>地去判断节点与左右子节点的大小关系，好，这是第一个解法。<br>还有其他的解法么？<br>先<strong>遍历</strong>整个树，然后得到一个数组，然后判断这个数组是否是有序的就可以。<br>那么现在来实现下面这两个算法：</p>
+<h4 id="列出解决想到的方案"><a href="#列出解决想到的方案" class="headerlink" title="列出解决想到的方案"></a>列出解决想到的方案</h4><ul>
+<li><p>首先是递归的：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(TreeNode node, <span class="keyword">long</span> max, <span class="keyword">long</span> min)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (node.data &gt;= max || node.data &lt;= min) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> isValid(node.leftChild, node.data, min) &amp;&amp; isValid(node.rightChild, max, node.data);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>  就是根据上面BST的朴素性质来一层层递归判断。注意等于的边界条件。</p>
+</li>
+</ul>
+<ul>
+<li><p>然后是遍历的</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValidInNoRecurrenceVersion</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="comment">// Basic Idea is</span></div><div class="line">       <span class="comment">// 1. convert the tree to the array</span></div><div class="line">       <span class="comment">// 2. judge the array is in right order?</span></div><div class="line">       <span class="keyword">if</span>(<span class="keyword">this</span>.root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">       ArrayList theOrderList = <span class="keyword">new</span> ArrayList();</div><div class="line">       theInorderTraversalOrderList(theOrderList);</div><div class="line"></div><div class="line">       <span class="comment">// judge the array in the right order(ascend order)</span></div><div class="line">       <span class="keyword">return</span> isArraySortedInAscendOrder(theOrderList);</div><div class="line">   &#125;</div><div class="line"></div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isArraySortedInAscendOrder</span><span class="params">(ArrayList&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (list == <span class="keyword">null</span> &amp;&amp; list.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"></div><div class="line">       <span class="keyword">int</span> listSize = list.size();</div><div class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; listSize - <span class="number">1</span>; i++) &#123;</div><div class="line">           <span class="keyword">if</span> (list.get(i) &gt; list.get(i+<span class="number">1</span>))&#123;</div><div class="line">               <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">/**</span></div><div class="line">    *</div><div class="line">    * Traversal the tree with the Inorder way</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> theInOutList</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">theInorderTraversalOrderList</span><span class="params">(ArrayList theInOutList)</span> </span>&#123;</div><div class="line"></div><div class="line">       _inOrderTraversal(<span class="keyword">this</span>.root, theInOutList);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_inOrderTraversal</span><span class="params">(TreeNode node, ArrayList theInOutList)</span> </span>&#123;</div><div class="line">       Assert.assertNotNull(theInOutList);</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">       _inOrderTraversal(node.leftChild, theInOutList);</div><div class="line">       theInOutList.add(node.data);</div><div class="line">       _inOrderTraversal(node.rightChild, theInOutList);</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>好，我们已经完成了两种实现，下一步就是分析这两种方法的时间空间复杂度。</p>
+<h4 id="算法复杂度分析"><a href="#算法复杂度分析" class="headerlink" title="算法复杂度分析"></a>算法复杂度分析</h4><p>首先先看下相对简单的递归算法：  </p>
+<ul>
+<li><p>时间复杂度<br>  总共三行，前两行的时间复杂度为常数级（O(1)）, 最后一行，返回值行，将这个问题一分为二转化为两个 长度为 1/2 的子问题，因此我们有$$T(n) = 2 \cdot O(1) + 2 \cdot T(n/2)$$</p>
+<p>  因此我们得到结论： 该算法的时间复杂度为$O(n^{log_2^2}) = O(n)$</p>
+</li>
+<li>空间复杂度<br>  该算法并未使用额外的辅助空间</li>
+</ul>
+<p>其次我们来分析遍历算法：</p>
+<ul>
+<li><p>时间复杂度  </p>
+<p>  整个算法大致可以看作两部分</p>
+<ul>
+<li>遍历树得到一个数组</li>
+<li><p>判断该数组是否是一个有序的数组</p>
+<p>遍历树的时间复杂度是$O(n)$<br>判断数组是否为有序数组的时间复杂度也为$O(n)$<br>那么使用Big-Oh的加法法则有<br>算法的复杂度为$O(n)$</p>
+</li>
+</ul>
+</li>
+<li><p>空间复杂度<br>  该算法用到了一个长度为n的辅助数组</p>
+</li>
+</ul>
+<p>我们当然要选择前者。</p>
+<p>好，我们得到了最优的算法，问题就解决了么？<br>当然……没有！</p>
+<h4 id="最优代码优化"><a href="#最优代码优化" class="headerlink" title="最优代码优化"></a>最优代码优化</h4><p>我们看下递归算法还可以再有优化的空间么？ 目前为止还没有看出更简洁的写法了。<br>好，进入下一步</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><blockquote>
+<p>写出代码，不测试就是耍流氓。</p>
+</blockquote>
+<p>那应该怎样测试这个方法呢？  </p>
+<ul>
+<li>Happy case</li>
+<li>Other case</li>
+</ul>
+<p>这里happy case就是构建一个正常的BST，然而other case就是构建一个非BST的二叉树。<br>说到这里相信你已经看到happy case还好说， other case就有些困难了，需要修改构建树节点的实现，允许构建一个非BST的二叉树，这里就不详细描述算法的细节了，更多的细节移步参考 <a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/me/lirui/algo/tree/BinarySearchTree.java" target="_blank" rel="external">GitHub工程链接</a><br>以及测试工程代码<a href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/tree/BinarySearchTreeTest.java" target="_blank" rel="external">GitHub测试工程链接</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。&lt;br&gt;树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。&lt;/p&gt;
+&lt;h2 id=&quot;树的一些经典问题&quot;&gt;
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LaTex cheatsheet</title>
+    <link href="http://blog.lirui.me/posts/ae8ff913/"/>
+    <id>http://blog.lirui.me/posts/ae8ff913/</id>
+    <published>2017-03-17T08:25:32.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="LaTex-是啥？"><a href="#LaTex-是啥？" class="headerlink" title="LaTex 是啥？"></a>LaTex 是啥？</h2><p>LaTex (发音$ˈlɑːtɛx$ Lamport TeX 的简写）是一种文档排版系统，在生成复杂的数学公式、图表都有无可比拟的优势。  </p>
+<h2 id="我有word公式编辑器要它有啥用？"><a href="#我有word公式编辑器要它有啥用？" class="headerlink" title="我有word公式编辑器要它有啥用？"></a>我有word公式编辑器要它有啥用？</h2><p>注意尤其在编写数学公式有着很棒的体验，不用再发愁在博客中写数学公式了，相信你和我一样在没有遇见LaTex之前都是在word公式编辑器下编辑完公式后把图片导出然后贴到文章中，如果一次写对还好，但是，但是如果公式中有任何一个错误这个过程就需要重新来一遍，如果一次还没有改完，我的天，想死的心都有了。<br>直到有一天我遇到了LaTex, 用起来那酸爽，简直无法比拟。</p>
+<h2 id="在markdown下怎么写LaTex？"><a href="#在markdown下怎么写LaTex？" class="headerlink" title="在markdown下怎么写LaTex？"></a>在markdown下怎么写LaTex？</h2><p><a href="https://www.mathjax.org/" target="_blank" rel="external">mathjax</a>是正解。<br>如果用的是hexo的jacman主题，那么主题内部就内建了mathjax的支持，只需要在主题的配置文件_config.yml内添加<code>mathjax: true</code>；<br>如果是其他主题，那么就请参考官方文档进行接入 <a href="http://docs.mathjax.org/en/latest/start.html" target="_blank" rel="external">文档链接</a>  </p>
+<p>在markdown下写LaTex：<br>直接在文档中插入<code>$$</code>， 在<code>$</code>之间插入LaTex就可以了。<br>至于LaTex的一些语法参考这篇 <a href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="external">reference</a></p>
+<h2 id="LaTex-的主要语法"><a href="#LaTex-的主要语法" class="headerlink" title="LaTex 的主要语法"></a>LaTex 的主要语法</h2><h3 id="基础数学符号"><a href="#基础数学符号" class="headerlink" title="基础数学符号"></a>基础数学符号</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">数学符号</th>
+<th style="text-align:center">LaTex</th>
+<th style="text-align:center">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">对数</td>
+<td style="text-align:center">$log_5^3$</td>
+<td style="text-align:center">\log_5^3</td>
+</tr>
+<tr>
+<td style="text-align:left">平方根</td>
+<td style="text-align:center">$\sqrt{x^2 + y^2}$</td>
+<td style="text-align:center">\sqrt{x^2 + y^2}</td>
+</tr>
+<tr>
+<td style="text-align:left">n次方根</td>
+<td style="text-align:center">$\sqrt[n]{x}$</td>
+<td style="text-align:center">\sqrt[n]{x}</td>
+</tr>
+<tr>
+<td style="text-align:left">分数</td>
+<td style="text-align:center">$\frac{x}{y}$</td>
+<td style="text-align:center">\frac{x}{y}</td>
+</tr>
+<tr>
+<td style="text-align:left">连加</td>
+<td style="text-align:center">$\sum_{k=1}^n$</td>
+<td style="text-align:center">\sum_{k=1}^n</td>
+</tr>
+<tr>
+<td style="text-align:left">连乘</td>
+<td style="text-align:center">$\prod_{k=1}^n$</td>
+<td style="text-align:center">\prod_{k=1}^n</td>
+</tr>
+<tr>
+<td style="text-align:left">小于等于</td>
+<td style="text-align:center">$\leq$</td>
+<td style="text-align:center">\let</td>
+</tr>
+<tr>
+<td style="text-align:left">大于等于</td>
+<td style="text-align:center">$\geq$</td>
+<td style="text-align:center">\get</td>
+</tr>
+<tr>
+<td style="text-align:left">不等于</td>
+<td style="text-align:center">$\neq$</td>
+<td style="text-align:center">\neq</td>
+</tr>
+<tr>
+<td style="text-align:left">约等于</td>
+<td style="text-align:center">$\approx$</td>
+<td style="text-align:center">\approx</td>
+</tr>
+<tr>
+<td style="text-align:left">杈乘</td>
+<td style="text-align:center">$\times$</td>
+<td style="text-align:center">\times</td>
+</tr>
+<tr>
+<td style="text-align:left">点乘</td>
+<td style="text-align:center">$\cdot$</td>
+<td style="text-align:center">\cdot</td>
+</tr>
+<tr>
+<td style="text-align:left">除</td>
+<td style="text-align:center">$\div$</td>
+<td style="text-align:center">\div</td>
+</tr>
+<tr>
+<td style="text-align:left">正负</td>
+<td style="text-align:center">$\pm$</td>
+<td style="text-align:center">\pm</td>
+</tr>
+<tr>
+<td style="text-align:left">无穷</td>
+<td style="text-align:center">$\infty$</td>
+<td style="text-align:center">\infty</td>
+</tr>
+<tr>
+<td style="text-align:left">superset</td>
+<td style="text-align:center">$\supset$</td>
+<td style="text-align:center">\supset</td>
+</tr>
+<tr>
+<td style="text-align:left">subset</td>
+<td style="text-align:center">$\subset$</td>
+<td style="text-align:center">\subset</td>
+</tr>
+<tr>
+<td style="text-align:left">任意</td>
+<td style="text-align:center">$\forall$</td>
+<td style="text-align:center">\forall</td>
+</tr>
+<tr>
+<td style="text-align:left">属于</td>
+<td style="text-align:center">$\in$</td>
+<td style="text-align:center">\in</td>
+</tr>
+<tr>
+<td style="text-align:left">不属于</td>
+<td style="text-align:center">$\notin$</td>
+<td style="text-align:center">\notin</td>
+</tr>
+<tr>
+<td style="text-align:left">存在于</td>
+<td style="text-align:center">$\exists$</td>
+<td style="text-align:center">\exists</td>
+</tr>
+<tr>
+<td style="text-align:left">单线右箭头</td>
+<td style="text-align:center">$\rightarrow$</td>
+<td style="text-align:center">\rightarrow</td>
+</tr>
+<tr>
+<td style="text-align:left">双线右箭头</td>
+<td style="text-align:center">$\Rightarrow$</td>
+<td style="text-align:center">\Rightarrow</td>
+</tr>
+<tr>
+<td style="text-align:left">单线左右箭头</td>
+<td style="text-align:center">$\leftrightarrow$</td>
+<td style="text-align:center">\leftrightarrow</td>
+</tr>
+<tr>
+<td style="text-align:left">a 点</td>
+<td style="text-align:center">$\dot a$</td>
+<td style="text-align:center">\dot a</td>
+</tr>
+<tr>
+<td style="text-align:left">a 帽</td>
+<td style="text-align:center">$\hat a$</td>
+<td style="text-align:center">\hat a</td>
+</tr>
+<tr>
+<td style="text-align:left">a bar</td>
+<td style="text-align:center">$\bar a$</td>
+<td style="text-align:center">\bar a</td>
+</tr>
+<tr>
+<td style="text-align:left">a tilde</td>
+<td style="text-align:center">$\tilde a$</td>
+<td style="text-align:center">\tilde a</td>
+</tr>
+</tbody>
+</table>
+<p>其他参考这个<a href="https://wch.github.io/latexsheet/latexsheet-a4.pdf" target="_blank" rel="external">cheatsheet</a>  </p>
+<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$$</div><div class="line">\begin&#123;matrix&#125;</div><div class="line">...</div><div class="line">\end&#123;matrix&#125;</div><div class="line">$$</div></pre></td></tr></table></figure></p>
+<p>在begin end中间添加矩阵元素，每行元素以<code>\\</code>结束，元素之间以<code>&amp;</code>隔开,如下面的例子：<br>$$<br>\begin{matrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{matrix}<br>$$</p>
+<p>如果是其他形式的括号，只需要替换matrix这个关键字就可。下面是支持的几种表达方式：  </p>
+<p>pmatrix:<br>$$<br>\begin{pmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{pmatrix}<br>$$</p>
+<p>bmatrix:<br>$$<br>\begin{bmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{bmatrix}<br>$$</p>
+<p>Bmatrix:<br>$$<br>\begin{Bmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{Bmatrix}<br>$$</p>
+<p>vmatrix:<br>$$<br>\begin{vmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{vmatrix}<br>$$</p>
+<p>Vmatirx:<br>$$<br>\begin{Vmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{Vmatrix}<br>$$</p>
+<h3 id="分段函数"><a href="#分段函数" class="headerlink" title="分段函数"></a>分段函数</h3><p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">\begin&#123;cases&#125;</div><div class="line">...</div><div class="line">\end&#123;cases&#125;</div></pre></td></tr></table></figure></p>
+<p>begin和end之间定义函数，行间的间隔、行内元素间隔与矩阵的规则一致。<br>例子：<br>$$<br>f(n) =<br>\begin{cases}<br>0    &amp; \text{if n = 0,1}<br>f(n-1)+f(n-2)    &amp; \text{if n &gt; 2}<br>\end{casess}<br>$$</p>
+<h3 id="方程式"><a href="#方程式" class="headerlink" title="方程式"></a>方程式</h3><p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">\begin&#123;cases&#125;</div><div class="line">...</div><div class="line">\end&#123;cases&#125;</div></pre></td></tr></table></figure></p>
+<p>例如：<br>$$<br>\begin{case}<br>a_1x+b_1y+c_1z = d_1<br>a_2x+b_2y+c_2z = d_2<br>a_3x+b_3y+c_3z = d_3<br>\end{case}<br>$$</p>
+<p>要强制对其等号呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">\left\&#123;</div><div class="line">\begin&#123;aligned&#125;</div><div class="line">...</div><div class="line">\end&#123;aligned&#125;</div><div class="line">\right</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;LaTex-是啥？&quot;&gt;&lt;a href=&quot;#LaTex-是啥？&quot; class=&quot;headerlink&quot; title=&quot;LaTex 是啥？&quot;&gt;&lt;/a&gt;LaTex 是啥？&lt;/h2&gt;&lt;p&gt;LaTex (发音$ˈlɑːtɛx$ Lamport TeX 的简写）是一种文档排版
+    
+    </summary>
+    
+      <category term="Mathmatics" scheme="http://blog.lirui.me/categories/Mathmatics/"/>
+    
+      <category term="LaTex" scheme="http://blog.lirui.me/categories/Mathmatics/LaTex/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>树的那些事</title>
+    <link href="http://blog.lirui.me/posts/10a77275/"/>
+    <id>http://blog.lirui.me/posts/10a77275/</id>
+    <published>2017-03-15T09:03:52.000Z</published>
+    <updated>2017-05-01T08:32:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>树，尤其是二叉搜索树(Binary Search Tree =&gt; BST)是算法、数据结构领域重要的数据结构之一。<br>那么既然BST这么重要，想要了解BST需要了解哪些方面呢？</p>
+<h2 id="树是什么鬼？"><a href="#树是什么鬼？" class="headerlink" title="树是什么鬼？"></a>树是什么鬼？</h2><p>树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。<br>一棵没有节点的树我们称为空树（Empty tree）<br>更多树的细节（如：叶子、度、树高等概念的定义）<a href="https://en.wikipedia.org/wiki/Tree_(data_structure" target="_blank" rel="external">请参考这里</a>)</p>
+<h2 id="都有什么树"><a href="#都有什么树" class="headerlink" title="都有什么树"></a>都有什么树</h2><p>总的来说我们按照有序和无序的维度将树分为无序树和有序树。  </p>
+<ul>
+<li>无序树：树中任意节点的子节点之间没有顺序关系，这种树称为无序树，也称为自由树</li>
+<li>有序树：树中任意节点的子节点之间有顺序关系，这种树称为有序树。<ul>
+<li>二叉树 ：每个节点最多含有两个子树的树称为二叉树<ul>
+<li>完全二叉树<ul>
+<li>满二叉树</li>
+</ul>
+</li>
+<li>平衡二叉树<ul>
+<li>红黑树</li>
+<li>条表（skiped list）</li>
+</ul>
+</li>
+<li>二叉搜索树</li>
+</ul>
+</li>
+<li>B树 ：概括来说是一个一般化的二叉搜索树，可以拥有多于2个子节点<ul>
+<li>B+树</li>
+<li>B-树</li>
+</ul>
+</li>
+<li>霍夫曼树</li>
+</ul>
+</li>
+</ul>
+<h2 id="和树相关的操作"><a href="#和树相关的操作" class="headerlink" title="和树相关的操作"></a>和树相关的操作</h2><p>由于二叉搜索树有着广泛的应用，所以这部分以二叉搜索树为例表述。<br>既然是二叉搜索树那么以下三个操作是基本操作：  </p>
+<ul>
+<li><p>遍历(Travels)</p>
+<ul>
+<li>中序(inorder)遍历</li>
+<li>先序(preorder)遍历</li>
+<li>后序(postorder)遍历</li>
+</ul>
+</li>
+<li><p>添加节点(Add node)</p>
+</li>
+<li>查找节点(Search node)</li>
+<li>删除节点(Delete node)</li>
+</ul>
+<p>上面说得都是些比较抽象的内容，相信你一定已经按耐不住想撸一遍代码了。好！给你机会。<br>从最简单的开始， 用你最熟悉的语言定义一个树结构：<br>考虑到Java的广泛使用程度，下面的代码都以Java编写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</div><div class="line">    <span class="comment">// left child node</span></div><div class="line">    TreeNode leftChild;</div><div class="line"></div><div class="line">    <span class="comment">// left rightChild</span></div><div class="line">    TreeNode rightChild;</div><div class="line">    <span class="keyword">int</span>     data;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在进行遍历之前还有一个关键的步骤没有做，那就是构造树。<br>如果你也这样想，好吧，再想想是不是错过了些什么？<br>对，其实构建树只是添加树的一个复合操作。废话少说上码来战。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span> </span>&#123;</div><div class="line">    <span class="comment">// root node</span></div><div class="line">    TreeNode root;</div><div class="line"></div><div class="line">    <span class="comment">// Do nothing</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//</span></div><div class="line">    <span class="comment">// Insert the node to the BST</span></div><div class="line">    <span class="comment">//</span></div><div class="line">    <span class="comment">// put the value item into the BST</span></div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">put</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="keyword">return</span> put(<span class="keyword">this</span>.root, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * 添加节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> root</div><div class="line">     * <span class="doctag">@param</span> value</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">put</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">this</span>.root = <span class="keyword">new</span> TreeNode();</div><div class="line">            <span class="keyword">this</span>.root.data = value;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.root;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> valueOfrootElement = root.data;</div><div class="line">        <span class="keyword">if</span> (value &lt; valueOfrootElement)&#123;</div><div class="line">            root.leftChild = put(root.leftChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; valueOfrootElement)&#123;</div><div class="line">            root.rightChild = put(root.rightChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            root.data = value;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>是不是感觉上面的代码有些不舒服，对的，有代码强迫症的你肯定已经毛爪挠心了，不废话，消灭所有不合理的因素。这次从方法命名开始。<br>(敲黑板，认真脸)  </p>
+<pre><code>方法名中若不是简单的getter/setter 操作应当避免使用get/set作为方法名，以免引起不必要的误解。
+</code></pre><p>改正后的版本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span> </span>&#123;</div><div class="line">    <span class="comment">// root node</span></div><div class="line">    TreeNode root;</div><div class="line"></div><div class="line">    <span class="comment">// Do nothing</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> value</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">addTreeNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.root == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.root = <span class="keyword">new</span> TreeNode(value);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> addTreeNode(<span class="keyword">this</span>.root, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">addTreeNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(value);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> valueOfrootElement = root.data;</div><div class="line">        <span class="keyword">if</span> (value &lt; valueOfrootElement)&#123;</div><div class="line">            root.leftChild = addTreeNode(root.leftChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; valueOfrootElement)&#123;</div><div class="line">            root.rightChild = addTreeNode(root.rightChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            root.data = value;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>嗯，感觉舒服多了。<br>紧接着还有一个操作，查找：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">searchNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> searchNode(<span class="keyword">this</span>.root, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * 查找节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> root</div><div class="line">     * <span class="doctag">@param</span> value</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> TreeNode <span class="title">searchNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="comment">// empty tree</span></div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// in order travels</span></div><div class="line">        <span class="keyword">int</span> rootValue = <span class="keyword">this</span>.root.data;</div><div class="line">        <span class="keyword">if</span> (rootValue == value)&#123;</div><div class="line">            <span class="keyword">return</span> root;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &lt; rootValue) &#123;</div><div class="line">            <span class="keyword">return</span> searchNode(root.leftChild, value);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> searchNode(root.rightChild, value);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>上面的代码用到了inorder travels标准写法，递归(Reccurrence)调用查找方法。  </p>
+<p>我们实现了添加查找节点的方法，下一步就是实现删除节点。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">deleteNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">      <span class="keyword">return</span> deleteNode(<span class="keyword">this</span>.root, value);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">deleteNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">      <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">int</span> rootValue = root.data;</div><div class="line">      <span class="keyword">if</span> (value &lt; rootValue) &#123;</div><div class="line">          root.leftChild = deleteNode(root.leftChild, value);</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &gt; rootValue) &#123;</div><div class="line">          root.rightChild = deleteNode(root.rightChild, value);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="keyword">if</span> (root.leftChild == <span class="keyword">null</span>) &#123;</div><div class="line">              <span class="keyword">return</span> root.rightChild;</div><div class="line">          &#125;</div><div class="line"></div><div class="line">          <span class="keyword">if</span> (root.rightChild == <span class="keyword">null</span>) &#123;</div><div class="line">              <span class="keyword">return</span>  root.leftChild;</div><div class="line">          &#125;</div><div class="line"></div><div class="line">          <span class="comment">// search for the min node in right child subtree,</span></div><div class="line">          <span class="comment">// and then replace the current node.</span></div><div class="line">          <span class="comment">//</span></div><div class="line">          TreeNode newRootNode = findMin(root.rightChild);</div><div class="line">          <span class="comment">// replace the current node.</span></div><div class="line">          root.data = newRootNode.data;</div><div class="line">          <span class="comment">// remove from the previous right subtree</span></div><div class="line">          root.rightChild = deleteNode(root.rightChild, newRootNode.data);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">     <span class="keyword">return</span> root;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>算法的细节就不解释了，稍微麻烦点的地方都有注释。  </p>
+<p>到了这里是不是觉得就可以打完收工了？ No,No,No……<br>没有测试的代码是不可以发布的，只有写过单元测试代码，并且GreenBar通过后才可以。<br>具体怎么添加单元测试工程的过程这里就不再啰嗦了，不同语言下都有比较成熟的单元测试框架， 例如java下的就是junit。下附图为测试工程GreenBar通过：<br><img src="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg" alt="GreenBarPass">  </p>
+<p>下附工程代码：<a href="https://github.com/nutshellfool/algorithmShare" target="_blank" rel="external">gitHub</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。&lt;br&gt;那么既然BST这么重要，想要了解BST需要了解哪些方面呢？&lt;/p&gt;
+&lt;h2 id=&quot;树是什么鬼？&quot;&gt;&lt;a href=&quot;#树是什么鬼？&quot; class
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>数据结构与Big-Oh</title>
+    <link href="http://blog.lirui.me/posts/397c8360/"/>
+    <id>http://blog.lirui.me/posts/397c8360/</id>
+    <published>2017-03-14T06:28:53.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。</p>
+<h2 id="常见数据结构"><a href="#常见数据结构" class="headerlink" title="常见数据结构"></a>常见数据结构</h2><ul>
+<li>数组(array)</li>
+<li>链表(LinkedList)  <ul>
+<li>单向列表(Singly-Linked List)</li>
+<li>双向列表(Doubly-Linked List)</li>
+</ul>
+</li>
+<li>队列(Queuen)</li>
+<li>栈(Stack)</li>
+<li>散列表(HashTable)</li>
+<li>二叉树(Binary Tree)</li>
+<li>B Tree</li>
+<li>红黑树(RedBlack Tree)<h2 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h2></li>
+<li>访问某个位置的元素(Access)</li>
+<li>查找某个元素(Search)</li>
+<li>插入(Insertion)</li>
+<li>删除(Deletion)</li>
+</ul>
+<h2 id="All-in-one-table"><a href="#All-in-one-table" class="headerlink" title="All in one table"></a>All in one table</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">Data Structure</th>
+<th style="text-align:center">访问</th>
+<th style="text-align:center">查找</th>
+<th style="text-align:center">插入</th>
+<th style="text-align:center">删除</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Array</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Singly-Linked List</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Doubly-Linked List</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Queue</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Stack</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">HashTable</td>
+<td style="text-align:center">N/A</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Binary Tree</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">B Tree</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">RedBlack Tree</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。&lt;/p&gt;
+&lt;h2 id=&quot;常见数据结构&quot;&gt;&lt;a href=&quot;#常见数据结构&quot; class=&quot;headerlink&quot; 
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常见算法的Big-Oh</title>
+    <link href="http://blog.lirui.me/posts/fa7bbffc/"/>
+    <id>http://blog.lirui.me/posts/fa7bbffc/</id>
+    <published>2017-03-12T03:07:34.000Z</published>
+    <updated>2017-04-13T15:25:43.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="关于Big-Oh"><a href="#关于Big-Oh" class="headerlink" title="关于Big-Oh"></a>关于Big-Oh</h2><p>首先Big-Oh($O$)是用来描述一个函数的渐进行为的工具。<br>关于Big-Oh的正式定义（数学定义）：<a href="https://en.wikipedia.org/wiki/Big_O_notation#Formal_definition" target="_blank" rel="external">wikipedia</a><br>例子：　　<br>$n^3+3n^2+2n+1 = O(n^3)$<br>$0.000000001n^3+3n^2+2n+1)=O(n^3)$<br>$nlog^n+n=O(nlog^n)$</p>
+<h2 id="常见的Big-Oh类型"><a href="#常见的Big-Oh类型" class="headerlink" title="常见的Big-Oh类型"></a>常见的Big-Oh类型</h2><ul>
+<li>常数（Constant）$O(1)$</li>
+<li>对数（Logarithmic）$O(log^n)$</li>
+<li>开方（SquareRoot）$O(\sqrt{n})$</li>
+<li>线性（Linear）$O(n)$</li>
+<li>对数线性（Linearithmic loglinear quasiliear）$O(nlog^n)$</li>
+<li>平方（Quadratic）$O(n^2)$</li>
+<li>指数（Exponential）$O(k^n)$  </li>
+</ul>
+<h2 id="Big-Oh-in-a-set-of-image-s"><a href="#Big-Oh-in-a-set-of-image-s" class="headerlink" title="Big-Oh in a (set of) image(s)"></a>Big-Oh in a (set of) image(s)</h2><p>原图摘自 <a href="http://science.slc.edu/~jmarshall/courses/2002/spring/cs50/BigO/index.html" target="_blank" rel="external">这里</a></p>
+<p><img src="/images/bigOh/dotted-border.gif" alt="logarithmic, squareRoot, linear, quadratic, cube, exponential 对比"><br><img src="/images/bigOh/sorting.gif" alt="linear, loglinear, quadratic 对比"></p>
+<h2 id="常见操作的Big-Oh"><a href="#常见操作的Big-Oh" class="headerlink" title="常见操作的Big-Oh"></a>常见操作的Big-Oh</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">操作</th>
+<th style="text-align:center">List</th>
+<th style="text-align:center">Set/Dictionary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">length(len())</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">L.append(item)</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">Add</td>
+<td style="text-align:center">–</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Copy</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+</tr>
+<tr>
+<td style="text-align:left">max(L)</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">min(L)</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">insert</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">delete</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">remove</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">val in L</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">L.count(val)</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">L.sort()</td>
+<td style="text-align:center">$O(Nlog^N)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">L.sort(reverse=True)</td>
+<td style="text-align:center">$O(Nlog^N)$</td>
+<td style="text-align:center">–</td>
+</tr>
+<tr>
+<td style="text-align:left">Get/set item</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Iteration(for 循环体)</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:center">$O(N)$</td>
+</tr>
+</tbody>
+</table>
+<p>更多操作查看：<a href="https://www.ics.uci.edu/~pattis/ICS-33/lectures/complexitypython.txt" target="_blank" rel="external">这里</a></p>
+<h2 id="Big-Oh运算法则"><a href="#Big-Oh运算法则" class="headerlink" title="Big-Oh运算法则"></a>Big-Oh运算法则</h2><h3 id="加法法则"><a href="#加法法则" class="headerlink" title="加法法则"></a>加法法则</h3><p>$$O(f(n))+O(g(n)) = O(f(n)+g(n))$$</p>
+<p>例如：<br>    $O(N)+O(log^N) = O(N + log^N) = O(N)$<br>    $O(N)+O(Nlog^N) = O(N+Nlog^N) = O(Nlog^N)$  </p>
+<h3 id="乘法法则"><a href="#乘法法则" class="headerlink" title="乘法法则"></a>乘法法则</h3><p>$$O(f(n)) \cdot O(g(n)) = O(f(n) \cdot g(n))$$</p>
+<p>例如:<br>    $O(N) \cdot O(log^N) = O(N \cdot log^N)$<br>    $O(N) \cdot O(N^2) = O(N \cdot N^2) = O(N^3)$</p>
+<p>看到这你会说，看起来不错，但有什么用呢？<br>首先有了加法法则可以帮助我们理解顺序执行的程序段是怎样的复杂度。<br>举个例子：<br>如果一段程序调用了两段子程序$f(…)$和$g(…)$，他们在程序段内的调用顺序是：  </p>
+<pre><code>f(...)
+g(...)
+</code></pre><p>其中$O(f(…)) = N$, $O(g(…)) = N$ 那么这段程序的时间复杂度会是怎样的？<br>对，$O(f(…)+g(…)) = O(f(…))+O(g(…)) = O(N+N) = O(N)$<br>什么太简单了？<br>来个带分支判断的：程序结构如下  </p>
+<pre><code>if test:
+    block1
+else:
+    block2
+</code></pre><p>令test的复杂度为$O(T)$, block1的复杂度为$O(B1)$ block2的复杂度为$O(B2)$, 那么这段程序的复杂度是怎样的？  </p>
+<p>其次乘法法则可以帮助我们理解由循环控制的程序段的复杂度。<br>举个例子：<br>程序结构如下：  </p>
+<pre><code>for i in range(N):
+    f(...)
+</code></pre><p>其中$O(f(…)) = N^2$<br>那么这段程序段的复杂度为： $O(N) \cdot O(f(…)) = O(N) \cdot O(N^2) = O(N \cdot N^2)$<br>好的有了这两个工具，相信多数的Big-Oh案例分析能轻松搞定。</p>
+<h2 id="常见排序、查找算法复杂度"><a href="#常见排序、查找算法复杂度" class="headerlink" title="常见排序、查找算法复杂度"></a>常见排序、查找算法复杂度</h2><p>其实这些算法复杂度都可以通过上面的运算法则以及操作的复杂度推算出来的，但是作为一个可以作为快速备查的cheatsheet下面就直接罗列出结论：<br>先来查找（search）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">线性查找(Linear search)</td>
+<td style="text-align:center">$O(N)$</td>
+</tr>
+<tr>
+<td style="text-align:center">二分查找(binary search)</td>
+<td style="text-align:center">$O(log^N)$</td>
+</tr>
+</tbody>
+</table>
+<p>注意这里的前提条件是：<br>线性查找针对的是无序列表，二分查找针对的是有序列表。  </p>
+<p>再来排序（sorting）：  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">冒泡排序（bubble sort）</td>
+<td style="text-align:center">$O(N^2)$</td>
+</tr>
+<tr>
+<td style="text-align:center">插入排序（insertion sort）</td>
+<td style="text-align:center">$O(N^2)$</td>
+</tr>
+<tr>
+<td style="text-align:center">归并排序（merge sort）</td>
+<td style="text-align:center">$O(Nlog^N)$</td>
+</tr>
+<tr>
+<td style="text-align:center">选择排序（selection sort）</td>
+<td style="text-align:center">$O(N^2)$</td>
+</tr>
+<tr>
+<td style="text-align:center">快速排序（quick sort）</td>
+<td style="text-align:center">$O(Nlog^N)$</td>
+</tr>
+<tr>
+<td style="text-align:center">堆排序（heap sort）</td>
+<td style="text-align:center">$O(Nlog^N)$</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;关于Big-Oh&quot;&gt;&lt;a href=&quot;#关于Big-Oh&quot; class=&quot;headerlink&quot; title=&quot;关于Big-Oh&quot;&gt;&lt;/a&gt;关于Big-Oh&lt;/h2&gt;&lt;p&gt;首先Big-Oh($O$)是用来描述一个函数的渐进行为的工具。&lt;br&gt;关于Big-Oh的正式
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
+    
+      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>初识Docker</title>
+    <link href="http://blog.lirui.me/posts/fea3737/"/>
+    <id>http://blog.lirui.me/posts/fea3737/</id>
+    <published>2016-07-29T08:08:12.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>具体安装方法请参照官网 <a href="https://www.docker.com/products/overview" target="_blank" rel="external">GetDocker</a><br>Mac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。</p>
+<h2 id="运行第一个Docker容器"><a href="#运行第一个Docker容器" class="headerlink" title="运行第一个Docker容器"></a>运行第一个Docker容器</h2><p>当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  </p>
+<h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><p><code>docker search &lt;the container name&gt;</code></p>
+<p>例如 我要查找centos的镜像：<br><code>docker search centos</code><br>这里docker会返回所有和centos相关的镜像（包括官方河非官方的）<br>我们这里的目的其实是基于官方的镜像做些展示，所以选择官方的镜像就好。<br>说到这里其实就涉及到第二个常见的docker命令了：</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p><code>docker pull &lt;container name&gt;:&lt;tag&gt;</code><br>例如 我要pull centos 7这个版本的镜像：<br><code>docker pull centos:7</code><br>需要说明的是这个命令中tag是可选参数，如果命令中未填写，那么docker会从目标容器镜像中下载latest这个特殊（最新）版的镜像。<br>这里推荐在pull命令中显式制定版本，方便后面的环境维护和管理。  </p>
+<p>Ok，等待下载完成。当然这个过程在墙内的世界会很慢，还好有镜像加速的服务，提供镜像服务的厂商目前有不少例如<a href="https://hpc.aliyun.com/doc/docker%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1" target="_blank" rel="external">阿里云</a>，<a href="http://docs.daocloud.io/faq/what-is-daocloud-accelerator" target="_blank" rel="external">daocloud</a><br>本人选择的是阿里云，按照厂商要求配置，重新pull，哇～速度飞起。</p>
+<p>镜像也pull下来了，那么就到关键的一步了：  </p>
+<h3 id="运行镜像"><a href="#运行镜像" class="headerlink" title="运行镜像"></a>运行镜像</h3><p><code>docker run -i -t &lt;container name&gt; /bin/bash</code><br>下面来解释下这个命令的几个参数到底是做什么的：  </p>
+<ul>
+<li>首先是 -i 保证的是容器中的STDIN是开启的  </li>
+<li><p>其次 -t 告诉Docker为要创建的容器分配一个伪tty终端<br>这样两个参数是保证创建的容器是一个可交互的容器，而不是一个运行后台服务的容器。<br>好了，现在就是你熟悉的部分了，一个运行着centos的linux环境。<br>处理完事情，敲入exit，结束会话，回到了docker宿主机的命令行模式，一切自然。等等……总觉着有什么不对，对了，那个容器怎样了？<br>其实容器依然存在，那么怎么查看这些容器呢？  </p>
+<h3 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h3><p><code>docker ps</code><br>这个命令会列出所有正在运行的容器，如果想查看所有需要加上参数 -a<br>这里需要注意的是这两列信息： </p>
+</li>
+<li><p>CONTAINER ID  </p>
+</li>
+<li>Names</li>
+</ul>
+<p>那么我们还想回到容器内部操作怎么办？  </p>
+<h3 id="附着到容器"><a href="#附着到容器" class="headerlink" title="附着到容器"></a>附着到容器</h3><p><code>docker attach &lt;containerID / Names&gt;</code><br>参数中 CONTAINER ID 和 Names 任意一个都可以。</p>
+<p>日常操作中不可避免的都会涉及到这两个查询操作：  </p>
+<ul>
+<li>查询容器日志</li>
+<li>查询容器中的进程</li>
+</ul>
+<h3 id="查询容器日志"><a href="#查询容器日志" class="headerlink" title="查询容器日志"></a>查询容器日志</h3><p><code>docker logs -f &lt;container name&gt;</code><br>如果想在log中打印出log时间只需要添加参数 -t<br><code>docker logs -ft &lt;container name&gt;</code></p>
+<h3 id="查询容器中的进程"><a href="#查询容器中的进程" class="headerlink" title="查询容器中的进程"></a>查询容器中的进程</h3><p><code>docker top</code></p>
+<p>日常对容器的操作除了查询些这外，还有些管理容器的命令如：</p>
+<h3 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h3><p><code>docker kill &lt;container name&gt;</code><br>或者<br><code>docker stop &lt;container name&gt;</code></p>
+<h3 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h3><p><code>docker start &lt;container name&gt;</code></p>
+<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><p><code>docker rm &lt;container name&gt;</code></p>
+<p>以上介绍的是docker常见的一些操作和命令，其中守护式容器的操作在本篇并未涉及，这部分内容将在之后的文章中介绍。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装Docker&quot;&gt;&lt;a href=&quot;#安装Docker&quot; class=&quot;headerlink&quot; title=&quot;安装Docker&quot;&gt;&lt;/a&gt;安装Docker&lt;/h2&gt;&lt;p&gt;具体安装方法请参照官网 &lt;a href=&quot;https://www.docker.com/pr
+    
+    </summary>
+    
+      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
+    
+      <category term="DevOps" scheme="http://blog.lirui.me/categories/Develop/DevOps/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>环青海湖骑行</title>
+    <link href="http://blog.lirui.me/posts/bec40434/"/>
+    <id>http://blog.lirui.me/posts/bec40434/</id>
+    <published>2014-10-07T07:42:41.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>每个骑行人的心中都有一个青海湖。  </p>
+<h2 id="行程安排"><a href="#行程安排" class="headerlink" title="行程安排"></a>行程安排</h2><pre><code>9.30     21:00     出发到达青海西宁 （当晚住宿在西凉驿青旅）
+10.01     8:00      从西宁出发去海北州西海镇
+        11:00     从西海镇（海晏）沿着环湖东路开始骑行
+           18:00     到达151
+
+10.02    9:00     151出发
+        13:30     到达黑马河
+        18:00    到达石乃亥
+
+10.03    9:00    石乃亥出发
+        10:00    路过鸟岛
+        12:00    到达刚察
+        19:30     到达西海镇
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;每个骑行人的心中都有一个青海湖。  &lt;/p&gt;
+&lt;h2 id=&quot;行程安排&quot;&gt;&lt;a href=&quot;#行程安排&quot; class=&quot;headerlink&quot; title=&quot;行程安排&quot;&gt;&lt;/a&gt;行程安排&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;9.30     21:00     出发到达青海西宁 
+    
+    </summary>
+    
+      <category term="骑行" scheme="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>如何在Mac上搭建Web开发环境</title>
+    <link href="http://blog.lirui.me/posts/33d68573/"/>
+    <id>http://blog.lirui.me/posts/33d68573/</id>
+    <published>2014-07-21T08:16:18.000Z</published>
+    <updated>2017-04-07T06:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>本机环境：</strong></p>
+<pre><code>OS：  Mac 10.9.4
+</code></pre><p><strong>目标环境：</strong></p>
+<pre><code>PHP + MySQL + nginx
+</code></pre><p><em>因为这几个环境之间相互独立，所以安装搭建的顺序可以很随意</em>  </p>
+<p>其实Mac 已然成为目前主流的开发操作系统，所以这些主流的开发环境的搭建也是很轻易的就可以Google来。<br>废话了这么多，说点实在的干货：</p>
+<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>系统内建支持的环境，无需安装。</p>
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><p>怎样在mac 上安装 nginx？  </p>
+<p>– brew  </p>
+<p>如果你的 mac 上已经安装过了brew， 那么<br><code>brew install nginx</code> 就可以解决问题  </p>
+<p>啥？ brew没有安装？<br>没问题， 在上一个命令之前执行<br><code>ruby -e &quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;</code><br>就可以。  </p>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p>MySQL是提供DMG格式的安装包的，这一点可以赞一下。<br>官网的下载地址：<br><a href="http://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">http://dev.mysql.com/downloads/mysql/</a><br>选择 “Mac OS X 10.7 (x86, 64-bit), DMG Archive”， 点击 Download开始。<br>剩下的事情就简单了，按照Mac下安装软件的步骤就可以完成。<br>如果你是命令行控，那么强烈建议你添加这两个 alias：  </p>
+<pre><code>alias mysql=/usr/local/mysql/bin/mysql
+alias mysqladmin=/usr/local/mysql/bin/mysqladmin
+</code></pre><p>如果需要更详细的细节，请访问： <a href="http://www.wkii.org/mac-os-x-install-mysql-dm.html" target="_blank" rel="external">Mac OS X 安装mysql过程</a></p>
+<p>好了，剩下的事情就需要你的发挥了。<br>Ok, that’s all, enjoy it.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;本机环境：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;OS：  Mac 10.9.4
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;目标环境：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;PHP + MySQL + nginx
+&lt;/code&gt;&lt;/
+    
+    </summary>
+    
+      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
+    
+      <category term="Mac" scheme="http://blog.lirui.me/categories/Develop/Mac/"/>
+    
+      <category term="Web" scheme="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+    
+    
+  </entry>
+  
+</feed>
