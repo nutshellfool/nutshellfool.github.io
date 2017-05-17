@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-05-09T15:05:03.000Z</updated>
+  <updated>2017-05-17T14:37:02.000Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -14,6 +14,66 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>也谈内存管理</title>
+    <link href="http://blog.lirui.me/posts/d8211bcf/"/>
+    <id>http://blog.lirui.me/posts/d8211bcf/</id>
+    <published>2017-05-17T14:37:02.000Z</published>
+    <updated>2017-05-17T14:37:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？<br>哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。</p>
+<h2 id="内存管理？为什么内存需要管理？"><a href="#内存管理？为什么内存需要管理？" class="headerlink" title="内存管理？为什么内存需要管理？"></a>内存管理？为什么内存需要管理？</h2><blockquote>
+<p>作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？  </p>
+</blockquote>
+<p>这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。<br>相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开发平台上也有各种Guide、Tutorial 、Best practice 文章教你如何写内存友好的程序。<br>抛开这些实际规则和操作不讲，你是否想过为什么内存需要管理？<br>经济学第一章第一节其实就在回答这个问题，经济学和管理实际上是解决紧缺资源调配的一门学科，换句话说恰恰是资源的紧缺才引入了管理。<br>内存也是一样，不管是在数据中心的企业级服务器还是小到你手中的移动设备，都会面临内存被用尽的时刻。</p>
+<h2 id="如何内存管理？"><a href="#如何内存管理？" class="headerlink" title="如何内存管理？"></a>如何内存管理？</h2><p>说到内存管理，就不能不说说引用计数。</p>
+<blockquote>
+<p>引用计数是将资源（如内存）的被引用次数保存起来，当被引用次数为零的时候就将其释放的过程。</p>
+</blockquote>
+<p>Objective-C的内存管理使用的就是引用计数，不管是之前的MRC还是后来的ARC，背后的内存管理机制都是一致的，唯一不同的是MRC是将引用释放的工作交给工程师来做，而ARC是在编译阶段编译器来实现。那这里你会问了，都有编译器帮助做了，还要工程师做什么啊？毕竟只是一种机制不能保证那么智能，还是有些情景处理不好的，就比如“retain cycle”问题。<br>举个例子（注：以下的Objective-C代码都是在ARC的大前提下讨论）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">self.block = ^&#123;</div><div class="line">  [self foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这里的block capture住self，而self对block又有一个强引用，这样就有了一个retain cycle，说到这里如果对于Objective-C并不是很熟悉的话可能是一脸懵逼，如果对block的capture感兴趣移步到这里 <a href="http://clang.llvm.org/docs/Block-ABI-Apple.html#imported-variables" target="_blank" rel="external">Clang block 实现手册 之 imported-variables</a><br>相信看完之后会对block有个全新的认识。<br>anyway 扯远了，回到刚才的retain cycle问题上来，那么问题来了，既然知道了问题的原因，下面就是如何解决的问题了。<br>解决的思路就是：不是形成retain cycle的两端都是强引用么？那么我们将其中的一端设置为不是强引用，这样这个retain cycle 不就破了么？  </p>
+<pre><code>Talk is cheap, show me the code.
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakself = self;</div><div class="line">self.block = ^&#123;</div><div class="line">  [self foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>你会发现这里用到了一个神奇的变量标记符 <code>__weak</code><br>既然谈到了Objective-C的内存所有权修饰符（ownership qualifier）Objective-C中共有4种内存所有权修饰符：</p>
+<ul>
+<li><code>__strong</code></li>
+<li><code>__weak</code></li>
+<li><code>__autoreleasing</code></li>
+<li><code>__unsafe_unretain</code></li>
+</ul>
+<p>其中前三个又被称为 <a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html#ownership-qualification" target="_blank" rel="external">nontrivially ownership-qualified</a><br>由于这部分内容属于iOS开发的基础内容，网上会有一堆文章来解释，如果你仅仅只是想了解这些内容，看看这些文章就可以了（当然内容水平参差不齐，掉坑里我可不管）。如果想进一步了解这些修饰符，可以参考我GitHub上开源的这部分<a href="https://github.com/nutshellfool/ocPlayground/blob/master/ocPlaygroundTests/ocPlaygroundTests.m#L40-L72" target="_blank" rel="external">单元测试用例</a>  </p>
+<p>上面是没有虚拟机的引用计数内存管理的方式，Android和Java的工程师是不是有话说？<br>是的，其实在这一块我们有对应的：</p>
+<ul>
+<li>strong reference</li>
+<li>weak reference</li>
+<li>soft reference</li>
+<li>phantom reference</li>
+</ul>
+<p>如果一定要找对应关系，那么</p>
+<ul>
+<li>strong reference 对应 <code>__strong</code></li>
+<li>weak reference 对应 <code>__weak</code></li>
+</ul>
+<p><code>__autoreleasing</code> 声明的变量会在被包含最近的<code>@autoreleasepool</code>代码域结束后就释放。</p>
+<p>soft reference 与 weak reference 之间唯一的区别是即使某个对象的引用全部都是weak reference那么GC也不会回收，只有在内存资源紧张的时候才会回收。  </p>
+<p>虽然不是太明白 phantom reference具体应用的场景，但是仅仅就这个骚气的名字感觉会和 <code>__unsafe_unretain</code> 在使用上不确定内存释放时机的不确定性有的一拼。  </p>
+<p>你会问既然Objective-C会有示例的单元测试，那么Java/Android 会不会有，坦白地说，有但是没有写完全，至少在完成这篇文章之前还没完成：<br>可以持续关注这个GitHub工程： <a href="https://github.com/nutshellfool/androidPlayground" target="_blank" rel="external">AndroidPlayground</a></p>
+<p>特别是这个<a href="https://github.com/nutshellfool/androidPlayground/blob/master/app/src/test/java/me/lirui/androidplayground/MemoryManageUnitTest.java" target="_blank" rel="external">unittest</a></p>
+<p>对比weak的用例后发现什么了么？<br>对，Java的例子多了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">System.gc()</div><div class="line">Thread.sleep(<span class="number">100</span>)</div></pre></td></tr></table></figure></p>
+<p>这是什么？标记回收，还要线程睡0.1秒，什么鬼，这就是虚拟机垃圾回收的工作，保证这段时间能够完成垃圾回收。<br>当然这里涉及到了Java的跟踪回收的垃圾回收算法，由于这部分内容别较多，所以暂时就不在这里详细讨论了。</p>
+<h2 id="还缺点什么？"><a href="#还缺点什么？" class="headerlink" title="还缺点什么？"></a>还缺点什么？</h2><p>写了这么多，总觉得还缺点什么，是的，还缺少一套发现和解决这些内存泄露的方法论， 后续的文章会对如何分别在Xcode和AndroidStudio中查看内存泄露，以及定位造成内存泄露的代码给出详细的操作步骤。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？&lt;br&gt;哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。&lt;/p&gt;
+&lt;h2 id=&quot;内存管理？为什么内存需要管理？&quot;&gt;&lt;a href=&quot;#内存管理？为什么内存需要管理？&quot; class=&quot;headerl
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>什么算法的名字竟然叫洪水？！真像竟然是……</title>
@@ -1553,50 +1613,6 @@ else:
     </summary>
     
       <category term="骑行" scheme="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>如何在Mac上搭建Web开发环境</title>
-    <link href="http://blog.lirui.me/posts/33d68573/"/>
-    <id>http://blog.lirui.me/posts/33d68573/</id>
-    <published>2014-07-21T08:16:18.000Z</published>
-    <updated>2017-04-07T06:20:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>本机环境：</strong></p>
-<pre><code>OS：  Mac 10.9.4
-</code></pre><p><strong>目标环境：</strong></p>
-<pre><code>PHP + MySQL + nginx
-</code></pre><p><em>因为这几个环境之间相互独立，所以安装搭建的顺序可以很随意</em>  </p>
-<p>其实Mac 已然成为目前主流的开发操作系统，所以这些主流的开发环境的搭建也是很轻易的就可以Google来。<br>废话了这么多，说点实在的干货：</p>
-<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>系统内建支持的环境，无需安装。</p>
-<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><p>怎样在mac 上安装 nginx？  </p>
-<p>– brew  </p>
-<p>如果你的 mac 上已经安装过了brew， 那么<br><code>brew install nginx</code> 就可以解决问题  </p>
-<p>啥？ brew没有安装？<br>没问题， 在上一个命令之前执行<br><code>ruby -e &quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;</code><br>就可以。  </p>
-<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p>MySQL是提供DMG格式的安装包的，这一点可以赞一下。<br>官网的下载地址：<br><a href="http://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">http://dev.mysql.com/downloads/mysql/</a><br>选择 “Mac OS X 10.7 (x86, 64-bit), DMG Archive”， 点击 Download开始。<br>剩下的事情就简单了，按照Mac下安装软件的步骤就可以完成。<br>如果你是命令行控，那么强烈建议你添加这两个 alias：  </p>
-<pre><code>alias mysql=/usr/local/mysql/bin/mysql
-alias mysqladmin=/usr/local/mysql/bin/mysqladmin
-</code></pre><p>如果需要更详细的细节，请访问： <a href="http://www.wkii.org/mac-os-x-install-mysql-dm.html" target="_blank" rel="external">Mac OS X 安装mysql过程</a></p>
-<p>好了，剩下的事情就需要你的发挥了。<br>Ok, that’s all, enjoy it.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;本机环境：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;OS：  Mac 10.9.4
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;目标环境：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;PHP + MySQL + nginx
-&lt;/code&gt;&lt;/
-    
-    </summary>
-    
-      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
-    
-      <category term="Mac" scheme="http://blog.lirui.me/categories/Develop/Mac/"/>
-    
-      <category term="Web" scheme="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
     
     
   </entry>
