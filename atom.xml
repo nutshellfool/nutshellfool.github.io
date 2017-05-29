@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-05-22T10:45:21.000Z</updated>
+  <updated>2017-05-29T13:01:23.000Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Dockerfile 书写方法（cookbook）</title>
+    <link href="http://blog.lirui.me/posts/cac2d233/"/>
+    <id>http://blog.lirui.me/posts/cac2d233/</id>
+    <published>2017-05-29T13:01:23.000Z</published>
+    <updated>2017-05-29T13:01:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用<code>docker build</code>命令基于该Dockerfile中的指令构建一个新的镜像。  </p>
+<h2 id="简单的Dockerfile例子"><a href="#简单的Dockerfile例子" class="headerlink" title="简单的Dockerfile例子"></a>简单的Dockerfile例子</h2><p>下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  </p>
+<ul>
+<li>首先创建一个构建环境（文件目录），用来存放Dockerfile等其他构建文件，因此这个环境也被称为上下文(context)或者构建上下文(build context)。</li>
+<li>其次创建Dockerfile</li>
+</ul>
+<p><code>$ mkdir sample_web</code>  </p>
+<p>Dockerfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">FROM ubuntu:14.04</div><div class="line">MAINTAINER Richard Li &quot;lirui.sep@gmail.com&quot;</div><div class="line">RUN apt-get update</div><div class="line">RUN apt-get install -y nginx</div><div class="line">RUN echo &apos;Hello from docker&apos; \</div><div class="line">	&gt;/usr/share/nginx/html/index.html</div><div class="line">EXPOSE 80</div></pre></td></tr></table></figure></p>
+<p>然后在构建目录下输入下面的docker命令：<br><code>$ docker build -t=&quot;nutshell/sample_web&quot; .</code><br>注意命令的最后是一个“.”是告诉docker在当前目录下去寻找Dockerfile<br>一切正常，完成镜像构建。<br>下面就需要从新镜像启动容器，还记得启动容器的docker命令是什么嘛？<br>对就是 <code>docker run &lt;image name&gt;</code><br>注意到我们的这个镜像是nginx，需要长时间运行的守护进程，查看<code>docker run --help</code> 的帮助文档后可以使用 <code>-d</code> 这个参数使容器以detach的方式在后台运行<br><figure class="highlight plain"><figcaption><span>--detach                                Run container in background and print container ID```  </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">于是我们就有了下面启动容器的docker命令：</div></pre></td></tr></table></figure></p>
+<p>$ docker run -d -p 80 –name static_web nutshell/sample_web \<br>nginx -g “daemon off;”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">运行后没有报错，说明容器启动成功，这时候使用`docker ps -l`查看容器的运行情况。</div></pre></td></tr></table></figure></p>
+<p>CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                   NAMES<br>04a89ad553a8        nutshell/sample_website   “nginx -g ‘daemon …”   27 minutes ago      Up 13 seconds       0.0.0.0:32770-&gt;80/tcp   static_website<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">这里再来解释下命令中的 `-p` 参数，上面例子中的`-p 80`的含义是docker在运行时在宿主机上 随机选择一个大端口号映射并连接到容器的80端口上。  </div><div class="line">在上面的例子中宿主机的端口是 32770  </div><div class="line">你会问了，那么我可不可以指定宿主机的端口？  </div><div class="line">可以，当然可以，具体的格式是 `-p &lt;host port&gt;:&lt;container port&gt;`  </div><div class="line">比如上面的例子中我们想将宿主机的8081端口映射到容器的80端口，那么启动的命令就可以这样写：</div></pre></td></tr></table></figure></p>
+<p>$ docker run -d -p 8081:80 –name static_web nutshell/sample_web \<br>nginx -g “daemon off;”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">细心的你可能已经发现了，在dockerfile的最后一行`EXPOSE 80`好像在整个过程中并没有什么卵用啊，是的，至少在这个时间点还没有什么卵用。  </div><div class="line">如果使用 `-P` (注意大小写)  </div><div class="line">这个参数会将dockerfile中EXPOSE的端口绑定到宿主机上的一个随机端口上。  </div><div class="line">当然如果你对容器的端口映射到宿主机的端口不太清楚，可以使用`docker port &lt;container ID&gt; &lt;container port&gt;`查询：</div><div class="line">以上面的容器为例：</div></pre></td></tr></table></figure></p>
+<p>$ docker port 04a89ad553a8 80<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">好了，可以在宿主机上验证下了</div></pre></td></tr></table></figure></p>
+<p>$ curl localhost:32770<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">返回</div></pre></td></tr></table></figure></p>
+<p>Hello from docker<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">一个最简单的nginx web docker容器就搞定了。  </div><div class="line">## 稍微复杂点的例子</div><div class="line">还是上面的例子，我们注意到在启动的时候还附加了一个nginx的命令，这个难道不能写到dockerfile里么？</div><div class="line">当然可以，使用dockerfile的</div><div class="line">* `CMD`</div><div class="line">* `ENTRYPOINT`就可以了。  </div><div class="line">以`ENTRYPOINT`为例，只需在dockerfile的最后添加：</div></pre></td></tr></table></figure></p>
+<p>ENTRYPOINT [“nginx”,”-g”,”daemon off;”]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">或者</div></pre></td></tr></table></figure></p>
+<p>CMD [“nginx”,”-g”,”daemon off;”]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">重新build，重新run一个新容器，一切照旧，成功。  </div><div class="line">到这里你会问，既然一样为什么还要用两个指令？  </div><div class="line"></div><div class="line"></div><div class="line">    正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）</div><div class="line"></div><div class="line">是不是像点样子了？  </div><div class="line">其实还有空间可以提升，如果nginx的默认网页我们希望可以通过外部的文件部署替换，该怎么办？  </div><div class="line">* `ADD`</div><div class="line">* `COPY`</div><div class="line">只需将原dockerfile中的这一句</div></pre></td></tr></table></figure></p>
+<p>RUN echo ‘Hello from docker’ /usr/share/nginx/html/index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">替换为</div></pre></td></tr></table></figure></p>
+<p>ADD project/index.html /usr/share/nginx/html/index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">或者</div></pre></td></tr></table></figure></p>
+<p>COPY project/index.html /usr/share/nginx/html/index.html<br>```</p>
+<p>重新build，重新run一个新容器，一切照旧，成功。  </p>
+<p>同样的，你会问，既然一样为什么要用两个命令？</p>
+<pre><code>正解是：当源文件是压缩文件的时候，目标文件是文件夹时就不一样了，ADD会自动提取，解压； 而COPY仅仅是拷贝
+</code></pre><p>这样是不是就有点样子了？<br>其实dockerfile还有其他5个指令：  </p>
+<ul>
+<li>WORKDIR<br>指定一个容器的工作目录</li>
+<li>ENV<br>设置容器的环境变量</li>
+<li>USER<br>指定用什么样的用户运行</li>
+<li>VOLUME<br>添加可以在容器间共享数据或者持久化数据的“卷”</li>
+<li>ONBUILD<br>为镜像添加触发器</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用&lt;code&gt;docker build&lt;/code&gt;命令基于该Dockerfile中的指令构建一个新的镜像。  &lt;/p&gt;
+&lt;h2 id=&quot;简单
+    
+    </summary>
+    
+      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
+    
+      <category term="DevOps" scheme="http://blog.lirui.me/categories/Develop/DevOps/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>集合，容器使用小结</title>
@@ -1888,59 +1942,6 @@ else:
       <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
     
       <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>初识Docker</title>
-    <link href="http://blog.lirui.me/posts/fea3737/"/>
-    <id>http://blog.lirui.me/posts/fea3737/</id>
-    <published>2016-07-29T08:08:12.000Z</published>
-    <updated>2017-04-07T06:20:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>具体安装方法请参照官网 <a href="https://www.docker.com/products/overview" target="_blank" rel="external">GetDocker</a><br>Mac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。</p>
-<h2 id="运行第一个Docker容器"><a href="#运行第一个Docker容器" class="headerlink" title="运行第一个Docker容器"></a>运行第一个Docker容器</h2><p>当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  </p>
-<h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><p><code>docker search &lt;the container name&gt;</code></p>
-<p>例如 我要查找centos的镜像：<br><code>docker search centos</code><br>这里docker会返回所有和centos相关的镜像（包括官方河非官方的）<br>我们这里的目的其实是基于官方的镜像做些展示，所以选择官方的镜像就好。<br>说到这里其实就涉及到第二个常见的docker命令了：</p>
-<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p><code>docker pull &lt;container name&gt;:&lt;tag&gt;</code><br>例如 我要pull centos 7这个版本的镜像：<br><code>docker pull centos:7</code><br>需要说明的是这个命令中tag是可选参数，如果命令中未填写，那么docker会从目标容器镜像中下载latest这个特殊（最新）版的镜像。<br>这里推荐在pull命令中显式制定版本，方便后面的环境维护和管理。  </p>
-<p>Ok，等待下载完成。当然这个过程在墙内的世界会很慢，还好有镜像加速的服务，提供镜像服务的厂商目前有不少例如<a href="https://hpc.aliyun.com/doc/docker%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1" target="_blank" rel="external">阿里云</a>，<a href="http://docs.daocloud.io/faq/what-is-daocloud-accelerator" target="_blank" rel="external">daocloud</a><br>本人选择的是阿里云，按照厂商要求配置，重新pull，哇～速度飞起。</p>
-<p>镜像也pull下来了，那么就到关键的一步了：  </p>
-<h3 id="运行镜像"><a href="#运行镜像" class="headerlink" title="运行镜像"></a>运行镜像</h3><p><code>docker run -i -t &lt;container name&gt; /bin/bash</code><br>下面来解释下这个命令的几个参数到底是做什么的：  </p>
-<ul>
-<li>首先是 -i 保证的是容器中的STDIN是开启的  </li>
-<li><p>其次 -t 告诉Docker为要创建的容器分配一个伪tty终端<br>这样两个参数是保证创建的容器是一个可交互的容器，而不是一个运行后台服务的容器。<br>好了，现在就是你熟悉的部分了，一个运行着centos的linux环境。<br>处理完事情，敲入exit，结束会话，回到了docker宿主机的命令行模式，一切自然。等等……总觉着有什么不对，对了，那个容器怎样了？<br>其实容器依然存在，那么怎么查看这些容器呢？  </p>
-<h3 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h3><p><code>docker ps</code><br>这个命令会列出所有正在运行的容器，如果想查看所有需要加上参数 -a<br>这里需要注意的是这两列信息： </p>
-</li>
-<li><p>CONTAINER ID  </p>
-</li>
-<li>Names</li>
-</ul>
-<p>那么我们还想回到容器内部操作怎么办？  </p>
-<h3 id="附着到容器"><a href="#附着到容器" class="headerlink" title="附着到容器"></a>附着到容器</h3><p><code>docker attach &lt;containerID / Names&gt;</code><br>参数中 CONTAINER ID 和 Names 任意一个都可以。</p>
-<p>日常操作中不可避免的都会涉及到这两个查询操作：  </p>
-<ul>
-<li>查询容器日志</li>
-<li>查询容器中的进程</li>
-</ul>
-<h3 id="查询容器日志"><a href="#查询容器日志" class="headerlink" title="查询容器日志"></a>查询容器日志</h3><p><code>docker logs -f &lt;container name&gt;</code><br>如果想在log中打印出log时间只需要添加参数 -t<br><code>docker logs -ft &lt;container name&gt;</code></p>
-<h3 id="查询容器中的进程"><a href="#查询容器中的进程" class="headerlink" title="查询容器中的进程"></a>查询容器中的进程</h3><p><code>docker top</code></p>
-<p>日常对容器的操作除了查询些这外，还有些管理容器的命令如：</p>
-<h3 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h3><p><code>docker kill &lt;container name&gt;</code><br>或者<br><code>docker stop &lt;container name&gt;</code></p>
-<h3 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h3><p><code>docker start &lt;container name&gt;</code></p>
-<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><p><code>docker rm &lt;container name&gt;</code></p>
-<p>以上介绍的是docker常见的一些操作和命令，其中守护式容器的操作在本篇并未涉及，这部分内容将在之后的文章中介绍。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;安装Docker&quot;&gt;&lt;a href=&quot;#安装Docker&quot; class=&quot;headerlink&quot; title=&quot;安装Docker&quot;&gt;&lt;/a&gt;安装Docker&lt;/h2&gt;&lt;p&gt;具体安装方法请参照官网 &lt;a href=&quot;https://www.docker.com/pr
-    
-    </summary>
-    
-      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
-    
-      <category term="DevOps" scheme="http://blog.lirui.me/categories/Develop/DevOps/"/>
     
     
   </entry>
