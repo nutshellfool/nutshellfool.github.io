@@ -23,7 +23,7 @@
 简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  
 
 首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
-<meta property="og:updated_time" content="2017-05-29T13:01:23.000Z">
+<meta property="og:updated_time" content="2017-05-30T02:06:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dockerfile 书写方法（cookbook）">
 <meta name="twitter:description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。  
@@ -53,7 +53,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -69,7 +69,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:blog.lirui.me">
 					</form>
 					
@@ -92,16 +92,16 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-29T13:01:23.000Z" itemprop="datePublished"> 發表於 2017-05-29</time>
+    <time datetime="2017-05-29T13:01:23.000Z" itemprop="datePublished"> Published 2017-05-29</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#稍微复杂点的例子"><span class="toc-number">2.</span> <span class="toc-text">稍微复杂点的例子</span></a></li></ol>
 		
 		</div>
 		
@@ -113,18 +113,32 @@
 </ul>
 <p><code>$ mkdir sample_web</code>  </p>
 <p>Dockerfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">FROM ubuntu:14.04</div><div class="line">MAINTAINER Richard Li &quot;lirui.sep@gmail.com&quot;</div><div class="line">RUN apt-get update</div><div class="line">RUN apt-get install -y nginx</div><div class="line">RUN echo &apos;Hello from docker&apos; \</div><div class="line">	&gt;/usr/share/nginx/html/index.html</div><div class="line">EXPOSE 80</div></pre></td></tr></table></figure></p>
-<p>然后在构建目录下输入下面的docker命令：<br><code>$ docker build -t=&quot;nutshell/sample_web&quot; .</code><br>注意命令的最后是一个“.”是告诉docker在当前目录下去寻找Dockerfile<br>一切正常，完成镜像构建。<br>下面就需要从新镜像启动容器，还记得启动容器的docker命令是什么嘛？<br>对就是 <code>docker run &lt;image name&gt;</code><br>注意到我们的这个镜像是nginx，需要长时间运行的守护进程，查看<code>docker run --help</code> 的帮助文档后可以使用 <code>-d</code> 这个参数使容器以detach的方式在后台运行<br><figure class="highlight plain"><figcaption><span>--detach                                Run container in background and print container ID```  </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">于是我们就有了下面启动容器的docker命令：</div></pre></td></tr></table></figure></p>
-<p>$ docker run -d -p 80 –name static_web nutshell/sample_web \<br>nginx -g “daemon off;”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">运行后没有报错，说明容器启动成功，这时候使用`docker ps -l`查看容器的运行情况。</div></pre></td></tr></table></figure></p>
-<p>CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                   NAMES<br>04a89ad553a8        nutshell/sample_website   “nginx -g ‘daemon …”   27 minutes ago      Up 13 seconds       0.0.0.0:32770-&gt;80/tcp   static_website<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">这里再来解释下命令中的 `-p` 参数，上面例子中的`-p 80`的含义是docker在运行时在宿主机上 随机选择一个大端口号映射并连接到容器的80端口上。  </div><div class="line">在上面的例子中宿主机的端口是 32770  </div><div class="line">你会问了，那么我可不可以指定宿主机的端口？  </div><div class="line">可以，当然可以，具体的格式是 `-p &lt;host port&gt;:&lt;container port&gt;`  </div><div class="line">比如上面的例子中我们想将宿主机的8081端口映射到容器的80端口，那么启动的命令就可以这样写：</div></pre></td></tr></table></figure></p>
-<p>$ docker run -d -p 8081:80 –name static_web nutshell/sample_web \<br>nginx -g “daemon off;”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">细心的你可能已经发现了，在dockerfile的最后一行`EXPOSE 80`好像在整个过程中并没有什么卵用啊，是的，至少在这个时间点还没有什么卵用。  </div><div class="line">如果使用 `-P` (注意大小写)  </div><div class="line">这个参数会将dockerfile中EXPOSE的端口绑定到宿主机上的一个随机端口上。  </div><div class="line">当然如果你对容器的端口映射到宿主机的端口不太清楚，可以使用`docker port &lt;container ID&gt; &lt;container port&gt;`查询：</div><div class="line">以上面的容器为例：</div></pre></td></tr></table></figure></p>
-<p>$ docker port 04a89ad553a8 80<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">好了，可以在宿主机上验证下了</div></pre></td></tr></table></figure></p>
-<p>$ curl localhost:32770<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">返回</div></pre></td></tr></table></figure></p>
-<p>Hello from docker<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">一个最简单的nginx web docker容器就搞定了。  </div><div class="line">## 稍微复杂点的例子</div><div class="line">还是上面的例子，我们注意到在启动的时候还附加了一个nginx的命令，这个难道不能写到dockerfile里么？</div><div class="line">当然可以，使用dockerfile的</div><div class="line">* `CMD`</div><div class="line">* `ENTRYPOINT`就可以了。  </div><div class="line">以`ENTRYPOINT`为例，只需在dockerfile的最后添加：</div></pre></td></tr></table></figure></p>
-<p>ENTRYPOINT [“nginx”,”-g”,”daemon off;”]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">或者</div></pre></td></tr></table></figure></p>
-<p>CMD [“nginx”,”-g”,”daemon off;”]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">重新build，重新run一个新容器，一切照旧，成功。  </div><div class="line">到这里你会问，既然一样为什么还要用两个指令？  </div><div class="line"></div><div class="line"></div><div class="line">    正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）</div><div class="line"></div><div class="line">是不是像点样子了？  </div><div class="line">其实还有空间可以提升，如果nginx的默认网页我们希望可以通过外部的文件部署替换，该怎么办？  </div><div class="line">* `ADD`</div><div class="line">* `COPY`</div><div class="line">只需将原dockerfile中的这一句</div></pre></td></tr></table></figure></p>
-<p>RUN echo ‘Hello from docker’ /usr/share/nginx/html/index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">替换为</div></pre></td></tr></table></figure></p>
-<p>ADD project/index.html /usr/share/nginx/html/index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">或者</div></pre></td></tr></table></figure></p>
-<p>COPY project/index.html /usr/share/nginx/html/index.html<br>```</p>
+<p>然后在构建目录下输入下面的docker命令：<br><code>$ docker build -t=&quot;nutshell/sample_web&quot; .</code><br>注意命令的最后是一个“.”是告诉docker在当前目录下去寻找Dockerfile<br>一切正常，完成镜像构建。<br>下面就需要从新镜像启动容器，还记得启动容器的docker命令是什么嘛？<br>对就是 <code>docker run &lt;image name&gt;</code><br>注意到我们的这个镜像是nginx，需要长时间运行的守护进程，查看<code>docker run --help</code> 的帮助文档后可以使用 <code>-d</code> 这个参数使容器以detach的方式在后台运行  </p>
+<p>于是我们就有了下面启动容器的docker命令：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ docker run -d -p 80 --name static_web nutshell/sample_web \</div><div class="line">nginx -g &quot;daemon off;&quot;</div></pre></td></tr></table></figure>
+<p>运行后没有报错，说明容器启动成功，这时候使用<code>docker ps -l</code>查看容器的运行情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                   NAMES</div><div class="line">04a89ad553a8        nutshell/sample_website   &quot;nginx -g &apos;daemon ...&quot;   27 minutes ago      Up 13 seconds       0.0.0.0:32770-&gt;80/tcp   static_website</div></pre></td></tr></table></figure></p>
+<p>这里再来解释下命令中的 <code>-p</code> 参数，上面例子中的<code>-p 80</code>的含义是docker在运行时在宿主机上 随机选择一个大端口号映射并连接到容器的80端口上。<br>在上面的例子中宿主机的端口是 32770<br>你会问了，那么我可不可以指定宿主机的端口？<br>可以，当然可以，具体的格式是 <code>-p &lt;host port&gt;:&lt;container port&gt;</code><br>比如上面的例子中我们想将宿主机的8081端口映射到容器的80端口，那么启动的命令就可以这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ docker run -d -p 8081:80 --name static_web nutshell/sample_web \</div><div class="line">nginx -g &quot;daemon off;&quot;</div></pre></td></tr></table></figure></p>
+<p>细心的你可能已经发现了，在dockerfile的最后一行<code>EXPOSE 80</code>好像在整个过程中并没有什么卵用啊，是的，至少在这个时间点还没有什么卵用。<br>如果使用 <code>-P</code> (注意大小写)<br>这个参数会将dockerfile中EXPOSE的端口绑定到宿主机上的一个随机端口上。<br>当然如果你对容器的端口映射到宿主机的端口不太清楚，可以使用<code>docker port &lt;container ID&gt; &lt;container port&gt;</code>查询：<br>以上面的容器为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ docker port 04a89ad553a8 80</div></pre></td></tr></table></figure></p>
+<p>好了，可以在宿主机上验证下了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl localhost:32770</div></pre></td></tr></table></figure></p>
+<p>返回<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hello from docker</div></pre></td></tr></table></figure></p>
+<p>一个最简单的nginx web docker容器就搞定了。  </p>
+<h2 id="稍微复杂点的例子"><a href="#稍微复杂点的例子" class="headerlink" title="稍微复杂点的例子"></a>稍微复杂点的例子</h2><p>还是上面的例子，我们注意到在启动的时候还附加了一个nginx的命令，这个难道不能写到dockerfile里么？<br>当然可以，使用dockerfile的</p>
+<ul>
+<li><code>CMD</code></li>
+<li><code>ENTRYPOINT</code>就可以了。<br>以<code>ENTRYPOINT</code>为例，只需在dockerfile的最后添加：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ENTRYPOINT [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</div></pre></td></tr></table></figure></p>
+<p>重新build，重新run一个新容器，一切照旧，成功。<br>到这里你会问，既然一样为什么还要用两个指令？  </p>
+<pre><code>正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）
+</code></pre><p>是不是像点样子了？<br>其实还有空间可以提升，如果nginx的默认网页我们希望可以通过外部的文件部署替换，该怎么办？  </p>
+<ul>
+<li><code>ADD</code></li>
+<li><code>COPY</code><br>只需将原dockerfile中的这一句<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RUN echo &apos;Hello from docker&apos; /usr/share/nginx/html/index.html</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>替换为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ADD project/index.html /usr/share/nginx/html/index.html</div></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">COPY project/index.html /usr/share/nginx/html/index.html</div></pre></td></tr></table></figure></p>
 <p>重新build，重新run一个新容器，一切照旧，成功。  </p>
 <p>同样的，你会问，既然一样为什么要用两个命令？</p>
 <pre><code>正解是：当源文件是压缩文件的时候，目标文件是文件夹时就不一样了，ADD会自动提取，解压； 而COPY仅仅是拷贝
@@ -186,17 +200,17 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#稍微复杂点的例子"><span class="toc-number">2.</span> <span class="toc-text">稍微复杂点的例子</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -204,7 +218,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -275,7 +289,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
 </aside>
@@ -517,7 +531,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
