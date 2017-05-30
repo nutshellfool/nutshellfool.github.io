@@ -23,7 +23,7 @@
 简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  
 
 首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
-<meta property="og:updated_time" content="2017-05-30T02:06:02.000Z">
+<meta property="og:updated_time" content="2017-05-30T02:08:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dockerfile 书写方法（cookbook）">
 <meta name="twitter:description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。  
@@ -53,7 +53,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -69,7 +69,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:blog.lirui.me">
 					</form>
 					
@@ -92,14 +92,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-29T13:01:23.000Z" itemprop="datePublished"> Published 2017-05-29</time>
+    <time datetime="2017-05-29T13:01:23.000Z" itemprop="datePublished"> 发表于 2017-05-29</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#稍微复杂点的例子"><span class="toc-number">2.</span> <span class="toc-text">稍微复杂点的例子</span></a></li></ol>
 		
@@ -130,7 +130,8 @@
 </ul>
 <p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</div></pre></td></tr></table></figure></p>
 <p>重新build，重新run一个新容器，一切照旧，成功。<br>到这里你会问，既然一样为什么还要用两个指令？  </p>
-<pre><code>正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）
+<pre><code>正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。
+（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）
 </code></pre><p>是不是像点样子了？<br>其实还有空间可以提升，如果nginx的默认网页我们希望可以通过外部的文件部署替换，该怎么办？  </p>
 <ul>
 <li><code>ADD</code></li>
@@ -200,17 +201,17 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#稍微复杂点的例子"><span class="toc-number">2.</span> <span class="toc-text">稍微复杂点的例子</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -218,7 +219,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -289,7 +290,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -531,7 +532,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

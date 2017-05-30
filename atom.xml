@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-05-30T02:06:02.000Z</updated>
+  <updated>2017-05-30T02:08:57.000Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://blog.lirui.me/posts/cac2d233/"/>
     <id>http://blog.lirui.me/posts/cac2d233/</id>
     <published>2017-05-29T13:01:23.000Z</published>
-    <updated>2017-05-30T02:06:02.000Z</updated>
+    <updated>2017-05-30T02:08:57.000Z</updated>
     
     <content type="html"><![CDATA[<p>Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用<code>docker build</code>命令基于该Dockerfile中的指令构建一个新的镜像。  </p>
 <h2 id="简单的Dockerfile例子"><a href="#简单的Dockerfile例子" class="headerlink" title="简单的Dockerfile例子"></a>简单的Dockerfile例子</h2><p>下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  </p>
@@ -47,7 +47,8 @@
 </ul>
 <p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</div></pre></td></tr></table></figure></p>
 <p>重新build，重新run一个新容器，一切照旧，成功。<br>到这里你会问，既然一样为什么还要用两个指令？  </p>
-<pre><code>正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）
+<pre><code>正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。
+（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）
 </code></pre><p>是不是像点样子了？<br>其实还有空间可以提升，如果nginx的默认网页我们希望可以通过外部的文件部署替换，该怎么办？  </p>
 <ul>
 <li><code>ADD</code></li>
