@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？
 安装多个版">
-<meta property="og:updated_time" content="2017-05-04T17:32:26.000Z">
+<meta property="og:updated_time" content="2017-06-20T07:42:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Mac上安装TensorFlow">
 <meta name="twitter:description" content="众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -63,7 +63,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:blog.lirui.me">
 					</form>
 					
@@ -86,14 +86,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-04T17:29:41.000Z" itemprop="datePublished"> Published 2017-05-05</time>
+    <time datetime="2017-05-04T17:29:41.000Z" itemprop="datePublished"> 发表于 2017-05-05</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装多个版本Python在同个Mac"><span class="toc-number">1.</span> <span class="toc-text">安装多个版本Python在同个Mac</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装TensorFlow"><span class="toc-number">2.</span> <span class="toc-text">安装TensorFlow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证安装"><span class="toc-number">3.</span> <span class="toc-text">验证安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#验证过程中碰到的问题"><span class="toc-number">3.1.</span> <span class="toc-text">验证过程中碰到的问题</span></a></li></ol></li></ol>
 		
@@ -105,6 +105,7 @@
 <li>更改全局的Python版本使用<code>$ pyenv global 3.6.1</code></li>
 <li>设置当前目录的Python版本<code>$ pyenv local 3.6.1</code></li>
 </ul>
+<p>另附Ubuntu下pyenv安装配置方法(<a href="http://opencafe.readthedocs.io/en/latest/getting_started/pyenv/" target="_blank" rel="external">参考链接</a>)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install git python-pip make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev</div><div class="line">sudo pip install virtualenvwrapper</div><div class="line"></div><div class="line">git clone https://github.com/yyuu/pyenv.git ~/.pyenv</div><div class="line">git clone https://github.com/yyuu/pyenv-virtualenvwrapper.git ~/.pyenv/plugins/pyenv-virtualenvwrapper</div><div class="line"></div><div class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</div><div class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</div><div class="line">echo &apos;eval &quot;$(pyenv init -)&quot;&apos; &gt;&gt; ~/.bashrc</div><div class="line">echo &apos;pyenv virtualenvwrapper&apos; &gt;&gt; ~/.bashrc</div><div class="line"></div><div class="line">exec $SHELL</div></pre></td></tr></table></figure></p>
 <h2 id="安装TensorFlow"><a href="#安装TensorFlow" class="headerlink" title="安装TensorFlow"></a>安装TensorFlow</h2><p>没有太多其他的步骤，按照<a href="https://www.tensorflow.org/install/install_mac" target="_blank" rel="external">官网安装指导</a>  </p>
 <ol>
 <li><p>安装pip和virtualenv</p>
@@ -177,17 +178,17 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装多个版本Python在同个Mac"><span class="toc-number">1.</span> <span class="toc-text">安装多个版本Python在同个Mac</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装TensorFlow"><span class="toc-number">2.</span> <span class="toc-text">安装TensorFlow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证安装"><span class="toc-number">3.</span> <span class="toc-text">验证安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#验证过程中碰到的问题"><span class="toc-number">3.1.</span> <span class="toc-text">验证过程中碰到的问题</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -195,7 +196,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -266,7 +267,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -508,7 +509,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
