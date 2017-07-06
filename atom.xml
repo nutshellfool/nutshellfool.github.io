@@ -1384,7 +1384,7 @@ Binary tree [1,2,3], return false.
     <link href="http://blog.lirui.me/posts/ae8ff913/"/>
     <id>http://blog.lirui.me/posts/ae8ff913/</id>
     <published>2017-03-17T08:25:32.000Z</published>
-    <updated>2017-04-07T06:20:55.000Z</updated>
+    <updated>2017-07-06T03:12:41.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="LaTex-是啥？"><a href="#LaTex-是啥？" class="headerlink" title="LaTex 是啥？"></a>LaTex 是啥？</h2><p>LaTex (发音$ˈlɑːtɛx$ Lamport TeX 的简写）是一种文档排版系统，在生成复杂的数学公式、图表都有无可比拟的优势。  </p>
 <h2 id="我有word公式编辑器要它有啥用？"><a href="#我有word公式编辑器要它有啥用？" class="headerlink" title="我有word公式编辑器要它有啥用？"></a>我有word公式编辑器要它有啥用？</h2><p>注意尤其在编写数学公式有着很棒的体验，不用再发愁在博客中写数学公式了，相信你和我一样在没有遇见LaTex之前都是在word公式编辑器下编辑完公式后把图片导出然后贴到文章中，如果一次写对还好，但是，但是如果公式中有任何一个错误这个过程就需要重新来一遍，如果一次还没有改完，我的天，想死的心都有了。<br>直到有一天我遇到了LaTex, 用起来那酸爽，简直无法比拟。</p>
@@ -1554,7 +1554,7 @@ Binary tree [1,2,3], return false.
 <p>begin和end之间定义函数，行间的间隔、行内元素间隔与矩阵的规则一致。<br>例子：<br>$$<br>f(n) =<br>\begin{cases}<br>0    &amp; \text{if n = 0,1}<br>f(n-1)+f(n-2)    &amp; \text{if n &gt; 2}<br>\end{casess}<br>$$</p>
 <h3 id="方程式"><a href="#方程式" class="headerlink" title="方程式"></a>方程式</h3><p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">\begin&#123;cases&#125;</div><div class="line">...</div><div class="line">\end&#123;cases&#125;</div></pre></td></tr></table></figure></p>
 <p>例如：<br>$$<br>\begin{case}<br>a_1x+b_1y+c_1z = d_1<br>a_2x+b_2y+c_2z = d_2<br>a_3x+b_3y+c_3z = d_3<br>\end{case}<br>$$</p>
-<p>要强制对其等号呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">\left\&#123;</div><div class="line">\begin&#123;aligned&#125;</div><div class="line">...</div><div class="line">\end&#123;aligned&#125;</div><div class="line">\right</div></pre></td></tr></table></figure></p>
+<p>要强制对齐等号呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">\left\&#123;</div><div class="line">\begin&#123;aligned&#125;</div><div class="line">...</div><div class="line">\end&#123;aligned&#125;</div><div class="line">\right</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
