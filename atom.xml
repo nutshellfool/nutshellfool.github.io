@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-05-30T02:08:57.000Z</updated>
+  <updated>2017-11-30T08:30:57.927Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -14,6 +14,97 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现</title>
+    <link href="http://blog.lirui.me/posts/47728c0b/"/>
+    <id>http://blog.lirui.me/posts/47728c0b/</id>
+    <published>2017-11-30T08:20:33.000Z</published>
+    <updated>2017-11-30T08:30:57.927Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="神经网络参数与TensorFlow变量"><a href="#神经网络参数与TensorFlow变量" class="headerlink" title="神经网络参数与TensorFlow变量"></a>神经网络参数与TensorFlow变量</h2><p>在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。<br>常见的使用方式是声明变量的同时进行变量初始化。<br>如：</p>
+<p><code>weights = tf.Variable(tf.random_normal([2,3], stddev=2))</code></p>
+<p>上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。<br>扩展下：如果想生成均值为2、标准差为2的随机数可以这样写：</p>
+<p><code>weights = tf.Variable(tf.random_normal([2,3], mean=2, stddev=2))</code></p>
+<p>关于随机数，通过满足正态分布的随机数来初始化神经网络中的参数是一个常用的方法。除此之外TF还提供一些其他的随机数生成器。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>随机数分配</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tf.random_normal</td>
+<td>正态分布</td>
+<td>mean(均值)、stddev(标准差)、dtype（取值类型）</td>
+</tr>
+<tr>
+<td>tf.truncated_normal</td>
+<td>正态分布，但如果随机出来的值偏离平均值超过2个标准差，那么这个数将会被重新随机</td>
+<td>mean(均值)、stddev(标准差)、dtype（取值类型）</td>
+</tr>
+<tr>
+<td>tf.random_uniform</td>
+<td>均匀分布</td>
+<td>minval（最小取值）、maxval（最大取值）、dtype（取值类型）</td>
+</tr>
+<tr>
+<td>tf.random_gamma</td>
+<td>Gamma分布</td>
+<td>形状参数alpha、尺度参数beta、dtype（取值类型）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="神经网络参数与TensorFlow常量"><a href="#神经网络参数与TensorFlow常量" class="headerlink" title="神经网络参数与TensorFlow常量"></a>神经网络参数与TensorFlow常量</h2><p>TensorFlow常数生成函数  </p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>样例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tf.zeros</td>
+<td>产生全０的数组</td>
+<td>tf.zeros([2,3],int32) -&gt; [[0,0,0],[0,0,0]]</td>
+</tr>
+<tr>
+<td>tf.ones</td>
+<td>生成全１的数组</td>
+<td>tf.ones([2,3], int32) -&gt; [[1,1,1],[1,1,1]]</td>
+</tr>
+<tr>
+<td>tf.fill</td>
+<td>生成元素为指定数的数组</td>
+<td>tf.fill([2,3], 3) -&gt; [[3,3,3],[3,3,3]]</td>
+</tr>
+<tr>
+<td>tf.constant</td>
+<td>产生一个给定值的常量</td>
+<td>tf.constant([1,2,3]) -&gt; [1,2,3]</td>
+</tr>
+</tbody>
+</table>
+<p>神经网络中，偏置项通常会使用常数来设置初始值　　<br><code>biase = tf.Variable(tf.zeros([3]))</code></p>
+<h2 id="一段完整的例子"><a href="#一段完整的例子" class="headerlink" title="一段完整的例子"></a>一段完整的例子</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> TensorFlow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">w1 = tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">3</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</div><div class="line">w2 = tf.Variable(tf.random_normal([<span class="number">3</span>,<span class="number">1</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</div><div class="line"></div><div class="line">x = tf.constant([[<span class="number">0.7</span>, <span class="number">0.9</span>]])</div><div class="line">a = tf.matmul(x, w1)</div><div class="line">y = tf.matmul(a,w2)</div><div class="line"></div><div class="line"></div><div class="line">session = tf.Session()</div><div class="line">session.run(w1.initializer)</div><div class="line">session.run(w2.initializer)</div><div class="line">print(session.run(y))</div><div class="line">session.close()</div></pre></td></tr></table></figure>
+<h2 id="变量初始化"><a href="#变量初始化" class="headerlink" title="变量初始化"></a>变量初始化</h2><p>注意到在session代码前已经完整定义了TF计算图中的所有计算，但是！但是！这里定义的计算在这一步并不正真的运行。当需要运行这些计算并得到具体数字的时候需要先完成创建会话（session 后一章节会介绍）、变量初始化　　<br>具体到这个例子就是通过运行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">w1.initializer</div><div class="line">w2.initializer</div></pre></td></tr></table></figure></p>
+<p>有人会说了，我X用个变量还要这么麻烦，一不小心一个变量没有初始化还麻烦了，有没有不用动脑子的办法？当然有！　　<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">init_op = tf.initialize_all_variables()</div><div class="line">session.run(init_op)</div></pre></td></tr></table></figure></p>
+<h2 id="会话操作"><a href="#会话操作" class="headerlink" title="会话操作"></a>会话操作</h2><p>之前已经介绍过，session相关的操作，这里可以理解为真正开始运行定义好的运算。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;神经网络参数与TensorFlow变量&quot;&gt;&lt;a href=&quot;#神经网络参数与TensorFlow变量&quot; class=&quot;headerlink&quot; title=&quot;神经网络参数与TensorFlow变量&quot;&gt;&lt;/a&gt;神经网络参数与TensorFlow变量&lt;/h2&gt;&lt;p&gt;在T
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Dockerfile 书写方法（cookbook）</title>
@@ -1764,199 +1855,6 @@ Binary tree [1,2,3], return false.
     
       &lt;p&gt;又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。&lt;/p&gt;
 &lt;h2 id=&quot;常见数据结构&quot;&gt;&lt;a href=&quot;#常见数据结构&quot; class=&quot;headerlink&quot; 
-    
-    </summary>
-    
-      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
-    
-      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>常见算法的Big-Oh</title>
-    <link href="http://blog.lirui.me/posts/fa7bbffc/"/>
-    <id>http://blog.lirui.me/posts/fa7bbffc/</id>
-    <published>2017-03-12T03:07:34.000Z</published>
-    <updated>2017-04-13T15:25:43.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="关于Big-Oh"><a href="#关于Big-Oh" class="headerlink" title="关于Big-Oh"></a>关于Big-Oh</h2><p>首先Big-Oh($O$)是用来描述一个函数的渐进行为的工具。<br>关于Big-Oh的正式定义（数学定义）：<a href="https://en.wikipedia.org/wiki/Big_O_notation#Formal_definition" target="_blank" rel="external">wikipedia</a><br>例子：　　<br>$n^3+3n^2+2n+1 = O(n^3)$<br>$0.000000001n^3+3n^2+2n+1)=O(n^3)$<br>$nlog^n+n=O(nlog^n)$</p>
-<h2 id="常见的Big-Oh类型"><a href="#常见的Big-Oh类型" class="headerlink" title="常见的Big-Oh类型"></a>常见的Big-Oh类型</h2><ul>
-<li>常数（Constant）$O(1)$</li>
-<li>对数（Logarithmic）$O(log^n)$</li>
-<li>开方（SquareRoot）$O(\sqrt{n})$</li>
-<li>线性（Linear）$O(n)$</li>
-<li>对数线性（Linearithmic loglinear quasiliear）$O(nlog^n)$</li>
-<li>平方（Quadratic）$O(n^2)$</li>
-<li>指数（Exponential）$O(k^n)$  </li>
-</ul>
-<h2 id="Big-Oh-in-a-set-of-image-s"><a href="#Big-Oh-in-a-set-of-image-s" class="headerlink" title="Big-Oh in a (set of) image(s)"></a>Big-Oh in a (set of) image(s)</h2><p>原图摘自 <a href="http://science.slc.edu/~jmarshall/courses/2002/spring/cs50/BigO/index.html" target="_blank" rel="external">这里</a></p>
-<p><img src="/images/bigOh/dotted-border.gif" alt="logarithmic, squareRoot, linear, quadratic, cube, exponential 对比"><br><img src="/images/bigOh/sorting.gif" alt="linear, loglinear, quadratic 对比"></p>
-<h2 id="常见操作的Big-Oh"><a href="#常见操作的Big-Oh" class="headerlink" title="常见操作的Big-Oh"></a>常见操作的Big-Oh</h2><table>
-<thead>
-<tr>
-<th style="text-align:left">操作</th>
-<th style="text-align:center">List</th>
-<th style="text-align:center">Set/Dictionary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">length(len())</td>
-<td style="text-align:center">$O(1)$</td>
-<td style="text-align:center">$O(1)$</td>
-</tr>
-<tr>
-<td style="text-align:left">L.append(item)</td>
-<td style="text-align:center">$O(1)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">Add</td>
-<td style="text-align:center">–</td>
-<td style="text-align:center">$O(1)$</td>
-</tr>
-<tr>
-<td style="text-align:left">Copy</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">$O(N)$</td>
-</tr>
-<tr>
-<td style="text-align:left">max(L)</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">min(L)</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">insert</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">$O(1)$</td>
-</tr>
-<tr>
-<td style="text-align:left">delete</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">remove</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">$O(1)$</td>
-</tr>
-<tr>
-<td style="text-align:left">val in L</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">$O(1)$</td>
-</tr>
-<tr>
-<td style="text-align:left">L.count(val)</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">L.sort()</td>
-<td style="text-align:center">$O(Nlog^N)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">L.sort(reverse=True)</td>
-<td style="text-align:center">$O(Nlog^N)$</td>
-<td style="text-align:center">–</td>
-</tr>
-<tr>
-<td style="text-align:left">Get/set item</td>
-<td style="text-align:center">$O(1)$</td>
-<td style="text-align:center">$O(1)$</td>
-</tr>
-<tr>
-<td style="text-align:left">Iteration(for 循环体)</td>
-<td style="text-align:center">$O(N)$</td>
-<td style="text-align:center">$O(N)$</td>
-</tr>
-</tbody>
-</table>
-<p>更多操作查看：<a href="https://www.ics.uci.edu/~pattis/ICS-33/lectures/complexitypython.txt" target="_blank" rel="external">这里</a></p>
-<h2 id="Big-Oh运算法则"><a href="#Big-Oh运算法则" class="headerlink" title="Big-Oh运算法则"></a>Big-Oh运算法则</h2><h3 id="加法法则"><a href="#加法法则" class="headerlink" title="加法法则"></a>加法法则</h3><p>$$O(f(n))+O(g(n)) = O(f(n)+g(n))$$</p>
-<p>例如：<br>    $O(N)+O(log^N) = O(N + log^N) = O(N)$<br>    $O(N)+O(Nlog^N) = O(N+Nlog^N) = O(Nlog^N)$  </p>
-<h3 id="乘法法则"><a href="#乘法法则" class="headerlink" title="乘法法则"></a>乘法法则</h3><p>$$O(f(n)) \cdot O(g(n)) = O(f(n) \cdot g(n))$$</p>
-<p>例如:<br>    $O(N) \cdot O(log^N) = O(N \cdot log^N)$<br>    $O(N) \cdot O(N^2) = O(N \cdot N^2) = O(N^3)$</p>
-<p>看到这你会说，看起来不错，但有什么用呢？<br>首先有了加法法则可以帮助我们理解顺序执行的程序段是怎样的复杂度。<br>举个例子：<br>如果一段程序调用了两段子程序$f(…)$和$g(…)$，他们在程序段内的调用顺序是：  </p>
-<pre><code>f(...)
-g(...)
-</code></pre><p>其中$O(f(…)) = N$, $O(g(…)) = N$ 那么这段程序的时间复杂度会是怎样的？<br>对，$O(f(…)+g(…)) = O(f(…))+O(g(…)) = O(N+N) = O(N)$<br>什么太简单了？<br>来个带分支判断的：程序结构如下  </p>
-<pre><code>if test:
-    block1
-else:
-    block2
-</code></pre><p>令test的复杂度为$O(T)$, block1的复杂度为$O(B1)$ block2的复杂度为$O(B2)$, 那么这段程序的复杂度是怎样的？  </p>
-<p>其次乘法法则可以帮助我们理解由循环控制的程序段的复杂度。<br>举个例子：<br>程序结构如下：  </p>
-<pre><code>for i in range(N):
-    f(...)
-</code></pre><p>其中$O(f(…)) = N^2$<br>那么这段程序段的复杂度为： $O(N) \cdot O(f(…)) = O(N) \cdot O(N^2) = O(N \cdot N^2)$<br>好的有了这两个工具，相信多数的Big-Oh案例分析能轻松搞定。</p>
-<h2 id="常见排序、查找算法复杂度"><a href="#常见排序、查找算法复杂度" class="headerlink" title="常见排序、查找算法复杂度"></a>常见排序、查找算法复杂度</h2><p>其实这些算法复杂度都可以通过上面的运算法则以及操作的复杂度推算出来的，但是作为一个可以作为快速备查的cheatsheet下面就直接罗列出结论：<br>先来查找（search）：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">算法</th>
-<th style="text-align:center">时间复杂度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">线性查找(Linear search)</td>
-<td style="text-align:center">$O(N)$</td>
-</tr>
-<tr>
-<td style="text-align:center">二分查找(binary search)</td>
-<td style="text-align:center">$O(log^N)$</td>
-</tr>
-</tbody>
-</table>
-<p>注意这里的前提条件是：<br>线性查找针对的是无序列表，二分查找针对的是有序列表。  </p>
-<p>再来排序（sorting）：  </p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">算法</th>
-<th style="text-align:center">时间复杂度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">冒泡排序（bubble sort）</td>
-<td style="text-align:center">$O(N^2)$</td>
-</tr>
-<tr>
-<td style="text-align:center">插入排序（insertion sort）</td>
-<td style="text-align:center">$O(N^2)$</td>
-</tr>
-<tr>
-<td style="text-align:center">归并排序（merge sort）</td>
-<td style="text-align:center">$O(Nlog^N)$</td>
-</tr>
-<tr>
-<td style="text-align:center">选择排序（selection sort）</td>
-<td style="text-align:center">$O(N^2)$</td>
-</tr>
-<tr>
-<td style="text-align:center">快速排序（quick sort）</td>
-<td style="text-align:center">$O(Nlog^N)$</td>
-</tr>
-<tr>
-<td style="text-align:center">堆排序（heap sort）</td>
-<td style="text-align:center">$O(Nlog^N)$</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;关于Big-Oh&quot;&gt;&lt;a href=&quot;#关于Big-Oh&quot; class=&quot;headerlink&quot; title=&quot;关于Big-Oh&quot;&gt;&lt;/a&gt;关于Big-Oh&lt;/h2&gt;&lt;p&gt;首先Big-Oh($O$)是用来描述一个函数的渐进行为的工具。&lt;br&gt;关于Big-Oh的正式
     
     </summary>
     
