@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-12-27T02:28:13.751Z</updated>
+  <updated>2017-12-27T02:59:33.571Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://blog.lirui.me/posts/47728c0b/"/>
     <id>http://blog.lirui.me/posts/47728c0b/</id>
     <published>2017-11-30T08:20:33.000Z</published>
-    <updated>2017-12-27T02:28:13.751Z</updated>
+    <updated>2017-12-27T02:59:33.571Z</updated>
     
     <content type="html"><![CDATA[<h2 id="神经网络参数与TensorFlow变量"><a href="#神经网络参数与TensorFlow变量" class="headerlink" title="神经网络参数与TensorFlow变量"></a>神经网络参数与TensorFlow变量</h2><p>在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。<br>常见的使用方式是声明变量的同时进行变量初始化。<br>如：</p>
 <p><code>weights = tf.Variable(tf.random_normal([2,3], stddev=2))</code></p>
@@ -111,7 +111,7 @@
     <link href="http://blog.lirui.me/posts/cac2d233/"/>
     <id>http://blog.lirui.me/posts/cac2d233/</id>
     <published>2017-05-29T13:01:23.000Z</published>
-    <updated>2017-05-30T02:08:57.000Z</updated>
+    <updated>2017-12-27T02:45:11.027Z</updated>
     
     <content type="html"><![CDATA[<p>Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用<code>docker build</code>命令基于该Dockerfile中的指令构建一个新的镜像。  </p>
 <h2 id="简单的Dockerfile例子"><a href="#简单的Dockerfile例子" class="headerlink" title="简单的Dockerfile例子"></a>简单的Dockerfile例子</h2><p>下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  </p>
@@ -180,7 +180,7 @@
     <link href="http://blog.lirui.me/posts/3e55e448/"/>
     <id>http://blog.lirui.me/posts/3e55e448/</id>
     <published>2017-05-22T10:31:32.000Z</published>
-    <updated>2017-05-22T10:45:21.000Z</updated>
+    <updated>2017-12-27T02:43:33.081Z</updated>
     
     <content type="html"><![CDATA[<p>集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。</p>
 <h2 id="集合的分类"><a href="#集合的分类" class="headerlink" title="集合的分类"></a>集合的分类</h2><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。<br>如， 按照可动态变长和不能动态变长分为：</p>
@@ -543,7 +543,7 @@
     <link href="http://blog.lirui.me/posts/d8211bcf/"/>
     <id>http://blog.lirui.me/posts/d8211bcf/</id>
     <published>2017-05-17T14:37:02.000Z</published>
-    <updated>2017-05-17T14:37:16.000Z</updated>
+    <updated>2017-12-27T02:46:27.799Z</updated>
     
     <content type="html"><![CDATA[<p>每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？<br>哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。</p>
 <h2 id="内存管理？为什么内存需要管理？"><a href="#内存管理？为什么内存需要管理？" class="headerlink" title="内存管理？为什么内存需要管理？"></a>内存管理？为什么内存需要管理？</h2><blockquote>
@@ -603,7 +603,7 @@
     <link href="http://blog.lirui.me/posts/766d9901/"/>
     <id>http://blog.lirui.me/posts/766d9901/</id>
     <published>2017-05-09T09:15:51.000Z</published>
-    <updated>2017-05-09T15:05:03.000Z</updated>
+    <updated>2017-12-27T02:44:25.918Z</updated>
     
     <content type="html"><![CDATA[<p>Flood fill 是什么？<br>算法里还有洪水？😄这里就不掉书袋了，直接搬<a href="https://en.wikipedia.org/wiki/Flood_fill" target="_blank" rel="external">wikipedia链接</a></p>
 <pre><code>Flood fill算法是从一个区域中提取若干个连通的点与其他相邻区域区分开（或分别染成不同颜色）的经典算法。因为其思路类似洪水从一个区域扩散到所有能到达的区域而得名。在GNU Go和扫雷中，Flood Fill算法被用来计算需要被清除的区域。
@@ -695,7 +695,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/f4573ea8/"/>
     <id>http://blog.lirui.me/posts/f4573ea8/</id>
     <published>2017-05-04T17:29:41.000Z</published>
-    <updated>2017-06-20T07:42:10.000Z</updated>
+    <updated>2017-12-27T02:48:17.580Z</updated>
     
     <content type="html"><![CDATA[<p>众所周知TensorFlow是基于Python的，因此安装的前置条件就是需要安装Python，从TensorFlow的官网得知，TensorFlow是支持Python2与python3的，我的想法是既然支持Python3那就让它运行在最新的版本上，那么问题来了，现有的很多Python应用对Python3的支持还不够好，所以问题就来了，怎样让多个版本的Python在同个Mac下和谐共处？</p>
 <h2 id="安装多个版本Python在同个Mac"><a href="#安装多个版本Python在同个Mac" class="headerlink" title="安装多个版本Python在同个Mac"></a>安装多个版本Python在同个Mac</h2><p>之前处理多个Java版本共存环境的时候碰到这样的解决方案 <a href="https://github.com/gcuisinier/jenv" target="_blank" rel="external">jenv</a><br>按照这个逻辑应该在Python下会有类似的解决方案。<br>仔细寻找后找到了<a href="https://github.com/pyenv/pyenv" target="_blank" rel="external">pyenv</a><br>当然pyenv也支持brew安装<code>$ brew install pyenv</code><br>然后添加pyenv init在环境shell中 <code>eval &quot;$(pyenv init -)</code><br>之后就可以使用pyenv安装Python3了, 当然安装也比较简单 <code>$ pyenv install 3.6.1</code><br>查看安装的Python所有版本可以使用<code>$ pyenv versions</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ pyenv versions</div><div class="line">* system (set by /Users/RichardLee/.pyenv/version)</div><div class="line">  3.6.1</div></pre></td></tr></table></figure></p>
@@ -739,7 +739,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/9d999a37/"/>
     <id>http://blog.lirui.me/posts/9d999a37/</id>
     <published>2017-04-30T09:47:22.000Z</published>
-    <updated>2017-04-30T10:59:49.000Z</updated>
+    <updated>2017-12-27T02:40:17.895Z</updated>
     
     <content type="html"><![CDATA[<h2 id="五边飞行"><a href="#五边飞行" class="headerlink" title="五边飞行"></a>五边飞行</h2><p>飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？<br>哈哈， 笑而不语。<br>想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：<br>五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。<br>具体的说，这五个阶段是：  </p>
 <ol>
@@ -802,7 +802,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/cac864f3/"/>
     <id>http://blog.lirui.me/posts/cac864f3/</id>
     <published>2017-04-21T08:06:45.000Z</published>
-    <updated>2017-04-21T08:06:53.000Z</updated>
+    <updated>2017-12-27T02:47:36.491Z</updated>
     
     <content type="html"><![CDATA[<h2 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h2><blockquote>
 <p>Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usually recursion involves a function calling itself. While it may not seem like much on the surface, recursion allows us to write elegant solutions to problems that may otherwise be very difficult to program.</p>
@@ -839,7 +839,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/cef3635a/"/>
     <id>http://blog.lirui.me/posts/cef3635a/</id>
     <published>2017-04-18T10:01:05.000Z</published>
-    <updated>2017-04-18T10:12:47.000Z</updated>
+    <updated>2017-12-27T02:46:55.455Z</updated>
     
     <content type="html"><![CDATA[<p>HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。</p>
 <h2 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP/0.9"></a>HTTP/0.9</h2><p>HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重的缺陷，例如：  </p>
@@ -908,7 +908,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/d53d7104/"/>
     <id>http://blog.lirui.me/posts/d53d7104/</id>
     <published>2017-04-17T06:23:52.000Z</published>
-    <updated>2017-04-23T13:44:54.000Z</updated>
+    <updated>2017-12-27T02:51:57.114Z</updated>
     
     <content type="html"><![CDATA[<p>在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  </p>
 <h2 id="什么是主定理？"><a href="#什么是主定理？" class="headerlink" title="什么是主定理？"></a>什么是主定理？</h2><p>主定理来源于算法导论，是在第四章介绍分治法时适时引出的。<br><a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank" rel="external">wikipedia这样说</a>  </p>
@@ -941,7 +941,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/6e0a9a90/"/>
     <id>http://blog.lirui.me/posts/6e0a9a90/</id>
     <published>2017-04-17T01:34:02.000Z</published>
-    <updated>2017-04-17T03:10:44.000Z</updated>
+    <updated>2017-12-27T02:39:38.418Z</updated>
     
     <content type="html"><![CDATA[<p>当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。  </p>
 <h2 id="一些数字"><a href="#一些数字" class="headerlink" title="一些数字"></a>一些数字</h2><table>
@@ -1029,7 +1029,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/e71e737f/"/>
     <id>http://blog.lirui.me/posts/e71e737f/</id>
     <published>2017-04-12T11:24:16.000Z</published>
-    <updated>2017-04-29T12:22:08.000Z</updated>
+    <updated>2017-12-27T02:44:43.741Z</updated>
     
     <content type="html"><![CDATA[<p>按照教科书的顺序来说，搜索相关的问题应该放在图的章节。<br>但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。<br>首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。<br>讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？  </p>
 <h2 id="DFS的典型实现"><a href="#DFS的典型实现" class="headerlink" title="DFS的典型实现"></a>DFS的典型实现</h2><p>一般来说，在以往的教材里我们都被教育DFS的实现都需要一个栈的数据结构，除此之外还需要一个额外的数据结构来记录已经访问的节点。<br>好吧，废话少说，上代码。  </p>
@@ -1061,7 +1061,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/602ee0a8/"/>
     <id>http://blog.lirui.me/posts/602ee0a8/</id>
     <published>2017-04-01T08:58:18.000Z</published>
-    <updated>2017-04-29T09:03:15.000Z</updated>
+    <updated>2017-12-27T02:53:48.079Z</updated>
     
     <content type="html"><![CDATA[<p>优先队列(PriorityQueue) 是一种抽象数据结构，队列内的元素都有对应的优先级，并根据其优先级出队。优先队列一般会使用堆（heap）来实现。  </p>
 <h2 id="优先队列的一些操作"><a href="#优先队列的一些操作" class="headerlink" title="优先队列的一些操作"></a>优先队列的一些操作</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><ol>
@@ -1133,7 +1133,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/b6c18b5d/"/>
     <id>http://blog.lirui.me/posts/b6c18b5d/</id>
     <published>2017-03-31T09:06:21.000Z</published>
-    <updated>2017-09-13T05:35:52.000Z</updated>
+    <updated>2017-12-27T02:55:18.380Z</updated>
     
     <content type="html"><![CDATA[<p>很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明问题是什么了，直接说结论：在安装完SSD后拷贝硬盘数据后一定要用macOS的磁盘检查，在验证了存储安全通过后再进行备份（anyway 定期备份一定是个好习惯）。<br>最后的解决方案是重装macOS，然后恢复个人数据。</p>
 <h2 id="系统重装意味着什么？"><a href="#系统重装意味着什么？" class="headerlink" title="系统重装意味着什么？"></a>系统重装意味着什么？</h2><p>失去所有之前的数据，重新再搞一遍环境，我的天呐！  </p>
@@ -1250,7 +1250,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/94519b49/"/>
     <id>http://blog.lirui.me/posts/94519b49/</id>
     <published>2017-03-22T04:31:20.000Z</published>
-    <updated>2017-04-07T06:20:55.000Z</updated>
+    <updated>2017-12-27T02:59:47.042Z</updated>
     
     <content type="html"><![CDATA[<p>使用markdown写文章现在已经是我的标配，那你的呢？<br>最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。</p>
 <blockquote>
@@ -1297,7 +1297,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/be44bf3e/"/>
     <id>http://blog.lirui.me/posts/be44bf3e/</id>
     <published>2017-03-21T02:03:10.000Z</published>
-    <updated>2017-04-07T14:05:55.000Z</updated>
+    <updated>2017-12-27T02:50:42.838Z</updated>
     
     <content type="html"><![CDATA[<p>一说到Linked List你会想到什么？<br>ArrayList? 看来你是个Java粉。<br>其实Linked List 并完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。  </p>
 <h2 id="链表的分类"><a href="#链表的分类" class="headerlink" title="链表的分类"></a>链表的分类</h2><p>按照节点的指针方向这个维度我们将链表划分为：</p>
@@ -1387,7 +1387,7 @@ Can you solve it without using extra space?
     <link href="http://blog.lirui.me/posts/937b6c8a/"/>
     <id>http://blog.lirui.me/posts/937b6c8a/</id>
     <published>2017-03-19T06:55:30.000Z</published>
-    <updated>2017-04-07T06:20:55.000Z</updated>
+    <updated>2017-12-27T02:54:49.310Z</updated>
     
     <content type="html"><![CDATA[<p>虽然有些事情看的在近期没有什么效果，但是时间久了，终究还是会看出来的，那么你会问，到底什么东西是这样的呢？ 比如才华、具体到技术来说就是数据结构和算法。<br>树其实是一种很重要的数据结构，很多重要的算法都是基于这个算法展开的。</p>
 <h2 id="树的一些经典问题"><a href="#树的一些经典问题" class="headerlink" title="树的一些经典问题"></a>树的一些经典问题</h2><h3 id="判断是否是一棵二叉搜索树"><a href="#判断是否是一棵二叉搜索树" class="headerlink" title="判断是否是一棵二叉搜索树"></a>判断是否是一棵二叉搜索树</h3><p><a href="https://leetcode.com/problems/validate-binary-search-tree/#/description" target="_blank" rel="external">原题传送门</a></p>
@@ -1480,7 +1480,7 @@ Binary tree [1,2,3], return false.
     <link href="http://blog.lirui.me/posts/ae8ff913/"/>
     <id>http://blog.lirui.me/posts/ae8ff913/</id>
     <published>2017-03-17T08:25:32.000Z</published>
-    <updated>2017-07-06T03:12:41.000Z</updated>
+    <updated>2017-12-27T02:49:30.153Z</updated>
     
     <content type="html"><![CDATA[<h2 id="LaTex-是啥？"><a href="#LaTex-是啥？" class="headerlink" title="LaTex 是啥？"></a>LaTex 是啥？</h2><p>LaTex (发音$ˈlɑːtɛx$ Lamport TeX 的简写）是一种文档排版系统，在生成复杂的数学公式、图表都有无可比拟的优势。  </p>
 <h2 id="我有word公式编辑器要它有啥用？"><a href="#我有word公式编辑器要它有啥用？" class="headerlink" title="我有word公式编辑器要它有啥用？"></a>我有word公式编辑器要它有啥用？</h2><p>注意尤其在编写数学公式有着很棒的体验，不用再发愁在博客中写数学公式了，相信你和我一样在没有遇见LaTex之前都是在word公式编辑器下编辑完公式后把图片导出然后贴到文章中，如果一次写对还好，但是，但是如果公式中有任何一个错误这个过程就需要重新来一遍，如果一次还没有改完，我的天，想死的心都有了。<br>直到有一天我遇到了LaTex, 用起来那酸爽，简直无法比拟。</p>
@@ -1671,7 +1671,7 @@ Binary tree [1,2,3], return false.
     <link href="http://blog.lirui.me/posts/10a77275/"/>
     <id>http://blog.lirui.me/posts/10a77275/</id>
     <published>2017-03-15T09:03:52.000Z</published>
-    <updated>2017-05-01T08:32:30.000Z</updated>
+    <updated>2017-12-27T02:42:35.016Z</updated>
     
     <content type="html"><![CDATA[<p>树，尤其是二叉搜索树(Binary Search Tree =&gt; BST)是算法、数据结构领域重要的数据结构之一。<br>那么既然BST这么重要，想要了解BST需要了解哪些方面呢？</p>
 <h2 id="树是什么鬼？"><a href="#树是什么鬼？" class="headerlink" title="树是什么鬼？"></a>树是什么鬼？</h2><p>树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。<br>一棵没有节点的树我们称为空树（Empty tree）<br>更多树的细节（如：叶子、度、树高等概念的定义）<a href="https://en.wikipedia.org/wiki/Tree_(data_structure" target="_blank" rel="external">请参考这里</a>)</p>
@@ -1752,7 +1752,7 @@ Binary tree [1,2,3], return false.
     <link href="http://blog.lirui.me/posts/397c8360/"/>
     <id>http://blog.lirui.me/posts/397c8360/</id>
     <published>2017-03-14T06:28:53.000Z</published>
-    <updated>2017-04-07T06:20:55.000Z</updated>
+    <updated>2017-12-27T02:43:01.767Z</updated>
     
     <content type="html"><![CDATA[<p>又是一篇关于算法的科普文章，如果你是初入行的newbie可以把这篇文章作为入门读物阅读，如果你是工作多年的老司机，可以把这篇文章作为cheatsheet备查。</p>
 <h2 id="常见数据结构"><a href="#常见数据结构" class="headerlink" title="常见数据结构"></a>常见数据结构</h2><ul>
