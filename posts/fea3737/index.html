@@ -10,7 +10,8 @@
     <meta name="author" content="李瑞">
     
 
-    
+    <meta name="keywords" content="Docker">
+    <!-- 
     <meta name="description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。
 运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  
 查找镜像docker search &amp;lt;the container name&amp;gt;
@@ -23,7 +24,7 @@
 运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  
 查找镜像docker search &amp;lt;the container name&amp;gt;
 例如 我要查找centos的镜像：docker search ce">
-<meta property="og:updated_time" content="2017-04-07T06:20:55.000Z">
+<meta property="og:updated_time" content="2017-12-27T02:30:50.737Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识Docker">
 <meta name="twitter:description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。
@@ -116,7 +117,7 @@
 <ul>
 <li>首先是 -i 保证的是容器中的STDIN是开启的  </li>
 <li><p>其次 -t 告诉Docker为要创建的容器分配一个伪tty终端<br>这样两个参数是保证创建的容器是一个可交互的容器，而不是一个运行后台服务的容器。<br>好了，现在就是你熟悉的部分了，一个运行着centos的linux环境。<br>处理完事情，敲入exit，结束会话，回到了docker宿主机的命令行模式，一切自然。等等……总觉着有什么不对，对了，那个容器怎样了？<br>其实容器依然存在，那么怎么查看这些容器呢？  </p>
-<h3 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h3><p><code>docker ps</code><br>这个命令会列出所有正在运行的容器，如果想查看所有需要加上参数 -a<br>这里需要注意的是这两列信息： </p>
+<h3 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h3><p><code>docker ps</code><br>这个命令会列出所有正在运行的容器，如果想查看所有需要加上参数 -a<br>这里需要注意的是这两列信息：</p>
 </li>
 <li><p>CONTAINER ID  </p>
 </li>

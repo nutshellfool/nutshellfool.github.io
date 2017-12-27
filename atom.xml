@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-11-30T08:30:57.927Z</updated>
+  <updated>2017-12-27T02:28:13.751Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://blog.lirui.me/posts/47728c0b/"/>
     <id>http://blog.lirui.me/posts/47728c0b/</id>
     <published>2017-11-30T08:20:33.000Z</published>
-    <updated>2017-11-30T08:30:57.927Z</updated>
+    <updated>2017-12-27T02:28:13.751Z</updated>
     
     <content type="html"><![CDATA[<h2 id="神经网络参数与TensorFlow变量"><a href="#神经网络参数与TensorFlow变量" class="headerlink" title="神经网络参数与TensorFlow变量"></a>神经网络参数与TensorFlow变量</h2><p>在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。<br>常见的使用方式是声明变量的同时进行变量初始化。<br>如：</p>
 <p><code>weights = tf.Variable(tf.random_normal([2,3], stddev=2))</code></p>
