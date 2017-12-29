@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/b61b5e8c/</loc>
+    <lastmod>2017-12-29T07:00:22.206Z</lastmod>
+    <data>
+        <display>
+        <title>深层神经网络</title>
+        <pubTime>2017-12-29T07:00:22.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/94519b49/</loc>
     <lastmod>2017-12-27T02:59:47.042Z</lastmod>
     <data>
@@ -487,30 +502,6 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/33d68573/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何在Mac上搭建Web开发环境</title>
-        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -550,17 +541,23 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/44516416/</loc>
-    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+    <loc>http://blog.lirui.me/posts/33d68573/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
         <display>
-        <title>技术面试的反思</title>
-        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        <title>如何在Mac上搭建Web开发环境</title>
+        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
+          
+             
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
@@ -606,6 +603,24 @@
           
              
               <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/44516416/</loc>
+    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>技术面试的反思</title>
+        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
           
         </display>
     </data>
