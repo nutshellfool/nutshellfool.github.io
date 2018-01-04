@@ -4,33 +4,51 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dockerfile 书写方法（cookbook） | 李瑞的博客</title>
+    <title>《非暴力沟通》读书笔记 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="Docker,Dockerfile">
+    <meta name="keywords" content="非暴力沟通,读书笔记,nvc">
     
-    <meta name="description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。  
-简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  
+    <meta name="description" content="非暴力沟通要素第一要素 - 观察
+将观察和评论混为一谈，别人就会倾向于听到批评，并反驳我们
+非暴力沟通提倡在特定的时间和情境中进行观察，并清楚地描述观察结果
 
-首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
+第二要素 - 感受12成熟的人十分敏锐，就像听交响乐的不同乐章，不论是热情奔放，还是柔和舒缓，他都能体察到细微的起伏。
+
+在表达感受时，示弱有助于解决冲突
+
+第三要素 - 需要
+听到不中听的话时，我们可以有四种选择：1、责备自己；2、指责他">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile 书写方法（cookbook）">
-<meta property="og:url" content="http://blog.lirui.me/posts/cac2d233/index.html">
+<meta property="og:title" content="《非暴力沟通》读书笔记">
+<meta property="og:url" content="http://blog.lirui.me/posts/24de702c/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。  
-简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  
+<meta property="og:description" content="非暴力沟通要素第一要素 - 观察
+将观察和评论混为一谈，别人就会倾向于听到批评，并反驳我们
+非暴力沟通提倡在特定的时间和情境中进行观察，并清楚地描述观察结果
 
-首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
-<meta property="og:updated_time" content="2017-12-27T02:45:11.027Z">
+第二要素 - 感受12成熟的人十分敏锐，就像听交响乐的不同乐章，不论是热情奔放，还是柔和舒缓，他都能体察到细微的起伏。
+
+在表达感受时，示弱有助于解决冲突
+
+第三要素 - 需要
+听到不中听的话时，我们可以有四种选择：1、责备自己；2、指责他">
+<meta property="og:updated_time" content="2018-01-04T10:30:58.818Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dockerfile 书写方法（cookbook）">
-<meta name="twitter:description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。  
-简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  
+<meta name="twitter:title" content="《非暴力沟通》读书笔记">
+<meta name="twitter:description" content="非暴力沟通要素第一要素 - 观察
+将观察和评论混为一谈，别人就会倾向于听到批评，并反驳我们
+非暴力沟通提倡在特定的时间和情境中进行观察，并清楚地描述观察结果
 
-首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
+第二要素 - 感受12成熟的人十分敏锐，就像听交响乐的不同乐章，不论是热情奔放，还是柔和舒缓，他都能体察到细微的起伏。
+
+在表达感受时，示弱有助于解决冲突
+
+第三要素 - 需要
+听到不中听的话时，我们可以有四种选择：1、责备自己；2、指责他">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -86,14 +104,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/cac2d233/" title="Dockerfile 书写方法（cookbook）" itemprop="url">Dockerfile 书写方法（cookbook）</a>
+      <a href="/posts/24de702c/" title="《非暴力沟通》读书笔记" itemprop="url">《非暴力沟通》读书笔记</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-29T13:01:23.000Z" itemprop="datePublished"> Published 2017-05-29</time>
+    <time datetime="2018-01-04T10:17:20.000Z" itemprop="datePublished"> Published 2018-01-04</time>
     
   </p>
 </header>
@@ -102,65 +120,35 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#稍微复杂点的例子"><span class="toc-number">2.</span> <span class="toc-text">稍微复杂点的例子</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#非暴力沟通要素"><span class="toc-number">1.</span> <span class="toc-text">非暴力沟通要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一要素-观察"><span class="toc-number">1.1.</span> <span class="toc-text">第一要素 - 观察</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二要素-感受"><span class="toc-number">1.2.</span> <span class="toc-text">第二要素 - 感受</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三要素-需要"><span class="toc-number">1.3.</span> <span class="toc-text">第三要素 - 需要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四要素-请求"><span class="toc-number">1.4.</span> <span class="toc-text">第四要素 - 请求</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用<code>docker build</code>命令基于该Dockerfile中的指令构建一个新的镜像。  </p>
-<h2 id="简单的Dockerfile例子"><a href="#简单的Dockerfile例子" class="headerlink" title="简单的Dockerfile例子"></a>简单的Dockerfile例子</h2><p>下面的例子是创建一个nginx为反向代理的web服务器的docker容器。  </p>
-<ul>
-<li>首先创建一个构建环境（文件目录），用来存放Dockerfile等其他构建文件，因此这个环境也被称为上下文(context)或者构建上下文(build context)。</li>
-<li>其次创建Dockerfile</li>
+		<h2 id="非暴力沟通要素"><a href="#非暴力沟通要素" class="headerlink" title="非暴力沟通要素"></a>非暴力沟通要素</h2><h3 id="第一要素-观察"><a href="#第一要素-观察" class="headerlink" title="第一要素 - 观察"></a>第一要素 - 观察</h3><ul>
+<li>将观察和评论混为一谈，别人就会倾向于听到批评，并反驳我们</li>
+<li>非暴力沟通提倡在特定的时间和情境中进行观察，并清楚地描述观察结果</li>
 </ul>
-<p><code>$ mkdir sample_web</code>  </p>
-<p>Dockerfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">FROM ubuntu:14.04</div><div class="line">MAINTAINER Richard Li &quot;lirui.sep@gmail.com&quot;</div><div class="line">RUN apt-get update</div><div class="line">RUN apt-get install -y nginx</div><div class="line">RUN echo &apos;Hello from docker&apos; \</div><div class="line">	&gt;/usr/share/nginx/html/index.html</div><div class="line">EXPOSE 80</div></pre></td></tr></table></figure></p>
-<p>然后在构建目录下输入下面的docker命令：<br><code>$ docker build -t=&quot;nutshell/sample_web&quot; .</code><br>注意命令的最后是一个“.”是告诉docker在当前目录下去寻找Dockerfile<br>一切正常，完成镜像构建。<br>下面就需要从新镜像启动容器，还记得启动容器的docker命令是什么嘛？<br>对就是 <code>docker run &lt;image name&gt;</code><br>注意到我们的这个镜像是nginx，需要长时间运行的守护进程，查看<code>docker run --help</code> 的帮助文档后可以使用 <code>-d</code> 这个参数使容器以detach的方式在后台运行  </p>
-<p>于是我们就有了下面启动容器的docker命令：  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ docker run -d -p 80 --name static_web nutshell/sample_web \</div><div class="line">nginx -g &quot;daemon off;&quot;</div></pre></td></tr></table></figure>
-<p>运行后没有报错，说明容器启动成功，这时候使用<code>docker ps -l</code>查看容器的运行情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                   NAMES</div><div class="line">04a89ad553a8        nutshell/sample_website   &quot;nginx -g &apos;daemon ...&quot;   27 minutes ago      Up 13 seconds       0.0.0.0:32770-&gt;80/tcp   static_website</div></pre></td></tr></table></figure></p>
-<p>这里再来解释下命令中的 <code>-p</code> 参数，上面例子中的<code>-p 80</code>的含义是docker在运行时在宿主机上 随机选择一个大端口号映射并连接到容器的80端口上。<br>在上面的例子中宿主机的端口是 32770<br>你会问了，那么我可不可以指定宿主机的端口？<br>可以，当然可以，具体的格式是 <code>-p &lt;host port&gt;:&lt;container port&gt;</code><br>比如上面的例子中我们想将宿主机的8081端口映射到容器的80端口，那么启动的命令就可以这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ docker run -d -p 8081:80 --name static_web nutshell/sample_web \</div><div class="line">nginx -g &quot;daemon off;&quot;</div></pre></td></tr></table></figure></p>
-<p>细心的你可能已经发现了，在dockerfile的最后一行<code>EXPOSE 80</code>好像在整个过程中并没有什么卵用啊，是的，至少在这个时间点还没有什么卵用。<br>如果使用 <code>-P</code> (注意大小写)<br>这个参数会将dockerfile中EXPOSE的端口绑定到宿主机上的一个随机端口上。<br>当然如果你对容器的端口映射到宿主机的端口不太清楚，可以使用<code>docker port &lt;container ID&gt; &lt;container port&gt;</code>查询：<br>以上面的容器为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ docker port 04a89ad553a8 80</div></pre></td></tr></table></figure></p>
-<p>好了，可以在宿主机上验证下了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl localhost:32770</div></pre></td></tr></table></figure></p>
-<p>返回<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hello from docker</div></pre></td></tr></table></figure></p>
-<p>一个最简单的nginx web docker容器就搞定了。  </p>
-<h2 id="稍微复杂点的例子"><a href="#稍微复杂点的例子" class="headerlink" title="稍微复杂点的例子"></a>稍微复杂点的例子</h2><p>还是上面的例子，我们注意到在启动的时候还附加了一个nginx的命令，这个难道不能写到dockerfile里么？<br>当然可以，使用dockerfile的</p>
+<h3 id="第二要素-感受"><a href="#第二要素-感受" class="headerlink" title="第二要素 - 感受"></a>第二要素 - 感受</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">成熟的人十分敏锐，就像听交响乐的不同乐章，</div><div class="line">不论是热情奔放，还是柔和舒缓，他都能体察到细微的起伏。</div></pre></td></tr></table></figure>
 <ul>
-<li><code>CMD</code></li>
-<li><code>ENTRYPOINT</code>就可以了。<br>以<code>ENTRYPOINT</code>为例，只需在dockerfile的最后添加：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ENTRYPOINT [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</div></pre></td></tr></table></figure>
+<li>在表达感受时，示弱有助于解决冲突</li>
+</ul>
+<h3 id="第三要素-需要"><a href="#第三要素-需要" class="headerlink" title="第三要素 - 需要"></a>第三要素 - 需要</h3><ul>
+<li><p>听到不中听的话时，我们可以有四种选择：<br>1、责备自己；<br>2、指责他人；<br>3、体会自己的感受和需要；<br>4、体会他人的感受和需要。</p>
+</li>
+<li><p>对于大多数人来说，个人成长一般会经历三个阶段：<br>1、情感的奴隶 - 我们认为自己有义务使他人快乐<br>2、面目可憎 - 此时，我们拒绝考虑他人的感受和需要<br>3、生活的主人 - 我们意识到，虽然我们对自己的意愿、感受和行动负有完全的责任，但无法为他人负责。与此同时，我们还认识到，我们无法牺牲他人来满足自己的需要。</p>
 </li>
 </ul>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</div></pre></td></tr></table></figure></p>
-<p>重新build，重新run一个新容器，一切照旧，成功。<br>到这里你会问，既然一样为什么还要用两个指令？  </p>
-<pre><code>正解是： CMD指令的命令可以被 &quot;docker run&quot; 后的命令覆盖，而ENTRYPOINT不会。
-（事实上，如果确实需要，可以在运行docker run 命令时 --entrypoint 来覆盖ENTRYPOINT指令）
-</code></pre><p>是不是像点样子了？<br>其实还有空间可以提升，如果nginx的默认网页我们希望可以通过外部的文件部署替换，该怎么办？  </p>
-<ul>
-<li><code>ADD</code></li>
-<li><code>COPY</code><br>只需将原dockerfile中的这一句<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RUN echo &apos;Hello from docker&apos; /usr/share/nginx/html/index.html</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>替换为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ADD project/index.html /usr/share/nginx/html/index.html</div></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">COPY project/index.html /usr/share/nginx/html/index.html</div></pre></td></tr></table></figure></p>
-<p>重新build，重新run一个新容器，一切照旧，成功。  </p>
-<p>同样的，你会问，既然一样为什么要用两个命令？</p>
-<pre><code>正解是：当源文件是压缩文件的时候，目标文件是文件夹时就不一样了，ADD会自动提取，解压； 而COPY仅仅是拷贝
-</code></pre><p>这样是不是就有点样子了？<br>其实dockerfile还有其他5个指令：  </p>
-<ul>
-<li>WORKDIR<br>指定一个容器的工作目录</li>
-<li>ENV<br>设置容器的环境变量</li>
-<li>USER<br>指定用什么样的用户运行</li>
-<li>VOLUME<br>添加可以在容器间共享数据或者持久化数据的“卷”</li>
-<li>ONBUILD<br>为镜像添加触发器</li>
+<h3 id="第四要素-请求"><a href="#第四要素-请求" class="headerlink" title="第四要素 - 请求"></a>第四要素 - 请求</h3><ul>
+<li>清楚地告诉对方，我们希望他们做什么。</li>
+<li>我们提出的请求越具体越好，如果我们的意思含糊不清，别人就难以了解我们到底想要什么。</li>
+<li>使用抽象的语言还会使我们无法深入了解自己</li>
+<li>在发言时，我们将自己想要的回应讲得越清楚，就越有可能得到理想的回应</li>
+<li>请求与命令： 请求没有得到满足时，提出请求的人如果批评和指责，那就是命令；如果想利用对方的内疚来达到目的，也是命令。</li>
 </ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Develop/">Develop</a>►<a class="article-category-link" href="/categories/Develop/DevOps/">DevOps</a>
-</div>
 
 
 </div>
@@ -169,7 +157,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.lirui.me/posts/cac2d233/" data-title="Dockerfile 书写方法（cookbook） | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.lirui.me/posts/24de702c/" data-title="《非暴力沟通》读书笔记 | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -182,19 +170,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/posts/47728c0b/" title="向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现">
-  <strong>上一篇：</strong><br/>
-  <span>
-  向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/posts/3e55e448/"  title="集合，容器使用小结">
+<a href="/posts/bd4eb22c/"  title="设置私有服务器备忘录">
  <strong>下一篇：</strong><br/> 
- <span>集合，容器使用小结
+ <span>设置私有服务器备忘录
 </span>
 </a>
 </div>
@@ -215,7 +195,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的Dockerfile例子"><span class="toc-number">1.</span> <span class="toc-text">简单的Dockerfile例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#稍微复杂点的例子"><span class="toc-number">2.</span> <span class="toc-text">稍微复杂点的例子</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#非暴力沟通要素"><span class="toc-number">1.</span> <span class="toc-text">非暴力沟通要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一要素-观察"><span class="toc-number">1.1.</span> <span class="toc-text">第一要素 - 观察</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二要素-感受"><span class="toc-number">1.2.</span> <span class="toc-text">第二要素 - 感受</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三要素-需要"><span class="toc-number">1.3.</span> <span class="toc-text">第三要素 - 需要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四要素-请求"><span class="toc-number">1.4.</span> <span class="toc-text">第四要素 - 请求</span></a></li></ol></li></ol>
  
   </div>
 

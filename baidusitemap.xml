@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/24de702c/</loc>
+    <lastmod>2018-01-04T10:30:58.818Z</lastmod>
+    <data>
+        <display>
+        <title>《非暴力沟通》读书笔记</title>
+        <pubTime>2018-01-04T10:17:20.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/bd4eb22c/</loc>
     <lastmod>2018-01-04T06:52:25.591Z</lastmod>
     <data>
@@ -493,6 +508,48 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>创建iOS静态Frameworks的步骤</title>
+        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+          
+             
+              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/bec40434/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>环青海湖骑行</title>
+        <pubTime>2014-10-07T07:42:41.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/33d68573/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -538,12 +595,12 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/972839c8/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
+    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
         <display>
-        <title>创建iOS静态Frameworks的步骤</title>
-        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        <title>我的第一篇OctoPress博客</title>
+        <pubTime>2014-02-27T02:07:21.000Z</pubTime>
         
          
            
@@ -551,28 +608,10 @@
               <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
           
              
-              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
           
              
-              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/bec40434/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>环青海湖骑行</title>
-        <pubTime>2014-10-07T07:42:41.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
@@ -612,30 +651,6 @@
           
              
               <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
-    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
-    <data>
-        <display>
-        <title>我的第一篇OctoPress博客</title>
-        <pubTime>2014-02-27T02:07:21.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
