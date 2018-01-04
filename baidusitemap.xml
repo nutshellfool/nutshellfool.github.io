@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/bd4eb22c/</loc>
+    <lastmod>2018-01-04T06:52:25.591Z</lastmod>
+    <data>
+        <display>
+        <title>设置私有服务器备忘录</title>
+        <pubTime>2018-01-04T06:37:38.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/b61b5e8c/</loc>
     <lastmod>2017-12-29T07:00:22.206Z</lastmod>
     <data>
@@ -478,12 +493,12 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <loc>http://blog.lirui.me/posts/33d68573/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
         <display>
-        <title>创建iOS静态Frameworks的步骤</title>
-        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        <title>如何在Mac上搭建Web开发环境</title>
+        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
         
          
            
@@ -491,10 +506,10 @@
               <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
           
              
-              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
           
              
-              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
@@ -523,6 +538,30 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>创建iOS静态Frameworks的步骤</title>
+        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+          
+             
+              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/bec40434/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -541,47 +580,17 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/33d68573/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何在Mac上搭建Web开发环境</title>
-        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
+    <loc>http://blog.lirui.me/posts/44516416/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
         <display>
-        <title>我的第一篇OctoPress博客</title>
-        <pubTime>2014-02-27T02:07:21.000Z</pubTime>
+        <title>技术面试的反思</title>
+        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
           
         </display>
     </data>
@@ -610,17 +619,23 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/44516416/</loc>
+    <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
         <display>
-        <title>技术面试的反思</title>
-        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        <title>我的第一篇OctoPress博客</title>
+        <pubTime>2014-02-27T02:07:21.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
+          
+             
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>

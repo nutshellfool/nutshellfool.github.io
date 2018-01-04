@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2017-12-29T07:00:22.206Z</updated>
+  <updated>2018-01-04T06:52:25.591Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -14,6 +14,88 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>设置私有服务器备忘录</title>
+    <link href="http://blog.lirui.me/posts/bd4eb22c/"/>
+    <id>http://blog.lirui.me/posts/bd4eb22c/</id>
+    <published>2018-01-04T06:37:38.000Z</published>
+    <updated>2018-01-04T06:52:25.591Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Linux-Distribution-OS"><a href="#Linux-Distribution-OS" class="headerlink" title="Linux Distribution OS"></a>Linux Distribution OS</h2><p>CentOS 7</p>
+<h2 id="必要的安全设置"><a href="#必要的安全设置" class="headerlink" title="必要的安全设置"></a>必要的安全设置</h2><h3 id="保持服务器系统更新"><a href="#保持服务器系统更新" class="headerlink" title="保持服务器系统更新"></a>保持服务器系统更新</h3><h4 id="自动更新安全更新"><a href="#自动更新安全更新" class="headerlink" title="自动更新安全更新"></a>自动更新安全更新</h4><ul>
+<li>CentOS 使用 yum-cron 自动更新</li>
+<li>Fedora 使用 dnf-automatic</li>
+<li>Debian Ubuntu 使用 unattended upgrade</li>
+</ul>
+<h3 id="添加访问受限的用户账号"><a href="#添加访问受限的用户账号" class="headerlink" title="添加访问受限的用户账号"></a>添加访问受限的用户账号</h3><ul>
+<li><p>创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">useradd devop &amp;&amp; passwd devop</div></pre></td></tr></table></figure>
+</li>
+<li><p>添加该用户到wheel组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">usermod <span class="_">-a</span>G wheel devop</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="SSH-守护进程配置"><a href="#SSH-守护进程配置" class="headerlink" title="SSH 守护进程配置"></a>SSH 守护进程配置</h3><h4 id="拒绝Root用户通过SSH登录"><a href="#拒绝Root用户通过SSH登录" class="headerlink" title="拒绝Root用户通过SSH登录"></a>拒绝Root用户通过SSH登录</h4><p>修改配置文件<code>/etc/ssh/sshd_config</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Authentication:</span></div><div class="line">...</div><div class="line">PermitRootLogin no</div></pre></td></tr></table></figure></p>
+<p>然后重启sshd服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl restart sshd</div></pre></td></tr></table></figure></p>
+<p>更多服务器安全配置：<a href="https://www.linode.com/docs/security/securing-your-server" target="_blank" rel="external">linode 服务器安全配置</a></p>
+<h2 id="必要的软件"><a href="#必要的软件" class="headerlink" title="必要的软件"></a>必要的软件</h2><h3 id="系统、开发相关"><a href="#系统、开发相关" class="headerlink" title="系统、开发相关"></a>系统、开发相关</h3><ul>
+<li>EPEL  </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install epel-release</div></pre></td></tr></table></figure>
+<ul>
+<li>Python3 virtualenv  </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install python34 python-pip</div></pre></td></tr></table></figure>
+<p>然后紧接着升级pip和安装 virtualenv<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo pip install -U pip</div><div class="line">sudo pip install -U virtualenv</div></pre></td></tr></table></figure></p>
+<p>在CentOS7上使用源码编译安装Python3.6<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo yum install gcc</div><div class="line">sudo yum install zlib-devel</div><div class="line">sudo yum --enablerepo=base --enablerepo=updates install openssl-devel</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /usr/src</div><div class="line">wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tgz</div><div class="line">tar xzf Python-3.6.2.tgz</div><div class="line"><span class="built_in">cd</span> Python-3.6.2</div><div class="line">./configure --enable-optimizations</div><div class="line">make altinstall</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ..</div><div class="line">rm Python-3.6.2.tgz</div></pre></td></tr></table></figure>
+<ul>
+<li>MySQL<br>首先更新yum<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum update</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后下载安装MySQL社区版仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</div><div class="line">sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</div><div class="line">yum update</div></pre></td></tr></table></figure></p>
+<p>然后安装、重启MySQL<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum install mysql-server</div><div class="line">sudo systemctl start mysqld</div></pre></td></tr></table></figure></p>
+<p>然后安全配置MySQL<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mysql_secure_installation</div></pre></td></tr></table></figure></p>
+<p><a href="https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-7" target="_blank" rel="external">更多MySQL配置</a></p>
+<ul>
+<li>Redis  </li>
+</ul>
+<p>添加EPEL仓库，更新yum<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum install epel-release</div><div class="line">sudo yum update</div></pre></td></tr></table></figure></p>
+<p>安装Redis  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install redis</div></pre></td></tr></table></figure>
+<p>启动并配置随机自启  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start redis</div><div class="line"></div><div class="line">sudo systemctl <span class="built_in">enable</span> redis</div></pre></td></tr></table></figure>
+<p><a href="https://www.linode.com/docs/databases/redis/install-and-configure-redis-on-centos-7" target="_blank" rel="external">更多Redis配置</a></p>
+<ul>
+<li>Nginx<br>首先配置EPEL和yum更新<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo yum install epel-release</div><div class="line">yum update</div><div class="line">```  </div><div class="line">其次安装Nginx  </div><div class="line"></div><div class="line">```BASH</div><div class="line">yum install nginx</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>配置启动Nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl <span class="built_in">enable</span> nginx.service</div><div class="line">systemctl start nginx.service</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Git 服务器<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="external">配置链接</a></li>
+</ul>
+<p>Git Hook 配置Git自动部署<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" target="_blank" rel="external">How To Set Up Automatic Deployment with Git with a VPS</a></p>
+<ul>
+<li>jenkins</li>
+<li><p>Ansible<br><a href="http://codeheaven.io/an-introduction-to-ansible/" target="_blank" rel="external">An Introduction to Ansible: Installing Jenkins on your server</a><br><a href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e" target="_blank" rel="external">Deployment with Ansible, Docker, Jenkins and Git</a><br><a href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins" target="_blank" rel="external">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
+</li>
+<li><p>ApacheBench（ab）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install httpd-tools</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>用法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ab -c 并发数 -n 请求数 URL</div><div class="line">ab -c 10000 -n 100 http://localhost/</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Linux-Distribution-OS&quot;&gt;&lt;a href=&quot;#Linux-Distribution-OS&quot; class=&quot;headerlink&quot; title=&quot;Linux Distribution OS&quot;&gt;&lt;/a&gt;Linux Distribution OS&lt;/
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>深层神经网络</title>
@@ -1717,87 +1799,6 @@ Binary tree [1,2,3], return false.
       <category term="Mathmatics" scheme="http://blog.lirui.me/categories/Mathmatics/"/>
     
       <category term="LaTex" scheme="http://blog.lirui.me/categories/Mathmatics/LaTex/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>树的那些事</title>
-    <link href="http://blog.lirui.me/posts/10a77275/"/>
-    <id>http://blog.lirui.me/posts/10a77275/</id>
-    <published>2017-03-15T09:03:52.000Z</published>
-    <updated>2017-12-27T02:42:35.016Z</updated>
-    
-    <content type="html"><![CDATA[<p>树，尤其是二叉搜索树(Binary Search Tree =&gt; BST)是算法、数据结构领域重要的数据结构之一。<br>那么既然BST这么重要，想要了解BST需要了解哪些方面呢？</p>
-<h2 id="树是什么鬼？"><a href="#树是什么鬼？" class="headerlink" title="树是什么鬼？"></a>树是什么鬼？</h2><p>树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。<br>一棵没有节点的树我们称为空树（Empty tree）<br>更多树的细节（如：叶子、度、树高等概念的定义）<a href="https://en.wikipedia.org/wiki/Tree_(data_structure" target="_blank" rel="external">请参考这里</a>)</p>
-<h2 id="都有什么树"><a href="#都有什么树" class="headerlink" title="都有什么树"></a>都有什么树</h2><p>总的来说我们按照有序和无序的维度将树分为无序树和有序树。  </p>
-<ul>
-<li>无序树：树中任意节点的子节点之间没有顺序关系，这种树称为无序树，也称为自由树</li>
-<li>有序树：树中任意节点的子节点之间有顺序关系，这种树称为有序树。<ul>
-<li>二叉树 ：每个节点最多含有两个子树的树称为二叉树<ul>
-<li>完全二叉树<ul>
-<li>满二叉树</li>
-</ul>
-</li>
-<li>平衡二叉树<ul>
-<li>红黑树</li>
-<li>条表（skiped list）</li>
-</ul>
-</li>
-<li>二叉搜索树</li>
-</ul>
-</li>
-<li>B树 ：概括来说是一个一般化的二叉搜索树，可以拥有多于2个子节点<ul>
-<li>B+树</li>
-<li>B-树</li>
-</ul>
-</li>
-<li>霍夫曼树</li>
-</ul>
-</li>
-</ul>
-<h2 id="和树相关的操作"><a href="#和树相关的操作" class="headerlink" title="和树相关的操作"></a>和树相关的操作</h2><p>由于二叉搜索树有着广泛的应用，所以这部分以二叉搜索树为例表述。<br>既然是二叉搜索树那么以下三个操作是基本操作：  </p>
-<ul>
-<li><p>遍历(Travels)</p>
-<ul>
-<li>中序(inorder)遍历</li>
-<li>先序(preorder)遍历</li>
-<li>后序(postorder)遍历</li>
-</ul>
-</li>
-<li><p>添加节点(Add node)</p>
-</li>
-<li>查找节点(Search node)</li>
-<li>删除节点(Delete node)</li>
-</ul>
-<p>上面说得都是些比较抽象的内容，相信你一定已经按耐不住想撸一遍代码了。好！给你机会。<br>从最简单的开始， 用你最熟悉的语言定义一个树结构：<br>考虑到Java的广泛使用程度，下面的代码都以Java编写。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</div><div class="line">    <span class="comment">// left child node</span></div><div class="line">    TreeNode leftChild;</div><div class="line"></div><div class="line">    <span class="comment">// left rightChild</span></div><div class="line">    TreeNode rightChild;</div><div class="line">    <span class="keyword">int</span>     data;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在进行遍历之前还有一个关键的步骤没有做，那就是构造树。<br>如果你也这样想，好吧，再想想是不是错过了些什么？<br>对，其实构建树只是添加树的一个复合操作。废话少说上码来战。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span> </span>&#123;</div><div class="line">    <span class="comment">// root node</span></div><div class="line">    TreeNode root;</div><div class="line"></div><div class="line">    <span class="comment">// Do nothing</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//</span></div><div class="line">    <span class="comment">// Insert the node to the BST</span></div><div class="line">    <span class="comment">//</span></div><div class="line">    <span class="comment">// put the value item into the BST</span></div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">put</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="keyword">return</span> put(<span class="keyword">this</span>.root, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * 添加节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> root</div><div class="line">     * <span class="doctag">@param</span> value</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">put</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">this</span>.root = <span class="keyword">new</span> TreeNode();</div><div class="line">            <span class="keyword">this</span>.root.data = value;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.root;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> valueOfrootElement = root.data;</div><div class="line">        <span class="keyword">if</span> (value &lt; valueOfrootElement)&#123;</div><div class="line">            root.leftChild = put(root.leftChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; valueOfrootElement)&#123;</div><div class="line">            root.rightChild = put(root.rightChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            root.data = value;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>是不是感觉上面的代码有些不舒服，对的，有代码强迫症的你肯定已经毛爪挠心了，不废话，消灭所有不合理的因素。这次从方法命名开始。<br>(敲黑板，认真脸)  </p>
-<pre><code>方法名中若不是简单的getter/setter 操作应当避免使用get/set作为方法名，以免引起不必要的误解。
-</code></pre><p>改正后的版本</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span> </span>&#123;</div><div class="line">    <span class="comment">// root node</span></div><div class="line">    TreeNode root;</div><div class="line"></div><div class="line">    <span class="comment">// Do nothing</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> value</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">addTreeNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.root == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.root = <span class="keyword">new</span> TreeNode(value);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> addTreeNode(<span class="keyword">this</span>.root, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">addTreeNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(value);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> valueOfrootElement = root.data;</div><div class="line">        <span class="keyword">if</span> (value &lt; valueOfrootElement)&#123;</div><div class="line">            root.leftChild = addTreeNode(root.leftChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; valueOfrootElement)&#123;</div><div class="line">            root.rightChild = addTreeNode(root.rightChild, value);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            root.data = value;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>嗯，感觉舒服多了。<br>紧接着还有一个操作，查找：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">searchNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> searchNode(<span class="keyword">this</span>.root, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * 查找节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> root</div><div class="line">     * <span class="doctag">@param</span> value</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> TreeNode <span class="title">searchNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">        <span class="comment">// empty tree</span></div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// in order travels</span></div><div class="line">        <span class="keyword">int</span> rootValue = <span class="keyword">this</span>.root.data;</div><div class="line">        <span class="keyword">if</span> (rootValue == value)&#123;</div><div class="line">            <span class="keyword">return</span> root;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &lt; rootValue) &#123;</div><div class="line">            <span class="keyword">return</span> searchNode(root.leftChild, value);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> searchNode(root.rightChild, value);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>上面的代码用到了inorder travels标准写法，递归(Reccurrence)调用查找方法。  </p>
-<p>我们实现了添加查找节点的方法，下一步就是实现删除节点。  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">deleteNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</div><div class="line">      <span class="keyword">return</span> deleteNode(<span class="keyword">this</span>.root, value);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">deleteNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">      <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">int</span> rootValue = root.data;</div><div class="line">      <span class="keyword">if</span> (value &lt; rootValue) &#123;</div><div class="line">          root.leftChild = deleteNode(root.leftChild, value);</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &gt; rootValue) &#123;</div><div class="line">          root.rightChild = deleteNode(root.rightChild, value);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="keyword">if</span> (root.leftChild == <span class="keyword">null</span>) &#123;</div><div class="line">              <span class="keyword">return</span> root.rightChild;</div><div class="line">          &#125;</div><div class="line"></div><div class="line">          <span class="keyword">if</span> (root.rightChild == <span class="keyword">null</span>) &#123;</div><div class="line">              <span class="keyword">return</span>  root.leftChild;</div><div class="line">          &#125;</div><div class="line"></div><div class="line">          <span class="comment">// search for the min node in right child subtree,</span></div><div class="line">          <span class="comment">// and then replace the current node.</span></div><div class="line">          <span class="comment">//</span></div><div class="line">          TreeNode newRootNode = findMin(root.rightChild);</div><div class="line">          <span class="comment">// replace the current node.</span></div><div class="line">          root.data = newRootNode.data;</div><div class="line">          <span class="comment">// remove from the previous right subtree</span></div><div class="line">          root.rightChild = deleteNode(root.rightChild, newRootNode.data);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">     <span class="keyword">return</span> root;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>算法的细节就不解释了，稍微麻烦点的地方都有注释。  </p>
-<p>到了这里是不是觉得就可以打完收工了？ No,No,No……<br>没有测试的代码是不可以发布的，只有写过单元测试代码，并且GreenBar通过后才可以。<br>具体怎么添加单元测试工程的过程这里就不再啰嗦了，不同语言下都有比较成熟的单元测试框架， 例如java下的就是junit。下附图为测试工程GreenBar通过：<br><img src="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg" alt="GreenBarPass">  </p>
-<p>下附工程代码：<a href="https://github.com/nutshellfool/algorithmShare" target="_blank" rel="external">gitHub</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。&lt;br&gt;那么既然BST这么重要，想要了解BST需要了解哪些方面呢？&lt;/p&gt;
-&lt;h2 id=&quot;树是什么鬼？&quot;&gt;&lt;a href=&quot;#树是什么鬼？&quot; class
-    
-    </summary>
-    
-      <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
-    
-      <category term="Interview" scheme="http://blog.lirui.me/categories/Algorithm/Interview/"/>
     
     
   </entry>
