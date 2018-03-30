@@ -4,8 +4,23 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/3128c36f/</loc>
+    <lastmod>2018-03-30T10:19:37.050Z</lastmod>
+    <data>
+        <display>
+        <title>在DigitalOcean上安装kubernetes cluster</title>
+        <pubTime>2018-03-30T10:19:37.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/2e8d4abb/</loc>
-    <lastmod>2018-03-16T01:52:12.316Z</lastmod>
+    <lastmod>2018-03-16T01:52:48.528Z</lastmod>
     <data>
         <display>
         <title>腾讯产品方法 读书笔记</title>
@@ -562,6 +577,27 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>壮游台湾之吃住攻略</title>
+        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+             
+              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/33d68573/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -579,27 +615,6 @@
           
              
               <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>壮游台湾之吃住攻略</title>
-        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-             
-              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>

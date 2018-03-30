@@ -4,42 +4,54 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>腾讯产品方法 读书笔记 | 李瑞的博客</title>
+    <title>在DigitalOcean上安装kubernetes cluster | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="读书笔记,产品思维,需求">
+    <meta name="keywords" content="kubernetes,tectonic">
     
-    <meta name="description" content="需求是什么总体而言，经济学是这样概括人性需求的，认为需求有两个重要特点：  
+    <meta name="description" content="提前准备
+CoreOS 账号 链接
+DigitalOcean 账号 带我推荐码的注册链接
+一个有控制权的域名（子域名）
 
-你想要的东西，别人也想要；
-人的需求在不断地变化，不断地升级。
+## 开搞
+CoreOS账号准备
+申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用
 
-需要与需求的关系需要对应心理学中的概念，在心理学中指的是心理个体由于自身有愿未遂所导致的不平衡的紧张状态。简单来讲，需要是人们生理、心理层面的匮乏感和欲望，它集中表现为一种对现实的不满。  
-不过这种停留在生理或心理层面的不满和我们常谈论的产品需求不同。">
+DigitalOcean 操作
+生成 Personal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="腾讯产品方法 读书笔记">
-<meta property="og:url" content="http://blog.lirui.me/posts/2e8d4abb/index.html">
+<meta property="og:title" content="在DigitalOcean上安装kubernetes cluster">
+<meta property="og:url" content="http://blog.lirui.me/posts/3128c36f/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="需求是什么总体而言，经济学是这样概括人性需求的，认为需求有两个重要特点：  
+<meta property="og:description" content="提前准备
+CoreOS 账号 链接
+DigitalOcean 账号 带我推荐码的注册链接
+一个有控制权的域名（子域名）
 
-你想要的东西，别人也想要；
-人的需求在不断地变化，不断地升级。
+## 开搞
+CoreOS账号准备
+申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用
 
-需要与需求的关系需要对应心理学中的概念，在心理学中指的是心理个体由于自身有愿未遂所导致的不平衡的紧张状态。简单来讲，需要是人们生理、心理层面的匮乏感和欲望，它集中表现为一种对现实的不满。  
-不过这种停留在生理或心理层面的不满和我们常谈论的产品需求不同。">
-<meta property="og:updated_time" content="2018-03-16T01:52:48.528Z">
+DigitalOcean 操作
+生成 Personal">
+<meta property="og:updated_time" content="2018-03-30T10:19:37.050Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="腾讯产品方法 读书笔记">
-<meta name="twitter:description" content="需求是什么总体而言，经济学是这样概括人性需求的，认为需求有两个重要特点：  
+<meta name="twitter:title" content="在DigitalOcean上安装kubernetes cluster">
+<meta name="twitter:description" content="提前准备
+CoreOS 账号 链接
+DigitalOcean 账号 带我推荐码的注册链接
+一个有控制权的域名（子域名）
 
-你想要的东西，别人也想要；
-人的需求在不断地变化，不断地升级。
+## 开搞
+CoreOS账号准备
+申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用
 
-需要与需求的关系需要对应心理学中的概念，在心理学中指的是心理个体由于自身有愿未遂所导致的不平衡的紧张状态。简单来讲，需要是人们生理、心理层面的匮乏感和欲望，它集中表现为一种对现实的不满。  
-不过这种停留在生理或心理层面的不满和我们常谈论的产品需求不同。">
+DigitalOcean 操作
+生成 Personal">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -95,14 +107,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/2e8d4abb/" title="腾讯产品方法 读书笔记" itemprop="url">腾讯产品方法 读书笔记</a>
+      <a href="/posts/3128c36f/" title="在DigitalOcean上安装kubernetes cluster" itemprop="url">在DigitalOcean上安装kubernetes cluster</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-16T01:52:12.000Z" itemprop="datePublished"> Published 2018-03-16</time>
+    <time datetime="2018-03-30T10:19:37.000Z" itemprop="datePublished"> Published 2018-03-30</time>
     
   </p>
 </header>
@@ -111,70 +123,32 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求是什么"><span class="toc-number">1.</span> <span class="toc-text">需求是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#需要与需求的关系"><span class="toc-number">1.1.</span> <span class="toc-text">需要与需求的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#产品需求四归一"><span class="toc-number">1.2.</span> <span class="toc-text">产品需求四归一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#产品强度-体验-成本"><span class="toc-number">1.3.</span> <span class="toc-text">产品强度 = 体验 - 成本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产品设计"><span class="toc-number">2.</span> <span class="toc-text">产品设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设计流程：精益设计"><span class="toc-number">2.1.</span> <span class="toc-text">设计流程：精益设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#互联网项目开发流程"><span class="toc-number">2.1.1.</span> <span class="toc-text">互联网项目开发流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户研究：建立用户模型（Who）"><span class="toc-number">2.2.</span> <span class="toc-text">用户研究：建立用户模型（Who）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求场景分析：角色、场景、方案"><span class="toc-number">2.3.</span> <span class="toc-text">需求场景分析：角色、场景、方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#产品MVP：低成本试错"><span class="toc-number">2.4.</span> <span class="toc-text">产品MVP：低成本试错</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#提前准备"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS账号准备"><span class="toc-number">1.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-操作"><span class="toc-number">1.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并解压-Tectonic-Installer"><span class="toc-number">1.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="需求是什么"><a href="#需求是什么" class="headerlink" title="需求是什么"></a>需求是什么</h2><p>总体而言，经济学是这样概括人性需求的，认为需求有两个重要特点：  </p>
+		<h2 id="提前准备"><a href="#提前准备" class="headerlink" title="提前准备"></a>提前准备</h2><ul>
+<li>CoreOS 账号 <a href="https://account.coreos.com/login" target="_blank" rel="external">链接</a></li>
+<li>DigitalOcean 账号 <a href="https://m.do.co/c/9f0131ec4f0f" target="_blank" rel="external">带我推荐码的注册链接</a></li>
+<li>一个有控制权的域名（子域名）</li>
+</ul>
+<p>## 开搞</p>
+<h3 id="CoreOS账号准备"><a href="#CoreOS账号准备" class="headerlink" title="CoreOS账号准备"></a>CoreOS账号准备</h3><ul>
+<li>申请获取Tectonic License 和 Pull Secret<br>将申请好的<code>Tectonic License</code> 和 <code>Pull Secret</code>保存好，以备后用</li>
+</ul>
+<h3 id="DigitalOcean-操作"><a href="#DigitalOcean-操作" class="headerlink" title="DigitalOcean 操作"></a>DigitalOcean 操作</h3><ul>
+<li><p>生成 Personal access token<br>API -&gt; Tokens/Keys<br>注意，Scope 需要勾选Write选项</p>
+</li>
+<li><p>生成 Space access keys<br>API -&gt; Tokens/Keys<br>生成的过程中会开通Spaces服务</p>
+</li>
+<li><p>添加DNS zone<br>Networking -&gt; Domains<br>添加一个base DNS domain</p>
+</li>
+</ul>
+<h3 id="下载并解压-Tectonic-Installer"><a href="#下载并解压-Tectonic-Installer" class="headerlink" title="下载并解压 Tectonic Installer"></a>下载并解压 Tectonic Installer</h3><p>具体安装步骤参见官方网站链接<a href="https://coreos.com/tectonic/docs/1.8.4-tectonic.2/install/aws/aws-terraform.html" target="_blank" rel="external">链接地址</a></p>
 <ul>
-<li>你想要的东西，别人也想要；</li>
-<li>人的需求在不断地变化，不断地升级。</li>
+<li>这里注意将所有命令中<code>aws</code>替换为<code>digitalocean</code>就可以，另外注意选择正确的“platform”。</li>
+<li>AWS_ACCESS_KEY_ID、AWS_SECRET_ACCESS_KEY、AWS_REGION 这三个环境变量无需设置</li>
 </ul>
-<h3 id="需要与需求的关系"><a href="#需要与需求的关系" class="headerlink" title="需要与需求的关系"></a>需要与需求的关系</h3><p>需要对应心理学中的概念，在心理学中指的是心理个体由于自身有愿未遂所导致的不平衡的紧张状态。<br>简单来讲，需要是人们生理、心理层面的匮乏感和欲望，它集中表现为一种对现实的不满。  </p>
-<p>不过这种停留在生理或心理层面的不满和我们常谈论的产品需求不同。最大的区别是它只能被感知但无法被衡量。<br>当我们谈论需求时，必定存在一个具体的产品。  </p>
-<blockquote>
-<p>产品需求是指用户对某个具体产品的需要，而用户行动可以衡量这种需求。  </p>
-</blockquote>
-<p>想要、要得起、要的行动，是完全不同的三件事。<br>“想要”是需求存在的前提，“要得起”是用户行动的综合成本足够低，“要的行动”则是用户最终的选择。  </p>
-<h3 id="产品需求四归一"><a href="#产品需求四归一" class="headerlink" title="产品需求四归一"></a>产品需求四归一</h3><ul>
-<li>需求与策略阶段</li>
-</ul>
-<ol>
-<li>Who（广度 = 主体）： 目标用户是谁？</li>
-<li>Why（强度 = 解决方案）：用户为什么选择我们的产品？  </li>
-<li>When（频次、可持续性 = 时间）：用户什么时候使用我们的产品？多久一次，持续多久？  </li>
-</ol>
-<ul>
-<li>产品设计阶段  </li>
-</ul>
-<ol>
-<li>Where（场景）： 用户在哪里使用我们的产品？</li>
-<li>What（方案形态）：产品具体形式是什么？做成什么样？</li>
-<li>How（操作路径）：用户是怎么使用它的？</li>
-</ol>
-<p>在需求与策略阶段这三个问题对应着产品需求的四要素：广度、强度、频次和可持续性。在这四个要素中强度即“用户为什么选择我们产品”又是最关键的；强度会影响广度、频次和可持续性。<br>归根结底，做产品本质上是在做解决方案，做产品强度。  </p>
-<h3 id="产品强度-体验-成本"><a href="#产品强度-体验-成本" class="headerlink" title="产品强度 = 体验 - 成本"></a>产品强度 = 体验 - 成本</h3><ul>
-<li>成本</li>
-</ul>
-<ol>
-<li>时间成本</li>
-<li>货币成本</li>
-<li>风险成本</li>
-<li>行动成本</li>
-</ol>
-<h2 id="产品设计"><a href="#产品设计" class="headerlink" title="产品设计"></a>产品设计</h2><h3 id="设计流程：精益设计"><a href="#设计流程：精益设计" class="headerlink" title="设计流程：精益设计"></a>设计流程：精益设计</h3><p>“精益”的核心理念：尽快获得用户反馈验证产品想法。<br>精益设计强调用户反馈与产品迭代紧密结合，通过不断“反馈—迭代”的开发循环，建立更贴近用户需求的设计机制。  </p>
-<h4 id="互联网项目开发流程"><a href="#互联网项目开发流程" class="headerlink" title="互联网项目开发流程"></a>互联网项目开发流程</h4><p>六个阶段：</p>
-<ol>
-<li>立项</li>
-<li>需求</li>
-<li>开发</li>
-<li>体验</li>
-<li>测试</li>
-<li>发布</li>
-</ol>
-<p>立项阶段最重要，这个阶段要回答“做还是不做”“为什么要做”的问题。不过相比“为什么做这个产品”，弄清“不做这个产品有什么损失”“最大的风险和最糟的结果是什么”更重要。<br>需求阶段要回答“这个产品具体是什么”的问题。这一阶段主要任务包括用户研究、需求场景分析、打造MVP以及设计产品规则、架构、流程、交互等。这是将产品抽象概念具象化的过程。<br>开发阶段对应“如何将产品做出来”。<br>体验、测试与发布阶段对应“在不同范围内搜集用户反馈”。  </p>
-<h3 id="用户研究：建立用户模型（Who）"><a href="#用户研究：建立用户模型（Who）" class="headerlink" title="用户研究：建立用户模型（Who）"></a>用户研究：建立用户模型（Who）</h3><p>用户研究最重要的原则只有一个：获得足量真实的用户反馈。</p>
-<ul>
-<li>如何才能获取到真实的用户反馈呢？  </li>
-</ul>
-<ol>
-<li>选用“对”的用户研究方式<br>在需求挖掘和策略阶段：定性的访谈要优于定量的问卷；<br>产品进入开发阶段，纠结于两个方案可行性时使用A/B Tests是不错的方法。  </li>
-<li>用户研究并不局限于访谈或问卷与用户直接交流的方式。亲自深入产品使用场景，暗中观察用户行为是更好的选择。  </li>
-</ol>
-<p>“获得足量真实的用户反馈”后用户研究的目标就是在真实数据基础上提炼出影响产品的最核心因子，根据核心因子为用户分类，建立用户模型。  </p>
-<h3 id="需求场景分析：角色、场景、方案"><a href="#需求场景分析：角色、场景、方案" class="headerlink" title="需求场景分析：角色、场景、方案"></a>需求场景分析：角色、场景、方案</h3><p>具体到产品设计的场景分析阶段，要结合之前确立的用户模型（Who）去看一看Where（场景）、What（方案）、How（路径）这三个维度。一般来说路径可以描述方案，所以How（路径）和What（方案）我们合并来看。  </p>
-<h3 id="产品MVP：低成本试错"><a href="#产品MVP：低成本试错" class="headerlink" title="产品MVP：低成本试错"></a>产品MVP：低成本试错</h3><hr>
-<p>未完待续</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -187,7 +161,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.lirui.me/posts/2e8d4abb/" data-title="腾讯产品方法 读书笔记 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.lirui.me/posts/3128c36f/" data-title="在DigitalOcean上安装kubernetes cluster | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -200,19 +174,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/posts/3128c36f/" title="在DigitalOcean上安装kubernetes cluster">
-  <strong>上一篇：</strong><br/>
-  <span>
-  在DigitalOcean上安装kubernetes cluster</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/posts/24de702c/"  title="《非暴力沟通》读书笔记">
+<a href="/posts/2e8d4abb/"  title="腾讯产品方法 读书笔记">
  <strong>下一篇：</strong><br/> 
- <span>《非暴力沟通》读书笔记
+ <span>腾讯产品方法 读书笔记
 </span>
 </a>
 </div>
@@ -233,7 +199,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求是什么"><span class="toc-number">1.</span> <span class="toc-text">需求是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#需要与需求的关系"><span class="toc-number">1.1.</span> <span class="toc-text">需要与需求的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#产品需求四归一"><span class="toc-number">1.2.</span> <span class="toc-text">产品需求四归一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#产品强度-体验-成本"><span class="toc-number">1.3.</span> <span class="toc-text">产品强度 = 体验 - 成本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产品设计"><span class="toc-number">2.</span> <span class="toc-text">产品设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设计流程：精益设计"><span class="toc-number">2.1.</span> <span class="toc-text">设计流程：精益设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#互联网项目开发流程"><span class="toc-number">2.1.1.</span> <span class="toc-text">互联网项目开发流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户研究：建立用户模型（Who）"><span class="toc-number">2.2.</span> <span class="toc-text">用户研究：建立用户模型（Who）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求场景分析：角色、场景、方案"><span class="toc-number">2.3.</span> <span class="toc-text">需求场景分析：角色、场景、方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#产品MVP：低成本试错"><span class="toc-number">2.4.</span> <span class="toc-text">产品MVP：低成本试错</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#提前准备"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS账号准备"><span class="toc-number">1.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-操作"><span class="toc-number">1.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并解压-Tectonic-Installer"><span class="toc-number">1.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li></ol></li></ol>
  
   </div>
 
