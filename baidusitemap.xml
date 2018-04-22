@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://blog.lirui.me/posts/3128c36f/</loc>
-    <lastmod>2018-03-30T10:19:37.050Z</lastmod>
+    <lastmod>2018-04-22T14:44:32.760Z</lastmod>
     <data>
         <display>
         <title>在DigitalOcean上安装kubernetes cluster</title>
@@ -553,12 +553,12 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <loc>http://blog.lirui.me/posts/33d68573/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
         <display>
-        <title>创建iOS静态Frameworks的步骤</title>
-        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        <title>如何在Mac上搭建Web开发环境</title>
+        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
         
          
            
@@ -566,10 +566,10 @@
               <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
           
              
-              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
           
              
-              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
@@ -598,30 +598,6 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/33d68573/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何在Mac上搭建Web开发环境</title>
-        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://blog.lirui.me/posts/bec40434/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -640,20 +616,41 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/8fcdd486/</loc>
-    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
         <display>
-        <title>去台湾前的准备工作1-证件、机票</title>
-        <pubTime>2014-03-28T01:24:16.000Z</pubTime>
+        <title>创建iOS静态Frameworks的步骤</title>
+        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
           
              
-              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+          
+             
+              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/44516416/</loc>
+    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>技术面试的反思</title>
+        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
           
         </display>
     </data>
@@ -685,17 +682,20 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/44516416/</loc>
+    <loc>http://blog.lirui.me/posts/8fcdd486/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
         <display>
-        <title>技术面试的反思</title>
-        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        <title>去台湾前的准备工作1-证件、机票</title>
+        <pubTime>2014-03-28T01:24:16.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+             
+              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>
