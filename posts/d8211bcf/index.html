@@ -26,7 +26,7 @@
 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？  
 
 这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个">
-<meta property="og:updated_time" content="2017-12-27T02:46:27.799Z">
+<meta property="og:updated_time" content="2018-08-28T06:03:52.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="也谈内存管理">
 <meta name="twitter:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。
@@ -121,7 +121,7 @@
 <p>Objective-C的内存管理使用的就是引用计数，不管是之前的MRC还是后来的ARC，背后的内存管理机制都是一致的，唯一不同的是MRC是将引用释放的工作交给工程师来做，而ARC是在编译阶段编译器来实现。那这里你会问了，都有编译器帮助做了，还要工程师做什么啊？毕竟只是一种机制不能保证那么智能，还是有些情景处理不好的，就比如“retain cycle”问题。<br>举个例子（注：以下的Objective-C代码都是在ARC的大前提下讨论）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">self.block = ^&#123;</div><div class="line">  [self foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 <p>这里的block capture住self，而self对block又有一个强引用，这样就有了一个retain cycle，说到这里如果对于Objective-C并不是很熟悉的话可能是一脸懵逼，如果对block的capture感兴趣移步到这里 <a href="http://clang.llvm.org/docs/Block-ABI-Apple.html#imported-variables" target="_blank" rel="external">Clang block 实现手册 之 imported-variables</a><br>相信看完之后会对block有个全新的认识。<br>anyway 扯远了，回到刚才的retain cycle问题上来，那么问题来了，既然知道了问题的原因，下面就是如何解决的问题了。<br>解决的思路就是：不是形成retain cycle的两端都是强引用么？那么我们将其中的一端设置为不是强引用，这样这个retain cycle 不就破了么？  </p>
 <pre><code>Talk is cheap, show me the code.
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakself = self;</div><div class="line">self.block = ^&#123;</div><div class="line">  [self foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakself = self;</div><div class="line">self.block = ^&#123;</div><div class="line">  [weakself foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>你会发现这里用到了一个神奇的变量标记符 <code>__weak</code><br>既然谈到了Objective-C的内存所有权修饰符（ownership qualifier）Objective-C中共有4种内存所有权修饰符：</p>
 <ul>
 <li><code>__strong</code></li>

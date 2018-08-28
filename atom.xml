@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2018-04-22T14:44:32.760Z</updated>
+  <updated>2018-04-22T14:44:32.761Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://blog.lirui.me/posts/3128c36f/"/>
     <id>http://blog.lirui.me/posts/3128c36f/</id>
     <published>2018-03-30T10:19:37.000Z</published>
-    <updated>2018-04-22T14:44:32.760Z</updated>
+    <updated>2018-04-22T14:44:32.761Z</updated>
     
     <content type="html"><![CDATA[<h2 id="提前准备"><a href="#提前准备" class="headerlink" title="提前准备"></a>提前准备</h2><ul>
 <li>CoreOS 账号 <a href="https://account.coreos.com/login" target="_blank" rel="external">链接</a></li>
@@ -188,7 +188,7 @@
     <link href="http://blog.lirui.me/posts/bd4eb22c/"/>
     <id>http://blog.lirui.me/posts/bd4eb22c/</id>
     <published>2018-01-04T06:37:38.000Z</published>
-    <updated>2018-01-04T06:52:25.591Z</updated>
+    <updated>2018-01-04T06:52:25.592Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Linux-Distribution-OS"><a href="#Linux-Distribution-OS" class="headerlink" title="Linux Distribution OS"></a>Linux Distribution OS</h2><p>CentOS 7</p>
 <h2 id="必要的安全设置"><a href="#必要的安全设置" class="headerlink" title="必要的安全设置"></a>必要的安全设置</h2><h3 id="保持服务器系统更新"><a href="#保持服务器系统更新" class="headerlink" title="保持服务器系统更新"></a>保持服务器系统更新</h3><h4 id="自动更新安全更新"><a href="#自动更新安全更新" class="headerlink" title="自动更新安全更新"></a>自动更新安全更新</h4><ul>
@@ -270,7 +270,7 @@
     <link href="http://blog.lirui.me/posts/b61b5e8c/"/>
     <id>http://blog.lirui.me/posts/b61b5e8c/</id>
     <published>2017-12-29T07:00:22.000Z</published>
-    <updated>2017-12-29T07:00:22.206Z</updated>
+    <updated>2017-12-29T07:00:22.207Z</updated>
     
     <content type="html"><![CDATA[<h2 id="深度学习与深层神经网络"><a href="#深度学习与深层神经网络" class="headerlink" title="深度学习与深层神经网络"></a>深度学习与深层神经网络</h2><blockquote>
 <p>深度学习（deep neural network）是机器学习的分支，是一种试图使用包含复杂结构或由多重非线性变换构成的多个处理层对数据进行高层抽象的算法。</p>
@@ -532,7 +532,7 @@
     <link href="http://blog.lirui.me/posts/3e55e448/"/>
     <id>http://blog.lirui.me/posts/3e55e448/</id>
     <published>2017-05-22T10:31:32.000Z</published>
-    <updated>2017-12-27T02:43:33.081Z</updated>
+    <updated>2017-12-27T02:43:33.082Z</updated>
     
     <content type="html"><![CDATA[<p>集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。</p>
 <h2 id="集合的分类"><a href="#集合的分类" class="headerlink" title="集合的分类"></a>集合的分类</h2><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。<br>如， 按照可动态变长和不能动态变长分为：</p>
@@ -895,7 +895,7 @@
     <link href="http://blog.lirui.me/posts/d8211bcf/"/>
     <id>http://blog.lirui.me/posts/d8211bcf/</id>
     <published>2017-05-17T14:37:02.000Z</published>
-    <updated>2017-12-27T02:46:27.799Z</updated>
+    <updated>2018-08-28T06:03:52.361Z</updated>
     
     <content type="html"><![CDATA[<p>每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？<br>哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。</p>
 <h2 id="内存管理？为什么内存需要管理？"><a href="#内存管理？为什么内存需要管理？" class="headerlink" title="内存管理？为什么内存需要管理？"></a>内存管理？为什么内存需要管理？</h2><blockquote>
@@ -909,7 +909,7 @@
 <p>Objective-C的内存管理使用的就是引用计数，不管是之前的MRC还是后来的ARC，背后的内存管理机制都是一致的，唯一不同的是MRC是将引用释放的工作交给工程师来做，而ARC是在编译阶段编译器来实现。那这里你会问了，都有编译器帮助做了，还要工程师做什么啊？毕竟只是一种机制不能保证那么智能，还是有些情景处理不好的，就比如“retain cycle”问题。<br>举个例子（注：以下的Objective-C代码都是在ARC的大前提下讨论）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">self.block = ^&#123;</div><div class="line">  [self foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 <p>这里的block capture住self，而self对block又有一个强引用，这样就有了一个retain cycle，说到这里如果对于Objective-C并不是很熟悉的话可能是一脸懵逼，如果对block的capture感兴趣移步到这里 <a href="http://clang.llvm.org/docs/Block-ABI-Apple.html#imported-variables" target="_blank" rel="external">Clang block 实现手册 之 imported-variables</a><br>相信看完之后会对block有个全新的认识。<br>anyway 扯远了，回到刚才的retain cycle问题上来，那么问题来了，既然知道了问题的原因，下面就是如何解决的问题了。<br>解决的思路就是：不是形成retain cycle的两端都是强引用么？那么我们将其中的一端设置为不是强引用，这样这个retain cycle 不就破了么？  </p>
 <pre><code>Talk is cheap, show me the code.
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakself = self;</div><div class="line">self.block = ^&#123;</div><div class="line">  [self foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakself = self;</div><div class="line">self.block = ^&#123;</div><div class="line">  [weakself foo];</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>你会发现这里用到了一个神奇的变量标记符 <code>__weak</code><br>既然谈到了Objective-C的内存所有权修饰符（ownership qualifier）Objective-C中共有4种内存所有权修饰符：</p>
 <ul>
 <li><code>__strong</code></li>
@@ -1091,7 +1091,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/9d999a37/"/>
     <id>http://blog.lirui.me/posts/9d999a37/</id>
     <published>2017-04-30T09:47:22.000Z</published>
-    <updated>2017-12-27T02:40:17.895Z</updated>
+    <updated>2017-12-27T02:40:17.896Z</updated>
     
     <content type="html"><![CDATA[<h2 id="五边飞行"><a href="#五边飞行" class="headerlink" title="五边飞行"></a>五边飞行</h2><p>飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？<br>哈哈， 笑而不语。<br>想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：<br>五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。<br>具体的说，这五个阶段是：  </p>
 <ol>
@@ -1260,7 +1260,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/d53d7104/"/>
     <id>http://blog.lirui.me/posts/d53d7104/</id>
     <published>2017-04-17T06:23:52.000Z</published>
-    <updated>2017-12-27T02:51:57.114Z</updated>
+    <updated>2017-12-27T02:51:57.115Z</updated>
     
     <content type="html"><![CDATA[<p>在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  </p>
 <h2 id="什么是主定理？"><a href="#什么是主定理？" class="headerlink" title="什么是主定理？"></a>什么是主定理？</h2><p>主定理来源于算法导论，是在第四章介绍分治法时适时引出的。<br><a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank" rel="external">wikipedia这样说</a>  </p>
@@ -1413,7 +1413,7 @@ Output: [1, 3, 9]
     <link href="http://blog.lirui.me/posts/602ee0a8/"/>
     <id>http://blog.lirui.me/posts/602ee0a8/</id>
     <published>2017-04-01T08:58:18.000Z</published>
-    <updated>2017-12-27T02:53:48.079Z</updated>
+    <updated>2017-12-27T02:53:48.080Z</updated>
     
     <content type="html"><![CDATA[<p>优先队列(PriorityQueue) 是一种抽象数据结构，队列内的元素都有对应的优先级，并根据其优先级出队。优先队列一般会使用堆（heap）来实现。  </p>
 <h2 id="优先队列的一些操作"><a href="#优先队列的一些操作" class="headerlink" title="优先队列的一些操作"></a>优先队列的一些操作</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><ol>
