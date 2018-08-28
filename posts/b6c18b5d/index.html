@@ -13,11 +13,13 @@
     <meta name="keywords" content="macOS">
     
     <meta name="description" content="很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明">
+<meta name="keywords" content="macOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mac 重装系统后要做的事情">
 <meta property="og:url" content="http://blog.lirui.me/posts/b6c18b5d/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-12-27T02:55:18.380Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac 重装系统后要做的事情">
@@ -128,36 +130,36 @@
 <li><p>brew</p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>pip, virtualenv</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo easy_install pip</div><div class="line">sudo pip install virtualenv</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo easy_install pip</span><br><span class="line">sudo pip install virtualenv</span><br></pre></td></tr></table></figure>
 <ul>
 <li>node.js</li>
 </ul>
-<p><a href="https://nodejs.org/en/" target="_blank" rel="external">官方链接</a></p>
+<p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">官方链接</a></p>
 <ul>
 <li>Golang</li>
 </ul>
-<p><a href="https://golang.org" target="_blank" rel="external">官方链接</a></p>
+<p><a href="https://golang.org" target="_blank" rel="noopener">官方链接</a></p>
 <ul>
 <li>hexo</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>CocoaPods<br><a href="https://cocoapods.org/app" target="_blank" rel="external">官方链接</a></p>
+<li><p>CocoaPods<br><a href="https://cocoapods.org/app" target="_blank" rel="noopener">官方链接</a></p>
 </li>
 <li><p>docker</p>
 </li>
 </ul>
-<p><a href="https://www.docker.com/docker-mac" target="_blank" rel="external">官方链接</a></p>
+<p><a href="https://www.docker.com/docker-mac" target="_blank" rel="noopener">官方链接</a></p>
 <ul>
 <li>mysql</li>
 </ul>
-<p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">官方链接</a></p>
+<p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">官方链接</a></p>
 <ul>
-<li>zsh, oh-my-zsh<br>安装zsh<br><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH" target="_blank" rel="external">安装指导</a><br>设置zsh为默认<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chsh <span class="_">-s</span> $(<span class="built_in">which</span> zsh)</div></pre></td></tr></table></figure>
+<li>zsh, oh-my-zsh<br>安装zsh<br><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH" target="_blank" rel="noopener">安装指导</a><br>设置zsh为默认<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh <span class="_">-s</span> $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="效率工具"><a href="#效率工具" class="headerlink" title="效率工具"></a>效率工具</h3><ul>
@@ -166,12 +168,12 @@
 <li>cleanmymac</li>
 <li>slack</li>
 <li>charles</li>
-<li>Wireshark<br><a href="https://www.wireshark.org/download.html" target="_blank" rel="external">官方链接</a></li>
+<li>Wireshark<br><a href="https://www.wireshark.org/download.html" target="_blank" rel="noopener">官方链接</a></li>
 <li>reveal</li>
-<li>sourceTree<br><a href="https://www.sourcetreeapp.com/" target="_blank" rel="external">官方链接</a></li>
+<li>sourceTree<br><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noopener">官方链接</a></li>
 <li>iTerms</li>
-<li>MySQLWorkBench<br><a href="https://dev.mysql.com/downloads/file/?id=468289" target="_blank" rel="external">官方链接</a></li>
-<li>DB Browser for sqlite<br><a href="http://sqlitebrowser.org/" target="_blank" rel="external">官方链接</a></li>
+<li>MySQLWorkBench<br><a href="https://dev.mysql.com/downloads/file/?id=468289" target="_blank" rel="noopener">官方链接</a></li>
+<li>DB Browser for sqlite<br><a href="http://sqlitebrowser.org/" target="_blank" rel="noopener">官方链接</a></li>
 </ul>
 <h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul>
 <li>IntelliJ IDEA</li>
@@ -182,19 +184,19 @@
 <h3 id="其他开发相关"><a href="#其他开发相关" class="headerlink" title="其他开发相关"></a>其他开发相关</h3><ul>
 <li>nginx</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install nginx</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure>
 <ul>
 <li>whodoi</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install whodoi</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install whodoi</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>redis<br><a href="https://redis.io/download" target="_blank" rel="external">官方链接</a></p>
+<li><p>redis<br><a href="https://redis.io/download" target="_blank" rel="noopener">官方链接</a></p>
 </li>
 <li><p>siege - 压力测试工具</p>
 </li>
 </ul>
-<p>支持SSL的siege配置 - 首先安装openssl：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">sudo wget https://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.0f.tar.gz</div><div class="line">sudo tar -xzvf openssl-1.1.0f.tar.gz</div><div class="line"><span class="built_in">cd</span> openssl-1.1.0f</div><div class="line">sudo ./config --prefix=/usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f</div><div class="line">sudo make &amp;&amp; sudo make install</div><div class="line">sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f /usr/<span class="built_in">local</span>/openssl</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="string">'export PATH=/usr/local/openssl/bin:$PATH'</span> &gt;&gt; ~/.zshrc</div><div class="line"><span class="built_in">echo</span> <span class="string">'export MANPATH=/usr/local/openssl/share/man:$MANPATH'</span> &gt;&gt; ~/.zshrc</div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">wget http://download.joedog.org/siege/siege-latest.tar.gz</div><div class="line">tar -xvf siege-latest.tar.gz</div><div class="line"><span class="built_in">cd</span> siege-*/</div><div class="line">./configure --prefix=/usr/<span class="built_in">local</span> --with-ssl=/usr/<span class="built_in">local</span>/openssl</div><div class="line">make &amp;&amp; make install</div><div class="line">siege.config</div><div class="line">siege -C</div></pre></td></tr></table></figure>
+<p>支持SSL的siege配置 - 首先安装openssl：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">sudo wget https://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.0f.tar.gz</span><br><span class="line">sudo tar -xzvf openssl-1.1.0f.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openssl-1.1.0f</span><br><span class="line">sudo ./config --prefix=/usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f</span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line">sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f /usr/<span class="built_in">local</span>/openssl</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export PATH=/usr/local/openssl/bin:$PATH'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export MANPATH=/usr/local/openssl/share/man:$MANPATH'</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.joedog.org/siege/siege-latest.tar.gz</span><br><span class="line">tar -xvf siege-latest.tar.gz</span><br><span class="line"><span class="built_in">cd</span> siege-*/</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span> --with-ssl=/usr/<span class="built_in">local</span>/openssl</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">siege.config</span><br><span class="line">siege -C</span><br></pre></td></tr></table></figure>
 <h3 id="last-but-not-least"><a href="#last-but-not-least" class="headerlink" title="last but not least"></a>last but not least</h3><p>使用time machine备份现在的系统状态。</p>
   
 	</div>

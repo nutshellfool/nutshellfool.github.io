@@ -12,25 +12,18 @@
 
     <meta name="keywords" content="Docker">
     
-    <meta name="description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。
-运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  
-查找镜像docker search &amp;lt;the container name&amp;gt;
-例如 我要查找centos的镜像：docker search ce">
+    <meta name="description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。 运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：   查找镜像docker search &amp;lt;the container name&amp;gt; 例如 我要查找centos的镜像：docker search ce">
+<meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初识Docker">
 <meta property="og:url" content="http://blog.lirui.me/posts/fea3737/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。
-运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  
-查找镜像docker search &amp;lt;the container name&amp;gt;
-例如 我要查找centos的镜像：docker search ce">
+<meta property="og:description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。 运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：   查找镜像docker search &amp;lt;the container name&amp;gt; 例如 我要查找centos的镜像：docker search ce">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-12-27T02:30:50.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识Docker">
-<meta name="twitter:description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。
-运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  
-查找镜像docker search &amp;lt;the container name&amp;gt;
-例如 我要查找centos的镜像：docker search ce">
+<meta name="twitter:description" content="安装Docker具体安装方法请参照官网 GetDockerMac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。 运行第一个Docker容器当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：   查找镜像docker search &amp;lt;the container name&amp;gt; 例如 我要查找centos的镜像：docker search ce">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -106,12 +99,12 @@
 		
 		</div>
 		
-		<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>具体安装方法请参照官网 <a href="https://www.docker.com/products/overview" target="_blank" rel="external">GetDocker</a><br>Mac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。</p>
+		<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>具体安装方法请参照官网 <a href="https://www.docker.com/products/overview" target="_blank" rel="noopener">GetDocker</a><br>Mac版的安装和其他应用程序一样简单，傻瓜式操作，这里就不重复介绍了。</p>
 <h2 id="运行第一个Docker容器"><a href="#运行第一个Docker容器" class="headerlink" title="运行第一个Docker容器"></a>运行第一个Docker容器</h2><p>当然运行第一个容器之前需要先查找对应的镜像，那么就涉及到docker的第一个命令：  </p>
 <h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><p><code>docker search &lt;the container name&gt;</code></p>
 <p>例如 我要查找centos的镜像：<br><code>docker search centos</code><br>这里docker会返回所有和centos相关的镜像（包括官方河非官方的）<br>我们这里的目的其实是基于官方的镜像做些展示，所以选择官方的镜像就好。<br>说到这里其实就涉及到第二个常见的docker命令了：</p>
 <h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p><code>docker pull &lt;container name&gt;:&lt;tag&gt;</code><br>例如 我要pull centos 7这个版本的镜像：<br><code>docker pull centos:7</code><br>需要说明的是这个命令中tag是可选参数，如果命令中未填写，那么docker会从目标容器镜像中下载latest这个特殊（最新）版的镜像。<br>这里推荐在pull命令中显式制定版本，方便后面的环境维护和管理。  </p>
-<p>Ok，等待下载完成。当然这个过程在墙内的世界会很慢，还好有镜像加速的服务，提供镜像服务的厂商目前有不少例如<a href="https://hpc.aliyun.com/doc/docker%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1" target="_blank" rel="external">阿里云</a>，<a href="http://docs.daocloud.io/faq/what-is-daocloud-accelerator" target="_blank" rel="external">daocloud</a><br>本人选择的是阿里云，按照厂商要求配置，重新pull，哇～速度飞起。</p>
+<p>Ok，等待下载完成。当然这个过程在墙内的世界会很慢，还好有镜像加速的服务，提供镜像服务的厂商目前有不少例如<a href="https://hpc.aliyun.com/doc/docker%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1" target="_blank" rel="noopener">阿里云</a>，<a href="http://docs.daocloud.io/faq/what-is-daocloud-accelerator" target="_blank" rel="noopener">daocloud</a><br>本人选择的是阿里云，按照厂商要求配置，重新pull，哇～速度飞起。</p>
 <p>镜像也pull下来了，那么就到关键的一步了：  </p>
 <h3 id="运行镜像"><a href="#运行镜像" class="headerlink" title="运行镜像"></a>运行镜像</h3><p><code>docker run -i -t &lt;container name&gt; /bin/bash</code><br>下面来解释下这个命令的几个参数到底是做什么的：  </p>
 <ul>

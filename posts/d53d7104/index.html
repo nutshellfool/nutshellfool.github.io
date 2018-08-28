@@ -12,22 +12,18 @@
 
     <meta name="keywords" content="Algorithm,Master theorem">
     
-    <meta name="description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  
-什么是主定理？主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说  
-主定理的描述是这样">
+    <meta name="description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。   什么是主定理？主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说   主定理的描述是这样">
+<meta name="keywords" content="Algorithm,Master theorem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="主定理（master theorem）">
 <meta property="og:url" content="http://blog.lirui.me/posts/d53d7104/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  
-什么是主定理？主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说  
-主定理的描述是这样">
+<meta property="og:description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。   什么是主定理？主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说   主定理的描述是这样">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-12-27T02:51:57.115Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主定理（master theorem）">
-<meta name="twitter:description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  
-什么是主定理？主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说  
-主定理的描述是这样">
+<meta name="twitter:description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。   什么是主定理？主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说   主定理的描述是这样">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -104,7 +100,7 @@
 		</div>
 		
 		<p>在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。  </p>
-<h2 id="什么是主定理？"><a href="#什么是主定理？" class="headerlink" title="什么是主定理？"></a>什么是主定理？</h2><p>主定理来源于算法导论，是在第四章介绍分治法时适时引出的。<br><a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank" rel="external">wikipedia这样说</a>  </p>
+<h2 id="什么是主定理？"><a href="#什么是主定理？" class="headerlink" title="什么是主定理？"></a>什么是主定理？</h2><p>主定理来源于算法导论，是在第四章介绍分治法时适时引出的。<br><a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank" rel="noopener">wikipedia这样说</a>  </p>
 <p>主定理的描述是这样的：<br>令$a \geq 1$, $b &gt; 1$的常数， $f(n)$为一个函数， $T(n)$的递归定义式如下：<br>$$T(n) = aT(n/b) + f(n)$$,<br>这里我们解释$n/b$为 $n/b$的最近的整数，即向上取整或者是向下取整。<br>那么我们根据$f(n)$的情况会有下面三个$T(n)$的函数渐进边界。  </p>
 <ol>
 <li>如果存在常数$\varepsilon$ $f(n) = O(n^{log_b^{a-\varepsilon}})$ 我们有<br>$$T(n) = \Theta(n^{log_b^a})$$  </li>

@@ -12,23 +12,19 @@
 
     <meta name="keywords" content="Algorithm">
     
-    <meta name="description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
-
-Upwin">
+    <meta name="description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
+<meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="五边飞行与网络拥塞控制">
 <meta property="og:url" content="http://blog.lirui.me/posts/9d999a37/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
-
-Upwin">
+<meta property="og:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
 <meta property="og:updated_time" content="2017-12-27T02:40:17.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="五边飞行与网络拥塞控制">
-<meta name="twitter:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：  
-
-Upwin">
+<meta name="twitter:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
 <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
 
     
@@ -113,7 +109,7 @@ Upwin">
 <li>Base</li>
 <li>Final</li>
 </ol>
-<p>更多细节查看<a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook/media/09_afh_ch7.pdf" target="_blank" rel="external">这里</a></p>
+<p>更多细节查看<a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook/media/09_afh_ch7.pdf" target="_blank" rel="noopener">这里</a></p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg" alt="五边飞行"></p>
 <p>你会问，不就是降落么？直接降不就行了么，费这些事干嘛？<br>飞机又不是汽车，碰到某个路段堵塞，汽车减速停下来就行了，飞机行么？更何况，你开车侧方位停车还要倒车然后回两把轮呢。  </p>
 <h2 id="TCP拥塞控制，慢启动"><a href="#TCP拥塞控制，慢启动" class="headerlink" title="TCP拥塞控制，慢启动"></a>TCP拥塞控制，慢启动</h2><p>我们看这整个过程，其实都是在为降落的充分准备做铺垫，为紧缺的资源-机场跑道创造一个有序、安全的降落起飞环境。哎，等等。从这个角度来看这与TCP网络协议中的拥塞控制算法何其相似，特别是慢启动（slow start）整个算法的考虑角度都是一样的。<br>因为网络传输中传输通道的大小是一定的，因此带宽就类似飞行中的机场跑道是紧缺资源，换句话说就需要通过一种机制保护起来，这里慢启动算法就起到了这个作用：<br>TCP在建立连接后，到了开始发送数据的阶段时，如果一次性发送了大量的数据包过去，必然会造成网络的拥塞，因此就需要根据网络情况逐步增加每次传送的数据包。具体说来是这样的：  </p>

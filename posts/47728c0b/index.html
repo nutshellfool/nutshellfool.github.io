@@ -12,22 +12,18 @@
 
     <meta name="keywords" content="机器学习,Machine learning,TensorFlow,forword propagation neuron network">
     
-    <meta name="description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如：
-weights = tf.Variable(tf.random_normal([2,3], stddev=2))
-上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
+    <meta name="description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如： weights = tf.Variable(tf.random_normal([2,3], stddev=2)) 上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
+<meta name="keywords" content="机器学习,Machine learning,TensorFlow,forword propagation neuron network">
 <meta property="og:type" content="article">
 <meta property="og:title" content="向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现">
 <meta property="og:url" content="http://blog.lirui.me/posts/47728c0b/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如：
-weights = tf.Variable(tf.random_normal([2,3], stddev=2))
-上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
+<meta property="og:description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如： weights = tf.Variable(tf.random_normal([2,3], stddev=2)) 上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-12-27T02:59:33.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现">
-<meta name="twitter:description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如：
-weights = tf.Variable(tf.random_normal([2,3], stddev=2))
-上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
+<meta name="twitter:description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如： weights = tf.Variable(tf.random_normal([2,3], stddev=2)) 上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -172,9 +168,9 @@ weights = tf.Variable(tf.random_normal([2,3], stddev=2))
 </tbody>
 </table>
 <p>神经网络中，偏置项通常会使用常数来设置初始值　　<br><code>biase = tf.Variable(tf.zeros([3]))</code></p>
-<h2 id="一段完整的例子"><a href="#一段完整的例子" class="headerlink" title="一段完整的例子"></a>一段完整的例子</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> TensorFlow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">w1 = tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">3</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</div><div class="line">w2 = tf.Variable(tf.random_normal([<span class="number">3</span>,<span class="number">1</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</div><div class="line"></div><div class="line">x = tf.constant([[<span class="number">0.7</span>, <span class="number">0.9</span>]])</div><div class="line">a = tf.matmul(x, w1)</div><div class="line">y = tf.matmul(a,w2)</div><div class="line"></div><div class="line"></div><div class="line">session = tf.Session()</div><div class="line">session.run(w1.initializer)</div><div class="line">session.run(w2.initializer)</div><div class="line">print(session.run(y))</div><div class="line">session.close()</div></pre></td></tr></table></figure>
-<h2 id="变量初始化"><a href="#变量初始化" class="headerlink" title="变量初始化"></a>变量初始化</h2><p>注意到在session代码前已经完整定义了TF计算图中的所有计算，但是！但是！这里定义的计算在这一步并不正真的运行。当需要运行这些计算并得到具体数字的时候需要先完成创建会话（session 后一章节会介绍）、变量初始化　　<br>具体到这个例子就是通过运行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">w1.initializer</div><div class="line">w2.initializer</div></pre></td></tr></table></figure></p>
-<p>有人会说了，我X用个变量还要这么麻烦，一不小心一个变量没有初始化还麻烦了，有没有不用动脑子的办法？当然有！　　<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">init_op = tf.initialize_all_variables()</div><div class="line">session.run(init_op)</div></pre></td></tr></table></figure></p>
+<h2 id="一段完整的例子"><a href="#一段完整的例子" class="headerlink" title="一段完整的例子"></a>一段完整的例子</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> TensorFlow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">w1 = tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">3</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</span><br><span class="line">w2 = tf.Variable(tf.random_normal([<span class="number">3</span>,<span class="number">1</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">x = tf.constant([[<span class="number">0.7</span>, <span class="number">0.9</span>]])</span><br><span class="line">a = tf.matmul(x, w1)</span><br><span class="line">y = tf.matmul(a,w2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">session = tf.Session()</span><br><span class="line">session.run(w1.initializer)</span><br><span class="line">session.run(w2.initializer)</span><br><span class="line">print(session.run(y))</span><br><span class="line">session.close()</span><br></pre></td></tr></table></figure>
+<h2 id="变量初始化"><a href="#变量初始化" class="headerlink" title="变量初始化"></a>变量初始化</h2><p>注意到在session代码前已经完整定义了TF计算图中的所有计算，但是！但是！这里定义的计算在这一步并不正真的运行。当需要运行这些计算并得到具体数字的时候需要先完成创建会话（session 后一章节会介绍）、变量初始化　　<br>具体到这个例子就是通过运行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">w1.initializer</span><br><span class="line">w2.initializer</span><br></pre></td></tr></table></figure></p>
+<p>有人会说了，我X用个变量还要这么麻烦，一不小心一个变量没有初始化还麻烦了，有没有不用动脑子的办法？当然有！　　<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">init_op = tf.initialize_all_variables()</span><br><span class="line">session.run(init_op)</span><br></pre></td></tr></table></figure></p>
 <h2 id="会话操作"><a href="#会话操作" class="headerlink" title="会话操作"></a>会话操作</h2><p>之前已经介绍过，session相关的操作，这里可以理解为真正开始运行定义好的运算。</p>
   
 	</div>

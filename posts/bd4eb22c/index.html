@@ -12,40 +12,18 @@
 
     <meta name="keywords" content="CentOS,Environment">
     
-    <meta name="description" content="Linux Distribution OSCentOS 7
-必要的安全设置保持服务器系统更新自动更新安全更新
-CentOS 使用 yum-cron 自动更新
-Fedora 使用 dnf-automatic
-Debian Ubuntu 使用 unattended upgrade
-
-添加访问受限的用户账号
-创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）
-1useradd dev">
+    <meta name="description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名） 1useradd dev">
+<meta name="keywords" content="CentOS,Environment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设置私有服务器备忘录">
 <meta property="og:url" content="http://blog.lirui.me/posts/bd4eb22c/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="Linux Distribution OSCentOS 7
-必要的安全设置保持服务器系统更新自动更新安全更新
-CentOS 使用 yum-cron 自动更新
-Fedora 使用 dnf-automatic
-Debian Ubuntu 使用 unattended upgrade
-
-添加访问受限的用户账号
-创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）
-1useradd dev">
+<meta property="og:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名） 1useradd dev">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-01-04T06:52:25.592Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置私有服务器备忘录">
-<meta name="twitter:description" content="Linux Distribution OSCentOS 7
-必要的安全设置保持服务器系统更新自动更新安全更新
-CentOS 使用 yum-cron 自动更新
-Fedora 使用 dnf-automatic
-Debian Ubuntu 使用 unattended upgrade
-
-添加访问受限的用户账号
-创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）
-1useradd dev">
+<meta name="twitter:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名） 1useradd dev">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -129,62 +107,62 @@ Debian Ubuntu 使用 unattended upgrade
 </ul>
 <h3 id="添加访问受限的用户账号"><a href="#添加访问受限的用户账号" class="headerlink" title="添加访问受限的用户账号"></a>添加访问受限的用户账号</h3><ul>
 <li><p>创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">useradd devop &amp;&amp; passwd devop</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd devop &amp;&amp; passwd devop</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>添加该用户到wheel组</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">usermod <span class="_">-a</span>G wheel devop</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod <span class="_">-a</span>G wheel devop</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="SSH-守护进程配置"><a href="#SSH-守护进程配置" class="headerlink" title="SSH 守护进程配置"></a>SSH 守护进程配置</h3><h4 id="拒绝Root用户通过SSH登录"><a href="#拒绝Root用户通过SSH登录" class="headerlink" title="拒绝Root用户通过SSH登录"></a>拒绝Root用户通过SSH登录</h4><p>修改配置文件<code>/etc/ssh/sshd_config</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Authentication:</span></div><div class="line">...</div><div class="line">PermitRootLogin no</div></pre></td></tr></table></figure></p>
-<p>然后重启sshd服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl restart sshd</div></pre></td></tr></table></figure></p>
-<p>更多服务器安全配置：<a href="https://www.linode.com/docs/security/securing-your-server" target="_blank" rel="external">linode 服务器安全配置</a></p>
+<h3 id="SSH-守护进程配置"><a href="#SSH-守护进程配置" class="headerlink" title="SSH 守护进程配置"></a>SSH 守护进程配置</h3><h4 id="拒绝Root用户通过SSH登录"><a href="#拒绝Root用户通过SSH登录" class="headerlink" title="拒绝Root用户通过SSH登录"></a>拒绝Root用户通过SSH登录</h4><p>修改配置文件<code>/etc/ssh/sshd_config</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Authentication:</span></span><br><span class="line">...</span><br><span class="line">PermitRootLogin no</span><br></pre></td></tr></table></figure></p>
+<p>然后重启sshd服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart sshd</span><br></pre></td></tr></table></figure></p>
+<p>更多服务器安全配置：<a href="https://www.linode.com/docs/security/securing-your-server" target="_blank" rel="noopener">linode 服务器安全配置</a></p>
 <h2 id="必要的软件"><a href="#必要的软件" class="headerlink" title="必要的软件"></a>必要的软件</h2><h3 id="系统、开发相关"><a href="#系统、开发相关" class="headerlink" title="系统、开发相关"></a>系统、开发相关</h3><ul>
 <li>EPEL  </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install epel-release</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install epel-release</span><br></pre></td></tr></table></figure>
 <ul>
 <li>Python3 virtualenv  </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install python34 python-pip</div></pre></td></tr></table></figure>
-<p>然后紧接着升级pip和安装 virtualenv<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo pip install -U pip</div><div class="line">sudo pip install -U virtualenv</div></pre></td></tr></table></figure></p>
-<p>在CentOS7上使用源码编译安装Python3.6<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo yum install gcc</div><div class="line">sudo yum install zlib-devel</div><div class="line">sudo yum --enablerepo=base --enablerepo=updates install openssl-devel</div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /usr/src</div><div class="line">wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tgz</div><div class="line">tar xzf Python-3.6.2.tgz</div><div class="line"><span class="built_in">cd</span> Python-3.6.2</div><div class="line">./configure --enable-optimizations</div><div class="line">make altinstall</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ..</div><div class="line">rm Python-3.6.2.tgz</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install python34 python-pip</span><br></pre></td></tr></table></figure>
+<p>然后紧接着升级pip和安装 virtualenv<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install -U pip</span><br><span class="line">sudo pip install -U virtualenv</span><br></pre></td></tr></table></figure></p>
+<p>在CentOS7上使用源码编译安装Python3.6<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install gcc</span><br><span class="line">sudo yum install zlib-devel</span><br><span class="line">sudo yum --enablerepo=base --enablerepo=updates install openssl-devel</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/src</span><br><span class="line">wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tgz</span><br><span class="line">tar xzf Python-3.6.2.tgz</span><br><span class="line"><span class="built_in">cd</span> Python-3.6.2</span><br><span class="line">./configure --enable-optimizations</span><br><span class="line">make altinstall</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">rm Python-3.6.2.tgz</span><br></pre></td></tr></table></figure>
 <ul>
-<li>MySQL<br>首先更新yum<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum update</div></pre></td></tr></table></figure>
+<li>MySQL<br>首先更新yum<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>然后下载安装MySQL社区版仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</div><div class="line">sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</div><div class="line">yum update</div></pre></td></tr></table></figure></p>
-<p>然后安装、重启MySQL<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum install mysql-server</div><div class="line">sudo systemctl start mysqld</div></pre></td></tr></table></figure></p>
-<p>然后安全配置MySQL<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mysql_secure_installation</div></pre></td></tr></table></figure></p>
-<p><a href="https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-7" target="_blank" rel="external">更多MySQL配置</a></p>
+<p>然后下载安装MySQL社区版仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</span><br><span class="line">sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</span><br><span class="line">yum update</span><br></pre></td></tr></table></figure></p>
+<p>然后安装、重启MySQL<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install mysql-server</span><br><span class="line">sudo systemctl start mysqld</span><br></pre></td></tr></table></figure></p>
+<p>然后安全配置MySQL<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql_secure_installation</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-7" target="_blank" rel="noopener">更多MySQL配置</a></p>
 <ul>
 <li>Redis  </li>
 </ul>
-<p>添加EPEL仓库，更新yum<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum install epel-release</div><div class="line">sudo yum update</div></pre></td></tr></table></figure></p>
+<p>添加EPEL仓库，更新yum<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install epel-release</span><br><span class="line">sudo yum update</span><br></pre></td></tr></table></figure></p>
 <p>安装Redis  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install redis</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install redis</span><br></pre></td></tr></table></figure>
 <p>启动并配置随机自启  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start redis</div><div class="line"></div><div class="line">sudo systemctl <span class="built_in">enable</span> redis</div></pre></td></tr></table></figure>
-<p><a href="https://www.linode.com/docs/databases/redis/install-and-configure-redis-on-centos-7" target="_blank" rel="external">更多Redis配置</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start redis</span><br><span class="line"></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> redis</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.linode.com/docs/databases/redis/install-and-configure-redis-on-centos-7" target="_blank" rel="noopener">更多Redis配置</a></p>
 <ul>
-<li>Nginx<br>首先配置EPEL和yum更新<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo yum install epel-release</div><div class="line">yum update</div><div class="line">```  </div><div class="line">其次安装Nginx  </div><div class="line"></div><div class="line">```BASH</div><div class="line">yum install nginx</div></pre></td></tr></table></figure>
+<li>Nginx<br>首先配置EPEL和yum更新<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install epel-release</span><br><span class="line">yum update</span><br><span class="line">```  </span><br><span class="line">其次安装Nginx  </span><br><span class="line"></span><br><span class="line">```BASH</span><br><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>配置启动Nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl <span class="built_in">enable</span> nginx.service</div><div class="line">systemctl start nginx.service</div></pre></td></tr></table></figure></p>
+<p>配置启动Nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> nginx.service</span><br><span class="line">systemctl start nginx.service</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li>Git 服务器<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="external">配置链接</a></li>
+<li>Git 服务器<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="noopener">配置链接</a></li>
 </ul>
-<p>Git Hook 配置Git自动部署<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" target="_blank" rel="external">How To Set Up Automatic Deployment with Git with a VPS</a></p>
+<p>Git Hook 配置Git自动部署<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" target="_blank" rel="noopener">How To Set Up Automatic Deployment with Git with a VPS</a></p>
 <ul>
 <li>jenkins</li>
-<li><p>Ansible<br><a href="http://codeheaven.io/an-introduction-to-ansible/" target="_blank" rel="external">An Introduction to Ansible: Installing Jenkins on your server</a><br><a href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e" target="_blank" rel="external">Deployment with Ansible, Docker, Jenkins and Git</a><br><a href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins" target="_blank" rel="external">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
+<li><p>Ansible<br><a href="http://codeheaven.io/an-introduction-to-ansible/" target="_blank" rel="noopener">An Introduction to Ansible: Installing Jenkins on your server</a><br><a href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e" target="_blank" rel="noopener">Deployment with Ansible, Docker, Jenkins and Git</a><br><a href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins" target="_blank" rel="noopener">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
 </li>
 <li><p>ApacheBench（ab）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum install httpd-tools</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install httpd-tools</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>用法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ab -c 并发数 -n 请求数 URL</div><div class="line">ab -c 10000 -n 100 http://localhost/</div></pre></td></tr></table></figure></p>
+<p>用法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ab -c 并发数 -n 请求数 URL</span><br><span class="line">ab -c 10000 -n 100 http://localhost/</span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
