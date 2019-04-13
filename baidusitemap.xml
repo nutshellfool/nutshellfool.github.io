@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
+    <lastmod>2019-04-12T07:48:00.963Z</lastmod>
+    <data>
+        <display>
+        <title>mac 重装系统后要做的事情</title>
+        <pubTime>2017-03-31T09:06:21.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/d8211bcf/</loc>
     <lastmod>2018-08-28T06:03:52.361Z</lastmod>
     <data>
@@ -130,21 +145,6 @@
         <display>
         <title>向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现</title>
         <pubTime>2017-11-30T08:20:33.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
-    <lastmod>2017-12-27T02:55:18.380Z</lastmod>
-    <data>
-        <display>
-        <title>mac 重装系统后要做的事情</title>
-        <pubTime>2017-03-31T09:06:21.000Z</pubTime>
         
          
            
@@ -571,6 +571,30 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/33d68573/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何在Mac上搭建Web开发环境</title>
+        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
+          
+             
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/972839c8/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -609,30 +633,6 @@
           
              
               <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/33d68573/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何在Mac上搭建Web开发环境</title>
-        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
