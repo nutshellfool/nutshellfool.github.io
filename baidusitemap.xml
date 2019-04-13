@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/b5ccf5b8/</loc>
+    <lastmod>2019-04-13T06:35:54.557Z</lastmod>
+    <data>
+        <display>
+        <title>通过源码编译的方式安装nginx（CentOS 7）</title>
+        <pubTime>2019-04-13T06:35:54.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="DevOps" url="http://blog.lirui.me/categories/Develop/DevOps/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
     <lastmod>2019-04-12T07:48:00.963Z</lastmod>
     <data>
@@ -553,6 +574,30 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/33d68573/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何在Mac上搭建Web开发环境</title>
+        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
+          
+             
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/972839c8/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -609,30 +654,6 @@
            
              
               <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/33d68573/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何在Mac上搭建Web开发环境</title>
-        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
           
         </display>
     </data>
