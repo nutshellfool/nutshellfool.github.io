@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名） 1useradd dev">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-04T06:52:25.592Z">
+<meta property="og:updated_time" content="2019-04-23T02:00:29.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置私有服务器备忘录">
 <meta name="twitter:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名） 1useradd dev">
@@ -150,6 +150,11 @@
 </li>
 </ul>
 <p>配置启动Nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> nginx.service</span><br><span class="line">systemctl start nginx.service</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>centOS 防火墙打开对http/https协议端口限制<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo firewall-cmd --add-service=http --permanent</span><br><span class="line">$ sudo firewall-cmd --add-service=https --permanent</span><br><span class="line"></span><br><span class="line">$ sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>查看防火墙支持协议：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo firewall-cmd --list-all</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>Git 服务器<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="noopener">配置链接</a></li>
 </ul>

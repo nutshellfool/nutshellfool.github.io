@@ -4,8 +4,23 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/bd4eb22c/</loc>
+    <lastmod>2019-04-23T02:00:29.967Z</lastmod>
+    <data>
+        <display>
+        <title>设置私有服务器备忘录</title>
+        <pubTime>2018-01-04T06:37:38.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
-    <lastmod>2019-04-23T01:56:28.889Z</lastmod>
+    <lastmod>2019-04-23T01:58:53.713Z</lastmod>
     <data>
         <display>
         <title>mac 重装系统后要做的事情</title>
@@ -106,21 +121,6 @@
         <display>
         <title>《非暴力沟通》读书笔记</title>
         <pubTime>2018-01-04T10:17:20.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/bd4eb22c/</loc>
-    <lastmod>2018-01-04T06:52:25.592Z</lastmod>
-    <data>
-        <display>
-        <title>设置私有服务器备忘录</title>
-        <pubTime>2018-01-04T06:37:38.000Z</pubTime>
         
          
            
@@ -574,38 +574,23 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
+    <loc>http://blog.lirui.me/posts/972839c8/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
         <display>
-        <title>壮游台湾之吃住攻略</title>
-        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
+        <title>创建iOS静态Frameworks的步骤</title>
+        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
           
              
-              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/bec40434/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>环青海湖骑行</title>
-        <pubTime>2014-10-07T07:42:41.000Z</pubTime>
-        
-         
-           
              
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
           
         </display>
     </data>
@@ -637,23 +622,38 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <loc>http://blog.lirui.me/posts/bec40434/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
         <display>
-        <title>创建iOS静态Frameworks的步骤</title>
-        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        <title>环青海湖骑行</title>
+        <pubTime>2014-10-07T07:42:41.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>壮游台湾之吃住攻略</title>
+        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
           
              
-              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
-          
-             
-              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>
