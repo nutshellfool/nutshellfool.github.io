@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
-    <lastmod>2019-06-04T10:04:04.710Z</lastmod>
+    <lastmod>2019-06-04T10:05:57.603Z</lastmod>
     <data>
         <display>
         <title>mac 重装系统后要做的事情</title>
@@ -574,51 +574,6 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>壮游台湾之吃住攻略</title>
-        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-             
-              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/972839c8/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>创建iOS静态Frameworks的步骤</title>
-        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
-          
-             
-              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://blog.lirui.me/posts/bec40434/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -654,6 +609,51 @@
           
              
               <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/972839c8/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>创建iOS静态Frameworks的步骤</title>
+        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mobile" url="http://blog.lirui.me/categories/Develop/Mobile/"/>
+          
+             
+              <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>壮游台湾之吃住攻略</title>
+        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+             
+              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>
