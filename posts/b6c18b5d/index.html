@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T01:58:53.713Z">
+<meta property="og:updated_time" content="2019-06-04T09:58:49.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac 重装系统后要做的事情">
 <meta name="twitter:description" content="很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明">
@@ -158,6 +158,8 @@
 <li>mysql</li>
 </ul>
 <p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">官方链接</a></p>
+<p>在系统启动后自动启动MySQL<br><a href="https://dev.mysql.com/doc/refman/8.0/en/osx-installation-launchd.html" target="_blank" rel="noopener">官方链接</a></p>
+<p>在系统启动后禁用自动启动<br>修改上面链接配置中<br><code>&lt;key&gt;RunAtLoad&lt;/key&gt; &lt;true/&gt;</code><br><code>&lt;key&gt;keepAlive&lt;/key&gt; &lt;true/&gt;</code><br>这两项配置为：<br><code>&lt;key&gt;RunAtLoad&lt;/key&gt; &lt;false/&gt;</code><br><code>&lt;key&gt;keepAlive&lt;/key&gt; &lt;false/&gt;</code>  </p>
 <ul>
 <li>zsh, oh-my-zsh<br>安装zsh<br><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH" target="_blank" rel="noopener">安装指导</a><br>设置zsh为默认<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh <span class="_">-s</span> $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure>
 </li>
