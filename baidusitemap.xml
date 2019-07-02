@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://blog.lirui.me/posts/b5ccf5b8/</loc>
-    <lastmod>2019-07-02T01:40:59.168Z</lastmod>
+    <lastmod>2019-07-02T01:44:34.966Z</lastmod>
     <data>
         <display>
         <title>通过源码编译的方式安装nginx（CentOS 7）</title>
@@ -574,6 +574,30 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/33d68573/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何在Mac上搭建Web开发环境</title>
+        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
+          
+             
+              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/972839c8/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -637,48 +661,6 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/33d68573/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何在Mac上搭建Web开发环境</title>
-        <pubTime>2014-07-21T08:16:18.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="http://blog.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mac" url="http://blog.lirui.me/categories/Develop/Mac/"/>
-          
-             
-              <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/44516416/</loc>
-    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
-    <data>
-        <display>
-        <title>技术面试的反思</title>
-        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
@@ -717,6 +699,24 @@
           
              
               <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/44516416/</loc>
+    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>技术面试的反思</title>
+        <pubTime>2014-03-29T12:05:17.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Management" url="http://blog.lirui.me/categories/Management/"/>
           
         </display>
     </data>
