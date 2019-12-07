@@ -1,0 +1,659 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>研发效能实用贴士 - vim篇 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    
+      <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    
+    <meta name="description" content="如果你需要经常在命令行下操作，尤其是需要在服务器上直接进行编辑的环境下，一个趁手的编辑器就是高效开发的关键了。关于编辑器的争端，在圈内一直都是一个经久不衰的话题，这里我无意去为Vim争辩，只是将平时开发中经常使用到的高效Vim操作做一个总结和记录，下文的内容组织方式会按照典型的开发编辑场景来进行。   通用的编辑操作命令模式命令模式下的常见通用操作 保存退出  1shift + zz  进入编辑模">
+<meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="研发效能实用贴士 - vim篇">
+<meta property="og:url" content="http://blog.lirui.me/posts/b84c17e2/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="如果你需要经常在命令行下操作，尤其是需要在服务器上直接进行编辑的环境下，一个趁手的编辑器就是高效开发的关键了。关于编辑器的争端，在圈内一直都是一个经久不衰的话题，这里我无意去为Vim争辩，只是将平时开发中经常使用到的高效Vim操作做一个总结和记录，下文的内容组织方式会按照典型的开发编辑场景来进行。   通用的编辑操作命令模式命令模式下的常见通用操作 保存退出  1shift + zz  进入编辑模">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/12/07/IBoOHK8ndpPNXV4.gif">
+<meta property="og:updated_time" content="2019-12-07T14:27:03.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="研发效能实用贴士 - vim篇">
+<meta name="twitter:description" content="如果你需要经常在命令行下操作，尤其是需要在服务器上直接进行编辑的环境下，一个趁手的编辑器就是高效开发的关键了。关于编辑器的争端，在圈内一直都是一个经久不衰的话题，这里我无意去为Vim争辩，只是将平时开发中经常使用到的高效Vim操作做一个总结和记录，下文的内容组织方式会按照典型的开发编辑场景来进行。   通用的编辑操作命令模式命令模式下的常见通用操作 保存退出  1shift + zz  进入编辑模">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/07/IBoOHK8ndpPNXV4.gif">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blog.lirui.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/b84c17e2/" title="研发效能实用贴士 - vim篇" itemprop="url">研发效能实用贴士 - vim篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-12-07T14:27:03.000Z" itemprop="datePublished"> Published 2019-12-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#通用的编辑操作"><span class="toc-number">1.</span> <span class="toc-text">通用的编辑操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命令模式"><span class="toc-number">1.1.</span> <span class="toc-text">命令模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式下的常见通用操作"><span class="toc-number">1.1.1.</span> <span class="toc-text">命令模式下的常见通用操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式下的光标移动操作"><span class="toc-number">1.1.2.</span> <span class="toc-text">命令模式下的光标移动操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式下的编辑操作"><span class="toc-number">1.1.3.</span> <span class="toc-text">命令模式下的编辑操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可视模式"><span class="toc-number">1.2.</span> <span class="toc-text">可视模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可视模式下的3种选择"><span class="toc-number">1.2.1.</span> <span class="toc-text">可视模式下的3种选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#典型应用"><span class="toc-number">1.2.2.</span> <span class="toc-text">典型应用</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>如果你需要经常在命令行下操作，尤其是需要在服务器上直接进行编辑的环境下，一个趁手的编辑器就是高效开发的关键了。<br>关于编辑器的争端，在圈内一直都是一个经久不衰的话题，这里我无意去为Vim争辩，只是将平时开发中经常使用到的高效Vim操作做一个总结和记录，下文的内容组织方式会按照典型的开发编辑场景来进行。  </p>
+<h2 id="通用的编辑操作"><a href="#通用的编辑操作" class="headerlink" title="通用的编辑操作"></a>通用的编辑操作</h2><h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><h4 id="命令模式下的常见通用操作"><a href="#命令模式下的常见通用操作" class="headerlink" title="命令模式下的常见通用操作"></a>命令模式下的常见通用操作</h4><ol>
+<li><p>保存退出</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shift</span> + zz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入编辑模式</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将光标移至当前行末尾并进入编辑模式</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shift</span> + A</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移到首行/尾行</p>
+<p> 首行</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gg</span><br></pre></td></tr></table></figure>
+<p> 尾行</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shift</span> + G</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销（undo）/重做（redo） 距离上次存盘间的编辑操作</p>
+<p> 撤销</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">u</span><br></pre></td></tr></table></figure>
+<p> 重做</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctrl + r</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重复上次的操作</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="命令模式下的光标移动操作"><a href="#命令模式下的光标移动操作" class="headerlink" title="命令模式下的光标移动操作"></a>命令模式下的光标移动操作</h4><ol>
+<li><p>基本的方向-字符粒度（左下上右）</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hjkl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按照单词粒度</p>
+<p> 向左移动一个单词</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b</span><br></pre></td></tr></table></figure>
+<p> 向右移动一个单词至单词首字母</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w</span><br></pre></td></tr></table></figure>
+<p> 向右移动一个单词至单词尾字母</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按照行粒度</p>
+<p> 行首</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0（数字0不是字母o）</span><br></pre></td></tr></table></figure>
+<p> 行首第一个不是空格的字母</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^</span><br></pre></td></tr></table></figure>
+<p> 行尾</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按照页粒度</p>
+<p> 下一页</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctrl + F</span><br></pre></td></tr></table></figure>
+<p> 上一页</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctrl + B</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>跳转到第N行</p>
+<p> 第一种方式</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:N</span><br></pre></td></tr></table></figure>
+<p> 第二种方式</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NG</span><br></pre></td></tr></table></figure>
+<p> 以N = 5为例：  </p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:5</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5G</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="命令模式下的编辑操作"><a href="#命令模式下的编辑操作" class="headerlink" title="命令模式下的编辑操作"></a>命令模式下的编辑操作</h4><ol>
+<li><p>拷贝</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>粘贴</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="可视模式"><a href="#可视模式" class="headerlink" title="可视模式"></a>可视模式</h3><h4 id="可视模式下的3种选择"><a href="#可视模式下的3种选择" class="headerlink" title="可视模式下的3种选择"></a>可视模式下的3种选择</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>按键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基于字符的可视模式</td>
+<td>v</td>
+</tr>
+<tr>
+<td>基于行的可视模式</td>
+<td>V</td>
+</tr>
+<tr>
+<td>基于列的可视模式</td>
+<td>ctrl + v</td>
+</tr>
+</tbody>
+</table>
+<h4 id="典型应用"><a href="#典型应用" class="headerlink" title="典型应用"></a>典型应用</h4><ol>
+<li>注释多行（基于列的可视模式）- 多行行首插入注释符</li>
+</ol>
+<p>以注释以下这些代码为例子：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadDeviceIdentity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MiitHelper helper = <span class="keyword">new</span> MiitHelper(<span class="keyword">new</span> MiitHelper.AppIdsUpdater() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnIdsAvalid</span><span class="params">(@NonNull String ids)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(ids)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String idsStr = ids;</span><br><span class="line">                runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        mCurrentOutputTextv.setText(idsStr);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    helper.getDeviceIds(getApplication());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体操作：</p>
+<ul>
+<li><p>将光标移动到需要编辑的首行的行首（本例子种是“private” 前）</p>
+<p>  移动到首行</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gg</span><br></pre></td></tr></table></figure>
+<p>  移动到首行行首</p>
+<p>  <code>0</code></p>
+</li>
+<li><p>ctrl + v 进入基于列的可视模式</p>
+<p>  <code>ctrl + v</code></p>
+</li>
+<li><p>选中多行</p>
+<p>  重复向下移动18行</p>
+<p>  <code>18j</code></p>
+</li>
+<li><p>编辑插入注释字符</p>
+<p>  进入编辑插入模式<br>  <code>c</code></p>
+<p>  输入注释字符<br>  <code>\\</code></p>
+</li>
+<li><p>ESC退出</p>
+</li>
+<li><p>打完收工</p>
+</li>
+</ul>
+<p>以下是操作的录屏<br><img src="https://i.loli.net/2019/12/07/IBoOHK8ndpPNXV4.gif" alt="录屏"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.lirui.me/posts/b84c17e2/" data-title="研发效能实用贴士 - vim篇 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/posts/b5ccf5b8/"  title="通过源码编译的方式安装nginx（CentOS 7）">
+ <strong>下一篇：</strong><br/> 
+ <span>通过源码编译的方式安装nginx（CentOS 7）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#通用的编辑操作"><span class="toc-number">1.</span> <span class="toc-text">通用的编辑操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命令模式"><span class="toc-number">1.1.</span> <span class="toc-text">命令模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式下的常见通用操作"><span class="toc-number">1.1.1.</span> <span class="toc-text">命令模式下的常见通用操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式下的光标移动操作"><span class="toc-number">1.1.2.</span> <span class="toc-text">命令模式下的光标移动操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式下的编辑操作"><span class="toc-number">1.1.3.</span> <span class="toc-text">命令模式下的编辑操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可视模式"><span class="toc-number">1.2.</span> <span class="toc-text">可视模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可视模式下的3种选择"><span class="toc-number">1.2.1.</span> <span class="toc-text">可视模式下的3种选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#典型应用"><span class="toc-number">1.2.2.</span> <span class="toc-text">典型应用</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>8</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/LaTex/" title="LaTex">LaTex<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Mathmatics/" title="Mathmatics">Mathmatics<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2019
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+
