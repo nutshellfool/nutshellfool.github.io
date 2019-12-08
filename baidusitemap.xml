@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
-    <lastmod>2019-12-07T14:42:30.452Z</lastmod>
+    <loc>http://blog.lirui.me/posts/b84c17e2/</loc>
+    <lastmod>2019-12-08T10:10:05.689Z</lastmod>
     <data>
         <display>
-        <title>mac 开发环境设置备忘录</title>
-        <pubTime>2017-03-31T09:06:21.000Z</pubTime>
+        <title>研发效能实用贴士 - Vim篇</title>
+        <pubTime>2019-12-07T14:27:03.000Z</pubTime>
         
          
            
@@ -19,12 +19,12 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/b84c17e2/</loc>
-    <lastmod>2019-12-07T14:38:22.805Z</lastmod>
+    <loc>http://blog.lirui.me/posts/b6c18b5d/</loc>
+    <lastmod>2019-12-07T14:42:30.452Z</lastmod>
     <data>
         <display>
-        <title>研发效能实用贴士 - vim篇</title>
-        <pubTime>2019-12-07T14:27:03.000Z</pubTime>
+        <title>mac 开发环境设置备忘录</title>
+        <pubTime>2017-03-31T09:06:21.000Z</pubTime>
         
          
            
@@ -589,27 +589,6 @@
 
     
   <url>
-    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>壮游台湾之吃住攻略</title>
-        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-             
-              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://blog.lirui.me/posts/972839c8/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -627,6 +606,27 @@
           
              
               <breadCrumb title="iOS" url="http://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.lirui.me/posts/69e77dbb/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>壮游台湾之吃住攻略</title>
+        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+             
+              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>
