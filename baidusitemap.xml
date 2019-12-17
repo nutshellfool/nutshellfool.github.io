@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/5a7bdbff/</loc>
+    <lastmod>2019-12-17T11:23:00.949Z</lastmod>
+    <data>
+        <display>
+        <title>研发效能实用贴士 - Git篇</title>
+        <pubTime>2019-12-17T11:23:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/524f9cc8/</loc>
     <lastmod>2019-12-16T03:17:01.899Z</lastmod>
     <data>
@@ -691,6 +706,27 @@
 
     
   <url>
+    <loc>http://blog.lirui.me/posts/8fcdd486/</loc>
+    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>去台湾前的准备工作1-证件、机票</title>
+        <pubTime>2014-03-28T01:24:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+             
+              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.lirui.me/posts/28ccf3f0/</loc>
     <lastmod>2017-04-07T06:20:54.000Z</lastmod>
     <data>
@@ -708,27 +744,6 @@
           
              
               <breadCrumb title="Web" url="http://blog.lirui.me/categories/Develop/Mac/Web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.lirui.me/posts/8fcdd486/</loc>
-    <lastmod>2017-04-07T06:20:54.000Z</lastmod>
-    <data>
-        <display>
-        <title>去台湾前的准备工作1-证件、机票</title>
-        <pubTime>2014-03-28T01:24:16.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-             
-              <breadCrumb title="台湾" url="http://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>

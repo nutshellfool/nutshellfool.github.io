@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.lirui.me/"/>
-  <updated>2019-12-16T03:17:01.899Z</updated>
+  <updated>2019-12-17T11:23:00.949Z</updated>
   <id>http://blog.lirui.me/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>研发效能实用贴士 - Git篇</title>
+    <link href="http://blog.lirui.me/posts/5a7bdbff/"/>
+    <id>http://blog.lirui.me/posts/5a7bdbff/</id>
+    <published>2019-12-17T11:23:00.000Z</published>
+    <updated>2019-12-17T11:23:00.949Z</updated>
+    
+    <content type="html"><![CDATA[<p>Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。<br>其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。  </p><h2 id="保持Git提交原子性的基本操作"><a href="#保持Git提交原子性的基本操作" class="headerlink" title="保持Git提交原子性的基本操作"></a>保持Git提交原子性的基本操作</h2><h3 id="用工作区改动的一部分产生提交"><a href="#用工作区改动的一部分产生提交" class="headerlink" title="用工作区改动的一部分产生提交"></a>用工作区改动的一部分产生提交</h3><p>command line:</p><p><code>git add -p &lt;file-name&gt;</code></p><p>进入git add patch 模式之后，命令行会将文件中处于woring directory的修改拆分成多个逻辑代码块，<br>然后命令行会依次询问这些代码块是否要将这些改变加入到暂存区（staging area）, 这里只需选择 y or n即可，当然也可以通过 s 指令把代码块进一步拆分。<br>添加完成后，可以通过 git diff –cached 命令查看确定添加到暂存区代码。  </p><h3 id="对当前提交进行拆分"><a href="#对当前提交进行拆分" class="headerlink" title="对当前提交进行拆分"></a>对当前提交进行拆分</h3><p>command line:<br><code>git branch temp</code><br><code>git reset HEAD^</code><br><code>git add -p &lt;file-name&gt;</code></p><h3 id="修改当前提交"><a href="#修改当前提交" class="headerlink" title="修改当前提交"></a>修改当前提交</h3><p>command line:</p><ul><li><p>修改 Commit Message</p><p><code>git commit --amend</code></p></li><li><p>修改文件内容</p><p><code>git add</code>、<code>git rm</code><br><code>git commit --amend</code></p></li></ul><h3 id="交换多个提交的先后顺序"><a href="#交换多个提交的先后顺序" class="headerlink" title="交换多个提交的先后顺序"></a>交换多个提交的先后顺序</h3><p>前提： commit在本地还没有push到remote upstream</p><p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 pick 命令（用法 pick <hash-value>）交换两个提交，</hash-value></p><h3 id="修改非当前提交"><a href="#修改非当前提交" class="headerlink" title="修改非当前提交"></a>修改非当前提交</h3><p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 edit 命令(用法 edit <hash-value>), 然后通过<code>git add</code> 和 <code>git rm</code> 命令对需要修改的文件进行操作，之后运行<code>git commit --amend</code> 进行提交<br><code>git rebase --continue</code> 完成 <code>git rebase -i</code>命令的后续操作。  </hash-value></p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html" target="_blank" rel="noopener">图解Git</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。&lt;br&gt;其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。  &lt;/p&gt;
+&lt;h2 id=&quot;保持Git提交原子性的基
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Nginx 部分使用方法备忘录</title>
@@ -435,29 +457,6 @@
     </summary>
     
       <category term="Algorithm" scheme="http://blog.lirui.me/categories/Algorithm/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>系统设计必知的些数据</title>
-    <link href="http://blog.lirui.me/posts/6e0a9a90/"/>
-    <id>http://blog.lirui.me/posts/6e0a9a90/</id>
-    <published>2017-04-17T01:34:02.000Z</published>
-    <updated>2017-12-27T02:39:38.418Z</updated>
-    
-    <content type="html"><![CDATA[<p>当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。  </p><h2 id="一些数字"><a href="#一些数字" class="headerlink" title="一些数字"></a>一些数字</h2><table><thead><tr><th>操作</th><th style="text-align:right">时间(nano sec)</th></tr></thead><tbody><tr><td>L1 cache reference</td><td style="text-align:right">0.5</td></tr><tr><td>Branch mispredict</td><td style="text-align:right">5</td></tr><tr><td>L2 cache reference</td><td style="text-align:right">7</td></tr><tr><td>Mutex lock/unlock</td><td style="text-align:right">25</td></tr><tr><td>Main memory reference</td><td style="text-align:right">100</td></tr><tr><td>Compress 1K bytes with Zippy</td><td style="text-align:right">3000</td></tr><tr><td>Send 2K bytes over 1 Gbps network</td><td style="text-align:right">20000</td></tr><tr><td>Read 1 MB sequentially from memory</td><td style="text-align:right">250000</td></tr><tr><td>Round trip within same datacenter</td><td style="text-align:right">500000</td></tr><tr><td>Disk seek</td><td style="text-align:right">10000000</td></tr><tr><td>Read 1 MB sequentially from disk</td><td style="text-align:right">20000000</td></tr><tr><td>Send packet CA-&gt;Netherlands-&gt;CA</td><td style="text-align:right">150000000</td></tr></tbody></table><p>数据来源： <a href="http://www.cs.cornell.edu/projects/ladis2009/talks/dean-keynote-ladis2009.pdf" target="_blank" rel="noopener">jeff dean分享</a></p><p>之前我们在做系统设计的时候总是在说，CPU要快于内存，内存的访问要快于硬盘存储，硬盘存储要快于网络访问。<br>上面的说法都是感性认识的，那么具体到数量级（注意是数量级，因为每台机器的运算能力会跟固定的硬件配置相关，如果脱离硬件谈具体数字是没有意义的）。 CPU的访问速度（7 nano seconds）是内存（100 nano seconds）的10倍，内存的访问（100 nano seconds）是硬盘访问（10000000）的 10w倍。</p><p>这里谈到了估算系统负载的方法，现在通行的方法有下面两种：  </p><ol><li>信封背面估算法（Back of envelop calculation）<br>估算法其实就是一开篇提到的根据上面提到的这些数据估算出一个数值（当然你要清楚这个数字并不是准确的数字，而是一个数量级参考范围）</li><li>微基准测试（Microbenchmarking）<br>基准测试更多地被使用在系统优化的过程中，我们知道任何优化不做基准测试都是耍流氓，没有数据支持，优化和设计的过程就犹如在伸手不见五指的夜晚走夜路。</li></ol><p>有了这两个强大的系统设计工具我们就可以放手做系统设计了，首先要培养估算的能力，找到系统设计的量化（至少是数量级）感觉；然后通过基准测试不断深化对系统设计认识。  </p><p>更多内容参看这里 <a href="https://everythingisdata.wordpress.com/2009/10/17/numbers-everyone-should-know/" target="_blank" rel="noopener">numbers everyone should know</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这
-      
-    
-    </summary>
-    
-      <category term="System design" scheme="http://blog.lirui.me/categories/System-design/"/>
     
     
   </entry>

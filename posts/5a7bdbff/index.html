@@ -4,27 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Nginx 部分使用方法备忘录 | 李瑞的博客</title>
+    <title>研发效能实用贴士 - Git篇 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
+    <meta name="keywords" content="Git,Development">
     
-      <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
-    
-    <meta name="description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1$ namei -l /var/www/vhosts/xxx.exa">
-<meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    <meta name="description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &amp;lt;file-name&amp;gt; 进入git add patch 模式之">
+<meta name="keywords" content="Git,Development">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nginx 部分使用方法备忘录">
-<meta property="og:url" content="http://blog.lirui.me/posts/524f9cc8/index.html">
+<meta property="og:title" content="研发效能实用贴士 - Git篇">
+<meta property="og:url" content="http://blog.lirui.me/posts/5a7bdbff/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1$ namei -l /var/www/vhosts/xxx.exa">
+<meta property="og:description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &amp;lt;file-name&amp;gt; 进入git add patch 模式之">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-16T03:17:01.899Z">
+<meta property="og:updated_time" content="2019-12-17T11:23:00.949Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Nginx 部分使用方法备忘录">
-<meta name="twitter:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1$ namei -l /var/www/vhosts/xxx.exa">
+<meta name="twitter:title" content="研发效能实用贴士 - Git篇">
+<meta name="twitter:description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &amp;lt;file-name&amp;gt; 进入git add patch 模式之">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -80,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/524f9cc8/" title="Nginx 部分使用方法备忘录" itemprop="url">Nginx 部分使用方法备忘录</a>
+      <a href="/posts/5a7bdbff/" title="研发效能实用贴士 - Git篇" itemprop="url">研发效能实用贴士 - Git篇</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2019-12-16T03:17:01.000Z" itemprop="datePublished"> Published 2019-12-16</time>
+    <time datetime="2019-12-17T11:23:00.000Z" itemprop="datePublished"> Published 2019-12-17</time>
     
   </p>
 </header>
@@ -96,25 +95,28 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态资源服务器"><span class="toc-number">1.</span> <span class="toc-text">静态资源服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态资源及相关权限"><span class="toc-number">1.1.</span> <span class="toc-text">静态资源及相关权限</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#保持Git提交原子性的基本操作"><span class="toc-number">1.</span> <span class="toc-text">保持Git提交原子性的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用工作区改动的一部分产生提交"><span class="toc-number">1.1.</span> <span class="toc-text">用工作区改动的一部分产生提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对当前提交进行拆分"><span class="toc-number">1.2.</span> <span class="toc-text">对当前提交进行拆分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改当前提交"><span class="toc-number">1.3.</span> <span class="toc-text">修改当前提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交换多个提交的先后顺序"><span class="toc-number">1.4.</span> <span class="toc-text">交换多个提交的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改非当前提交"><span class="toc-number">1.5.</span> <span class="toc-text">修改非当前提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">2.</span> <span class="toc-text">参考链接</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="静态资源服务器"><a href="#静态资源服务器" class="headerlink" title="静态资源服务器"></a>静态资源服务器</h2><h3 id="静态资源及相关权限"><a href="#静态资源及相关权限" class="headerlink" title="静态资源及相关权限"></a>静态资源及相关权限</h3><p>403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。<br>nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：</p>
+		<p>Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。<br>其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。  </p>
+<h2 id="保持Git提交原子性的基本操作"><a href="#保持Git提交原子性的基本操作" class="headerlink" title="保持Git提交原子性的基本操作"></a>保持Git提交原子性的基本操作</h2><h3 id="用工作区改动的一部分产生提交"><a href="#用工作区改动的一部分产生提交" class="headerlink" title="用工作区改动的一部分产生提交"></a>用工作区改动的一部分产生提交</h3><p>command line:</p>
+<p><code>git add -p &lt;file-name&gt;</code></p>
+<p>进入git add patch 模式之后，命令行会将文件中处于woring directory的修改拆分成多个逻辑代码块，<br>然后命令行会依次询问这些代码块是否要将这些改变加入到暂存区（staging area）, 这里只需选择 y or n即可，当然也可以通过 s 指令把代码块进一步拆分。<br>添加完成后，可以通过 git diff –cached 命令查看确定添加到暂存区代码。  </p>
+<h3 id="对当前提交进行拆分"><a href="#对当前提交进行拆分" class="headerlink" title="对当前提交进行拆分"></a>对当前提交进行拆分</h3><p>command line:<br><code>git branch temp</code><br><code>git reset HEAD^</code><br><code>git add -p &lt;file-name&gt;</code></p>
+<h3 id="修改当前提交"><a href="#修改当前提交" class="headerlink" title="修改当前提交"></a>修改当前提交</h3><p>command line:</p>
 <ul>
-<li>文件夹及其各级父文件夹 <strong>可读 可执行</strong></li>
-<li>文件 <strong>可读</strong></li>
+<li><p>修改 Commit Message</p>
+<p><code>git commit --amend</code></p>
+</li>
+<li><p>修改文件内容</p>
+<p><code>git add</code>、<code>git rm</code><br><code>git commit --amend</code></p>
+</li>
 </ul>
-<p>以下命令是检查文件夹相关权限的工具命令：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ namei <span class="_">-l</span> /var/www/vhosts/xxx.example.com/</span><br></pre></td></tr></table></figure>
-<p>下面命令是给静态资源文件夹下的静态文件设置统一的可读权限：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /var/www/vhosts/xxx.example.com/ -type f -print0 | xargs -0 chmod a+r</span><br></pre></td></tr></table></figure>
-<p>可能会涉及到SELinux 相关的安全权限设置：<br>参考下面文档：<br><a href="https://wiki.centos.org/HowTos/SELinux" target="_blank" rel="noopener">SELinux官方wiki</a><br><a href="https://www.nginx.com/blog/using-nginx-plus-with-selinux/" target="_blank" rel="noopener">Using NGINX and NGINX Plus with SELinux
-</a></p>
-<p>可能会涉及设置防火墙，打开 http/https 等服务：<br>centOS 防火墙打开对http/https协议端口限制</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo firewall-cmd --add-service=http --permanent</span><br><span class="line">$ sudo firewall-cmd --add-service=https --permanent</span><br><span class="line"></span><br><span class="line">$ sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
-<p>查看防火墙支持协议：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+<h3 id="交换多个提交的先后顺序"><a href="#交换多个提交的先后顺序" class="headerlink" title="交换多个提交的先后顺序"></a>交换多个提交的先后顺序</h3><p>前提： commit在本地还没有push到remote upstream</p>
+<p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 pick 命令（用法 pick <hash-value>）交换两个提交，</hash-value></p>
+<h3 id="修改非当前提交"><a href="#修改非当前提交" class="headerlink" title="修改非当前提交"></a>修改非当前提交</h3><p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 edit 命令(用法 edit <hash-value>), 然后通过<code>git add</code> 和 <code>git rm</code> 命令对需要修改的文件进行操作，之后运行<code>git commit --amend</code> 进行提交<br><code>git rebase --continue</code> 完成 <code>git rebase -i</code>命令的后续操作。  </hash-value></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html" target="_blank" rel="noopener">图解Git</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,7 +129,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.lirui.me/posts/524f9cc8/" data-title="Nginx 部分使用方法备忘录 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.lirui.me/posts/5a7bdbff/" data-title="研发效能实用贴士 - Git篇 | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +142,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/posts/5a7bdbff/" title="研发效能实用贴士 - Git篇">
-  <strong>上一篇：</strong><br/>
-  <span>
-  研发效能实用贴士 - Git篇</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/posts/b84c17e2/"  title="研发效能实用贴士 - Vim篇">
+<a href="/posts/524f9cc8/"  title="Nginx 部分使用方法备忘录">
  <strong>下一篇：</strong><br/> 
- <span>研发效能实用贴士 - Vim篇
+ <span>Nginx 部分使用方法备忘录
 </span>
 </a>
 </div>
@@ -173,7 +167,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态资源服务器"><span class="toc-number">1.</span> <span class="toc-text">静态资源服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态资源及相关权限"><span class="toc-number">1.1.</span> <span class="toc-text">静态资源及相关权限</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#保持Git提交原子性的基本操作"><span class="toc-number">1.</span> <span class="toc-text">保持Git提交原子性的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用工作区改动的一部分产生提交"><span class="toc-number">1.1.</span> <span class="toc-text">用工作区改动的一部分产生提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对当前提交进行拆分"><span class="toc-number">1.2.</span> <span class="toc-text">对当前提交进行拆分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改当前提交"><span class="toc-number">1.3.</span> <span class="toc-text">修改当前提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交换多个提交的先后顺序"><span class="toc-number">1.4.</span> <span class="toc-text">交换多个提交的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改非当前提交"><span class="toc-number">1.5.</span> <span class="toc-text">修改非当前提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">2.</span> <span class="toc-text">参考链接</span></a></li></ol>
  
   </div>
 
