@@ -22,7 +22,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.lirui.me/images/bigOh/dotted-border.gif">
 <meta property="og:image" content="http://blog.lirui.me/images/bigOh/sorting.gif">
-<meta property="og:updated_time" content="2017-12-27T02:44:06.262Z">
+<meta property="og:updated_time" content="2020-01-06T02:42:55.192Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见算法的Big-Oh">
 <meta name="twitter:description" content="关于Big-Oh首先Big-Oh($O$)是用来描述一个函数的渐进行为的工具。关于Big-Oh的正式定义（数学定义）：wikipedia例子：　　$n^3+3n^2+2n+1 = O(n^3)$$0.000000001n^3+3n^2+2n+1)=O(n^3)$$nlog^n+n=O(nlog^n)$ 常见的Big-Oh类型 常数（Constant）$O(1)$ 对数（Logarithmic）$O">
@@ -202,22 +202,17 @@
 </table>
 <p>更多操作查看：<a href="https://www.ics.uci.edu/~pattis/ICS-33/lectures/complexitypython.txt" target="_blank" rel="noopener">这里</a></p>
 <h2 id="Big-Oh运算法则"><a href="#Big-Oh运算法则" class="headerlink" title="Big-Oh运算法则"></a>Big-Oh运算法则</h2><h3 id="加法法则"><a href="#加法法则" class="headerlink" title="加法法则"></a>加法法则</h3><p>$$O(f(n))+O(g(n)) = O(f(n)+g(n))$$</p>
-<p>例如：<br>    $O(N)+O(log^N) = O(N + log^N) = O(N)$<br>    $O(N)+O(Nlog^N) = O(N+Nlog^N) = O(Nlog^N)$  </p>
+<p>例如：<br>$O(N)+O(log^N) = O(N + log^N) = O(N)$<br>$O(N)+O(Nlog^N) = O(N+Nlog^N) = O(Nlog^N)$  </p>
 <h3 id="乘法法则"><a href="#乘法法则" class="headerlink" title="乘法法则"></a>乘法法则</h3><p>$$O(f(n)) \cdot O(g(n)) = O(f(n) \cdot g(n))$$</p>
-<p>例如:<br>    $O(N) \cdot O(log^N) = O(N \cdot log^N)$<br>    $O(N) \cdot O(N^2) = O(N \cdot N^2) = O(N^3)$</p>
+<p>例如:<br>$O(N) \cdot O(log^N) = O(N \cdot log^N)$<br>$O(N) \cdot O(N^2) = O(N \cdot N^2) = O(N^3)$</p>
 <p>看到这你会说，看起来不错，但有什么用呢？<br>首先有了加法法则可以帮助我们理解顺序执行的程序段是怎样的复杂度。<br>举个例子：<br>如果一段程序调用了两段子程序$f(…)$和$g(…)$，他们在程序段内的调用顺序是：  </p>
-<pre><code>f(...)
-g(...)
-</code></pre><p>其中$O(f(…)) = N$, $O(g(…)) = N$ 那么这段程序的时间复杂度会是怎样的？<br>对，$O(f(…)+g(…)) = O(f(…))+O(g(…)) = O(N+N) = O(N)$<br>什么太简单了？<br>来个带分支判断的：程序结构如下  </p>
-<pre><code>if test:
-    block1
-else:
-    block2
-</code></pre><p>令test的复杂度为$O(T)$, block1的复杂度为$O(B1)$ block2的复杂度为$O(B2)$, 那么这段程序的复杂度是怎样的？  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f(...)</span><br><span class="line">g(...)</span><br></pre></td></tr></table></figure>
+<p>其中$O(f(…)) = N$, $O(g(…)) = N$ 那么这段程序的时间复杂度会是怎样的？<br>对，$O(f(…)+g(…)) = O(f(…))+O(g(…)) = O(N+N) = O(N)$<br>什么太简单了？<br>来个带分支判断的：程序结构如下  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> test:</span><br><span class="line">    block1</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    block2</span><br></pre></td></tr></table></figure>
+<p>令test的复杂度为$O(T)$, block1的复杂度为$O(B1)$ block2的复杂度为$O(B2)$, 那么这段程序的复杂度是怎样的？  </p>
 <p>其次乘法法则可以帮助我们理解由循环控制的程序段的复杂度。<br>举个例子：<br>程序结构如下：  </p>
-<pre><code>for i in range(N):
-    f(...)
-</code></pre><p>其中$O(f(…)) = N^2$<br>那么这段程序段的复杂度为： $O(N) \cdot O(f(…)) = O(N) \cdot O(N^2) = O(N \cdot N^2)$<br>好的有了这两个工具，相信多数的Big-Oh案例分析能轻松搞定。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">for</span> i in <span class="title">range</span><span class="params">(N)</span>:</span></span><br><span class="line"><span class="function">    <span class="title">f</span><span class="params">(...)</span></span></span><br></pre></td></tr></table></figure>
+<p>其中$O(f(…)) = N^2$<br>那么这段程序段的复杂度为： $O(N) \cdot O(f(…)) = O(N) \cdot O(N^2) = O(N \cdot N^2)$<br>好的有了这两个工具，相信多数的Big-Oh案例分析能轻松搞定。</p>
 <h2 id="常见排序、查找算法复杂度"><a href="#常见排序、查找算法复杂度" class="headerlink" title="常见排序、查找算法复杂度"></a>常见排序、查找算法复杂度</h2><p>其实这些算法复杂度都可以通过上面的运算法则以及操作的复杂度推算出来的，但是作为一个可以作为快速备查的cheatsheet下面就直接罗列出结论：<br>先来查找（search）：</p>
 <table>
 <thead>
