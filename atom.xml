@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://blog.lirui.me/"/>
+  <link href="https://blog.lirui.me/"/>
   <updated>2019-12-17T11:23:00.949Z</updated>
-  <id>http://blog.lirui.me/</id>
+  <id>https://blog.lirui.me/</id>
   
   <author>
     <name>李瑞</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>研发效能实用贴士 - Git篇</title>
-    <link href="http://blog.lirui.me/posts/5a7bdbff/"/>
-    <id>http://blog.lirui.me/posts/5a7bdbff/</id>
+    <link href="https://blog.lirui.me/posts/5a7bdbff/"/>
+    <id>https://blog.lirui.me/posts/5a7bdbff/</id>
     <published>2019-12-17T11:23:00.000Z</published>
     <updated>2019-12-17T11:23:00.949Z</updated>
     
@@ -40,8 +40,8 @@
   
   <entry>
     <title>Nginx 部分使用方法备忘录</title>
-    <link href="http://blog.lirui.me/posts/524f9cc8/"/>
-    <id>http://blog.lirui.me/posts/524f9cc8/</id>
+    <link href="https://blog.lirui.me/posts/524f9cc8/"/>
+    <id>https://blog.lirui.me/posts/524f9cc8/</id>
     <published>2019-12-16T03:17:01.000Z</published>
     <updated>2019-12-25T03:56:37.331Z</updated>
     
@@ -61,8 +61,8 @@
   
   <entry>
     <title>研发效能实用贴士 - Vim篇</title>
-    <link href="http://blog.lirui.me/posts/b84c17e2/"/>
-    <id>http://blog.lirui.me/posts/b84c17e2/</id>
+    <link href="https://blog.lirui.me/posts/b84c17e2/"/>
+    <id>https://blog.lirui.me/posts/b84c17e2/</id>
     <published>2019-12-07T14:27:03.000Z</published>
     <updated>2019-12-08T10:10:05.689Z</updated>
     
@@ -82,8 +82,8 @@
   
   <entry>
     <title>通过源码编译的方式安装nginx（CentOS 7）</title>
-    <link href="http://blog.lirui.me/posts/b5ccf5b8/"/>
-    <id>http://blog.lirui.me/posts/b5ccf5b8/</id>
+    <link href="https://blog.lirui.me/posts/b5ccf5b8/"/>
+    <id>https://blog.lirui.me/posts/b5ccf5b8/</id>
     <published>2019-04-13T06:35:54.000Z</published>
     <updated>2019-07-02T01:44:34.966Z</updated>
     
@@ -98,17 +98,17 @@
     
     </summary>
     
-      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
+      <category term="Develop" scheme="https://blog.lirui.me/categories/Develop/"/>
     
-      <category term="DevOps" scheme="http://blog.lirui.me/categories/Develop/DevOps/"/>
+      <category term="DevOps" scheme="https://blog.lirui.me/categories/Develop/DevOps/"/>
     
     
   </entry>
   
   <entry>
     <title>滑动窗口算法问题及其衍生问题</title>
-    <link href="http://blog.lirui.me/posts/d5d76783/"/>
-    <id>http://blog.lirui.me/posts/d5d76783/</id>
+    <link href="https://blog.lirui.me/posts/d5d76783/"/>
+    <id>https://blog.lirui.me/posts/d5d76783/</id>
     <published>2019-03-13T03:57:37.000Z</published>
     <updated>2020-01-13T09:32:36.830Z</updated>
     
@@ -129,8 +129,8 @@
   
   <entry>
     <title>Leetcode 中子集和问题及其解法</title>
-    <link href="http://blog.lirui.me/posts/51926d91/"/>
-    <id>http://blog.lirui.me/posts/51926d91/</id>
+    <link href="https://blog.lirui.me/posts/51926d91/"/>
+    <id>https://blog.lirui.me/posts/51926d91/</id>
     <published>2019-01-21T02:03:10.000Z</published>
     <updated>2020-01-05T12:00:57.750Z</updated>
     
@@ -150,8 +150,8 @@
   
   <entry>
     <title>在DigitalOcean上安装kubernetes cluster</title>
-    <link href="http://blog.lirui.me/posts/3128c36f/"/>
-    <id>http://blog.lirui.me/posts/3128c36f/</id>
+    <link href="https://blog.lirui.me/posts/3128c36f/"/>
+    <id>https://blog.lirui.me/posts/3128c36f/</id>
     <published>2018-03-30T10:19:37.000Z</published>
     <updated>2018-04-22T14:44:32.761Z</updated>
     
@@ -172,8 +172,8 @@
   
   <entry>
     <title>腾讯产品方法 读书笔记</title>
-    <link href="http://blog.lirui.me/posts/2e8d4abb/"/>
-    <id>http://blog.lirui.me/posts/2e8d4abb/</id>
+    <link href="https://blog.lirui.me/posts/2e8d4abb/"/>
+    <id>https://blog.lirui.me/posts/2e8d4abb/</id>
     <published>2018-03-16T01:52:12.000Z</published>
     <updated>2018-03-16T01:52:48.528Z</updated>
     
@@ -195,8 +195,8 @@
   
   <entry>
     <title>《非暴力沟通》读书笔记</title>
-    <link href="http://blog.lirui.me/posts/24de702c/"/>
-    <id>http://blog.lirui.me/posts/24de702c/</id>
+    <link href="https://blog.lirui.me/posts/24de702c/"/>
+    <id>https://blog.lirui.me/posts/24de702c/</id>
     <published>2018-01-04T10:17:20.000Z</published>
     <updated>2018-01-11T10:35:26.645Z</updated>
     
@@ -216,8 +216,8 @@
   
   <entry>
     <title>设置私有服务器备忘录</title>
-    <link href="http://blog.lirui.me/posts/bd4eb22c/"/>
-    <id>http://blog.lirui.me/posts/bd4eb22c/</id>
+    <link href="https://blog.lirui.me/posts/bd4eb22c/"/>
+    <id>https://blog.lirui.me/posts/bd4eb22c/</id>
     <published>2018-01-04T06:37:38.000Z</published>
     <updated>2019-04-23T02:00:29.967Z</updated>
     
@@ -237,8 +237,8 @@
   
   <entry>
     <title>深层神经网络</title>
-    <link href="http://blog.lirui.me/posts/b61b5e8c/"/>
-    <id>http://blog.lirui.me/posts/b61b5e8c/</id>
+    <link href="https://blog.lirui.me/posts/b61b5e8c/"/>
+    <id>https://blog.lirui.me/posts/b61b5e8c/</id>
     <published>2017-12-29T07:00:22.000Z</published>
     <updated>2017-12-29T07:00:22.207Z</updated>
     
@@ -259,8 +259,8 @@
   
   <entry>
     <title>向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现</title>
-    <link href="http://blog.lirui.me/posts/47728c0b/"/>
-    <id>http://blog.lirui.me/posts/47728c0b/</id>
+    <link href="https://blog.lirui.me/posts/47728c0b/"/>
+    <id>https://blog.lirui.me/posts/47728c0b/</id>
     <published>2017-11-30T08:20:33.000Z</published>
     <updated>2017-12-27T02:59:33.571Z</updated>
     
@@ -280,8 +280,8 @@
   
   <entry>
     <title>部署一个标准Python（Flask）应用的备忘录</title>
-    <link href="http://blog.lirui.me/posts/2e474ec1/"/>
-    <id>http://blog.lirui.me/posts/2e474ec1/</id>
+    <link href="https://blog.lirui.me/posts/2e474ec1/"/>
+    <id>https://blog.lirui.me/posts/2e474ec1/</id>
     <published>2017-10-31T11:03:12.000Z</published>
     <updated>2018-01-31T11:05:32.075Z</updated>
     
@@ -307,8 +307,8 @@
   
   <entry>
     <title>Dockerfile 书写方法（cookbook）</title>
-    <link href="http://blog.lirui.me/posts/cac2d233/"/>
-    <id>http://blog.lirui.me/posts/cac2d233/</id>
+    <link href="https://blog.lirui.me/posts/cac2d233/"/>
+    <id>https://blog.lirui.me/posts/cac2d233/</id>
     <published>2017-05-29T13:01:23.000Z</published>
     <updated>2017-12-27T02:45:11.027Z</updated>
     
@@ -324,17 +324,17 @@
     
     </summary>
     
-      <category term="Develop" scheme="http://blog.lirui.me/categories/Develop/"/>
+      <category term="Develop" scheme="https://blog.lirui.me/categories/Develop/"/>
     
-      <category term="DevOps" scheme="http://blog.lirui.me/categories/Develop/DevOps/"/>
+      <category term="DevOps" scheme="https://blog.lirui.me/categories/Develop/DevOps/"/>
     
     
   </entry>
   
   <entry>
     <title>集合，容器使用小结</title>
-    <link href="http://blog.lirui.me/posts/3e55e448/"/>
-    <id>http://blog.lirui.me/posts/3e55e448/</id>
+    <link href="https://blog.lirui.me/posts/3e55e448/"/>
+    <id>https://blog.lirui.me/posts/3e55e448/</id>
     <published>2017-05-22T10:31:32.000Z</published>
     <updated>2017-12-27T02:43:33.082Z</updated>
     
@@ -355,8 +355,8 @@
   
   <entry>
     <title>也谈内存管理</title>
-    <link href="http://blog.lirui.me/posts/d8211bcf/"/>
-    <id>http://blog.lirui.me/posts/d8211bcf/</id>
+    <link href="https://blog.lirui.me/posts/d8211bcf/"/>
+    <id>https://blog.lirui.me/posts/d8211bcf/</id>
     <published>2017-05-17T14:37:02.000Z</published>
     <updated>2018-08-28T06:03:52.361Z</updated>
     
@@ -377,8 +377,8 @@
   
   <entry>
     <title>什么算法的名字竟然叫洪水？！真像竟然是……</title>
-    <link href="http://blog.lirui.me/posts/766d9901/"/>
-    <id>http://blog.lirui.me/posts/766d9901/</id>
+    <link href="https://blog.lirui.me/posts/766d9901/"/>
+    <id>https://blog.lirui.me/posts/766d9901/</id>
     <published>2017-05-09T09:15:51.000Z</published>
     <updated>2017-12-27T02:44:25.918Z</updated>
     
@@ -398,8 +398,8 @@
   
   <entry>
     <title>在Mac上安装TensorFlow</title>
-    <link href="http://blog.lirui.me/posts/f4573ea8/"/>
-    <id>http://blog.lirui.me/posts/f4573ea8/</id>
+    <link href="https://blog.lirui.me/posts/f4573ea8/"/>
+    <id>https://blog.lirui.me/posts/f4573ea8/</id>
     <published>2017-05-04T17:29:41.000Z</published>
     <updated>2017-12-27T02:48:17.580Z</updated>
     
@@ -419,8 +419,8 @@
   
   <entry>
     <title>五边飞行与网络拥塞控制</title>
-    <link href="http://blog.lirui.me/posts/9d999a37/"/>
-    <id>http://blog.lirui.me/posts/9d999a37/</id>
+    <link href="https://blog.lirui.me/posts/9d999a37/"/>
+    <id>https://blog.lirui.me/posts/9d999a37/</id>
     <published>2017-04-30T09:47:22.000Z</published>
     <updated>2017-12-27T02:40:17.896Z</updated>
     
@@ -440,8 +440,8 @@
   
   <entry>
     <title>如何用递归的方式解决问题？</title>
-    <link href="http://blog.lirui.me/posts/cac864f3/"/>
-    <id>http://blog.lirui.me/posts/cac864f3/</id>
+    <link href="https://blog.lirui.me/posts/cac864f3/"/>
+    <id>https://blog.lirui.me/posts/cac864f3/</id>
     <published>2017-04-21T08:06:45.000Z</published>
     <updated>2017-12-27T02:47:36.491Z</updated>
     
