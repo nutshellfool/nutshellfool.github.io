@@ -4,26 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>通过源码编译的方式安装nginx（CentOS 7） | 李瑞的博客</title>
+    <title>二分查找问题及对应解决思路 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="nginx">
     
-    <meta name="description" content="安装编译所依赖库1$ sudo yum install gcc gcc-c++ automake autoconf libtool make 配置源码安装依赖 PCRE - 支持正则表达式，nginx core 和 rewrite 模块依赖  123456$ wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.t">
-<meta name="keywords" content="nginx">
+      <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    
+    <meta name="description" content="二分查找问题是算法问题中比较经典的问题之一， 以其$O(log)$时间复杂度的算法效率独领风骚。   二分查找问题Pow(x, n)Sqrt(x)Divide Two Integers 二分问题标准代码模版1234567891011121314public int binarySearch(int[] nums, int target) &amp;#123;  int left = 0;  int rig">
+<meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过源码编译的方式安装nginx（CentOS 7）">
-<meta property="og:url" content="https://blogs.lirui.me/posts/b5ccf5b8/index.html">
+<meta property="og:title" content="二分查找问题及对应解决思路">
+<meta property="og:url" content="https://blogs.lirui.me/posts/f525d2ef/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="安装编译所依赖库1$ sudo yum install gcc gcc-c++ automake autoconf libtool make 配置源码安装依赖 PCRE - 支持正则表达式，nginx core 和 rewrite 模块依赖  123456$ wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.t">
+<meta property="og:description" content="二分查找问题是算法问题中比较经典的问题之一， 以其$O(log)$时间复杂度的算法效率独领风骚。   二分查找问题Pow(x, n)Sqrt(x)Divide Two Integers 二分问题标准代码模版1234567891011121314public int binarySearch(int[] nums, int target) &amp;#123;  int left = 0;  int rig">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T01:44:34.966Z">
+<meta property="og:updated_time" content="2020-01-15T14:59:14.979Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过源码编译的方式安装nginx（CentOS 7）">
-<meta name="twitter:description" content="安装编译所依赖库1$ sudo yum install gcc gcc-c++ automake autoconf libtool make 配置源码安装依赖 PCRE - 支持正则表达式，nginx core 和 rewrite 模块依赖  123456$ wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.t">
+<meta name="twitter:title" content="二分查找问题及对应解决思路">
+<meta name="twitter:description" content="二分查找问题是算法问题中比较经典的问题之一， 以其$O(log)$时间复杂度的算法效率独领风骚。   二分查找问题Pow(x, n)Sqrt(x)Divide Two Integers 二分问题标准代码模版1234567891011121314public int binarySearch(int[] nums, int target) &amp;#123;  int left = 0;  int rig">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -79,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/b5ccf5b8/" title="通过源码编译的方式安装nginx（CentOS 7）" itemprop="url">通过源码编译的方式安装nginx（CentOS 7）</a>
+      <a href="/posts/f525d2ef/" title="二分查找问题及对应解决思路" itemprop="url">二分查找问题及对应解决思路</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2019-04-13T06:35:54.000Z" itemprop="datePublished"> Published 2019-04-13</time>
+    <time datetime="2019-05-15T14:58:06.000Z" itemprop="datePublished"> Published 2019-05-15</time>
     
   </p>
 </header>
@@ -95,41 +96,17 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装编译所依赖库"><span class="toc-number">1.</span> <span class="toc-text">安装编译所依赖库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置源码安装依赖"><span class="toc-number">2.</span> <span class="toc-text">配置源码安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载解压源码"><span class="toc-number">3.</span> <span class="toc-text">下载解压源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置编译源码"><span class="toc-number">4.</span> <span class="toc-text">配置编译源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#让vim支持nginx配置文件语法"><span class="toc-number">5.</span> <span class="toc-text">让vim支持nginx配置文件语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以service的方式运行Nginx-OpenResty"><span class="toc-number">6.</span> <span class="toc-text">以service的方式运行Nginx/OpenResty</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找问题"><span class="toc-number">1.</span> <span class="toc-text">二分查找问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分问题标准代码模版"><span class="toc-number">2.</span> <span class="toc-text">二分问题标准代码模版</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="安装编译所依赖库"><a href="#安装编译所依赖库" class="headerlink" title="安装编译所依赖库"></a>安装编译所依赖库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install gcc gcc-c++ automake autoconf libtool make</span><br></pre></td></tr></table></figure>
-<h2 id="配置源码安装依赖"><a href="#配置源码安装依赖" class="headerlink" title="配置源码安装依赖"></a>配置源码安装依赖</h2><ul>
-<li>PCRE - 支持正则表达式，nginx core 和 rewrite 模块依赖</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.tar.gz</span><br><span class="line">$ tar -zxf pcre-8.42.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> pcre-8.42</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<ul>
-<li>zlib - header 压缩， Gzip模块依赖</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://zlib.net/zlib-1.2.11.tar.gz</span><br><span class="line">$ tar -zxf zlib-1.2.11.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> zlib-1.2.11</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<ul>
-<li>openSSL - 支持https协议， SSL和其他模块依赖</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.1b.tar.gz</span><br><span class="line">$ tar -zxf openssl-1.1.1b.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> openssl-1.1.1b</span><br><span class="line">$ ./Configure linux-x86_64 --prefix=/usr</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<h2 id="下载解压源码"><a href="#下载解压源码" class="headerlink" title="下载解压源码"></a>下载解压源码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://nginx.org/download/nginx-1.15.11.tar.gz</span><br><span class="line">$ tar xzf nginx-1.15.11.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nginx-1.15.11</span><br></pre></td></tr></table></figure>
-<h2 id="配置编译源码"><a href="#配置编译源码" class="headerlink" title="配置编译源码"></a>配置编译源码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br></pre></td></tr></table></figure>
-<p>以上是使用nginx的默认配置，具体的配置请参考官方文档 <a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#configuring-the-build-options" target="_blank" rel="noopener">nginx build options</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<h2 id="让vim支持nginx配置文件语法"><a href="#让vim支持nginx配置文件语法" class="headerlink" title="让vim支持nginx配置文件语法"></a>让vim支持nginx配置文件语法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp -r contrib/vim/* ~/.vim/</span><br><span class="line">$ cp -r contrib/vim/* /root/.vim/</span><br></pre></td></tr></table></figure>
-<h2 id="以service的方式运行Nginx-OpenResty"><a href="#以service的方式运行Nginx-OpenResty" class="headerlink" title="以service的方式运行Nginx/OpenResty"></a>以service的方式运行Nginx/OpenResty</h2><p>以CentOS7为例：<br>在以下路径下创建systemd unit 配置文件<code>/usr/lib/systemd/system/nginx.service</code><br>文件配置内容(OpenResty)：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=The nginx HTTP and reverse proxy server</span><br><span class="line">After=syslog.target network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/usr/<span class="built_in">local</span>/openresty/nginx/logs/nginx.pid</span><br><span class="line">ExecStartPre=/usr/<span class="built_in">local</span>/openresty/nginx/sbin/nginx -t</span><br><span class="line">ExecStart=/usr/<span class="built_in">local</span>/openresty/nginx/sbin/nginx</span><br><span class="line">ExecReload=/bin/<span class="built_in">kill</span> <span class="_">-s</span> HUP <span class="variable">$MAINPID</span></span><br><span class="line">ExecStop=/bin/<span class="built_in">kill</span> <span class="_">-s</span> QUIT <span class="variable">$MAINPID</span></span><br><span class="line">PrivateTmp=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>启用这个nginx的systemd unit</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> nginx.service</span><br><span class="line">systemctl start nginx.service</span><br></pre></td></tr></table></figure>
+		<p>二分查找问题是算法问题中比较经典的问题之一， 以其$O(log)$时间复杂度的算法效率独领风骚。  </p>
+<h2 id="二分查找问题"><a href="#二分查找问题" class="headerlink" title="二分查找问题"></a>二分查找问题</h2><p><a href="https://leetcode.com/problems/powx-n/" target="_blank" rel="noopener">Pow(x, n)</a><br><a href="https://leetcode.com/problems/sqrtx/" target="_blank" rel="noopener">Sqrt(x)</a><br><a href="https://leetcode.com/problems/divide-two-integers/" target="_blank" rel="noopener">Divide Two Integers</a></p>
+<h2 id="二分问题标准代码模版"><a href="#二分问题标准代码模版" class="headerlink" title="二分问题标准代码模版"></a>二分问题标准代码模版</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> right = nums.length;</span><br><span class="line">  <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums[mid] == target) <span class="keyword">return</span> mid;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) left = mid + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Develop/">Develop</a>►<a class="article-category-link" href="/categories/Develop/DevOps/">DevOps</a>
-</div>
 
 
 </div>
@@ -138,7 +115,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/b5ccf5b8/" data-title="通过源码编译的方式安装nginx（CentOS 7） | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/f525d2ef/" data-title="二分查找问题及对应解决思路 | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -152,18 +129,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/posts/f525d2ef/" title="二分查找问题及对应解决思路">
+ <a href="/posts/b84c17e2/" title="研发效能实用贴士 - Vim篇">
   <strong>上一篇：</strong><br/>
   <span>
-  二分查找问题及对应解决思路</span>
+  研发效能实用贴士 - Vim篇</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/posts/d5d76783/"  title="滑动窗口算法问题及其衍生问题">
+<a href="/posts/b5ccf5b8/"  title="通过源码编译的方式安装nginx（CentOS 7）">
  <strong>下一篇：</strong><br/> 
- <span>滑动窗口算法问题及其衍生问题
+ <span>通过源码编译的方式安装nginx（CentOS 7）
 </span>
 </a>
 </div>
@@ -184,7 +161,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装编译所依赖库"><span class="toc-number">1.</span> <span class="toc-text">安装编译所依赖库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置源码安装依赖"><span class="toc-number">2.</span> <span class="toc-text">配置源码安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载解压源码"><span class="toc-number">3.</span> <span class="toc-text">下载解压源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置编译源码"><span class="toc-number">4.</span> <span class="toc-text">配置编译源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#让vim支持nginx配置文件语法"><span class="toc-number">5.</span> <span class="toc-text">让vim支持nginx配置文件语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以service的方式运行Nginx-OpenResty"><span class="toc-number">6.</span> <span class="toc-text">以service的方式运行Nginx/OpenResty</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找问题"><span class="toc-number">1.</span> <span class="toc-text">二分查找问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分问题标准代码模版"><span class="toc-number">2.</span> <span class="toc-text">二分问题标准代码模版</span></a></li></ol>
  
   </div>
 
