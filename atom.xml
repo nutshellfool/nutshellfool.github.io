@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://blog.lirui.me/"/>
+  <link href="https://blogs.lirui.me/"/>
   <updated>2020-01-15T14:07:37.410Z</updated>
-  <id>https://blog.lirui.me/</id>
+  <id>https://blogs.lirui.me/</id>
   
   <author>
     <name>李瑞</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Latex grammar cheatsheet handbook</title>
-    <link href="https://blog.lirui.me/posts/8e8be6ee/"/>
-    <id>https://blog.lirui.me/posts/8e8be6ee/</id>
+    <link href="https://blogs.lirui.me/posts/8e8be6ee/"/>
+    <id>https://blogs.lirui.me/posts/8e8be6ee/</id>
     <published>2020-01-15T13:57:20.000Z</published>
     <updated>2020-01-15T14:07:37.410Z</updated>
     
@@ -39,8 +39,8 @@
   
   <entry>
     <title>研发效能实用贴士 - Git篇</title>
-    <link href="https://blog.lirui.me/posts/5a7bdbff/"/>
-    <id>https://blog.lirui.me/posts/5a7bdbff/</id>
+    <link href="https://blogs.lirui.me/posts/5a7bdbff/"/>
+    <id>https://blogs.lirui.me/posts/5a7bdbff/</id>
     <published>2019-12-17T11:23:00.000Z</published>
     <updated>2019-12-17T11:23:00.949Z</updated>
     
@@ -61,8 +61,8 @@
   
   <entry>
     <title>Nginx 部分使用方法备忘录</title>
-    <link href="https://blog.lirui.me/posts/524f9cc8/"/>
-    <id>https://blog.lirui.me/posts/524f9cc8/</id>
+    <link href="https://blogs.lirui.me/posts/524f9cc8/"/>
+    <id>https://blogs.lirui.me/posts/524f9cc8/</id>
     <published>2019-12-16T03:17:01.000Z</published>
     <updated>2019-12-25T03:56:37.331Z</updated>
     
@@ -82,8 +82,8 @@
   
   <entry>
     <title>研发效能实用贴士 - Vim篇</title>
-    <link href="https://blog.lirui.me/posts/b84c17e2/"/>
-    <id>https://blog.lirui.me/posts/b84c17e2/</id>
+    <link href="https://blogs.lirui.me/posts/b84c17e2/"/>
+    <id>https://blogs.lirui.me/posts/b84c17e2/</id>
     <published>2019-12-07T14:27:03.000Z</published>
     <updated>2019-12-08T10:10:05.689Z</updated>
     
@@ -103,8 +103,8 @@
   
   <entry>
     <title>通过源码编译的方式安装nginx（CentOS 7）</title>
-    <link href="https://blog.lirui.me/posts/b5ccf5b8/"/>
-    <id>https://blog.lirui.me/posts/b5ccf5b8/</id>
+    <link href="https://blogs.lirui.me/posts/b5ccf5b8/"/>
+    <id>https://blogs.lirui.me/posts/b5ccf5b8/</id>
     <published>2019-04-13T06:35:54.000Z</published>
     <updated>2019-07-02T01:44:34.966Z</updated>
     
@@ -119,17 +119,17 @@
     
     </summary>
     
-      <category term="Develop" scheme="https://blog.lirui.me/categories/Develop/"/>
+      <category term="Develop" scheme="https://blogs.lirui.me/categories/Develop/"/>
     
-      <category term="DevOps" scheme="https://blog.lirui.me/categories/Develop/DevOps/"/>
+      <category term="DevOps" scheme="https://blogs.lirui.me/categories/Develop/DevOps/"/>
     
     
   </entry>
   
   <entry>
     <title>滑动窗口算法问题及其衍生问题</title>
-    <link href="https://blog.lirui.me/posts/d5d76783/"/>
-    <id>https://blog.lirui.me/posts/d5d76783/</id>
+    <link href="https://blogs.lirui.me/posts/d5d76783/"/>
+    <id>https://blogs.lirui.me/posts/d5d76783/</id>
     <published>2019-03-13T03:57:37.000Z</published>
     <updated>2020-01-13T09:32:36.830Z</updated>
     
@@ -150,8 +150,8 @@
   
   <entry>
     <title>Leetcode 中子集和问题及其解法</title>
-    <link href="https://blog.lirui.me/posts/51926d91/"/>
-    <id>https://blog.lirui.me/posts/51926d91/</id>
+    <link href="https://blogs.lirui.me/posts/51926d91/"/>
+    <id>https://blogs.lirui.me/posts/51926d91/</id>
     <published>2019-01-21T02:03:10.000Z</published>
     <updated>2020-01-05T12:00:57.750Z</updated>
     
@@ -171,8 +171,8 @@
   
   <entry>
     <title>在DigitalOcean上安装kubernetes cluster</title>
-    <link href="https://blog.lirui.me/posts/3128c36f/"/>
-    <id>https://blog.lirui.me/posts/3128c36f/</id>
+    <link href="https://blogs.lirui.me/posts/3128c36f/"/>
+    <id>https://blogs.lirui.me/posts/3128c36f/</id>
     <published>2018-03-30T10:19:37.000Z</published>
     <updated>2018-04-22T14:44:32.761Z</updated>
     
@@ -193,8 +193,8 @@
   
   <entry>
     <title>腾讯产品方法 读书笔记</title>
-    <link href="https://blog.lirui.me/posts/2e8d4abb/"/>
-    <id>https://blog.lirui.me/posts/2e8d4abb/</id>
+    <link href="https://blogs.lirui.me/posts/2e8d4abb/"/>
+    <id>https://blogs.lirui.me/posts/2e8d4abb/</id>
     <published>2018-03-16T01:52:12.000Z</published>
     <updated>2018-03-16T01:52:48.528Z</updated>
     
@@ -216,8 +216,8 @@
   
   <entry>
     <title>《非暴力沟通》读书笔记</title>
-    <link href="https://blog.lirui.me/posts/24de702c/"/>
-    <id>https://blog.lirui.me/posts/24de702c/</id>
+    <link href="https://blogs.lirui.me/posts/24de702c/"/>
+    <id>https://blogs.lirui.me/posts/24de702c/</id>
     <published>2018-01-04T10:17:20.000Z</published>
     <updated>2018-01-11T10:35:26.645Z</updated>
     
@@ -237,8 +237,8 @@
   
   <entry>
     <title>设置私有服务器备忘录</title>
-    <link href="https://blog.lirui.me/posts/bd4eb22c/"/>
-    <id>https://blog.lirui.me/posts/bd4eb22c/</id>
+    <link href="https://blogs.lirui.me/posts/bd4eb22c/"/>
+    <id>https://blogs.lirui.me/posts/bd4eb22c/</id>
     <published>2018-01-04T06:37:38.000Z</published>
     <updated>2019-04-23T02:00:29.967Z</updated>
     
@@ -258,8 +258,8 @@
   
   <entry>
     <title>深层神经网络</title>
-    <link href="https://blog.lirui.me/posts/b61b5e8c/"/>
-    <id>https://blog.lirui.me/posts/b61b5e8c/</id>
+    <link href="https://blogs.lirui.me/posts/b61b5e8c/"/>
+    <id>https://blogs.lirui.me/posts/b61b5e8c/</id>
     <published>2017-12-29T07:00:22.000Z</published>
     <updated>2017-12-29T07:00:22.207Z</updated>
     
@@ -280,8 +280,8 @@
   
   <entry>
     <title>向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现</title>
-    <link href="https://blog.lirui.me/posts/47728c0b/"/>
-    <id>https://blog.lirui.me/posts/47728c0b/</id>
+    <link href="https://blogs.lirui.me/posts/47728c0b/"/>
+    <id>https://blogs.lirui.me/posts/47728c0b/</id>
     <published>2017-11-30T08:20:33.000Z</published>
     <updated>2017-12-27T02:59:33.571Z</updated>
     
@@ -301,8 +301,8 @@
   
   <entry>
     <title>部署一个标准Python（Flask）应用的备忘录</title>
-    <link href="https://blog.lirui.me/posts/2e474ec1/"/>
-    <id>https://blog.lirui.me/posts/2e474ec1/</id>
+    <link href="https://blogs.lirui.me/posts/2e474ec1/"/>
+    <id>https://blogs.lirui.me/posts/2e474ec1/</id>
     <published>2017-10-31T11:03:12.000Z</published>
     <updated>2018-01-31T11:05:32.075Z</updated>
     
@@ -328,8 +328,8 @@
   
   <entry>
     <title>Dockerfile 书写方法（cookbook）</title>
-    <link href="https://blog.lirui.me/posts/cac2d233/"/>
-    <id>https://blog.lirui.me/posts/cac2d233/</id>
+    <link href="https://blogs.lirui.me/posts/cac2d233/"/>
+    <id>https://blogs.lirui.me/posts/cac2d233/</id>
     <published>2017-05-29T13:01:23.000Z</published>
     <updated>2017-12-27T02:45:11.027Z</updated>
     
@@ -345,21 +345,21 @@
     
     </summary>
     
-      <category term="Develop" scheme="https://blog.lirui.me/categories/Develop/"/>
+      <category term="Develop" scheme="https://blogs.lirui.me/categories/Develop/"/>
     
-      <category term="DevOps" scheme="https://blog.lirui.me/categories/Develop/DevOps/"/>
+      <category term="DevOps" scheme="https://blogs.lirui.me/categories/Develop/DevOps/"/>
     
     
   </entry>
   
   <entry>
     <title>集合，容器使用小结</title>
-    <link href="https://blog.lirui.me/posts/3e55e448/"/>
-    <id>https://blog.lirui.me/posts/3e55e448/</id>
+    <link href="https://blogs.lirui.me/posts/3e55e448/"/>
+    <id>https://blogs.lirui.me/posts/3e55e448/</id>
     <published>2017-05-22T10:31:32.000Z</published>
     <updated>2017-12-27T02:43:33.082Z</updated>
     
-    <content type="html"><![CDATA[<p>集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。</p><h2 id="集合的分类"><a href="#集合的分类" class="headerlink" title="集合的分类"></a>集合的分类</h2><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。<br>如， 按照可动态变长和不能动态变长分为：</p><ul><li>array (Java) / tuple (Python)</li><li>ArrayList (Java) / List (Python)</li></ul><p>还有一种分法是按照List使用特点区分：</p><ul><li>访问快，插入、删除慢 – ArrayList</li><li>插入、删除快，  访问慢 – LinkedList</li></ul><h4 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h4><p>或者换一个角度说，使用场景是 <strong>访问操作多，而添加、删除的修改操作少</strong>。<br>具体来说：</p><table><thead><tr><th style="text-align:center">操作</th><th style="text-align:center">复杂度</th></tr></thead><tbody><tr><td style="text-align:center">访问元素</td><td style="text-align:center">$O(1)$</td></tr><tr><td style="text-align:center">添加、删除元素</td><td style="text-align:center">$O(n)$</td></tr></tbody></table><p>具体的不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>ArrayList</td><td>ArrayList<node> list = new ArrayList<node>();</node></node></td></tr><tr><td>Python</td><td>list</td><td>list = []</td></tr></tbody></table><h4 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h4><p>使用场景 <strong>添加、删除的修改操作多，而访问操作少</strong><br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>访问元素</td><td>$O(n)$</td></tr><tr><td>添加、删除元素</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>LinkedList</td><td>LinkedList<node> list = new LinkedList<node>();</node></node></td></tr><tr><td>Python</td><td>deque</td><td>import collections list = deque()</td></tr></tbody></table><h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>众所周知的抽象数据结构，特点：后入先出（LIFO）<br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>push</td><td>$O(1)$</td></tr><tr><td>pop</td><td>$O(1)$</td></tr><tr><td>peek</td><td>$O(1)$</td></tr><tr><td>isEmpty</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>Stack</td><td>Stack<node> list = new Stack<node>();</node></node></td></tr><tr><td>Python</td><td>list</td><td>list = []</td></tr></tbody></table><p>这里Python将list用做了栈，对应的：<br>push操作是使用<code>append()</code>方法<br>pop操作是使用<code>pop()</code>方法<br>peek可以使用 <code>return list[-1]</code><br>isEmpty可以判断对象是否为None或者长度为0</p><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>与栈对立的抽象数据结构，特点： 先入先出（FIFO）<br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(1)$</td></tr><tr><td>poll</td><td>$O(1)$</td></tr><tr><td>peek</td><td>$O(1)$</td></tr><tr><td>isEmpty</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>LinkedList</td><td>LinkedList<node> list = new LinkedList<node>();</node></node></td></tr><tr><td>Python</td><td>deque</td><td>import collections list = deque()</td></tr></tbody></table><p>这里Python将list用成了队列，特别的这里的list是双端队列deque，对应的操作是：<br>add –&gt; <code>list.append()</code><br>poll –&gt; <code>list.popleft()</code><br>peek –&gt; <code>list[1]</code><br>isEmpty可以判断对象是否为None或者长度为0</p><h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>牛逼闪闪的集合类，按照估价函数自定义先出。<br>由于优先队列有多种实现方式，我们这里讨论最常见的堆实现。<br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(log^n)$</td></tr><tr><td>poll</td><td>$O(log^n)$</td></tr><tr><td>peek</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>PriorityQueue</td><td>PriorityQueue<node> pqueue = new PriorityQueue<node>();</node></node></td></tr><tr><td>Python</td><td>PriorityQueue</td><td>import collections pqueue = PriorityQueue()</td></tr></tbody></table><p>Python下使用collections模块下的 PriorityQueue 来实现优先队列，当然也可以使用heapq来实现。<br>Python使用PriorityQueue来实现优先队列的话：<br>add –&gt; <code>pqueue.put()</code><br>poll –&gt; <code>pqueue.get()</code></p><p>具体的实现<a href="https://blogs.lirui.me/posts/602ee0a8/#Java与Python下的实现" target="_blank" rel="noopener">参见这里</a></p><h3 id="集合（set）"><a href="#集合（set）" class="headerlink" title="集合（set）"></a>集合（set）</h3><p>众所周知的抽象数据结构，key型容器，原生set不允许重复的key。<br>按照操作的复杂度和是否需要保证顺序将set区分为</p><h4 id="hashset"><a href="#hashset" class="headerlink" title="hashset"></a>hashset</h4><p>基本操作（查找、添加、删除元素）性能超群 $O(1)$<br>具体的的</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(1)$</td></tr><tr><td>remove</td><td>$O(1)$</td></tr><tr><td>contains</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>HashSet</td><td>HashSet<node> set = new HashSet<node>();</node></node></td></tr><tr><td>Python</td><td>set</td><td>set = set()</td></tr></tbody></table><p>我去，性能牛逼完了，你会问：这么牛逼的set还要treeset干啥？<br>你这么说treeset会生气的，你让hashset按插入的顺序输出下试试？  </p><p>是的， 如果要支持顺序的话还是要看treeset</p><h4 id="treeset"><a href="#treeset" class="headerlink" title="treeset"></a>treeset</h4><p>虽然在性能上有所妥协，但是支持Order<br>具体说来，性能是这样的：  </p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(log^n)$</td></tr><tr><td>remove</td><td>$O(log^n)$</td></tr><tr><td>contains</td><td>$O(log^n)$</td></tr></tbody></table><p>性能上从$O(1)$到$log^n$还是很大的退步的，有没有更好的选择呢？<br>其实有linkedHashSet</p><h4 id="linkedHashSet"><a href="#linkedHashSet" class="headerlink" title="linkedHashSet"></a>linkedHashSet</h4><p>拥有$O(1)$的操作效率，而且支持顺序。</p><p>具体到不同的语言有：  </p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>linkedHashSet</td><td>LinkedHashSet<node> set = new LinkedHashSet<node>();</node></node></td></tr><tr><td>Python</td><td>OrderedDict</td><td>import collections set = OrderedDict()</td></tr></tbody></table><p>这里Python使用了K-V类型的Dict作为set的内部实现，其实想想，set就是一种特殊的Dict，去看看JDK的HashSet和LinkedHashSet就知道了。<br>附Sun JDK HashSet部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a new, empty set; the backing &lt;tt&gt;HashMap&lt;/tt&gt; instance has</span></span><br><span class="line"><span class="comment"> * default initial capacity (16) and load factor (0.75).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns &lt;tt&gt;true&lt;/tt&gt; if this set contains the specified element.</span></span><br><span class="line"><span class="comment"> * More formally, returns &lt;tt&gt;true&lt;/tt&gt; if and only if this set</span></span><br><span class="line"><span class="comment"> * contains an element &lt;tt&gt;e&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o element whose presence in this set is to be tested</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set contains the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.containsKey(o);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Adds the specified element to this set if it is not already present.</span></span><br><span class="line"><span class="comment"> * More formally, adds the specified element &lt;tt&gt;e&lt;/tt&gt; to this set if</span></span><br><span class="line"><span class="comment"> * this set contains no element &lt;tt&gt;e2&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(e==null&amp;nbsp;?&amp;nbsp;e2==null&amp;nbsp;:&amp;nbsp;e.equals(e2))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> * If this set already contains the element, the call leaves the set</span></span><br><span class="line"><span class="comment"> * unchanged and returns &lt;tt&gt;false&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be added to this set</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set did not already contain the specified</span></span><br><span class="line"><span class="comment"> * element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Removes the specified element from this set if it is present.</span></span><br><span class="line"><span class="comment"> * More formally, removes an element &lt;tt&gt;e&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;,</span></span><br><span class="line"><span class="comment"> * if this set contains such an element.  Returns &lt;tt&gt;true&lt;/tt&gt; if</span></span><br><span class="line"><span class="comment"> * this set contained the element (or equivalently, if this set</span></span><br><span class="line"><span class="comment"> * changed as a result of the call).  (This set will not contain the</span></span><br><span class="line"><span class="comment"> * element once the call returns.)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o object to be removed from this set, if present</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if the set contained the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.remove(o)==PRESENT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="字典（map）"><a href="#字典（map）" class="headerlink" title="字典（map）"></a>字典（map）</h3><p>Key-Value型容器，原生字典类型不支持重复的key。<br>因为map是set的更一般情况，所以自然地<br>类似Set，有下面这三种map：  </p><ul><li>HashMap</li><li>TreeMap</li><li>LinkedHashMap</li></ul><p>对应的操作性能参照set系列<br>Python下的对照可以这样参照：</p><p>HashMap –&gt; dict (<code>{&#39;key&#39;:&#39;value&#39;}</code>)<br>TreeMap, LinkedHashMap –&gt; <code>OrderedDict()</code></p>]]></content>
+    <content type="html"><![CDATA[<p>集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。</p><h2 id="集合的分类"><a href="#集合的分类" class="headerlink" title="集合的分类"></a>集合的分类</h2><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。<br>如， 按照可动态变长和不能动态变长分为：</p><ul><li>array (Java) / tuple (Python)</li><li>ArrayList (Java) / List (Python)</li></ul><p>还有一种分法是按照List使用特点区分：</p><ul><li>访问快，插入、删除慢 – ArrayList</li><li>插入、删除快，  访问慢 – LinkedList</li></ul><h4 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h4><p>或者换一个角度说，使用场景是 <strong>访问操作多，而添加、删除的修改操作少</strong>。<br>具体来说：</p><table><thead><tr><th style="text-align:center">操作</th><th style="text-align:center">复杂度</th></tr></thead><tbody><tr><td style="text-align:center">访问元素</td><td style="text-align:center">$O(1)$</td></tr><tr><td style="text-align:center">添加、删除元素</td><td style="text-align:center">$O(n)$</td></tr></tbody></table><p>具体的不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>ArrayList</td><td>ArrayList<node> list = new ArrayList<node>();</node></node></td></tr><tr><td>Python</td><td>list</td><td>list = []</td></tr></tbody></table><h4 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h4><p>使用场景 <strong>添加、删除的修改操作多，而访问操作少</strong><br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>访问元素</td><td>$O(n)$</td></tr><tr><td>添加、删除元素</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>LinkedList</td><td>LinkedList<node> list = new LinkedList<node>();</node></node></td></tr><tr><td>Python</td><td>deque</td><td>import collections list = deque()</td></tr></tbody></table><h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>众所周知的抽象数据结构，特点：后入先出（LIFO）<br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>push</td><td>$O(1)$</td></tr><tr><td>pop</td><td>$O(1)$</td></tr><tr><td>peek</td><td>$O(1)$</td></tr><tr><td>isEmpty</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>Stack</td><td>Stack<node> list = new Stack<node>();</node></node></td></tr><tr><td>Python</td><td>list</td><td>list = []</td></tr></tbody></table><p>这里Python将list用做了栈，对应的：<br>push操作是使用<code>append()</code>方法<br>pop操作是使用<code>pop()</code>方法<br>peek可以使用 <code>return list[-1]</code><br>isEmpty可以判断对象是否为None或者长度为0</p><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>与栈对立的抽象数据结构，特点： 先入先出（FIFO）<br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(1)$</td></tr><tr><td>poll</td><td>$O(1)$</td></tr><tr><td>peek</td><td>$O(1)$</td></tr><tr><td>isEmpty</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>LinkedList</td><td>LinkedList<node> list = new LinkedList<node>();</node></node></td></tr><tr><td>Python</td><td>deque</td><td>import collections list = deque()</td></tr></tbody></table><p>这里Python将list用成了队列，特别的这里的list是双端队列deque，对应的操作是：<br>add –&gt; <code>list.append()</code><br>poll –&gt; <code>list.popleft()</code><br>peek –&gt; <code>list[1]</code><br>isEmpty可以判断对象是否为None或者长度为0</p><h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>牛逼闪闪的集合类，按照估价函数自定义先出。<br>由于优先队列有多种实现方式，我们这里讨论最常见的堆实现。<br>具体来说：</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(log^n)$</td></tr><tr><td>poll</td><td>$O(log^n)$</td></tr><tr><td>peek</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>PriorityQueue</td><td>PriorityQueue<node> pqueue = new PriorityQueue<node>();</node></node></td></tr><tr><td>Python</td><td>PriorityQueue</td><td>import collections pqueue = PriorityQueue()</td></tr></tbody></table><p>Python下使用collections模块下的 PriorityQueue 来实现优先队列，当然也可以使用heapq来实现。<br>Python使用PriorityQueue来实现优先队列的话：<br>add –&gt; <code>pqueue.put()</code><br>poll –&gt; <code>pqueue.get()</code></p><p>具体的实现<a href="https://blogs.lirui.me/posts/602ee0a8/#Java与Python下的实现">参见这里</a></p><h3 id="集合（set）"><a href="#集合（set）" class="headerlink" title="集合（set）"></a>集合（set）</h3><p>众所周知的抽象数据结构，key型容器，原生set不允许重复的key。<br>按照操作的复杂度和是否需要保证顺序将set区分为</p><h4 id="hashset"><a href="#hashset" class="headerlink" title="hashset"></a>hashset</h4><p>基本操作（查找、添加、删除元素）性能超群 $O(1)$<br>具体的的</p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(1)$</td></tr><tr><td>remove</td><td>$O(1)$</td></tr><tr><td>contains</td><td>$O(1)$</td></tr></tbody></table><p>具体到不同的语言有：</p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>HashSet</td><td>HashSet<node> set = new HashSet<node>();</node></node></td></tr><tr><td>Python</td><td>set</td><td>set = set()</td></tr></tbody></table><p>我去，性能牛逼完了，你会问：这么牛逼的set还要treeset干啥？<br>你这么说treeset会生气的，你让hashset按插入的顺序输出下试试？  </p><p>是的， 如果要支持顺序的话还是要看treeset</p><h4 id="treeset"><a href="#treeset" class="headerlink" title="treeset"></a>treeset</h4><p>虽然在性能上有所妥协，但是支持Order<br>具体说来，性能是这样的：  </p><table><thead><tr><th>操作</th><th>复杂度</th></tr></thead><tbody><tr><td>add</td><td>$O(log^n)$</td></tr><tr><td>remove</td><td>$O(log^n)$</td></tr><tr><td>contains</td><td>$O(log^n)$</td></tr></tbody></table><p>性能上从$O(1)$到$log^n$还是很大的退步的，有没有更好的选择呢？<br>其实有linkedHashSet</p><h4 id="linkedHashSet"><a href="#linkedHashSet" class="headerlink" title="linkedHashSet"></a>linkedHashSet</h4><p>拥有$O(1)$的操作效率，而且支持顺序。</p><p>具体到不同的语言有：  </p><table><thead><tr><th>语言</th><th>类、模块</th><th>用法</th></tr></thead><tbody><tr><td>Java</td><td>linkedHashSet</td><td>LinkedHashSet<node> set = new LinkedHashSet<node>();</node></node></td></tr><tr><td>Python</td><td>OrderedDict</td><td>import collections set = OrderedDict()</td></tr></tbody></table><p>这里Python使用了K-V类型的Dict作为set的内部实现，其实想想，set就是一种特殊的Dict，去看看JDK的HashSet和LinkedHashSet就知道了。<br>附Sun JDK HashSet部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a new, empty set; the backing &lt;tt&gt;HashMap&lt;/tt&gt; instance has</span></span><br><span class="line"><span class="comment"> * default initial capacity (16) and load factor (0.75).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns &lt;tt&gt;true&lt;/tt&gt; if this set contains the specified element.</span></span><br><span class="line"><span class="comment"> * More formally, returns &lt;tt&gt;true&lt;/tt&gt; if and only if this set</span></span><br><span class="line"><span class="comment"> * contains an element &lt;tt&gt;e&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o element whose presence in this set is to be tested</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set contains the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.containsKey(o);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Adds the specified element to this set if it is not already present.</span></span><br><span class="line"><span class="comment"> * More formally, adds the specified element &lt;tt&gt;e&lt;/tt&gt; to this set if</span></span><br><span class="line"><span class="comment"> * this set contains no element &lt;tt&gt;e2&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(e==null&amp;nbsp;?&amp;nbsp;e2==null&amp;nbsp;:&amp;nbsp;e.equals(e2))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> * If this set already contains the element, the call leaves the set</span></span><br><span class="line"><span class="comment"> * unchanged and returns &lt;tt&gt;false&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be added to this set</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set did not already contain the specified</span></span><br><span class="line"><span class="comment"> * element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Removes the specified element from this set if it is present.</span></span><br><span class="line"><span class="comment"> * More formally, removes an element &lt;tt&gt;e&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;,</span></span><br><span class="line"><span class="comment"> * if this set contains such an element.  Returns &lt;tt&gt;true&lt;/tt&gt; if</span></span><br><span class="line"><span class="comment"> * this set contained the element (or equivalently, if this set</span></span><br><span class="line"><span class="comment"> * changed as a result of the call).  (This set will not contain the</span></span><br><span class="line"><span class="comment"> * element once the call returns.)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o object to be removed from this set, if present</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if the set contained the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.remove(o)==PRESENT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="字典（map）"><a href="#字典（map）" class="headerlink" title="字典（map）"></a>字典（map）</h3><p>Key-Value型容器，原生字典类型不支持重复的key。<br>因为map是set的更一般情况，所以自然地<br>类似Set，有下面这三种map：  </p><ul><li>HashMap</li><li>TreeMap</li><li>LinkedHashMap</li></ul><p>对应的操作性能参照set系列<br>Python下的对照可以这样参照：</p><p>HashMap –&gt; dict (<code>{&#39;key&#39;:&#39;value&#39;}</code>)<br>TreeMap, LinkedHashMap –&gt; <code>OrderedDict()</code></p>]]></content>
     
     <summary type="html">
     
@@ -376,8 +376,8 @@
   
   <entry>
     <title>也谈内存管理</title>
-    <link href="https://blog.lirui.me/posts/d8211bcf/"/>
-    <id>https://blog.lirui.me/posts/d8211bcf/</id>
+    <link href="https://blogs.lirui.me/posts/d8211bcf/"/>
+    <id>https://blogs.lirui.me/posts/d8211bcf/</id>
     <published>2017-05-17T14:37:02.000Z</published>
     <updated>2018-08-28T06:03:52.361Z</updated>
     
@@ -398,8 +398,8 @@
   
   <entry>
     <title>什么算法的名字竟然叫洪水？！真像竟然是……</title>
-    <link href="https://blog.lirui.me/posts/766d9901/"/>
-    <id>https://blog.lirui.me/posts/766d9901/</id>
+    <link href="https://blogs.lirui.me/posts/766d9901/"/>
+    <id>https://blogs.lirui.me/posts/766d9901/</id>
     <published>2017-05-09T09:15:51.000Z</published>
     <updated>2017-12-27T02:44:25.918Z</updated>
     
@@ -419,8 +419,8 @@
   
   <entry>
     <title>在Mac上安装TensorFlow</title>
-    <link href="https://blog.lirui.me/posts/f4573ea8/"/>
-    <id>https://blog.lirui.me/posts/f4573ea8/</id>
+    <link href="https://blogs.lirui.me/posts/f4573ea8/"/>
+    <id>https://blogs.lirui.me/posts/f4573ea8/</id>
     <published>2017-05-04T17:29:41.000Z</published>
     <updated>2017-12-27T02:48:17.580Z</updated>
     
@@ -440,8 +440,8 @@
   
   <entry>
     <title>五边飞行与网络拥塞控制</title>
-    <link href="https://blog.lirui.me/posts/9d999a37/"/>
-    <id>https://blog.lirui.me/posts/9d999a37/</id>
+    <link href="https://blogs.lirui.me/posts/9d999a37/"/>
+    <id>https://blogs.lirui.me/posts/9d999a37/</id>
     <published>2017-04-30T09:47:22.000Z</published>
     <updated>2017-12-27T02:40:17.896Z</updated>
     
