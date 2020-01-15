@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://blog.lirui.me/posts/ae8ff913/</loc>
-    <lastmod>2020-01-15T13:21:45.355Z</lastmod>
+    <lastmod>2020-01-15T13:50:28.492Z</lastmod>
     <data>
         <display>
         <title>LaTex cheatsheet</title>
@@ -649,6 +649,27 @@
 
     
   <url>
+    <loc>https://blog.lirui.me/posts/69e77dbb/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>壮游台湾之吃住攻略</title>
+        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="骑行" url="https://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
+          
+             
+              <breadCrumb title="台湾" url="https://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blog.lirui.me/posts/972839c8/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -666,27 +687,6 @@
           
              
               <breadCrumb title="iOS" url="https://blog.lirui.me/categories/Develop/Mobile/iOS/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blog.lirui.me/posts/69e77dbb/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>壮游台湾之吃住攻略</title>
-        <pubTime>2014-05-25T13:40:46.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="骑行" url="https://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-             
-              <breadCrumb title="台湾" url="https://blog.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/"/>
           
         </display>
     </data>
