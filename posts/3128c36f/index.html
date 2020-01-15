@@ -12,18 +12,18 @@
 
     <meta name="keywords" content="kubernetes,tectonic">
     
-    <meta name="description" content="提前准备 CoreOS 账号 链接 DigitalOcean 账号 带我推荐码的注册链接 一个有控制权的域名（子域名）  ## 开搞 CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal">
+    <meta name="description" content="提前准备 CoreOS账号链接 DigitalOcean账号带我推荐码的注册链接 一个有控制权的域名（子域名）  开搞CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal access to">
 <meta name="keywords" content="kubernetes,tectonic">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在DigitalOcean上安装kubernetes cluster">
 <meta property="og:url" content="https://blogs.lirui.me/posts/3128c36f/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="提前准备 CoreOS 账号 链接 DigitalOcean 账号 带我推荐码的注册链接 一个有控制权的域名（子域名）  ## 开搞 CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal">
+<meta property="og:description" content="提前准备 CoreOS账号链接 DigitalOcean账号带我推荐码的注册链接 一个有控制权的域名（子域名）  开搞CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal access to">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-22T14:44:32.761Z">
+<meta property="og:updated_time" content="2020-01-15T15:07:54.939Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在DigitalOcean上安装kubernetes cluster">
-<meta name="twitter:description" content="提前准备 CoreOS 账号 链接 DigitalOcean 账号 带我推荐码的注册链接 一个有控制权的域名（子域名）  ## 开搞 CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal">
+<meta name="twitter:description" content="提前准备 CoreOS账号链接 DigitalOcean账号带我推荐码的注册链接 一个有控制权的域名（子域名）  开搞CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal access to">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -95,17 +95,16 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#提前准备"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS账号准备"><span class="toc-number">1.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-操作"><span class="toc-number">1.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并解压-Tectonic-Installer"><span class="toc-number">1.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置terraform-tfvars配置文件"><span class="toc-number">1.4.</span> <span class="toc-text">配置terraform.tfvars配置文件</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#提前准备"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开搞"><span class="toc-number">2.</span> <span class="toc-text">开搞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS账号准备"><span class="toc-number">2.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-操作"><span class="toc-number">2.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并解压-Tectonic-Installer"><span class="toc-number">2.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置terraform-tfvars配置文件"><span class="toc-number">2.4.</span> <span class="toc-text">配置terraform.tfvars配置文件</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<h2 id="提前准备"><a href="#提前准备" class="headerlink" title="提前准备"></a>提前准备</h2><ul>
-<li>CoreOS 账号 <a href="https://account.coreos.com/login" target="_blank" rel="noopener">链接</a></li>
-<li>DigitalOcean 账号 <a href="https://m.do.co/c/9f0131ec4f0f" target="_blank" rel="noopener">带我推荐码的注册链接</a></li>
+<li>CoreOS账号<a href="https://account.coreos.com/login" target="_blank" rel="noopener">链接</a></li>
+<li>DigitalOcean账号<a href="https://m.do.co/c/9f0131ec4f0f" target="_blank" rel="noopener">带我推荐码的注册链接</a></li>
 <li>一个有控制权的域名（子域名）</li>
 </ul>
-<p>## 开搞</p>
-<h3 id="CoreOS账号准备"><a href="#CoreOS账号准备" class="headerlink" title="CoreOS账号准备"></a>CoreOS账号准备</h3><ul>
+<h2 id="开搞"><a href="#开搞" class="headerlink" title="开搞"></a>开搞</h2><h3 id="CoreOS账号准备"><a href="#CoreOS账号准备" class="headerlink" title="CoreOS账号准备"></a>CoreOS账号准备</h3><ul>
 <li>申请获取Tectonic License 和 Pull Secret<br>将申请好的<code>Tectonic License</code> 和 <code>Pull Secret</code>保存好，以备后用</li>
 </ul>
 <h3 id="DigitalOcean-操作"><a href="#DigitalOcean-操作" class="headerlink" title="DigitalOcean 操作"></a>DigitalOcean 操作</h3><ul>
@@ -181,7 +180,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#提前准备"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS账号准备"><span class="toc-number">1.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-操作"><span class="toc-number">1.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并解压-Tectonic-Installer"><span class="toc-number">1.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置terraform-tfvars配置文件"><span class="toc-number">1.4.</span> <span class="toc-text">配置terraform.tfvars配置文件</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#提前准备"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开搞"><span class="toc-number">2.</span> <span class="toc-text">开搞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS账号准备"><span class="toc-number">2.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-操作"><span class="toc-number">2.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并解压-Tectonic-Installer"><span class="toc-number">2.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置terraform-tfvars配置文件"><span class="toc-number">2.4.</span> <span class="toc-text">配置terraform.tfvars配置文件</span></a></li></ol></li></ol>
  
   </div>
 
