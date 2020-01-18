@@ -3,12 +3,12 @@ User-agent: *
 Allow: /
 Allow: /archives/
 
-Disallow: /vendors/
-Disallow: /js/
-Disallow: /css/
-Disallow: /fonts/
-Disallow: /vendors/
-Disallow: /fancybox/
+# Disallow: /vendors/
+# Disallow: /js/
+# Disallow: /css/
+# Disallow: /fonts/
+# Disallow: /vendors/
+# Disallow: /fancybox/
 
 Sitemap: https://blogs.lirui.me/sitemap.xml
 Sitemap: http://blogs.lirui.me/baidusitemap.xml

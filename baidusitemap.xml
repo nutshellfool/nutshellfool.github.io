@@ -679,6 +679,30 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/972839c8/</loc>
+    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>创建iOS静态Frameworks的步骤</title>
+        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Develop" url="https://blogs.lirui.me/categories/Develop/"/>
+          
+             
+              <breadCrumb title="Mobile" url="https://blogs.lirui.me/categories/Develop/Mobile/"/>
+          
+             
+              <breadCrumb title="iOS" url="https://blogs.lirui.me/categories/Develop/Mobile/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/33d68573/</loc>
     <lastmod>2017-04-07T06:20:55.000Z</lastmod>
     <data>
@@ -714,30 +738,6 @@
            
              
               <breadCrumb title="骑行" url="https://blogs.lirui.me/categories/%E9%AA%91%E8%A1%8C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/972839c8/</loc>
-    <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>创建iOS静态Frameworks的步骤</title>
-        <pubTime>2014-07-12T09:44:46.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Develop" url="https://blogs.lirui.me/categories/Develop/"/>
-          
-             
-              <breadCrumb title="Mobile" url="https://blogs.lirui.me/categories/Develop/Mobile/"/>
-          
-             
-              <breadCrumb title="iOS" url="https://blogs.lirui.me/categories/Develop/Mobile/iOS/"/>
           
         </display>
     </data>
