@@ -9,14 +9,14 @@
 
     <url>
         <loc>https://blogs.lirui.me/categories/Algorithm/Interview/</loc>
-        <lastmod>2020-01-12T11:07:52.390Z</lastmod>
+        <lastmod>2020-01-22T06:14:06.006Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blogs.lirui.me/categories/Algorithm/</loc>
-        <lastmod>2020-01-12T11:07:52.390Z</lastmod>
+        <lastmod>2020-01-22T06:14:06.006Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -57,13 +57,6 @@
     </url>
 
     <url>
-        <loc>https://blogs.lirui.me/categories/Develop/Mac/Web/</loc>
-        <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blogs.lirui.me/categories/Develop/Mobile/iOS/</loc>
         <lastmod>2017-04-07T06:20:55.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -71,7 +64,7 @@
     </url>
 
     <url>
-        <loc>https://blogs.lirui.me/categories/Develop/Mac/</loc>
+        <loc>https://blogs.lirui.me/categories/Develop/Mac/Web/</loc>
         <lastmod>2017-04-07T06:20:55.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -79,6 +72,13 @@
 
     <url>
         <loc>https://blogs.lirui.me/categories/Develop/Mobile/</loc>
+        <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Develop/Mac/</loc>
         <lastmod>2017-04-07T06:20:55.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
