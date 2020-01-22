@@ -2,7 +2,7 @@
  <!DOCTYPE HTML>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
     <title>动态规划（Dynamic Programming）问题及其求解 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
@@ -35,11 +35,11 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
   <body>
-    <header>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
       
 <div>
 		
@@ -183,9 +183,9 @@
 <li>DP</li>
 </ul>
 <p>首先无后项性和重复子问题的特性是显而易见的， 对于最优子结构，第i天的最大利润值其实也是确定的，所以最优子结构也是成立的。 下面我们尝试使用动态规划的思路来解决这个问题。  </p>
-<p>状态定义： $mp[i] 表示第i天最大利润$<br>状态转移方程：<br>$$<br>  mp[i] =<br>\begin{cases}<br>mp[i - 1] - a[i],   &amp; \text{买股票} \<br>mp[i - 1] + a[i],   &amp; \text{卖股票}<br>\end{cases}<br>$$<br>到这里我们发现对于买卖股票的操作无法用现有的状态定义了，说明现有的状态定义可能是缺少了维度，因此我们DP的定义进入了第二个版本：  </p>
+<p>状态定义： $mp[i] 表示第i天最大利润$<br>状态转移方程：<br>$$<br>  mp[i] =<br>\begin{cases}<br>mp[i - 1] - a[i],   &amp; \text{买股票} \\<br>mp[i - 1] + a[i],   &amp; \text{卖股票}<br>\end{cases}<br>$$<br>到这里我们发现对于买卖股票的操作无法用现有的状态定义了，说明现有的状态定义可能是缺少了维度，因此我们DP的定义进入了第二个版本：  </p>
 <p>状态定义2.0<br>状态定义： $mp[i][j] j = 0,1,2; mp[i][0] 表示第i天未操作并未持有股票，mp[i][1] 表示第i天买入股票，mp[i][2] 表示第i天卖出股票$<br>状态转移方程：<br>$$<br>mp[i][0] = mp[i -1][0]<br>$$</p>
-<p>$$<br>mp[i][1] = Max<br>\begin{cases}<br>mp[i - 1][1],  &amp; \text{i-1天持有}\<br>mp[i - 1][0] - a[i],  &amp; \text{i-1天未持有， 第i天买入}<br>\end{cases}<br>$$</p>
+<p>$$<br>mp[i][1] = Max<br>\begin{cases}<br>mp[i - 1][1],  &amp; \text{i-1天持有}\\<br>mp[i - 1][0] - a[i],  &amp; \text{i-1天未持有， 第i天买入}<br>\end{cases}<br>$$</p>
 <p>$$<br>mp[i][2] = mp[i - 1][1] + a[i]<br>$$</p>
 <p>时间复杂度：$O(n)$<br>空间复杂度：$O(n)$</p>
 <p>显然对于这个题目来说DP并不是最优的解题方式。  </p>
@@ -193,11 +193,11 @@
 <p>因为是DP的主题所以给出对应的实现：  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (prices == <span class="keyword">null</span> || prices.length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span>[][] mp = <span class="keyword">new</span> <span class="keyword">int</span>[prices.length][<span class="number">3</span>];</span><br><span class="line">  mp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  mp[<span class="number">0</span>][<span class="number">1</span>] = - prices[<span class="number">0</span>];</span><br><span class="line">  mp[<span class="number">0</span>][<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">    mp[i][<span class="number">0</span>] = mp[i - <span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">    mp[i][<span class="number">1</span>] = Math.max(mp[i - <span class="number">1</span>][<span class="number">1</span>], mp[i - <span class="number">1</span>][<span class="number">0</span>] - prices[i]);</span><br><span class="line">    mp[i][<span class="number">2</span>] = mp[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i];</span><br><span class="line">    res = Math.max(res, Math.max(mp[i][<span class="number">0</span>], Math.max(mp[i][<span class="number">1</span>], mp[i][<span class="number">2</span>])));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="同一股票可以交易无数次（买之前需要将之前买进的股票卖出）"><a href="#同一股票可以交易无数次（买之前需要将之前买进的股票卖出）" class="headerlink" title="同一股票可以交易无数次（买之前需要将之前买进的股票卖出）"></a>同一股票可以交易无数次（买之前需要将之前买进的股票卖出）</h3><p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock II</a></p>
-<p>我们发现对上面的状态做简单的修改就可以适用本题<br>状态定义： $mp[i][j] j = 0,1,2; mp[i][0] 表示第i天未操作，mp[i][1] 表示第i天买入股票，mp[i][2] 表示第i天卖出股票$<br>状态转移方程：<br>$$<br>mp[i][0] = Max<br>\begin{cases}<br>mp[i -1][0],  &amp; \text{i-1天持有}\<br>mp[i - 1][1] - a[i],  &amp; \text{i-1天未持有，第i天买入}<br>\end{cases}<br>$$</p>
-<p>$$<br>mp[i][1] = Max<br>\begin{cases}<br>mp[i - 1][1],  &amp; \text{i-1天未持有}\<br>mp[i - 1][0] + a[i],  &amp; \text{i-1天持有， 第i天卖出}<br>\end{cases}<br>$$</p>
+<p>我们发现对上面的状态做简单的修改就可以适用本题<br>状态定义： $mp[i][j] j = 0,1,2; mp[i][0] 表示第i天未操作，mp[i][1] 表示第i天买入股票，mp[i][2] 表示第i天卖出股票$<br>状态转移方程：<br>$$<br>mp[i][0] = Max<br>\begin{cases}<br>mp[i -1][0],  &amp; \text{i-1天持有}\\<br>mp[i - 1][1] - a[i],  &amp; \text{i-1天未持有，第i天买入}<br>\end{cases}<br>$$</p>
+<p>$$<br>mp[i][1] = Max<br>\begin{cases}<br>mp[i - 1][1],  &amp; \text{i-1天未持有}\\<br>mp[i - 1][0] + a[i],  &amp; \text{i-1天持有， 第i天卖出}<br>\end{cases}<br>$$</p>
 <h3 id="交易两次，不能同时拥有两只股票"><a href="#交易两次，不能同时拥有两只股票" class="headerlink" title="交易两次，不能同时拥有两只股票"></a>交易两次，不能同时拥有两只股票</h3><p>交易两次其实是下面泛化K次的特殊情况，所以可以考虑先解决下面的k次泛化问题。</p>
-<h3 id="交易K笔，不能同时拥有两只股票"><a href="#交易K笔，不能同时拥有两只股票" class="headerlink" title="交易K笔，不能同时拥有两只股票"></a>交易K笔，不能同时拥有两只股票</h3><p>状态定义： $mp[i][j][k] 表示第i天最大利润 – j: 0 持有股票 1 不持有股票 – k：之前交易次数$<br>状态转移方程：<br>$$<br>  mp[i][0][k] = Max<br>  \begin{cases}<br>  mp[i-1][0][k],    &amp; \text{}\<br>  mp[i-1][1][k-1] + a[i],  &amp; \text{}<br>  \end{cases}<br>$$</p>
-<p>$$<br>  mp[i][1][k] = Max<br>  \begin{cases}<br>  mp[i-1][1][k],    &amp; \text{}\<br>  mp[i-1][0][k-1] - a[i],  &amp; \text{}<br>  \end{cases}<br>$$</p>
+<h3 id="交易K笔，不能同时拥有两只股票"><a href="#交易K笔，不能同时拥有两只股票" class="headerlink" title="交易K笔，不能同时拥有两只股票"></a>交易K笔，不能同时拥有两只股票</h3><p>状态定义： $mp[i][j][k] 表示第i天最大利润 – j: 0 持有股票 1 不持有股票 – k：之前交易次数$<br>状态转移方程：<br>$$<br>  mp[i][0][k] = Max<br>  \begin{cases}<br>  mp[i-1][0][k],    &amp; \text{}\\<br>  mp[i-1][1][k-1] + a[i],  &amp; \text{}<br>  \end{cases}<br>$$</p>
+<p>$$<br>  mp[i][1][k] = Max<br>  \begin{cases}<br>  mp[i-1][1][k],    &amp; \text{}\\<br>  mp[i-1][0][k-1] - a[i],  &amp; \text{}<br>  \end{cases}<br>$$</p>
 <h3 id="交易有冻结期"><a href="#交易有冻结期" class="headerlink" title="交易有冻结期"></a>交易有冻结期</h3><h3 id="交易有手续费"><a href="#交易有手续费" class="headerlink" title="交易有手续费"></a>交易有手续费</h3>  
 	</div>
 		<footer class="article-footer clearfix">
@@ -630,7 +630,7 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search Begin -->
 
-<!-- Tiny_search End -->
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
   </body>
 </html>

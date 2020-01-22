@@ -2,7 +2,7 @@
  <!DOCTYPE HTML>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
     <title>二分查找问题及对应解决思路 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
@@ -35,11 +35,11 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
   <body>
-    <header>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
       
 <div>
 		
@@ -126,7 +126,7 @@
 <p>首先第一个在实际工程中应该是第一选择，库函数在实际的项目中有过多种优化，所以使用库函数往往是工程中的第一选择。<br>说回问题本身，作为一个考察算法基本功的题目，实现第二个算法还是有必要的：</p>
 <h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>由于LeetCode 原题返回值是int值（也就是平方操作后最后一个不大于目标值的整数）， 所以返回值有可能可能不会与目标值严格相等，所以需要稍微对标准的二分查找的代码做技术处理。<br>具体代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (x &lt; <span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (x == <span class="number">0</span> || x == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> right = x;</span><br><span class="line">  <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (mid == x / mid) <span class="keyword">return</span> mid;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (mid &gt; x / mid) right = mid - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      left = mid + <span class="number">1</span>;</span><br><span class="line">      result = mid;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>牛顿迭代公式：<br>$x_{n + 1} = x_n - \frac{f(x_n)}{f^\prime (x<em>n)}$<br>继续推导有：<br>$x</em>{n + 1} = (x_{n} + \frac{y_0}{x_n}) / 2$</p>
+<p>牛顿迭代公式：<br>$x_{n + 1} = x_n - \frac{f(x_n)}{f^\prime (x_n)}$<br>继续推导有：<br>$x_{n + 1} = (x_{n} + \frac{y_0}{x_n}) / 2$</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (x &lt; <span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (x == <span class="number">0</span> || x == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">int</span> result = x;</span><br><span class="line">  <span class="keyword">while</span> (result &gt; x / result) &#123;</span><br><span class="line">    result = (result + x / result) / <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h4><p>HappyCase：</p>
 <ul>
@@ -570,7 +570,7 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search Begin -->
 
-<!-- Tiny_search End -->
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
   </body>
 </html>

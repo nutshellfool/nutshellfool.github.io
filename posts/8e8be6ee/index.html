@@ -2,7 +2,7 @@
  <!DOCTYPE HTML>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
     <title>Latex grammar cheatsheet handbook | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
@@ -35,11 +35,11 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
   <body>
-    <header>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
       
 <div>
 		
@@ -262,20 +262,20 @@
 <p>其他参考这个<a href="https://wch.github.io/latexsheet/latexsheet-a4.pdf" target="_blank" rel="noopener">cheatsheet</a>  </p>
 <h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p>使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">...</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
-<p>在begin end中间添加矩阵元素，每行元素以<code>\\</code>结束，元素之间以<code>&amp;</code>隔开,如下面的例子：<br>$$<br>\begin{matrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{matrix}<br>$$</p>
+<p>在begin end中间添加矩阵元素，每行元素以<code>\\</code>结束，元素之间以<code>&amp;</code>隔开,如下面的例子：<br>$$<br>\begin{matrix}<br>1 &amp; 2 \\<br>3 &amp; 4 \\<br>\end{matrix}<br>$$</p>
 <p>如果是其他形式的括号，只需要替换matrix这个关键字就可。下面是支持的几种表达方式：  </p>
-<p>pmatrix:<br>$$<br>\begin{pmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{pmatrix}<br>$$</p>
-<p>bmatrix:<br>$$<br>\begin{bmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{bmatrix}<br>$$</p>
-<p>Bmatrix:<br>$$<br>\begin{Bmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{Bmatrix}<br>$$</p>
-<p>vmatrix:<br>$$<br>\begin{vmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{vmatrix}<br>$$</p>
-<p>Vmatirx:<br>$$<br>\begin{Vmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{Vmatrix}<br>$$</p>
+<p>pmatrix:<br>$$<br>\begin{pmatrix}<br>1 &amp; 2 \\<br>3 &amp; 4 \\<br>\end{pmatrix}<br>$$</p>
+<p>bmatrix:<br>$$<br>\begin{bmatrix}<br>1 &amp; 2 \\<br>3 &amp; 4 \\<br>\end{bmatrix}<br>$$</p>
+<p>Bmatrix:<br>$$<br>\begin{Bmatrix}<br>1&amp;2\\<br>3&amp;4\\<br>\end{Bmatrix}<br>$$</p>
+<p>vmatrix:<br>$$<br>\begin{vmatrix}<br>1&amp;2\\<br>3&amp;4\\<br>\end{vmatrix}<br>$$</p>
+<p>Vmatirx:<br>$$<br>\begin{Vmatrix}<br>1&amp;2\\<br>3&amp;4\\<br>\end{Vmatrix}<br>$$</p>
 <h3 id="分段函数"><a href="#分段函数" class="headerlink" title="分段函数"></a>分段函数</h3><p>使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f(n)</span><br><span class="line">\begin&#123;cases&#125;</span><br><span class="line">value1,     &amp; \text&#123;if ....&#125; \\</span><br><span class="line">value2,     &amp; \text&#123;if ....&#125; \\</span><br><span class="line">value3,     &amp; \text&#123;if ....&#125;</span><br><span class="line">\end&#123;cases&#125;</span><br></pre></td></tr></table></figure>
-<p>begin和end之间定义函数，行间的间隔、行内元素间隔与矩阵的规则一致, 注意：<code>&amp;</code> <code>\\</code>符号需要对齐。<br>例子：<br>$$<br>  f(n) =<br>\begin{cases}<br>0,              &amp; \text{if n = 0,1} \<br>f(n-1)+f(n-2),  &amp; \text{if n &gt; 2}<br>\end{cases}<br>$$</p>
+<p>begin和end之间定义函数，行间的间隔、行内元素间隔与矩阵的规则一致, 注意：<code>&amp;</code> <code>\\</code>符号需要对齐。<br>例子：<br>$$<br>  f(n) =<br>\begin{cases}<br>0,              &amp; \text{if n = 0,1} \\<br>f(n-1)+f(n-2),  &amp; \text{if n &gt; 2}<br>\end{cases}<br>$$</p>
 <h3 id="方程式"><a href="#方程式" class="headerlink" title="方程式"></a>方程式</h3><p>使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;cases&#125;</span><br><span class="line">line 1 \\</span><br><span class="line">line 2 \\</span><br><span class="line">....</span><br><span class="line">lastline</span><br><span class="line">\end&#123;cases&#125;</span><br></pre></td></tr></table></figure>
 <p>注意：<code>\\</code>符号需要对齐。  </p>
-<p>例如：<br>$$\begin{cases}<br>a_1x+b_1y+c_1z = d_1\<br>a_2x+b_2y+c_2z = d_2\<br>a_3x+b_3y+c_3z = d_3<br>\end{cases}<br>$$</p>
+<p>例如：<br>$$\begin{cases}<br>a_1x+b_1y+c_1z = d_1\\<br>a_2x+b_2y+c_2z = d_2\\<br>a_3x+b_3y+c_3z = d_3<br>\end{cases}<br>$$</p>
 <p>要强制对齐等号呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\left\&#123;</span><br><span class="line">\begin&#123;aligned&#125;</span><br><span class="line">...</span><br><span class="line">\end&#123;aligned&#125;</span><br><span class="line">\right</span><br></pre></td></tr></table></figure>
   
@@ -697,7 +697,7 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search Begin -->
 
-<!-- Tiny_search End -->
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
   </body>
 </html>

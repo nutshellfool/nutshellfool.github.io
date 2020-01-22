@@ -2,7 +2,7 @@
  <!DOCTYPE HTML>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
     <title>优先队列 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
@@ -35,11 +35,11 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
   <body>
-    <header>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
       
 <div>
 		
@@ -140,7 +140,7 @@
 <li>使用collections包中的PriorityQueue</li>
 <li>使用heapq自己封装</li>
 </ol>
-<p>如果使用collections包的实现，那么就需要实体类override <em>cmp</em> 方法来实现估价函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> PriorityQueue</span><br><span class="line">priorityQueue = PriorityQueue()</span><br><span class="line">priorityQueue.put(Node(<span class="number">1</span>))</span><br><span class="line">priorityQueue.put(Node(<span class="number">2</span>))</span><br><span class="line">node = priorityQueue.get()</span><br></pre></td></tr></table></figure></p>
+<p>如果使用collections包的实现，那么就需要实体类override _cmp_ 方法来实现估价函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> PriorityQueue</span><br><span class="line">priorityQueue = PriorityQueue()</span><br><span class="line">priorityQueue.put(Node(<span class="number">1</span>))</span><br><span class="line">priorityQueue.put(Node(<span class="number">2</span>))</span><br><span class="line">node = priorityQueue.get()</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="string">"""docstring for  Node."""</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">    self.val = value</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__cmp__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> other.val - self.val</span><br></pre></td></tr></table></figure>
 <h2 id="突然想到的一个问题"><a href="#突然想到的一个问题" class="headerlink" title="突然想到的一个问题"></a>突然想到的一个问题</h2><p>在之前的关于合并k个排序列表的问题上我们又有了新的解法：<br><a href="https://leetcode.com/problems/merge-k-sorted-lists/#/description" target="_blank" rel="noopener">原题传送门</a>  </p>
 <pre><code>Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
@@ -580,7 +580,7 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search Begin -->
 
-<!-- Tiny_search End -->
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
   </body>
 </html>
