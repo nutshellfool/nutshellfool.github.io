@@ -8,8 +8,24 @@
     </url>
 
     <url>
+        <loc>https://blogs.lirui.me/posts/69e77dbb/</loc>
+        <lastmod>2020-02-04T09:20:36.418Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/posts/44516416/</loc>
+        <lastmod>2020-02-04T09:20:08.260Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blogs.lirui.me/posts/28ccf3f0/</loc>
-        <lastmod>2020-02-04T09:10:44.475Z</lastmod>
+        <lastmod>2020-02-04T09:19:46.884Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -18,14 +34,6 @@
     <url>
         <loc>https://blogs.lirui.me/posts/8fcdd486/</loc>
         <lastmod>2020-02-04T09:04:53.804Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/posts/44516416/</loc>
-        <lastmod>2020-02-04T09:03:21.131Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -50,14 +58,6 @@
     <url>
         <loc>https://blogs.lirui.me/posts/50fda7d6/</loc>
         <lastmod>2020-02-04T08:57:11.170Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/posts/69e77dbb/</loc>
-        <lastmod>2020-02-04T08:47:15.921Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
