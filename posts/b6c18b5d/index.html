@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-07T14:42:30.452Z">
+<meta property="og:updated_time" content="2020-02-04T08:32:11.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac 开发环境设置备忘录">
 <meta name="twitter:description" content="很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明">
@@ -95,24 +95,24 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装意味着什么？"><span class="toc-number">1.</span> <span class="toc-text">系统重装意味着什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装前需要做什么？"><span class="toc-number">2.</span> <span class="toc-text">系统重装前需要做什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何重装系统？"><span class="toc-number">3.</span> <span class="toc-text">如何重装系统？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重装以后需要做什么？"><span class="toc-number">4.</span> <span class="toc-text">重装以后需要做什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AppStore上的必装软件"><span class="toc-number">4.1.</span> <span class="toc-text">AppStore上的必装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发环境"><span class="toc-number">4.2.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效率工具"><span class="toc-number">4.3.</span> <span class="toc-text">效率工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE"><span class="toc-number">4.4.</span> <span class="toc-text">IDE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他开发相关"><span class="toc-number">4.5.</span> <span class="toc-text">其他开发相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#last-but-not-least"><span class="toc-number">4.6.</span> <span class="toc-text">last but not least</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">5.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译源码所需依赖库"><span class="toc-number">5.1.</span> <span class="toc-text">编译源码所需依赖库</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装意味着什么"><span class="toc-number">1.</span> <span class="toc-text">系统重装意味着什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装前需要做什么"><span class="toc-number">2.</span> <span class="toc-text">系统重装前需要做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何重装系统"><span class="toc-number">3.</span> <span class="toc-text">如何重装系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重装以后需要做什么"><span class="toc-number">4.</span> <span class="toc-text">重装以后需要做什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AppStore上的必装软件"><span class="toc-number">4.1.</span> <span class="toc-text">AppStore上的必装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发环境"><span class="toc-number">4.2.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效率工具"><span class="toc-number">4.3.</span> <span class="toc-text">效率工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE"><span class="toc-number">4.4.</span> <span class="toc-text">IDE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他开发相关"><span class="toc-number">4.5.</span> <span class="toc-text">其他开发相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#last-but-not-least"><span class="toc-number">4.6.</span> <span class="toc-text">last but not least</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">5.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译源码所需依赖库"><span class="toc-number">5.1.</span> <span class="toc-text">编译源码所需依赖库</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<p>很不幸，这几天由于macOS升级10.12.4的时候出现奇异的升级失败的现象。起初我并没有在意，但是多次升级仍然没有要好的意思，拨打Apple技术支持，经过技术支持的引导和检测发现引导区的坏道，可能会导致之后操作系统不可预料的后果。之后去Genius Bar检测排查硬件问题，最后证明存储硬件并没有缺陷，在排除了硬件问题后，就把问题定位在了time machine 备份镜像的问题上。这里就不详细说明问题是什么了，直接说结论：在安装完SSD后拷贝硬盘数据后一定要用macOS的磁盘检查，在验证了存储安全通过后再进行备份（anyway 定期备份一定是个好习惯）。<br>最后的解决方案是重装macOS，然后恢复个人数据。</p>
-<h2 id="系统重装意味着什么？"><a href="#系统重装意味着什么？" class="headerlink" title="系统重装意味着什么？"></a>系统重装意味着什么？</h2><p>失去所有之前的数据，重新再搞一遍环境，我的天呐！  </p>
-<h2 id="系统重装前需要做什么？"><a href="#系统重装前需要做什么？" class="headerlink" title="系统重装前需要做什么？"></a>系统重装前需要做什么？</h2><p><strong>数据备份</strong>，就这四个字，不想记重复多少遍都一样。<br>数据备份的方式：</p>
+<h2 id="系统重装意味着什么"><a href="#系统重装意味着什么" class="headerlink" title="系统重装意味着什么"></a>系统重装意味着什么</h2><p>失去所有之前的数据，重新再搞一遍环境，我的天呐！  </p>
+<h2 id="系统重装前需要做什么"><a href="#系统重装前需要做什么" class="headerlink" title="系统重装前需要做什么"></a>系统重装前需要做什么</h2><p><strong>数据备份</strong>，就这四个字，不想记重复多少遍都一样。<br>数据备份的方式：</p>
 <ol>
 <li>数据迁移助手</li>
 <li>给用户文件夹下的用户打压缩包</li>
 </ol>
-<h2 id="如何重装系统？"><a href="#如何重装系统？" class="headerlink" title="如何重装系统？"></a>如何重装系统？</h2><p>事实上有两种选择：  </p>
+<h2 id="如何重装系统"><a href="#如何重装系统" class="headerlink" title="如何重装系统"></a>如何重装系统</h2><p>事实上有两种选择：  </p>
 <ol>
 <li>重启进入恢复模式，然后选择重新安装操作系统  </li>
 <li>去Apple store 由Genius Bar 的工作人员帮助你安装</li>
 </ol>
 <p>第一种方式由于系统是从apple服务器联网下载的，所以等待时间……你懂的。<br>第二种方式就会快很多，不到10分钟最新操作系统搞定。  </p>
-<h2 id="重装以后需要做什么？"><a href="#重装以后需要做什么？" class="headerlink" title="重装以后需要做什么？"></a>重装以后需要做什么？</h2><p>首先是把之前备份的数据解压然后恢复。<br>然后就是一步！一步安装软件，搭建开发环境。<br>首先是AppStore上购买的软件：</p>
+<h2 id="重装以后需要做什么"><a href="#重装以后需要做什么" class="headerlink" title="重装以后需要做什么"></a>重装以后需要做什么</h2><p>首先是把之前备份的数据解压然后恢复。<br>然后就是一步！一步安装软件，搭建开发环境。<br>首先是AppStore上购买的软件：</p>
 <h3 id="AppStore上的必装软件"><a href="#AppStore上的必装软件" class="headerlink" title="AppStore上的必装软件"></a>AppStore上的必装软件</h3><ul>
 <li>Xcode</li>
 <li>1password</li>
@@ -161,9 +161,9 @@
 <p>在系统启动后自动启动MySQL<br><a href="https://dev.mysql.com/doc/refman/8.0/en/osx-installation-launchd.html" target="_blank" rel="noopener">官方链接</a></p>
 <p>在系统启动后禁用自动启动<br>修改上面链接配置中<br><code>&lt;key&gt;RunAtLoad&lt;/key&gt; &lt;true/&gt;</code><br><code>&lt;key&gt;keepAlive&lt;/key&gt; &lt;true/&gt;</code><br>这两项配置为：<br><code>&lt;key&gt;RunAtLoad&lt;/key&gt; &lt;false/&gt;</code><br><code>&lt;key&gt;keepAlive&lt;/key&gt; &lt;false/&gt;</code>  </p>
 <ul>
-<li>zsh, oh-my-zsh<br>安装zsh<br><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH" target="_blank" rel="noopener">安装指导</a><br>设置zsh为默认<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh <span class="_">-s</span> $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure>
-</li>
+<li>zsh, oh-my-zsh<br>安装zsh<br><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH" target="_blank" rel="noopener">安装指导</a><br>设置zsh为默认</li>
 </ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh <span class="_">-s</span> $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure>
 <h3 id="效率工具"><a href="#效率工具" class="headerlink" title="效率工具"></a>效率工具</h3><ul>
 <li>MS Office for mac</li>
 <li>paralle desktop</li>
@@ -198,11 +198,13 @@
 <li><p>siege - 压力测试工具</p>
 </li>
 </ul>
-<p>支持SSL的siege配置 - 首先安装openssl：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">sudo wget https://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.0f.tar.gz</span><br><span class="line">sudo tar -xzvf openssl-1.1.0f.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openssl-1.1.0f</span><br><span class="line">sudo ./config --prefix=/usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f</span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line">sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f /usr/<span class="built_in">local</span>/openssl</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export PATH=/usr/local/openssl/bin:$PATH'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export MANPATH=/usr/local/openssl/share/man:$MANPATH'</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure></p>
+<p>支持SSL的siege配置 - 首先安装openssl：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">sudo wget https://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.0f.tar.gz</span><br><span class="line">sudo tar -xzvf openssl-1.1.0f.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openssl-1.1.0f</span><br><span class="line">sudo ./config --prefix=/usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f</span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line">sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f /usr/<span class="built_in">local</span>/openssl</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export PATH=/usr/local/openssl/bin:$PATH'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export MANPATH=/usr/local/openssl/share/man:$MANPATH'</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.joedog.org/siege/siege-latest.tar.gz</span><br><span class="line">tar -xvf siege-latest.tar.gz</span><br><span class="line"><span class="built_in">cd</span> siege-*/</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span> --with-ssl=/usr/<span class="built_in">local</span>/openssl</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">siege.config</span><br><span class="line">siege -C</span><br></pre></td></tr></table></figure>
 <h3 id="last-but-not-least"><a href="#last-but-not-least" class="headerlink" title="last but not least"></a>last but not least</h3><p>使用time machine备份现在的系统状态。</p>
 <hr>
-<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><h3 id="编译源码所需依赖库"><a href="#编译源码所需依赖库" class="headerlink" title="编译源码所需依赖库"></a>编译源码所需依赖库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install gcc gcc-c++ automake <span class="variable">$autoconf</span> libtool make</span><br></pre></td></tr></table></figure>  
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><h3 id="编译源码所需依赖库"><a href="#编译源码所需依赖库" class="headerlink" title="编译源码所需依赖库"></a>编译源码所需依赖库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install gcc gcc-c++ automake <span class="variable">$autoconf</span> libtool make</span><br></pre></td></tr></table></figure>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -260,7 +262,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装意味着什么？"><span class="toc-number">1.</span> <span class="toc-text">系统重装意味着什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装前需要做什么？"><span class="toc-number">2.</span> <span class="toc-text">系统重装前需要做什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何重装系统？"><span class="toc-number">3.</span> <span class="toc-text">如何重装系统？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重装以后需要做什么？"><span class="toc-number">4.</span> <span class="toc-text">重装以后需要做什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AppStore上的必装软件"><span class="toc-number">4.1.</span> <span class="toc-text">AppStore上的必装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发环境"><span class="toc-number">4.2.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效率工具"><span class="toc-number">4.3.</span> <span class="toc-text">效率工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE"><span class="toc-number">4.4.</span> <span class="toc-text">IDE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他开发相关"><span class="toc-number">4.5.</span> <span class="toc-text">其他开发相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#last-but-not-least"><span class="toc-number">4.6.</span> <span class="toc-text">last but not least</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">5.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译源码所需依赖库"><span class="toc-number">5.1.</span> <span class="toc-text">编译源码所需依赖库</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装意味着什么"><span class="toc-number">1.</span> <span class="toc-text">系统重装意味着什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统重装前需要做什么"><span class="toc-number">2.</span> <span class="toc-text">系统重装前需要做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何重装系统"><span class="toc-number">3.</span> <span class="toc-text">如何重装系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重装以后需要做什么"><span class="toc-number">4.</span> <span class="toc-text">重装以后需要做什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AppStore上的必装软件"><span class="toc-number">4.1.</span> <span class="toc-text">AppStore上的必装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发环境"><span class="toc-number">4.2.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效率工具"><span class="toc-number">4.3.</span> <span class="toc-text">效率工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE"><span class="toc-number">4.4.</span> <span class="toc-text">IDE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他开发相关"><span class="toc-number">4.5.</span> <span class="toc-text">其他开发相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#last-but-not-least"><span class="toc-number">4.6.</span> <span class="toc-text">last but not least</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">5.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译源码所需依赖库"><span class="toc-number">5.1.</span> <span class="toc-text">编译源码所需依赖库</span></a></li></ol></li></ol>
  
   </div>
 
@@ -277,25 +279,17 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
 		  
 		
 		  
 		
 		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>1</sup></a></li>
 		  
 		
 		  
@@ -305,29 +299,21 @@
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
 		
 		  
 			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>1</sup></a></li>
 		  
 		
 		</ul>

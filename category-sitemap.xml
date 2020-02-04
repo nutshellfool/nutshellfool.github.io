@@ -8,85 +8,57 @@
     </url>
 
     <url>
-        <loc>https://blogs.lirui.me/categories/Algorithm/Interview/</loc>
-        <lastmod>2020-01-22T06:53:17.333Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/Algorithm/</loc>
-        <lastmod>2020-01-22T06:53:17.333Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/Develop/DevOps/</loc>
-        <lastmod>2019-07-02T01:44:34.966Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/Develop/</loc>
-        <lastmod>2019-07-02T01:44:34.966Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/System-design/</loc>
-        <lastmod>2017-12-27T02:39:38.418Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/</loc>
-        <lastmod>2017-05-01T08:32:44.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/%E9%AA%91%E8%A1%8C/</loc>
-        <lastmod>2017-05-01T08:32:44.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/Develop/Mobile/iOS/</loc>
-        <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blogs.lirui.me/categories/Develop/Mac/Web/</loc>
-        <lastmod>2017-04-07T06:20:55.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/Develop/Mobile/</loc>
-        <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+        <lastmod>2020-02-04T09:10:44.475Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blogs.lirui.me/categories/Develop/Mac/</loc>
-        <lastmod>2017-04-07T06:20:55.000Z</lastmod>
+        <lastmod>2020-02-04T09:10:44.475Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Develop/</loc>
+        <lastmod>2020-02-04T09:10:44.475Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blogs.lirui.me/categories/Management/</loc>
-        <lastmod>2017-04-07T06:20:54.000Z</lastmod>
+        <lastmod>2020-02-04T09:03:21.131Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/%E9%AA%91%E8%A1%8C/%E5%8F%B0%E6%B9%BE/</loc>
+        <lastmod>2020-02-04T08:47:15.921Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/%E9%AA%91%E8%A1%8C/</loc>
+        <lastmod>2020-02-04T08:47:15.921Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Algorithm/</loc>
+        <lastmod>2020-02-04T08:17:30.662Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/System-design/</loc>
+        <lastmod>2020-02-04T08:05:07.266Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

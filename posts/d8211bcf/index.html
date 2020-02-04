@@ -4,26 +4,26 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>也谈内存管理 | 李瑞的博客</title>
+    <title>也谈移动端（iOS、Android）内存管理 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="mobile,iOS,Android,Memory management">
+    <meta name="keywords" content="mobile,iOS,Android,Memory management,iOS 内存管理,Android 内存管理">
     
-    <meta name="description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理？ 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个">
-<meta name="keywords" content="mobile,iOS,Android,Memory management">
+    <meta name="description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开">
+<meta name="keywords" content="mobile,iOS,Android,Memory management,iOS 内存管理,Android 内存管理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="也谈内存管理">
+<meta property="og:title" content="也谈移动端（iOS、Android）内存管理">
 <meta property="og:url" content="https://blogs.lirui.me/posts/d8211bcf/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理？ 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个">
+<meta property="og:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-28T06:03:52.361Z">
+<meta property="og:updated_time" content="2020-02-04T07:28:50.335Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="也谈内存管理">
-<meta name="twitter:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理？ 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个">
+<meta name="twitter:title" content="也谈移动端（iOS、Android）内存管理">
+<meta name="twitter:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -79,7 +79,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/d8211bcf/" title="也谈内存管理" itemprop="url">也谈内存管理</a>
+      <a href="/posts/d8211bcf/" title="也谈移动端（iOS、Android）内存管理" itemprop="url">也谈移动端（iOS、Android）内存管理</a>
   </h1>
   <p class="article-author">By
        
@@ -95,23 +95,26 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理？为什么内存需要管理？"><span class="toc-number">1.</span> <span class="toc-text">内存管理？为什么内存需要管理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何内存管理？"><span class="toc-number">2.</span> <span class="toc-text">如何内存管理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还缺点什么？"><span class="toc-number">3.</span> <span class="toc-text">还缺点什么？</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理？为什么内存需要管理"><span class="toc-number">1.</span> <span class="toc-text">内存管理？为什么内存需要管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何内存管理"><span class="toc-number">2.</span> <span class="toc-text">如何内存管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还缺点什么"><span class="toc-number">3.</span> <span class="toc-text">还缺点什么</span></a></li></ol>
 		
 		</div>
 		
 		<p>每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？<br>哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。</p>
-<h2 id="内存管理？为什么内存需要管理？"><a href="#内存管理？为什么内存需要管理？" class="headerlink" title="内存管理？为什么内存需要管理？"></a>内存管理？为什么内存需要管理？</h2><blockquote>
+<h2 id="内存管理？为什么内存需要管理"><a href="#内存管理？为什么内存需要管理" class="headerlink" title="内存管理？为什么内存需要管理"></a>内存管理？为什么内存需要管理</h2><blockquote>
 <p>作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？  </p>
 </blockquote>
 <p>这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。<br>相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开发平台上也有各种Guide、Tutorial 、Best practice 文章教你如何写内存友好的程序。<br>抛开这些实际规则和操作不讲，你是否想过为什么内存需要管理？<br>经济学第一章第一节其实就在回答这个问题，经济学和管理实际上是解决紧缺资源调配的一门学科，换句话说恰恰是资源的紧缺才引入了管理。<br>内存也是一样，不管是在数据中心的企业级服务器还是小到你手中的移动设备，都会面临内存被用尽的时刻。</p>
-<h2 id="如何内存管理？"><a href="#如何内存管理？" class="headerlink" title="如何内存管理？"></a>如何内存管理？</h2><p>说到内存管理，就不能不说说引用计数。</p>
+<h2 id="如何内存管理"><a href="#如何内存管理" class="headerlink" title="如何内存管理"></a>如何内存管理</h2><p>说到内存管理，就不能不说说引用计数。</p>
 <blockquote>
 <p>引用计数是将资源（如内存）的被引用次数保存起来，当被引用次数为零的时候就将其释放的过程。</p>
 </blockquote>
-<p>Objective-C的内存管理使用的就是引用计数，不管是之前的MRC还是后来的ARC，背后的内存管理机制都是一致的，唯一不同的是MRC是将引用释放的工作交给工程师来做，而ARC是在编译阶段编译器来实现。那这里你会问了，都有编译器帮助做了，还要工程师做什么啊？毕竟只是一种机制不能保证那么智能，还是有些情景处理不好的，就比如“retain cycle”问题。<br>举个例子（注：以下的Objective-C代码都是在ARC的大前提下讨论）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.block = ^&#123;</span><br><span class="line">  [self foo];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>Objective-C的内存管理使用的就是引用计数，不管是之前的MRC还是后来的ARC，背后的内存管理机制都是一致的，唯一不同的是MRC是将引用释放的工作交给工程师来做，而ARC是在编译阶段编译器来实现。那这里你会问了，都有编译器帮助做了，还要工程师做什么啊？毕竟只是一种机制不能保证那么智能，还是有些情景处理不好的，就比如“retain cycle”问题。<br>举个例子（注：以下的Objective-C代码都是在ARC的大前提下讨论）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.block = ^&#123;</span><br><span class="line">  [self foo];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>这里的block capture住self，而self对block又有一个强引用，这样就有了一个retain cycle，说到这里如果对于Objective-C并不是很熟悉的话可能是一脸懵逼，如果对block的capture感兴趣移步到这里 <a href="http://clang.llvm.org/docs/Block-ABI-Apple.html#imported-variables" target="_blank" rel="noopener">Clang block 实现手册 之 imported-variables</a><br>相信看完之后会对block有个全新的认识。<br>anyway 扯远了，回到刚才的retain cycle问题上来，那么问题来了，既然知道了问题的原因，下面就是如何解决的问题了。<br>解决的思路就是：不是形成retain cycle的两端都是强引用么？那么我们将其中的一端设置为不是强引用，这样这个retain cycle 不就破了么？  </p>
-<pre><code>Talk is cheap, show me the code.
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self) weakself = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">  [weakself foo];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Talk is cheap, show me the code.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self) weakself = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">  [weakself foo];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>你会发现这里用到了一个神奇的变量标记符 <code>__weak</code><br>既然谈到了Objective-C的内存所有权修饰符（ownership qualifier）Objective-C中共有4种内存所有权修饰符：</p>
 <ul>
 <li><code>__strong</code></li>
@@ -137,9 +140,10 @@
 <p>虽然不是太明白 phantom reference具体应用的场景，但是仅仅就这个骚气的名字感觉会和 <code>__unsafe_unretain</code> 在使用上不确定内存释放时机的不确定性有的一拼。  </p>
 <p>你会问既然Objective-C会有示例的单元测试，那么Java/Android 会不会有，坦白地说，有但是没有写完全，至少在完成这篇文章之前还没完成：<br>可以持续关注这个GitHub工程： <a href="https://github.com/nutshellfool/androidPlayground" target="_blank" rel="noopener">AndroidPlayground</a></p>
 <p>特别是这个<a href="https://github.com/nutshellfool/androidPlayground/blob/master/app/src/test/java/me/lirui/androidplayground/MemoryManageUnitTest.java" target="_blank" rel="noopener">unittest</a></p>
-<p>对比weak的用例后发现什么了么？<br>对，Java的例子多了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.gc()</span><br><span class="line">Thread.sleep(<span class="number">100</span>)</span><br></pre></td></tr></table></figure></p>
+<p>对比weak的用例后发现什么了么？<br>对，Java的例子多了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.gc()</span><br><span class="line">Thread.sleep(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
 <p>这是什么？标记回收，还要线程睡0.1秒，什么鬼，这就是虚拟机垃圾回收的工作，保证这段时间能够完成垃圾回收。<br>当然这里涉及到了Java的跟踪回收的垃圾回收算法，由于这部分内容别较多，所以暂时就不在这里详细讨论了。</p>
-<h2 id="还缺点什么？"><a href="#还缺点什么？" class="headerlink" title="还缺点什么？"></a>还缺点什么？</h2><p>写了这么多，总觉得还缺点什么，是的，还缺少一套发现和解决这些内存泄露的方法论， 后续的文章会对如何分别在Xcode和AndroidStudio中查看内存泄露，以及定位造成内存泄露的代码给出详细的操作步骤。</p>
+<h2 id="还缺点什么"><a href="#还缺点什么" class="headerlink" title="还缺点什么"></a>还缺点什么</h2><p>写了这么多，总觉得还缺点什么，是的，还缺少一套发现和解决这些内存泄露的方法论， 后续的文章会对如何分别在Xcode和AndroidStudio中查看内存泄露，以及定位造成内存泄露的代码给出详细的操作步骤。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -152,7 +156,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/d8211bcf/" data-title="也谈内存管理 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/d8211bcf/" data-title="也谈移动端（iOS、Android）内存管理 | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -175,9 +179,9 @@
 
 
 <div class="next">
-<a href="/posts/766d9901/"  title="什么算法的名字竟然叫洪水？！真像竟然是……">
+<a href="/posts/766d9901/"  title="Flood fill算法及其应用">
  <strong>下一篇：</strong><br/> 
- <span>什么算法的名字竟然叫洪水？！真像竟然是……
+ <span>Flood fill算法及其应用
 </span>
 </a>
 </div>
@@ -198,7 +202,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理？为什么内存需要管理？"><span class="toc-number">1.</span> <span class="toc-text">内存管理？为什么内存需要管理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何内存管理？"><span class="toc-number">2.</span> <span class="toc-text">如何内存管理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还缺点什么？"><span class="toc-number">3.</span> <span class="toc-text">还缺点什么？</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理？为什么内存需要管理"><span class="toc-number">1.</span> <span class="toc-text">内存管理？为什么内存需要管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何内存管理"><span class="toc-number">2.</span> <span class="toc-text">如何内存管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还缺点什么"><span class="toc-number">3.</span> <span class="toc-text">还缺点什么</span></a></li></ol>
  
   </div>
 
@@ -215,25 +219,17 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
 		  
 		
 		  
 		
 		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>1</sup></a></li>
 		  
 		
 		  
@@ -243,29 +239,21 @@
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
 		
 		  
 			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>1</sup></a></li>
 		  
 		
 		</ul>

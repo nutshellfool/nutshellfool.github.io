@@ -4,27 +4,27 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>树的那些事 | 李瑞的博客</title>
+    <title>如何设计一个二叉搜索树 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="Algorithm,Data structure">
+    <meta name="keywords" content="Algorithm,Data structure,design,Binary Search Tree,二叉搜索树设计">
     
-    <meta name="description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼？树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的">
-<meta name="keywords" content="Algorithm,Data structure">
+    <meta name="description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的细">
+<meta name="keywords" content="Algorithm,Data structure,design,Binary Search Tree,二叉搜索树设计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="树的那些事">
+<meta property="og:title" content="如何设计一个二叉搜索树">
 <meta property="og:url" content="https://blogs.lirui.me/posts/10a77275/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼？树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的">
+<meta property="og:description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的细">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg">
-<meta property="og:updated_time" content="2017-12-27T02:42:35.016Z">
+<meta property="og:updated_time" content="2020-02-04T06:56:36.977Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="树的那些事">
-<meta name="twitter:description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼？树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的">
+<meta name="twitter:title" content="如何设计一个二叉搜索树">
+<meta name="twitter:description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的细">
 <meta name="twitter:image" content="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg">
 
     
@@ -81,7 +81,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/10a77275/" title="树的那些事" itemprop="url">树的那些事</a>
+      <a href="/posts/10a77275/" title="如何设计一个二叉搜索树" itemprop="url">如何设计一个二叉搜索树</a>
   </h1>
   <p class="article-author">By
        
@@ -97,32 +97,28 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树是什么鬼？"><span class="toc-number">1.</span> <span class="toc-text">树是什么鬼？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#都有什么树"><span class="toc-number">2.</span> <span class="toc-text">都有什么树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#和树相关的操作"><span class="toc-number">3.</span> <span class="toc-text">和树相关的操作</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树是什么鬼"><span class="toc-number">1.</span> <span class="toc-text">树是什么鬼</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#都有什么树"><span class="toc-number">2.</span> <span class="toc-text">都有什么树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#和树相关的操作"><span class="toc-number">3.</span> <span class="toc-text">和树相关的操作</span></a></li></ol>
 		
 		</div>
 		
 		<p>树，尤其是二叉搜索树(Binary Search Tree =&gt; BST)是算法、数据结构领域重要的数据结构之一。<br>那么既然BST这么重要，想要了解BST需要了解哪些方面呢？</p>
-<h2 id="树是什么鬼？"><a href="#树是什么鬼？" class="headerlink" title="树是什么鬼？"></a>树是什么鬼？</h2><p>树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。<br>一棵没有节点的树我们称为空树（Empty tree）<br>更多树的细节（如：叶子、度、树高等概念的定义）<a href="https://en.wikipedia.org/wiki/Tree_(data_structure" target="_blank" rel="noopener">请参考这里</a>)</p>
+<h2 id="树是什么鬼"><a href="#树是什么鬼" class="headerlink" title="树是什么鬼"></a>树是什么鬼</h2><p>树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。<br>一棵没有节点的树我们称为空树（Empty tree）<br>更多树的细节（如：叶子、度、树高等概念的定义）<a href="https://en.wikipedia.org/wiki/Tree_(data_structure" target="_blank" rel="noopener">请参考这里</a>)</p>
 <h2 id="都有什么树"><a href="#都有什么树" class="headerlink" title="都有什么树"></a>都有什么树</h2><p>总的来说我们按照有序和无序的维度将树分为无序树和有序树。  </p>
 <ul>
 <li>无序树：树中任意节点的子节点之间没有顺序关系，这种树称为无序树，也称为自由树</li>
 <li>有序树：树中任意节点的子节点之间有顺序关系，这种树称为有序树。<ul>
 <li>二叉树 ：每个节点最多含有两个子树的树称为二叉树<ul>
-<li>完全二叉树<ul>
+<li>完全二叉树</li>
 <li>满二叉树</li>
-</ul>
-</li>
 <li>平衡二叉树<ul>
 <li>红黑树</li>
-<li>条表（skiped list）</li>
 </ul>
 </li>
 <li>二叉搜索树</li>
 </ul>
 </li>
-<li>B树 ：概括来说是一个一般化的二叉搜索树，可以拥有多于2个子节点<ul>
+<li>B树 ：概括来说是一个一般化的n叉搜索树，可以拥有多于2个子节点<ul>
 <li>B+树</li>
-<li>B-树</li>
 </ul>
 </li>
 <li>霍夫曼树</li>
@@ -148,14 +144,16 @@
 <p>在进行遍历之前还有一个关键的步骤没有做，那就是构造树。<br>如果你也这样想，好吧，再想想是不是错过了些什么？<br>对，其实构建树只是添加树的一个复合操作。废话少说上码来战。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span> </span>&#123;</span><br><span class="line">    <span class="comment">// root node</span></span><br><span class="line">    TreeNode root;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Insert the node to the BST</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// put the value item into the BST</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">put</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="keyword">return</span> put(<span class="keyword">this</span>.root, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 添加节点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> root</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">put</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">this</span>.root = <span class="keyword">new</span> TreeNode();</span><br><span class="line">            <span class="keyword">this</span>.root.data = value;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> valueOfrootElement = root.data;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; valueOfrootElement)&#123;</span><br><span class="line">            root.leftChild = put(root.leftChild, value);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; valueOfrootElement)&#123;</span><br><span class="line">            root.rightChild = put(root.rightChild, value);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root.data = value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>是不是感觉上面的代码有些不舒服，对的，有代码强迫症的你肯定已经毛爪挠心了，不废话，消灭所有不合理的因素。这次从方法命名开始。<br>(敲黑板，认真脸)  </p>
-<pre><code>方法名中若不是简单的getter/setter 操作应当避免使用get/set作为方法名，以免引起不必要的误解。
-</code></pre><p>改正后的版本</p>
+<blockquote>
+<p>方法名中若不是简单的getter/setter 操作应当避免使用get/set作为方法名，以免引起不必要的误解。</p>
+</blockquote>
+<p>改正后的版本</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span> </span>&#123;</span><br><span class="line">    <span class="comment">// root node</span></span><br><span class="line">    TreeNode root;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加节点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">addTreeNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.root = <span class="keyword">new</span> TreeNode(value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> addTreeNode(<span class="keyword">this</span>.root, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">addTreeNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> valueOfrootElement = root.data;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; valueOfrootElement)&#123;</span><br><span class="line">            root.leftChild = addTreeNode(root.leftChild, value);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; valueOfrootElement)&#123;</span><br><span class="line">            root.rightChild = addTreeNode(root.rightChild, value);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root.data = value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>嗯，感觉舒服多了。<br>紧接着还有一个操作，查找：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">searchNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> searchNode(<span class="keyword">this</span>.root, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 查找节点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> root</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> TreeNode <span class="title">searchNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">        <span class="comment">// empty tree</span></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// in order travels</span></span><br><span class="line">        <span class="keyword">int</span> rootValue = <span class="keyword">this</span>.root.data;</span><br><span class="line">        <span class="keyword">if</span> (rootValue == value)&#123;</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &lt; rootValue) &#123;</span><br><span class="line">            <span class="keyword">return</span> searchNode(root.leftChild, value);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> searchNode(root.rightChild, value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>上面的代码用到了inorder travels标准写法，递归(Reccurrence)调用查找方法。  </p>
 <p>我们实现了添加查找节点的方法，下一步就是实现删除节点。  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">deleteNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> deleteNode(<span class="keyword">this</span>.root, value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span>  TreeNode <span class="title">deleteNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">int</span> rootValue = root.data;</span><br><span class="line">      <span class="keyword">if</span> (value &lt; rootValue) &#123;</span><br><span class="line">          root.leftChild = deleteNode(root.leftChild, value);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &gt; rootValue) &#123;</span><br><span class="line">          root.rightChild = deleteNode(root.rightChild, value);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (root.leftChild == <span class="keyword">null</span>) &#123;</span><br><span class="line">              <span class="keyword">return</span> root.rightChild;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (root.rightChild == <span class="keyword">null</span>) &#123;</span><br><span class="line">              <span class="keyword">return</span>  root.leftChild;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// search for the min node in right child subtree,</span></span><br><span class="line">          <span class="comment">// and then replace the current node.</span></span><br><span class="line">          <span class="comment">//</span></span><br><span class="line">          TreeNode newRootNode = findMin(root.rightChild);</span><br><span class="line">          <span class="comment">// replace the current node.</span></span><br><span class="line">          root.data = newRootNode.data;</span><br><span class="line">          <span class="comment">// remove from the previous right subtree</span></span><br><span class="line">          root.rightChild = deleteNode(root.rightChild, newRootNode.data);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> root;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">deleteNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> deleteNode(<span class="keyword">this</span>.root, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span>  TreeNode <span class="title">deleteNode</span><span class="params">(TreeNode root, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> rootValue = root.data;</span><br><span class="line">    <span class="keyword">if</span> (value &lt; rootValue) &#123;</span><br><span class="line">        root.leftChild = deleteNode(root.leftChild, value);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &gt; rootValue) &#123;</span><br><span class="line">        root.rightChild = deleteNode(root.rightChild, value);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root.leftChild == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> root.rightChild;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root.rightChild == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>  root.leftChild;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// search for the min node in right child subtree,</span></span><br><span class="line">        <span class="comment">// and then replace the current node.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        TreeNode newRootNode = findMin(root.rightChild);</span><br><span class="line">        <span class="comment">// replace the current node.</span></span><br><span class="line">        root.data = newRootNode.data;</span><br><span class="line">        <span class="comment">// remove from the previous right subtree</span></span><br><span class="line">        root.rightChild = deleteNode(root.rightChild, newRootNode.data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>算法的细节就不解释了，稍微麻烦点的地方都有注释。  </p>
 <p>到了这里是不是觉得就可以打完收工了？ No,No,No……<br>没有测试的代码是不可以发布的，只有写过单元测试代码，并且GreenBar通过后才可以。<br>具体怎么添加单元测试工程的过程这里就不再啰嗦了，不同语言下都有比较成熟的单元测试框架， 例如java下的就是junit。下附图为测试工程GreenBar通过：<br><img src="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg" alt="GreenBarPass">  </p>
 <p>下附工程代码：<a href="https://github.com/nutshellfool/algorithmShare" target="_blank" rel="noopener">gitHub</a></p>
@@ -166,7 +164,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>►<a class="article-category-link" href="/categories/Algorithm/Interview/">Interview</a>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
 </div>
 
 
@@ -176,7 +174,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/10a77275/" data-title="树的那些事 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/10a77275/" data-title="如何设计一个二叉搜索树 | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -190,10 +188,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/posts/937b6c8a/" title="关于树的一些话题">
+ <a href="/posts/937b6c8a/" title="树的一些算法问题">
   <strong>上一篇：</strong><br/>
   <span>
-  关于树的一些话题</span>
+  树的一些算法问题</span>
 </a>
 </div>
 
@@ -222,7 +220,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树是什么鬼？"><span class="toc-number">1.</span> <span class="toc-text">树是什么鬼？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#都有什么树"><span class="toc-number">2.</span> <span class="toc-text">都有什么树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#和树相关的操作"><span class="toc-number">3.</span> <span class="toc-text">和树相关的操作</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树是什么鬼"><span class="toc-number">1.</span> <span class="toc-text">树是什么鬼</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#都有什么树"><span class="toc-number">2.</span> <span class="toc-text">都有什么树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#和树相关的操作"><span class="toc-number">3.</span> <span class="toc-text">和树相关的操作</span></a></li></ol>
  
   </div>
 
@@ -239,25 +237,17 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
 		  
 		
 		  
 		
 		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>1</sup></a></li>
 		  
 		
 		  
@@ -267,29 +257,21 @@
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
 		
 		  
 			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>1</sup></a></li>
 		  
 		
 		</ul>

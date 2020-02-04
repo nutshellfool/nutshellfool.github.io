@@ -10,17 +10,17 @@
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="Web,HTTP">
+    <meta name="keywords" content="Web,HTTP,Network,HTTP2">
     
     <meta name="description" content="HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。 HTTP/0.9HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重">
-<meta name="keywords" content="Web,HTTP">
+<meta name="keywords" content="Web,HTTP,Network,HTTP2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP 编年史">
 <meta property="og:url" content="https://blogs.lirui.me/posts/cef3635a/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。 HTTP/0.9HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-27T02:46:55.455Z">
+<meta property="og:updated_time" content="2020-02-04T07:30:58.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP 编年史">
 <meta name="twitter:description" content="HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。 HTTP/0.9HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重">
@@ -135,7 +135,7 @@
 <li>域名分片（domain sharding）  </li>
 </ul>
 <p>这里单独拿出域名分片来说一说：<br>上面不是说到每个持久连接下不是有6个域名同时建立连接的限制么？<br>我们聪明的工程师想到，好像我们可以用这6个域名搞事情。比如说有这样一个例子： 现在有个网页上面会有3个比较大的图片文件，如果这三个文件放在同一个持久连接下，那么这三个文件会依次获得从服务器的响应。如果我们将这三个图片放在不同的域名下然后分别创建持久连接，那么这里就解决了请求排队等待的问题。<br>上面的这种做法你会发现在很多主流的网站都有使用，后来这也成为大流量、对网站响应速度有高要求的站点的网站优化常用手段。<br>注意到什么问题么？似乎这个解决方案解决了排队等待阻塞的问题，但是它是用创建新的持久连接为代价来做的，这种方案适用的场景还是属于创建连接代价小于排队代价的场景。这种优化其实也是一种trade off。<br>说到底，这个排队等待阻塞的问题在HTTP/1.1版本内还是一个痛点。那我们就只有寄希望于后续版本从根本上解决这个问题。  </p>
-<h2 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h2><p>HTTP/2 是2015正式发布。<br>HTTP/2最激动人心的部分莫过于使用了  </p>
+<h2 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h2><p>HTTP/2 是2015正式发布。<br>HTTP/2最激动人心的部分莫过于使用了</p>
 <ul>
 <li>多路复用的通信方式<br>这一通信方式的改变，从根本上解决了“排队等待阻塞”的问题。<br>说的这么好，那么多路复用到底是怎样工作的呢？<br>举个例子，一个连接上会有A，B两个请求，如果未使用多路复用的通信方式的时候，那么A，B可以依次发送请求，由于服务端是按照顺序依次处理请求的，所以B一定是等到服务端返回A的数据之后才接收到数据。这样是不是很低效？<br>那么使用了多路复用后又是怎样的情况呢？<br>A，B发送完请求后，服务端会首先将已经处理好的请求返回，而并不是必须等待A完成后再发送B，这样其实是打乱了返回数据包顺序的限制，从而使队列不再等待。</li>
 <li><p>数据流<br>由于上面的数据包返回不再按照请求的顺序返回，因此需要使用一种机制来标记数据包属于哪个请求，在这样的需求下就诞生了“流”的概念。<br>一个请求的的所有数据包被称为流，每个流都有一个唯一的ID编号，这样就区分出了数据包属于哪个流。<br>同时HTTP/2 还规定可以在不关闭连接的情况下取消数据的传输，这个在之前的版本是想都不敢想的。<br>既然顺序已经放开，那么可以要求重要的流数据优先传输么？当然可以，HTTP/2 支持流优先级的设定。  </p>
@@ -225,25 +225,17 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
 		  
 		
 		  
 		
 		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>1</sup></a></li>
 		  
 		
 		  
@@ -253,29 +245,21 @@
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
 		
 		  
 			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>1</sup></a></li>
 		  
 		
 		</ul>

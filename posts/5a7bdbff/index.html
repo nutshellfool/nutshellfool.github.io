@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &amp;lt;file-name&amp;gt; 进入git add patch 模式之">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-17T11:23:00.949Z">
+<meta property="og:updated_time" content="2020-02-04T07:53:48.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="研发效能实用贴士 - Git篇">
 <meta name="twitter:description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &amp;lt;file-name&amp;gt; 进入git add patch 模式之">
@@ -114,8 +114,8 @@
 </li>
 </ul>
 <h3 id="交换多个提交的先后顺序"><a href="#交换多个提交的先后顺序" class="headerlink" title="交换多个提交的先后顺序"></a>交换多个提交的先后顺序</h3><p>前提： commit在本地还没有push到remote upstream</p>
-<p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 pick 命令（用法 pick <hash-value>）交换两个提交，</hash-value></p>
-<h3 id="修改非当前提交"><a href="#修改非当前提交" class="headerlink" title="修改非当前提交"></a>修改非当前提交</h3><p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 edit 命令(用法 edit <hash-value>), 然后通过<code>git add</code> 和 <code>git rm</code> 命令对需要修改的文件进行操作，之后运行<code>git commit --amend</code> 进行提交<br><code>git rebase --continue</code> 完成 <code>git rebase -i</code>命令的后续操作。  </hash-value></p>
+<p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 pick 命令（用法: pick hash-value）交换两个提交，</p>
+<h3 id="修改非当前提交"><a href="#修改非当前提交" class="headerlink" title="修改非当前提交"></a>修改非当前提交</h3><p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 edit 命令(用法: edit hash-value), 然后通过<code>git add</code> 和 <code>git rm</code> 命令对需要修改的文件进行操作，之后运行<code>git commit --amend</code> 进行提交<br><code>git rebase --continue</code> 完成 <code>git rebase -i</code>命令的后续操作。  </p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html" target="_blank" rel="noopener">图解Git</a></p>
   
 	</div>
@@ -152,9 +152,9 @@
 
 
 <div class="next">
-<a href="/posts/524f9cc8/"  title="Nginx 部分使用方法备忘录">
+<a href="/posts/524f9cc8/"  title="Nginx必知必会使用方法备忘录">
  <strong>下一篇：</strong><br/> 
- <span>Nginx 部分使用方法备忘录
+ <span>Nginx必知必会使用方法备忘录
 </span>
 </a>
 </div>
@@ -192,25 +192,17 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
 		  
 		
 		  
 		
 		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>1</sup></a></li>
 		  
 		
 		  
@@ -220,29 +212,21 @@
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
 		
 		  
 			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>1</sup></a></li>
 		  
 		
 		</ul>

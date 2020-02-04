@@ -12,18 +12,18 @@
 
     <meta name="keywords" content="Algorithm,Recursion">
     
-    <meta name="description" content="什么是递归？ Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usu">
+    <meta name="description" content="什么是递归 Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usua">
 <meta name="keywords" content="Algorithm,Recursion">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何用递归的方式解决问题？">
 <meta property="og:url" content="https://blogs.lirui.me/posts/cac864f3/index.html">
 <meta property="og:site_name" content="李瑞的博客">
-<meta property="og:description" content="什么是递归？ Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usu">
+<meta property="og:description" content="什么是递归 Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usua">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-27T02:47:36.491Z">
+<meta property="og:updated_time" content="2020-02-04T07:31:53.088Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何用递归的方式解决问题？">
-<meta name="twitter:description" content="什么是递归？ Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usu">
+<meta name="twitter:description" content="什么是递归 Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usua">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -95,19 +95,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是递归？"><span class="toc-number">1.</span> <span class="toc-text">什么是递归？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递归程序的3要素"><span class="toc-number">2.</span> <span class="toc-text">递归程序的3要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用递归解决的典型问题"><span class="toc-number">3.</span> <span class="toc-text">用递归解决的典型问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断一棵二叉树是否是二叉搜索树"><span class="toc-number">3.1.</span> <span class="toc-text">判断一棵二叉树是否是二叉搜索树</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是递归"><span class="toc-number">1.</span> <span class="toc-text">什么是递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递归程序的3要素"><span class="toc-number">2.</span> <span class="toc-text">递归程序的3要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用递归解决的典型问题"><span class="toc-number">3.</span> <span class="toc-text">用递归解决的典型问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断一棵二叉树是否是二叉搜索树"><span class="toc-number">3.1.</span> <span class="toc-text">判断一棵二叉树是否是二叉搜索树</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h2><blockquote>
+		<h2 id="什么是递归"><a href="#什么是递归" class="headerlink" title="什么是递归"></a>什么是递归</h2><blockquote>
 <p>Recursion is a method of solving problems that involves breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. Usually recursion involves a function calling itself. While it may not seem like much on the surface, recursion allows us to write elegant solutions to problems that may otherwise be very difficult to program.</p>
 </blockquote>
-<p>这个定义虽然并不权威，但是把它列在这里的原因是，他提到了用递归解决问题的两个特征：  </p>
+<p>这个定义虽然并不权威，但是把它列在这里的原因是，他提到了用递归解决问题的两个特征：</p>
 <ol>
 <li>将原问题可逐层分解为规模较小的子问题，你会问规模小是怎样界定的呢？就是可以不费太多力气就可以解决的（例如直接返回数组的第一个元素）。  </li>
 <li>函数调用自己，这大概是所有教授算法课程的老师都会提到的特性吧？但是请记住，这只是算法的形式表现。  </li>
 </ol>
-<p>一般的教科书在提到这部分内容的时候都要从递归程序调用栈的流程开始，怎样压栈怎样出栈。看完以后感觉写书的作者好牛逼，但是碰到问题的时候又是一脸懵逼，思绪全无。<br>所以为了避免上面这种无效的学习方式，我们直接来分析该怎样用递归的思想来写程序。   </p>
+<p>一般的教科书在提到这部分内容的时候都要从递归程序调用栈的流程开始，怎样压栈怎样出栈。看完以后感觉写书的作者好牛逼，但是碰到问题的时候又是一脸懵逼，思绪全无。<br>所以为了避免上面这种无效的学习方式，我们直接来分析该怎样用递归的思想来写程序。  </p>
 <h2 id="递归程序的3要素"><a href="#递归程序的3要素" class="headerlink" title="递归程序的3要素"></a>递归程序的3要素</h2><ol>
 <li>递归程序必须要有一个基本case（而且这个case还比较好解决）</li>
 <li>递归程序的状态转移必须趋向这个基本case</li>
@@ -175,7 +175,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是递归？"><span class="toc-number">1.</span> <span class="toc-text">什么是递归？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递归程序的3要素"><span class="toc-number">2.</span> <span class="toc-text">递归程序的3要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用递归解决的典型问题"><span class="toc-number">3.</span> <span class="toc-text">用递归解决的典型问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断一棵二叉树是否是二叉搜索树"><span class="toc-number">3.1.</span> <span class="toc-text">判断一棵二叉树是否是二叉搜索树</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是递归"><span class="toc-number">1.</span> <span class="toc-text">什么是递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递归程序的3要素"><span class="toc-number">2.</span> <span class="toc-text">递归程序的3要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用递归解决的典型问题"><span class="toc-number">3.</span> <span class="toc-text">用递归解决的典型问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断一棵二叉树是否是二叉搜索树"><span class="toc-number">3.1.</span> <span class="toc-text">判断一棵二叉树是否是二叉搜索树</span></a></li></ol></li></ol>
  
   </div>
 
@@ -192,25 +192,17 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>9</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
 		  
 		
 		  
 		
 		  
-			<li><a href="/categories/Develop/DevOps/" title="DevOps">DevOps<sup>3</sup></a></li>
+			<li><a href="/categories/Develop/" title="Develop">Develop<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/" title="Develop">Develop<sup>6</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Algorithm/Interview/" title="Interview">Interview<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/" title="Mac">Mac<sup>1</sup></a></li>
 		  
 		
 		  
@@ -220,29 +212,21 @@
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/" title="Mobile">Mobile<sup>1</sup></a></li>
-		  
-		
-		  
 		
 		  
 			<li><a href="/categories/System-design/" title="System design">System design<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>2</sup></a></li>
+			<li><a href="/categories/Develop/Mac/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Develop/Mobile/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/骑行/台湾/" title="台湾">台湾<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/骑行/" title="骑行">骑行<sup>6</sup></a></li>
+			<li><a href="/categories/骑行/" title="骑行">骑行<sup>1</sup></a></li>
 		  
 		
 		</ul>
