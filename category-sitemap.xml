@@ -8,15 +8,50 @@
     </url>
 
     <url>
-        <loc>https://blogs.lirui.me/categories/System-Design/</loc>
-        <lastmod>2020-02-04T10:03:21.508Z</lastmod>
+        <loc>https://blogs.lirui.me/categories/Efficiency/</loc>
+        <lastmod>2020-02-05T08:16:43.991Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Operations/</loc>
+        <lastmod>2020-02-05T08:14:46.943Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blogs.lirui.me/categories/Algorithm/</loc>
-        <lastmod>2020-02-04T08:17:30.662Z</lastmod>
+        <lastmod>2020-02-05T08:14:12.451Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/System-Design/</loc>
+        <lastmod>2020-02-05T08:10:47.757Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Reading-Notes/</loc>
+        <lastmod>2020-02-05T08:07:33.479Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Network/</loc>
+        <lastmod>2020-02-05T07:25:05.219Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blogs.lirui.me/categories/Machine-Learning/</loc>
+        <lastmod>2020-02-05T06:49:46.299Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>系统设计必知的些数据 | 李瑞的博客</title>
+    <title>系统设计估算方法以及必知的那些数据 | 李瑞的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -15,14 +15,14 @@
     <meta name="description" content="当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。   一些数字   操作 时间(nano sec)     L1 cache referenc">
 <meta name="keywords" content="System design,系统设计常用数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系统设计必知的些数据">
+<meta property="og:title" content="系统设计估算方法以及必知的那些数据">
 <meta property="og:url" content="https://blogs.lirui.me/posts/6e0a9a90/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。   一些数字   操作 时间(nano sec)     L1 cache referenc">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-04T10:03:21.508Z">
+<meta property="og:updated_time" content="2020-02-05T08:10:47.757Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系统设计必知的些数据">
+<meta name="twitter:title" content="系统设计估算方法以及必知的那些数据">
 <meta name="twitter:description" content="当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。   一些数字   操作 时间(nano sec)     L1 cache referenc">
 
     
@@ -83,7 +83,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/6e0a9a90/" title="系统设计必知的些数据" itemprop="url">系统设计必知的些数据</a>
+      <a href="/posts/6e0a9a90/" title="系统设计估算方法以及必知的那些数据" itemprop="url">系统设计估算方法以及必知的那些数据</a>
   </h1>
   <p class="article-author">By
        
@@ -99,7 +99,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些数字"><span class="toc-number">1.</span> <span class="toc-text">一些数字</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些数字"><span class="toc-number">1.</span> <span class="toc-text">一些数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#估算方法"><span class="toc-number">2.</span> <span class="toc-text">估算方法</span></a></li></ol>
 		
 		</div>
 		
@@ -162,9 +162,9 @@
 </tr>
 </tbody>
 </table>
-<p>数据来源： <a href="http://www.cs.cornell.edu/projects/ladis2009/talks/dean-keynote-ladis2009.pdf" target="_blank" rel="noopener">jeff dean分享</a></p>
+<p>数据来源： <a href="http://www.cs.cornell.edu/projects/ladis2009/talks/dean-keynote-ladis2009.pdf" target="_blank" rel="noopener">Jeff Dean分享</a></p>
 <p>之前我们在做系统设计的时候总是在说，CPU要快于内存，内存的访问要快于硬盘存储，硬盘存储要快于网络访问。<br>上面的说法都是感性认识的，那么具体到数量级（注意是数量级，因为每台机器的运算能力会跟固定的硬件配置相关，如果脱离硬件谈具体数字是没有意义的）。 CPU的访问速度（7 nano seconds）是内存（100 nano seconds）的10倍，内存的访问（100 nano seconds）是硬盘访问（10000000）的 10w倍。</p>
-<p>这里谈到了估算系统负载的方法，现在通行的方法有下面两种：  </p>
+<h2 id="估算方法"><a href="#估算方法" class="headerlink" title="估算方法"></a>估算方法</h2><p>这里谈到了估算系统负载的方法，现在通行的方法有下面两种：  </p>
 <ol>
 <li>信封背面估算法（Back of envelop calculation）<br>估算法其实就是一开篇提到的根据上面提到的这些数据估算出一个数值（当然你要清楚这个数字并不是准确的数字，而是一个数量级参考范围）</li>
 <li>微基准测试（Microbenchmarking）<br>基准测试更多地被使用在系统优化的过程中，我们知道任何优化不做基准测试都是耍流氓，没有数据支持，优化和设计的过程就犹如在伸手不见五指的夜晚走夜路。</li>
@@ -188,7 +188,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/6e0a9a90/" data-title="系统设计必知的些数据 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/6e0a9a90/" data-title="系统设计估算方法以及必知的那些数据 | 李瑞的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -234,7 +234,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些数字"><span class="toc-number">1.</span> <span class="toc-text">一些数字</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些数字"><span class="toc-number">1.</span> <span class="toc-text">一些数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#估算方法"><span class="toc-number">2.</span> <span class="toc-text">估算方法</span></a></li></ol>
  
   </div>
 
@@ -251,11 +251,31 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>11</sup></a></li>
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
 		  
 		
 		  
 		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>2</sup></a></li>
 		  
 		
 		  
