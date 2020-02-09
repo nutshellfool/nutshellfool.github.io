@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-05T08:08:20.371Z">
+<meta property="og:updated_time" content="2020-02-09T11:09:18.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置私有服务器(VPS)备忘录">
 <meta name="twitter:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
@@ -119,6 +119,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod <span class="_">-a</span>G wheel devop</span><br></pre></td></tr></table></figure>
 <h3 id="SSH-守护进程配置"><a href="#SSH-守护进程配置" class="headerlink" title="SSH 守护进程配置"></a>SSH 守护进程配置</h3><h4 id="拒绝Root用户通过SSH登录"><a href="#拒绝Root用户通过SSH登录" class="headerlink" title="拒绝Root用户通过SSH登录"></a>拒绝Root用户通过SSH登录</h4><p>修改配置文件<code>/etc/ssh/sshd_config</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Authentication:</span></span><br><span class="line">...</span><br><span class="line">PermitRootLogin no</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Change to no to disable tunnelled clear text passwords</span></span><br><span class="line">PasswordAuthentication no</span><br></pre></td></tr></table></figure>
 <p>然后重启sshd服务  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart sshd</span><br></pre></td></tr></table></figure>
 <p>更多服务器安全配置：<a href="https://www.linode.com/docs/security/securing-your-server" target="_blank" rel="noopener">linode 服务器安全配置</a></p>
