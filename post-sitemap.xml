@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
+        <lastmod>2020-02-11T07:21:12.064Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blogs.lirui.me/posts/2e8d4abb/</loc>
         <lastmod>2020-02-10T11:05:28.618Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -34,14 +42,6 @@
     <url>
         <loc>https://blogs.lirui.me/posts/bd4eb22c/</loc>
         <lastmod>2020-02-09T12:09:12.331Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
-        <lastmod>2020-02-06T07:40:06.727Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

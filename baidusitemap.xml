@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
+    <lastmod>2020-02-11T07:21:12.064Z</lastmod>
+    <data>
+        <display>
+        <title>LaTeX简明教程</title>
+        <pubTime>2020-01-15T13:57:20.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/2e8d4abb/</loc>
     <lastmod>2020-02-10T11:05:28.618Z</lastmod>
     <data>
@@ -69,24 +87,6 @@
            
              
               <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
-    <lastmod>2020-02-06T07:40:06.727Z</lastmod>
-    <data>
-        <display>
-        <title>LaTeX简明教程</title>
-        <pubTime>2020-01-15T13:57:20.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
           
         </display>
     </data>
