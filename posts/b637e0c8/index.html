@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-12T13:34:32.004Z">
+<meta property="og:updated_time" content="2020-02-12T13:43:44.822Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何设计一个精简版的微博（或者Twitter）？">
 <meta name="twitter:description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
@@ -133,7 +133,7 @@
 <li>用户量</li>
 </ul>
 <p>我: “这样的微博系统，用户量级会是怎样的？”<br>面试官： “嗯，这是个好问题，我们可以考虑这个系统是这样的量级，DAU: 1000w, 每天有1亿HTTP请求”（注：根据2018年新浪微博披露的数据 DAU 大概在5000w）</p>
-<p>$ RPS =  10000w / (24 <em> 60 </em> 60) \approx 1000  $</p>
+<p>$$ RPS =  10000w / (24 <em> 60 </em> 60) \approx 1000  $$</p>
 <ul>
 <li>用户关注关系规模（社交网络好友关系数据规模）</li>
 </ul>
