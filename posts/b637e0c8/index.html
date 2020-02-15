@@ -20,14 +20,14 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.1.webp">
-<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.2.webp">
-<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-V1.0.webp">
-<meta property="og:updated_time" content="2020-02-15T08:47:39.328Z">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.1.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-V1.0.jpg">
+<meta property="og:updated_time" content="2020-02-15T09:19:36.596Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何设计一个精简版的微博（或者Twitter）？">
 <meta name="twitter:description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
-<meta name="twitter:image" content="https://image.ai-byte.com/twitter-abstract-design-0.1.webp">
+<meta name="twitter:image" content="https://image.ai-byte.com/twitter-abstract-design-0.1.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -300,7 +300,7 @@
 <p>再次就是微博的收藏：<br>与用户关注计算类似，我们有：<br>2000W * 12Byte = 24W KB = 0.24 GB</p>
 <p>可以看的出来存储的数据中微博内容的存储会是主要的部分。<br>而且对于微博内容数据存储我们做一个年存储量的估算：<br>$$5.6GB * 365 \approx 2TB$$<br>这样的一个单表量级尚未达到MySQL和Linux操作系统单文件大小限制（16TB - EXT4 on RHEL <a href="https://access.redhat.com/solutions/1532" target="_blank" rel="noopener">What are the file and file system size limitations for Red Hat Enterprise Linux?</a>）<br>所以，在这个维度上MySQL（Oracle）这样的关系型数据库是能够胜任的，只不过数据发展到必要的时期需要做一些数据库上的技术改造（Sharding or Partitioning）</p>
 <h4 id="V0-1-系统设计架构图"><a href="#V0-1-系统设计架构图" class="headerlink" title="V0.1 系统设计架构图"></a>V0.1 系统设计架构图</h4><p>所以我们现在根据之前的分析和系统概要设计分析，得出这样的一个系统架构图：</p>
-<p><img src="https://image.ai-byte.com/twitter-abstract-design-0.1.webp" alt="Abstract Design Diagram V0.1"></p>
+<p><img src="https://image.ai-byte.com/twitter-abstract-design-0.1.jpg" alt="Abstract Design Diagram V0.1"></p>
 <p>正所谓一图胜万言，相信有了这样一个基础就可以抛砖引玉，引出后面系统的演进。<br>其实仔细回顾用例和设计约束，还有部分仍然未满足。至少非功能性需求“高可用”在目前的设计中并未完全满足。<br>另外，从功能的角度以上的设计也存在问题，作为一个具有社交属性的 news feed 系统，用户登录是隐含功能，有了用户登录，就需要cookie-session的机制，一般来说session是以临时文件的形式存储在应用实例上的，如果在应用实例上做 Scale out，那么遇到的第一个问题就是：  </p>
 <ul>
 <li>session 共享（shared session）问题<br>如何解决这个问题呢？<br>常见的思路就是提取一个供应用实例共享的 session 存储读取服务。<br>对于这样的存储服务，我们可以选型：  </li>
@@ -313,9 +313,9 @@
 <p>如果是文件，需要考虑的是高可用的方案，简单的文件高可用可以选择RAID(RAID0, RAID1, RAID5 RAID6, RAID10), 如何选型RAID可以参考 <a href="https://www.prepressure.com/library/technology/raid" target="_blank" rel="noopener">Redundant Array of Independent Drives</a><br>如果是NO-SQL、SQL可以考虑CPA中的AP存储方案。<br>这部分的详细设计方案在后续的步骤演进中细化。  </p>
 <p>在解决了 shared seesion 问题后，我们回去审视用例和设计约束，我们发现其实还有一个问题我们还未处理，在读写比较高的业务场景下，为了减少下层存储层负载使用缓存会是一个比较合适的选型选择。  </p>
 <p>所以我们可以在逻辑层与持久存储层之间引入缓存层，于是系统架构设计图就有了第二个版本:</p>
-<h3 id="阶段2产出物"><a href="#阶段2产出物" class="headerlink" title="阶段2产出物"></a>阶段2产出物</h3><p><img src="https://image.ai-byte.com/twitter-abstract-design-0.2.webp" alt="Abstract Design Diagram V0.2"></p>
+<h3 id="阶段2产出物"><a href="#阶段2产出物" class="headerlink" title="阶段2产出物"></a>阶段2产出物</h3><p><img src="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg" alt="Abstract Design Diagram V0.2"></p>
 <h2 id="识别单点故障，进行系统扩展"><a href="#识别单点故障，进行系统扩展" class="headerlink" title="识别单点故障，进行系统扩展"></a>识别单点故障，进行系统扩展</h2><p>审视着阶段2的系统架构设计图，对照着高可用的目标，我们看现在的设计中还有什么单点故障风险？<br>好像负载均衡本身会是整个系统中的孤立单点，如果需要解决这个单点问题，我们可以在DNS阶段做负载，DNS根据合理的策略选择将流量导向部署了以上系统架构的数据中心。<br>好的，到了这一步我们的系统已经从最开始的简单单体架构演进成为了多数据中心多活的系统架构，</p>
-<h3 id="阶段3产出物"><a href="#阶段3产出物" class="headerlink" title="阶段3产出物"></a>阶段3产出物</h3><p><img src="https://image.ai-byte.com/twitter-abstract-design-V1.0.webp" alt="Abstract Design Diagram V1.0"></p>
+<h3 id="阶段3产出物"><a href="#阶段3产出物" class="headerlink" title="阶段3产出物"></a>阶段3产出物</h3><p><img src="https://image.ai-byte.com/twitter-abstract-design-V1.0.jpg" alt="Abstract Design Diagram V1.0"></p>
 <h2 id="关键组件详细设计"><a href="#关键组件详细设计" class="headerlink" title="关键组件详细设计"></a>关键组件详细设计</h2><h3 id="阶段4产出物"><a href="#阶段4产出物" class="headerlink" title="阶段4产出物"></a>阶段4产出物</h3>  
 	</div>
 		<footer class="article-footer clearfix">
