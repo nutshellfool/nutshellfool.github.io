@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/5a7bdbff/</loc>
+    <lastmod>2020-02-18T08:23:08.775Z</lastmod>
+    <data>
+        <display>
+        <title>研发效能实用贴士 - Git篇</title>
+        <pubTime>2019-12-17T11:23:00.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/b637e0c8/</loc>
     <lastmod>2020-02-17T06:19:19.939Z</lastmod>
     <data>
@@ -393,24 +411,6 @@
            
              
               <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/5a7bdbff/</loc>
-    <lastmod>2020-02-05T07:44:15.278Z</lastmod>
-    <data>
-        <display>
-        <title>研发效能实用贴士 - Git篇</title>
-        <pubTime>2019-12-17T11:23:00.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
           
         </display>
     </data>
