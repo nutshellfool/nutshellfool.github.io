@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  
+    <title>使用Wireshark研究网络协议 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Wireshark,Silly Window Syndrome,Delayed ACK,Nagle Algorithm,retransmission,fast retransmission,愚笨窗口综合症,延迟确认,超时重传,快速重传">
+    
+    <meta name="description" content="还是从TCP/IP协议说起首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。   下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。 常见的网络问题小包问题也叫愚笨窗口综合症（Silly Window Syndrome）常常会有这样">
+<meta name="keywords" content="Wireshark,Silly Window Syndrome,Delayed ACK,Nagle Algorithm,retransmission,fast retransmission,愚笨窗口综合症,延迟确认,超时重传,快速重传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Wireshark研究网络协议">
+<meta property="og:url" content="https://blogs.lirui.me/posts/2330c61c/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="还是从TCP/IP协议说起首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。   下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。 常见的网络问题小包问题也叫愚笨窗口综合症（Silly Window Syndrome）常常会有这样">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/tcp_slow_start_20200225.jpg">
+<meta property="og:updated_time" content="2020-02-25T11:19:54.803Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Wireshark研究网络协议">
+<meta name="twitter:description" content="还是从TCP/IP协议说起首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。   下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。 常见的网络问题小包问题也叫愚笨窗口综合症（Silly Window Syndrome）常常会有这样">
+<meta name="twitter:image" content="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blogs.lirui.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/2330c61c/" title="使用Wireshark研究网络协议" itemprop="url">使用Wireshark研究网络协议</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-02-17T11:14:51.000Z" itemprop="datePublished"> Published 2020-02-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#还是从TCP-IP协议说起"><span class="toc-number">1.</span> <span class="toc-text">还是从TCP/IP协议说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的网络问题"><span class="toc-number">2.</span> <span class="toc-text">常见的网络问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#小包问题也叫愚笨窗口综合症（Silly-Window-Syndrome）"><span class="toc-number">2.1.</span> <span class="toc-text">小包问题也叫愚笨窗口综合症（Silly Window Syndrome）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延迟确认（Delayed-ACK）-与-Nagle-算法"><span class="toc-number">2.2.</span> <span class="toc-text">延迟确认（Delayed ACK） 与 Nagle 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决延迟确认与Nagle算法冲突的问题"><span class="toc-number">2.2.1.</span> <span class="toc-text">如何解决延迟确认与Nagle算法冲突的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包重传"><span class="toc-number">2.3.</span> <span class="toc-text">网络包重传</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超时重传"><span class="toc-number">2.3.1.</span> <span class="toc-text">超时重传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#快速重传"><span class="toc-number">2.3.2.</span> <span class="toc-text">快速重传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包乱序"><span class="toc-number">2.4.</span> <span class="toc-text">网络包乱序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络传输慢速"><span class="toc-number">2.5.</span> <span class="toc-text">网络传输慢速</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#慢启动与网络拥塞点"><span class="toc-number">2.5.1.</span> <span class="toc-text">慢启动与网络拥塞点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP发送窗口"><span class="toc-number">2.5.2.</span> <span class="toc-text">TCP发送窗口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WireShark-如何解决"><span class="toc-number">3.</span> <span class="toc-text">WireShark 如何解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看超时重传的方法"><span class="toc-number">3.1.</span> <span class="toc-text">查看超时重传的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Wireshark自动分析"><span class="toc-number">3.2.</span> <span class="toc-text">使用Wireshark自动分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有用的几个WireShark配置"><span class="toc-number">4.</span> <span class="toc-text">有用的几个WireShark配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的几个网络命令"><span class="toc-number">5.</span> <span class="toc-text">常用的几个网络命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文中名词解释"><span class="toc-number">6.</span> <span class="toc-text">文中名词解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MSS-Maximum-Segment-Size"><span class="toc-number">6.1.</span> <span class="toc-text">MSS(Maximum Segment Size)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MTU-Maximum-Trasmission-Unit"><span class="toc-number">6.2.</span> <span class="toc-text">MTU(Maximum Trasmission Unit)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSO-Large-Segmentation-Offload"><span class="toc-number">6.3.</span> <span class="toc-text">LSO(Large Segmentation Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LRO-Large-Reciever-Offload"><span class="toc-number">6.4.</span> <span class="toc-text">LRO(Large Reciever Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTO-Retransmission-TimeOut"><span class="toc-number">6.5.</span> <span class="toc-text">RTO(Retransmission TimeOut)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SACK-Selective-Acknowlegement"><span class="toc-number">6.6.</span> <span class="toc-text">SACK(Selective Acknowlegement)</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="还是从TCP-IP协议说起"><a href="#还是从TCP-IP协议说起" class="headerlink" title="还是从TCP/IP协议说起"></a>还是从TCP/IP协议说起</h2><p>首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。  </p>
+<p>下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。</p>
+<h2 id="常见的网络问题"><a href="#常见的网络问题" class="headerlink" title="常见的网络问题"></a>常见的网络问题</h2><h3 id="小包问题也叫愚笨窗口综合症（Silly-Window-Syndrome）"><a href="#小包问题也叫愚笨窗口综合症（Silly-Window-Syndrome）" class="headerlink" title="小包问题也叫愚笨窗口综合症（Silly Window Syndrome）"></a>小包问题也叫愚笨窗口综合症（Silly Window Syndrome）</h3><p>常常会有这样的情况，应用层传递给TCP传输层的数据很小，要比TCP（20Bytes）+ IP（20Byte）头部的大小还要小，这样其实是一种浪费，我们把这样的问题叫愚笨窗口综合症，也叫小包问题。</p>
+<h3 id="延迟确认（Delayed-ACK）-与-Nagle-算法"><a href="#延迟确认（Delayed-ACK）-与-Nagle-算法" class="headerlink" title="延迟确认（Delayed ACK） 与 Nagle 算法"></a>延迟确认（Delayed ACK） 与 Nagle 算法</h3><p>延迟确认是一种常见的TCP交互式场景策略，常见的例子（愚笨窗口综合症）就是SSH与远程服务器建立连接之后在命令行输入的每一个字母在发送方打开延迟确认的TCP选项之后，发送方发给接收方的网络包中如果除了确认收到报文之外没有什么信息需要回复给发送方，那么接收方就会等待一个超时的时间(TCP协议规定这个值应当小于500ms <a href="https://tools.ietf.org/html/rfc1122#page-96" target="_blank" rel="noopener">rfc1122</a>，不同的操作系统中这个值有所不同)之后在回复确认报文。本质上是通过在网络信道中减少网络包的发送来优化网络。<br>Nagle算法是通过在发送方维护一个“buffer”，将发送包体大小积累到一个MSS之后发送网络包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if there is new data to send then</span><br><span class="line">    if the window size ≥ MSS and available data is ≥ MSS then</span><br><span class="line">        send complete MSS segment now</span><br><span class="line">    else</span><br><span class="line">        if there is unconfirmed data still in the pipe then</span><br><span class="line">            enqueue data in the buffer until an acknowledge is received</span><br><span class="line">        else</span><br><span class="line">            send data immediately</span><br><span class="line">        end if</span><br><span class="line">    end if</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
+<p>本质上也是通过在信道中减少网络包的发送数量来优化网络传输。</p>
+<p>听起来两种机制都是没有什么问题的，都是在解决特定环境下的特定问题。但是如果发送方开启了Nagle算法与此同时接收方也开启了延迟确认，在发送方出现write-write-read这样的报文组合的时候就有可能出现等待到一个延迟确认超时时间后的网络等待。</p>
+<h4 id="如何解决延迟确认与Nagle算法冲突的问题"><a href="#如何解决延迟确认与Nagle算法冲突的问题" class="headerlink" title="如何解决延迟确认与Nagle算法冲突的问题"></a>如何解决延迟确认与Nagle算法冲突的问题</h4><p>两种思路：</p>
+<ul>
+<li>在应用层，避免出现 write-wirte-read这样的网络调用</li>
+<li>在传输协议层，在发送方关闭Nagle算法机制或者在接收方关闭DelayACK</li>
+</ul>
+<p>对于关闭DelayedACK：  </p>
+<ol>
+<li>可以使用<code>TCP_QUICKACK</code></li>
+<li>如果是RHRL，可以使用下面的命令修改<code>tcp_delack_min</code>的值（默认值为 40ms）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># echo 1 &gt; /proc/sys/net/ipv4/tcp_delack_min</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_MRG/1.3/html/Realtime_Tuning_Guide/sect-Realtime_Tuning_Guide-General_System_Tuning-Reducing_the_TCP_delayed_ack_timeout.html" target="_blank" rel="noopener">RHEL - realtime tuning - Reduce TCP Delayed ack timeout</a></p>
+<p>对于关闭 Nagle 算法：<br>在TCP连接选项中选择 <code>TCP_NO_DELAY</code></p>
+<p><a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" rel="noopener"></a></p>
+<h3 id="网络包重传"><a href="#网络包重传" class="headerlink" title="网络包重传"></a>网络包重传</h3><p>协议中的重传场景：</p>
+<h4 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h4><p>出现拥塞，当发送方的原包发出后经过一个RTO的超时等待时间后就会重传这个网络包。<br>超时重传之后，拥塞窗口（发送窗口）的大小也需要调整，协议中建议 cnwnd = min ( traffic_in_flight / 2, 2)。</p>
+<h4 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h4><p>如果接收方收到一组乱序的网络包，按照协议它应当连续发送3个重复ack，当发送方收到这样的ACK后需要启动快速重传机制。<br>具体细节详见下面wireshark抓包分析截图：<br><img src="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg" alt="TCP retransmission"></p>
+<h3 id="网络包乱序"><a href="#网络包乱序" class="headerlink" title="网络包乱序"></a>网络包乱序</h3><p>接收方收到乱序包需要根据协议发送重复的3个ACK确认包，随后发送方会有快速重传的机制将接收方的ACK包重传，而无视RTO的超时限制。<br>细节参见上方快速重传Wireshark抓包分析截图。</p>
+<h3 id="网络传输慢速"><a href="#网络传输慢速" class="headerlink" title="网络传输慢速"></a>网络传输慢速</h3><h4 id="慢启动与网络拥塞点"><a href="#慢启动与网络拥塞点" class="headerlink" title="慢启动与网络拥塞点"></a>慢启动与网络拥塞点</h4><p>计划使用FTP协议传输大文件，进行网络抓包分析，得出类似下面的 time/sequence graph（steven）：<br>// TODO<br><img src="https://image.ai-byte.com/tcp_slow_start_20200225.jpg" alt="TCP slow start"></p>
+<h4 id="TCP发送窗口"><a href="#TCP发送窗口" class="headerlink" title="TCP发送窗口"></a>TCP发送窗口</h4><p>LRO（Large Recieve offload）</p>
+<h2 id="WireShark-如何解决"><a href="#WireShark-如何解决" class="headerlink" title="WireShark 如何解决"></a>WireShark 如何解决</h2><h3 id="查看超时重传的方法"><a href="#查看超时重传的方法" class="headerlink" title="查看超时重传的方法"></a>查看超时重传的方法</h3><blockquote>
+<p>Analysis -&gt; Expert information</p>
+</blockquote>
+<p>Note 类信息中Summary 部分为 “this frame is a (suspected) retransmission “</p>
+<h3 id="使用Wireshark自动分析"><a href="#使用Wireshark自动分析" class="headerlink" title="使用Wireshark自动分析"></a>使用Wireshark自动分析</h3><ul>
+<li>查看分析的摘要信息</li>
+</ul>
+<blockquote>
+<p>Analysis -&gt; Expert information</p>
+</blockquote>
+<ul>
+<li>选定需要查看的TCP连接，查看TCP stream Graph 等统计信息</li>
+</ul>
+<blockquote>
+<p>Statistics -&gt; TCP Stream Graph</p>
+</blockquote>
+<p>Time-Sequence Graph(steven)</p>
+<h2 id="有用的几个WireShark配置"><a href="#有用的几个WireShark配置" class="headerlink" title="有用的几个WireShark配置"></a>有用的几个WireShark配置</h2><h2 id="常用的几个网络命令"><a href="#常用的几个网络命令" class="headerlink" title="常用的几个网络命令"></a>常用的几个网络命令</h2><ul>
+<li>使用ICMP发送指定大小的网络包（macOS）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping &lt;ip_address&gt; <span class="_">-s</span> &lt;packa_size_of_IP_Package_content&gt; -D -c &lt;repeat_time&gt;</span><br></pre></td></tr></table></figure>
+<p>其中 -D 参数表示 在 IP 包中flag设置中 DF（Don’t Fragment） 标志</p>
+<ul>
+<li>WireShark中列出超过200ms的ack报文(查询疑似延迟确认报文)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp.analysis.ack_rtt&gt;0.1 and tcp.len==0</span><br></pre></td></tr></table></figure>
+<h2 id="文中名词解释"><a href="#文中名词解释" class="headerlink" title="文中名词解释"></a>文中名词解释</h2><h3 id="MSS-Maximum-Segment-Size"><a href="#MSS-Maximum-Segment-Size" class="headerlink" title="MSS(Maximum Segment Size)"></a>MSS(Maximum Segment Size)</h3><p>TCP的3次握手会将双方的MSS值告诉对方，将MSS值加上TCP头和IP头的长度就知道了下面的MTU的大小。</p>
+<h3 id="MTU-Maximum-Trasmission-Unit"><a href="#MTU-Maximum-Trasmission-Unit" class="headerlink" title="MTU(Maximum Trasmission Unit)"></a>MTU(Maximum Trasmission Unit)</h3><p>MTU = MSS + TCP Head length(一般是20Bytes) + IP Head leagth(20Bytes)</p>
+<p>通常的大多数网络中MTU的大小在 1500 Bytes，而开启了巨帧（Jumbo Frame）的网络MTU的大小在 9000 Bytes。</p>
+<h3 id="LSO-Large-Segmentation-Offload"><a href="#LSO-Large-Segmentation-Offload" class="headerlink" title="LSO(Large Segmentation Offload)"></a>LSO(Large Segmentation Offload)</h3><h3 id="LRO-Large-Reciever-Offload"><a href="#LRO-Large-Reciever-Offload" class="headerlink" title="LRO(Large Reciever Offload)"></a>LRO(Large Reciever Offload)</h3><h3 id="RTO-Retransmission-TimeOut"><a href="#RTO-Retransmission-TimeOut" class="headerlink" title="RTO(Retransmission TimeOut)"></a>RTO(Retransmission TimeOut)</h3><p>发送端从丢包到重传包之间经过的超时时间，这个数值在一些OS中提供方法进行设置，RTO设置数值该为多少有在协议中由Karn 算法以及 Jacobson 算法 <a href="https://tools.ietf.org/html/rfc1122#page-95" target="_blank" rel="noopener">rfc1122 - Retransmission Timeout Calculation</a>计算决定。</p>
+<h3 id="SACK-Selective-Acknowlegement"><a href="#SACK-Selective-Acknowlegement" class="headerlink" title="SACK(Selective Acknowlegement)"></a>SACK(Selective Acknowlegement)</h3>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Network/">Network</a>►<a class="article-category-link" href="/categories/Network/Operations/">Operations</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/2330c61c/" data-title="使用Wireshark研究网络协议 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/a036b45b/" title="从管理风格的角度看 TCP/IP">
+  <strong>上一篇：</strong><br/>
+  <span>
+  从管理风格的角度看 TCP/IP</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/b637e0c8/"  title="如何设计一个精简版的微博（或者Twitter）？">
+ <strong>下一篇：</strong><br/> 
+ <span>如何设计一个精简版的微博（或者Twitter）？
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#还是从TCP-IP协议说起"><span class="toc-number">1.</span> <span class="toc-text">还是从TCP/IP协议说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的网络问题"><span class="toc-number">2.</span> <span class="toc-text">常见的网络问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#小包问题也叫愚笨窗口综合症（Silly-Window-Syndrome）"><span class="toc-number">2.1.</span> <span class="toc-text">小包问题也叫愚笨窗口综合症（Silly Window Syndrome）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延迟确认（Delayed-ACK）-与-Nagle-算法"><span class="toc-number">2.2.</span> <span class="toc-text">延迟确认（Delayed ACK） 与 Nagle 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决延迟确认与Nagle算法冲突的问题"><span class="toc-number">2.2.1.</span> <span class="toc-text">如何解决延迟确认与Nagle算法冲突的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包重传"><span class="toc-number">2.3.</span> <span class="toc-text">网络包重传</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超时重传"><span class="toc-number">2.3.1.</span> <span class="toc-text">超时重传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#快速重传"><span class="toc-number">2.3.2.</span> <span class="toc-text">快速重传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包乱序"><span class="toc-number">2.4.</span> <span class="toc-text">网络包乱序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络传输慢速"><span class="toc-number">2.5.</span> <span class="toc-text">网络传输慢速</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#慢启动与网络拥塞点"><span class="toc-number">2.5.1.</span> <span class="toc-text">慢启动与网络拥塞点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP发送窗口"><span class="toc-number">2.5.2.</span> <span class="toc-text">TCP发送窗口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WireShark-如何解决"><span class="toc-number">3.</span> <span class="toc-text">WireShark 如何解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看超时重传的方法"><span class="toc-number">3.1.</span> <span class="toc-text">查看超时重传的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Wireshark自动分析"><span class="toc-number">3.2.</span> <span class="toc-text">使用Wireshark自动分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有用的几个WireShark配置"><span class="toc-number">4.</span> <span class="toc-text">有用的几个WireShark配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的几个网络命令"><span class="toc-number">5.</span> <span class="toc-text">常用的几个网络命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文中名词解释"><span class="toc-number">6.</span> <span class="toc-text">文中名词解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MSS-Maximum-Segment-Size"><span class="toc-number">6.1.</span> <span class="toc-text">MSS(Maximum Segment Size)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MTU-Maximum-Trasmission-Unit"><span class="toc-number">6.2.</span> <span class="toc-text">MTU(Maximum Trasmission Unit)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSO-Large-Segmentation-Offload"><span class="toc-number">6.3.</span> <span class="toc-text">LSO(Large Segmentation Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LRO-Large-Reciever-Offload"><span class="toc-number">6.4.</span> <span class="toc-text">LRO(Large Reciever Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTO-Retransmission-TimeOut"><span class="toc-number">6.5.</span> <span class="toc-text">RTO(Retransmission TimeOut)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SACK-Selective-Acknowlegement"><span class="toc-number">6.6.</span> <span class="toc-text">SACK(Selective Acknowlegement)</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Operations/" title="Operations">Operations<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2020
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+  </body>
+</html>
+
