@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/b61b5e8c/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="深度学习与深层神经网络 深度学习（deep neural network）是机器学习的分支，是一种试图使用包含复杂结构或由多重非线性变换构成的多个处理层对数据进行高层抽象的算法。 – wikipedia定义 原文链接  由于实践中深层神经网络是实现“多层非线性变换”的最常用方法，所以通常可以认为深度学习就是深层神经网络的代名词。大家请注意上面定义的两个关键词: 多层 和 非线性 这里先卖个关子，之">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T03:06:42.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深层神经网络">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-29T07:00:22.000Z" itemprop="datePublished"> Published 2017-12-29</time>
+    <time datetime="2017-12-29T07:00:22.000Z" itemprop="datePublished"> 发表于 2017-12-29</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#深度学习与深层神经网络"><span class="toc-number">1.</span> <span class="toc-text">深度学习与深层神经网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线性模型的局限性与激活函数"><span class="toc-number">2.</span> <span class="toc-text">线性模型的局限性与激活函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#激活函数-非线性"><span class="toc-number">3.</span> <span class="toc-text">激活函数 (非线性)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多层网络解决异或运算"><span class="toc-number">4.</span> <span class="toc-text">多层网络解决异或运算</span></a></li></ol>
 		
@@ -193,25 +190,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#深度学习与深层神经网络"><span class="toc-number">1.</span> <span class="toc-text">深度学习与深层神经网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线性模型的局限性与激活函数"><span class="toc-number">2.</span> <span class="toc-text">线性模型的局限性与激活函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#激活函数-非线性"><span class="toc-number">3.</span> <span class="toc-text">激活函数 (非线性)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多层网络解决异或运算"><span class="toc-number">4.</span> <span class="toc-text">多层网络解决异或运算</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -262,11 +256,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -523,7 +539,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

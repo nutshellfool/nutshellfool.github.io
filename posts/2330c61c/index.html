@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/2330c61c/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="还是从TCP/IP协议说起首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。   下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。 常见的网络问题小包问题也叫愚笨窗口综合症（Silly Window Syndrome）常常会有这样">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg">
 <meta property="og:image" content="https://image.ai-byte.com/tcp_slow_start_20200225.jpg">
 <meta property="og:updated_time" content="2020-02-25T11:19:54.803Z">
@@ -50,7 +50,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,14 +60,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -89,14 +86,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2020-02-17T11:14:51.000Z" itemprop="datePublished"> Published 2020-02-17</time>
+    <time datetime="2020-02-17T11:14:51.000Z" itemprop="datePublished"> 发表于 2020-02-17</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#还是从TCP-IP协议说起"><span class="toc-number">1.</span> <span class="toc-text">还是从TCP/IP协议说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的网络问题"><span class="toc-number">2.</span> <span class="toc-text">常见的网络问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#小包问题也叫愚笨窗口综合症（Silly-Window-Syndrome）"><span class="toc-number">2.1.</span> <span class="toc-text">小包问题也叫愚笨窗口综合症（Silly Window Syndrome）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延迟确认（Delayed-ACK）-与-Nagle-算法"><span class="toc-number">2.2.</span> <span class="toc-text">延迟确认（Delayed ACK） 与 Nagle 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决延迟确认与Nagle算法冲突的问题"><span class="toc-number">2.2.1.</span> <span class="toc-text">如何解决延迟确认与Nagle算法冲突的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包重传"><span class="toc-number">2.3.</span> <span class="toc-text">网络包重传</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超时重传"><span class="toc-number">2.3.1.</span> <span class="toc-text">超时重传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#快速重传"><span class="toc-number">2.3.2.</span> <span class="toc-text">快速重传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包乱序"><span class="toc-number">2.4.</span> <span class="toc-text">网络包乱序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络传输慢速"><span class="toc-number">2.5.</span> <span class="toc-text">网络传输慢速</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#慢启动与网络拥塞点"><span class="toc-number">2.5.1.</span> <span class="toc-text">慢启动与网络拥塞点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP发送窗口"><span class="toc-number">2.5.2.</span> <span class="toc-text">TCP发送窗口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WireShark-如何解决"><span class="toc-number">3.</span> <span class="toc-text">WireShark 如何解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看超时重传的方法"><span class="toc-number">3.1.</span> <span class="toc-text">查看超时重传的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Wireshark自动分析"><span class="toc-number">3.2.</span> <span class="toc-text">使用Wireshark自动分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有用的几个WireShark配置"><span class="toc-number">4.</span> <span class="toc-text">有用的几个WireShark配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的几个网络命令"><span class="toc-number">5.</span> <span class="toc-text">常用的几个网络命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文中名词解释"><span class="toc-number">6.</span> <span class="toc-text">文中名词解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MSS-Maximum-Segment-Size"><span class="toc-number">6.1.</span> <span class="toc-text">MSS(Maximum Segment Size)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MTU-Maximum-Trasmission-Unit"><span class="toc-number">6.2.</span> <span class="toc-text">MTU(Maximum Trasmission Unit)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSO-Large-Segmentation-Offload"><span class="toc-number">6.3.</span> <span class="toc-text">LSO(Large Segmentation Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LRO-Large-Reciever-Offload"><span class="toc-number">6.4.</span> <span class="toc-text">LRO(Large Reciever Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTO-Retransmission-TimeOut"><span class="toc-number">6.5.</span> <span class="toc-text">RTO(Retransmission TimeOut)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SACK-Selective-Acknowlegement"><span class="toc-number">6.6.</span> <span class="toc-text">SACK(Selective Acknowlegement)</span></a></li></ol></li></ol>
 		
@@ -217,25 +214,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#还是从TCP-IP协议说起"><span class="toc-number">1.</span> <span class="toc-text">还是从TCP/IP协议说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的网络问题"><span class="toc-number">2.</span> <span class="toc-text">常见的网络问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#小包问题也叫愚笨窗口综合症（Silly-Window-Syndrome）"><span class="toc-number">2.1.</span> <span class="toc-text">小包问题也叫愚笨窗口综合症（Silly Window Syndrome）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延迟确认（Delayed-ACK）-与-Nagle-算法"><span class="toc-number">2.2.</span> <span class="toc-text">延迟确认（Delayed ACK） 与 Nagle 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决延迟确认与Nagle算法冲突的问题"><span class="toc-number">2.2.1.</span> <span class="toc-text">如何解决延迟确认与Nagle算法冲突的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包重传"><span class="toc-number">2.3.</span> <span class="toc-text">网络包重传</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超时重传"><span class="toc-number">2.3.1.</span> <span class="toc-text">超时重传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#快速重传"><span class="toc-number">2.3.2.</span> <span class="toc-text">快速重传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络包乱序"><span class="toc-number">2.4.</span> <span class="toc-text">网络包乱序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络传输慢速"><span class="toc-number">2.5.</span> <span class="toc-text">网络传输慢速</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#慢启动与网络拥塞点"><span class="toc-number">2.5.1.</span> <span class="toc-text">慢启动与网络拥塞点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP发送窗口"><span class="toc-number">2.5.2.</span> <span class="toc-text">TCP发送窗口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WireShark-如何解决"><span class="toc-number">3.</span> <span class="toc-text">WireShark 如何解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看超时重传的方法"><span class="toc-number">3.1.</span> <span class="toc-text">查看超时重传的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Wireshark自动分析"><span class="toc-number">3.2.</span> <span class="toc-text">使用Wireshark自动分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有用的几个WireShark配置"><span class="toc-number">4.</span> <span class="toc-text">有用的几个WireShark配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的几个网络命令"><span class="toc-number">5.</span> <span class="toc-text">常用的几个网络命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文中名词解释"><span class="toc-number">6.</span> <span class="toc-text">文中名词解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MSS-Maximum-Segment-Size"><span class="toc-number">6.1.</span> <span class="toc-text">MSS(Maximum Segment Size)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MTU-Maximum-Trasmission-Unit"><span class="toc-number">6.2.</span> <span class="toc-text">MTU(Maximum Trasmission Unit)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSO-Large-Segmentation-Offload"><span class="toc-number">6.3.</span> <span class="toc-text">LSO(Large Segmentation Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LRO-Large-Reciever-Offload"><span class="toc-number">6.4.</span> <span class="toc-text">LRO(Large Reciever Offload)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTO-Retransmission-TimeOut"><span class="toc-number">6.5.</span> <span class="toc-text">RTO(Retransmission TimeOut)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SACK-Selective-Acknowlegement"><span class="toc-number">6.6.</span> <span class="toc-text">SACK(Selective Acknowlegement)</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -286,11 +280,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -547,7 +563,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/f525d2ef/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="二分查找问题是算法问题中比较经典的问题之一， 以其$O(log)$时间复杂度的算法效率独领风骚。   二分查找解决问题所需要的条件既然二分查找在时间复杂度上这么优秀，为什么不在所有的查找问题中使用这个“银弹”呢？ 我们都知道在软件工程中不存在所谓的银弹，“元数据结构”目前也只是存在于理论家和计算机哲学家的思维之中。话说回来，那么使用二分查找解决问题到底需要什么样的条件呢？    对应的数据结构必须">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-04T06:44:49.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二分查找问题及对应解决思路">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2019-05-15T14:58:06.000Z" itemprop="datePublished"> Published 2019-05-15</time>
+    <time datetime="2019-05-15T14:58:06.000Z" itemprop="datePublished"> 发表于 2019-05-15</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找解决问题所需要的条件"><span class="toc-number">1.</span> <span class="toc-text">二分查找解决问题所需要的条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找典型问题"><span class="toc-number">2.</span> <span class="toc-text">二分查找典型问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分问题标准代码模版"><span class="toc-number">3.</span> <span class="toc-text">二分问题标准代码模版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#求解二分查找问题"><span class="toc-number">4.</span> <span class="toc-text">求解二分查找问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sqrt-x"><span class="toc-number">4.1.</span> <span class="toc-text">Sqrt(x)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#审题，沟通"><span class="toc-number">4.1.1.</span> <span class="toc-text">审题，沟通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可能解及对应复杂度分析"><span class="toc-number">4.1.2.</span> <span class="toc-text">可能解及对应复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现"><span class="toc-number">4.1.3.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试用例"><span class="toc-number">4.1.4.</span> <span class="toc-text">测试用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#衍生问题"><span class="toc-number">4.1.5.</span> <span class="toc-text">衍生问题</span></a></li></ol></li></ol></li></ol>
 		
@@ -201,25 +198,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找解决问题所需要的条件"><span class="toc-number">1.</span> <span class="toc-text">二分查找解决问题所需要的条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找典型问题"><span class="toc-number">2.</span> <span class="toc-text">二分查找典型问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分问题标准代码模版"><span class="toc-number">3.</span> <span class="toc-text">二分问题标准代码模版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#求解二分查找问题"><span class="toc-number">4.</span> <span class="toc-text">求解二分查找问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sqrt-x"><span class="toc-number">4.1.</span> <span class="toc-text">Sqrt(x)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#审题，沟通"><span class="toc-number">4.1.1.</span> <span class="toc-text">审题，沟通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可能解及对应复杂度分析"><span class="toc-number">4.1.2.</span> <span class="toc-text">可能解及对应复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现"><span class="toc-number">4.1.3.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试用例"><span class="toc-number">4.1.4.</span> <span class="toc-text">测试用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#衍生问题"><span class="toc-number">4.1.5.</span> <span class="toc-text">衍生问题</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -270,11 +264,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -531,7 +547,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

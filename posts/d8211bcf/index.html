@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/d8211bcf/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T07:23:55.338Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="也谈移动端（iOS、Android）内存管理">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-17T14:37:02.000Z" itemprop="datePublished"> Published 2017-05-17</time>
+    <time datetime="2017-05-17T14:37:02.000Z" itemprop="datePublished"> 发表于 2017-05-17</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理？为什么内存需要管理"><span class="toc-number">1.</span> <span class="toc-text">内存管理？为什么内存需要管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何内存管理"><span class="toc-number">2.</span> <span class="toc-text">如何内存管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还缺点什么"><span class="toc-number">3.</span> <span class="toc-text">还缺点什么</span></a></li></ol>
 		
@@ -202,25 +199,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理？为什么内存需要管理"><span class="toc-number">1.</span> <span class="toc-text">内存管理？为什么内存需要管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何内存管理"><span class="toc-number">2.</span> <span class="toc-text">如何内存管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还缺点什么"><span class="toc-number">3.</span> <span class="toc-text">还缺点什么</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -271,11 +265,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -532,7 +548,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

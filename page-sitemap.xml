@@ -8,8 +8,15 @@
     </url>
     
     <url>
+        <loc>https://blogs.lirui.me/search/</loc>
+        <lastmod>2020-02-26T03:36:37.544Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
         <loc>https://blogs.lirui.me/about/</loc>
-        <lastmod>2017-03-24T17:08:54.000Z</lastmod>
+        <lastmod>2020-02-26T03:12:37.015Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>

@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/47728c0b/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如： weights = tf.Variable(tf.random_normal([2,3], stddev=2)) 上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T06:49:46.299Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-30T08:20:33.000Z" itemprop="datePublished"> Published 2017-11-30</time>
+    <time datetime="2017-11-30T08:20:33.000Z" itemprop="datePublished"> 发表于 2017-11-30</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络参数与TensorFlow变量"><span class="toc-number">1.</span> <span class="toc-text">神经网络参数与TensorFlow变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络参数与TensorFlow常量"><span class="toc-number">2.</span> <span class="toc-text">神经网络参数与TensorFlow常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一段完整的例子"><span class="toc-number">3.</span> <span class="toc-text">一段完整的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量初始化"><span class="toc-number">4.</span> <span class="toc-text">变量初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话操作"><span class="toc-number">5.</span> <span class="toc-text">会话操作</span></a></li></ol>
 		
@@ -232,25 +229,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络参数与TensorFlow变量"><span class="toc-number">1.</span> <span class="toc-text">神经网络参数与TensorFlow变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络参数与TensorFlow常量"><span class="toc-number">2.</span> <span class="toc-text">神经网络参数与TensorFlow常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一段完整的例子"><span class="toc-number">3.</span> <span class="toc-text">一段完整的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量初始化"><span class="toc-number">4.</span> <span class="toc-text">变量初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话操作"><span class="toc-number">5.</span> <span class="toc-text">会话操作</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -301,11 +295,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -562,7 +578,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

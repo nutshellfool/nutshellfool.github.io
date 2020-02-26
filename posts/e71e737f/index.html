@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/e71e737f/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="按照教科书的顺序来说，搜索相关的问题应该放在图的章节。但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？   DFS的典型实现一般来说，在以">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T08:09:39.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search）">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-12T11:24:16.000Z" itemprop="datePublished"> Published 2017-04-12</time>
+    <time datetime="2017-04-12T11:24:16.000Z" itemprop="datePublished"> 发表于 2017-04-12</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS的典型实现"><span class="toc-number">1.</span> <span class="toc-text">DFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS的典型实现"><span class="toc-number">2.</span> <span class="toc-text">BFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WFS-Weight-First-Search"><span class="toc-number">3.</span> <span class="toc-text">WFS (Weight First Search)</span></a></li></ol>
 		
@@ -172,25 +169,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS的典型实现"><span class="toc-number">1.</span> <span class="toc-text">DFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS的典型实现"><span class="toc-number">2.</span> <span class="toc-text">BFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WFS-Weight-First-Search"><span class="toc-number">3.</span> <span class="toc-text">WFS (Weight First Search)</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -241,11 +235,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -502,7 +518,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

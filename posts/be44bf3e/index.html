@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/be44bf3e/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="一说到Linked List你会想到什么？ArrayList? 看来你是个Java粉。其实Linked List 并非完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。   链表的分类按照节点的指针方向这个维度我们将链表划分为：  单向列表 双向列表  由单向列表作简单的改进我们就得到了树这个数据结构，当然作更多改">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T07:46:01.877Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="链表设计及其相关算法问题">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-21T02:03:10.000Z" itemprop="datePublished"> Published 2017-03-21</time>
+    <time datetime="2017-03-21T02:03:10.000Z" itemprop="datePublished"> 发表于 2017-03-21</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#链表的分类"><span class="toc-number">1.</span> <span class="toc-text">链表的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表的操作"><span class="toc-number">2.</span> <span class="toc-text">链表的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#链表基础元素的定义"><span class="toc-number">2.1.</span> <span class="toc-text">链表基础元素的定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些链表操作的技巧"><span class="toc-number">3.</span> <span class="toc-text">一些链表操作的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断链表是否有环"><span class="toc-number">3.1.</span> <span class="toc-text">判断链表是否有环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反转Linkedlist"><span class="toc-number">3.2.</span> <span class="toc-text">反转Linkedlist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并两个已排好序的列表"><span class="toc-number">3.3.</span> <span class="toc-text">合并两个已排好序的列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并k个已排序的列表"><span class="toc-number">3.4.</span> <span class="toc-text">合并k个已排序的列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于单元测试案例"><span class="toc-number">4.</span> <span class="toc-text">关于单元测试案例</span></a></li></ol>
 		
@@ -244,25 +241,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#链表的分类"><span class="toc-number">1.</span> <span class="toc-text">链表的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表的操作"><span class="toc-number">2.</span> <span class="toc-text">链表的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#链表基础元素的定义"><span class="toc-number">2.1.</span> <span class="toc-text">链表基础元素的定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些链表操作的技巧"><span class="toc-number">3.</span> <span class="toc-text">一些链表操作的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断链表是否有环"><span class="toc-number">3.1.</span> <span class="toc-text">判断链表是否有环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反转Linkedlist"><span class="toc-number">3.2.</span> <span class="toc-text">反转Linkedlist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并两个已排好序的列表"><span class="toc-number">3.3.</span> <span class="toc-text">合并两个已排好序的列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并k个已排序的列表"><span class="toc-number">3.4.</span> <span class="toc-text">合并k个已排序的列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于单元测试案例"><span class="toc-number">4.</span> <span class="toc-text">关于单元测试案例</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -313,11 +307,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -574,7 +590,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

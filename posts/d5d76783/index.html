@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/d5d76783/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="滑动窗口相关题目 Kth Largest Element in an Array Sliding Window Maximum Kth Largest Element in a Stream Sliding Window Median Find Median from Data Stream  这类问题在实际问题的应用场景首先声明，我并不赞同为了刷题而刷题的行为。但是这一大批题目中的确有比较好的，">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T08:10:12.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="滑动窗口算法问题及其衍生问题">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2019-03-13T03:57:37.000Z" itemprop="datePublished"> Published 2019-03-13</time>
+    <time datetime="2019-03-13T03:57:37.000Z" itemprop="datePublished"> 发表于 2019-03-13</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#滑动窗口相关题目"><span class="toc-number">1.</span> <span class="toc-text">滑动窗口相关题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#这类问题在实际问题的应用场景"><span class="toc-number">2.</span> <span class="toc-text">这类问题在实际问题的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何求解这类问题"><span class="toc-number">3.</span> <span class="toc-text">如何求解这类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对于最大值问题，常见的解题套路"><span class="toc-number">3.1.</span> <span class="toc-text">对于最大值问题，常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目中需要沟通的部分"><span class="toc-number">3.1.1.</span> <span class="toc-text">题目中需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可能的解法以及对应复杂度分析"><span class="toc-number">3.1.2.</span> <span class="toc-text">可能的解法以及对应复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实现"><span class="toc-number">3.1.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试用例"><span class="toc-number">3.1.4.</span> <span class="toc-text">测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HappyCase"><span class="toc-number">3.1.4.1.</span> <span class="toc-text">HappyCase</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BadCase"><span class="toc-number">3.1.4.2.</span> <span class="toc-text">BadCase</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对于中位数问题，-常见的解题套路"><span class="toc-number">3.2.</span> <span class="toc-text">对于中位数问题， 常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目本身需要沟通的部分"><span class="toc-number">3.2.1.</span> <span class="toc-text">题目本身需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可能解及对应的复杂度分析"><span class="toc-number">3.2.2.</span> <span class="toc-text">可能解及对应的复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实现及优化"><span class="toc-number">3.2.3.</span> <span class="toc-text">代码实现及优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试用例的部分"><span class="toc-number">3.2.4.</span> <span class="toc-text">测试用例的部分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引申问题"><span class="toc-number">3.3.</span> <span class="toc-text">引申问题</span></a></li></ol></li></ol>
 		
@@ -220,25 +217,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#滑动窗口相关题目"><span class="toc-number">1.</span> <span class="toc-text">滑动窗口相关题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#这类问题在实际问题的应用场景"><span class="toc-number">2.</span> <span class="toc-text">这类问题在实际问题的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何求解这类问题"><span class="toc-number">3.</span> <span class="toc-text">如何求解这类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对于最大值问题，常见的解题套路"><span class="toc-number">3.1.</span> <span class="toc-text">对于最大值问题，常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目中需要沟通的部分"><span class="toc-number">3.1.1.</span> <span class="toc-text">题目中需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可能的解法以及对应复杂度分析"><span class="toc-number">3.1.2.</span> <span class="toc-text">可能的解法以及对应复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实现"><span class="toc-number">3.1.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试用例"><span class="toc-number">3.1.4.</span> <span class="toc-text">测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HappyCase"><span class="toc-number">3.1.4.1.</span> <span class="toc-text">HappyCase</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BadCase"><span class="toc-number">3.1.4.2.</span> <span class="toc-text">BadCase</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对于中位数问题，-常见的解题套路"><span class="toc-number">3.2.</span> <span class="toc-text">对于中位数问题， 常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目本身需要沟通的部分"><span class="toc-number">3.2.1.</span> <span class="toc-text">题目本身需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可能解及对应的复杂度分析"><span class="toc-number">3.2.2.</span> <span class="toc-text">可能解及对应的复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实现及优化"><span class="toc-number">3.2.3.</span> <span class="toc-text">代码实现及优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试用例的部分"><span class="toc-number">3.2.4.</span> <span class="toc-text">测试用例的部分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引申问题"><span class="toc-number">3.3.</span> <span class="toc-text">引申问题</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -289,11 +283,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -550,7 +566,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://blogs.lirui.me/posts/51926d91/index.html">
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。 如何">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T08:14:12.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Leetcode 中子集和问题及其解法">
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -57,14 +57,11 @@
 					
 						<li><a href="/archives">归档</a></li>
 					
-						<li><a href="/about">关于</a></li>
-					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blogs.lirui.me">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -86,14 +83,14 @@
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2019-01-21T02:03:10.000Z" itemprop="datePublished"> Published 2019-01-21</time>
+    <time datetime="2019-01-21T02:03:10.000Z" itemprop="datePublished"> 发表于 2019-01-21</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题本身（What）"><span class="toc-number">1.</span> <span class="toc-text">问题本身（What）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"><span class="toc-number">2.</span> <span class="toc-text">为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何求解，及求解思路（How）"><span class="toc-number">3.</span> <span class="toc-text">如何求解，及求解思路（How）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3sum"><span class="toc-number">3.1.</span> <span class="toc-text">3sum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于题目本身"><span class="toc-number">3.1.1.</span> <span class="toc-text">关于题目本身</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#所有可能解"><span class="toc-number">3.1.2.</span> <span class="toc-text">所有可能解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2sum"><span class="toc-number">3.2.</span> <span class="toc-text">2sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4sum"><span class="toc-number">3.3.</span> <span class="toc-text">4sum</span></a></li></ol></li></ol>
 		
@@ -199,25 +196,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题本身（What）"><span class="toc-number">1.</span> <span class="toc-text">问题本身（What）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"><span class="toc-number">2.</span> <span class="toc-text">为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何求解，及求解思路（How）"><span class="toc-number">3.</span> <span class="toc-text">如何求解，及求解思路（How）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3sum"><span class="toc-number">3.1.</span> <span class="toc-text">3sum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于题目本身"><span class="toc-number">3.1.1.</span> <span class="toc-text">关于题目本身</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#所有可能解"><span class="toc-number">3.1.2.</span> <span class="toc-text">所有可能解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2sum"><span class="toc-number">3.2.</span> <span class="toc-text">2sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4sum"><span class="toc-number">3.3.</span> <span class="toc-text">4sum</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
-
-
-  
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -268,11 +262,33 @@
 
   
 
-  
-
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -529,7 +545,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
