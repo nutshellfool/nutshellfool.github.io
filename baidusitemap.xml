@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://blogs.lirui.me/posts/2330c61c/</loc>
-    <lastmod>2020-03-02T02:30:39.689Z</lastmod>
+    <lastmod>2020-03-04T02:15:58.318Z</lastmod>
     <data>
         <display>
         <title>使用Wireshark研究网络协议 - TCP/IP 协议问题</title>
@@ -15,9 +15,6 @@
            
              
               <breadCrumb title="Network" url="https://blogs.lirui.me/categories/Network/"/>
-          
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Network/Operations/"/>
           
         </display>
     </data>
