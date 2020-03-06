@@ -4,12 +4,30 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/34e83c5e/</loc>
+    <lastmod>2020-03-06T09:22:58.501Z</lastmod>
+    <data>
+        <display>
+        <title>系统设计常见组件 - Cache 篇</title>
+        <pubTime>2020-02-14T09:16:00.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="System Design" url="https://blogs.lirui.me/categories/System-Design/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/449cfdc4/</loc>
-    <lastmod>2020-03-05T13:12:57.684Z</lastmod>
+    <lastmod>2020-03-06T09:19:12.416Z</lastmod>
     <data>
         <display>
         <title>系统设计基础组件 - 数据库伸缩</title>
-        <pubTime>2020-03-05T13:12:57.000Z</pubTime>
+        <pubTime>2020-02-13T13:12:57.000Z</pubTime>
         
          
            
