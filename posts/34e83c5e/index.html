@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-06T09:22:58.501Z">
+<meta property="og:updated_time" content="2020-03-07T11:44:07.894Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统设计常见组件 - Cache 篇">
 <meta name="twitter:description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
@@ -92,7 +92,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存使用的场景"><span class="toc-number">1.</span> <span class="toc-text">缓存使用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存的常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">缓存的常见设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-aside"><span class="toc-number">2.1.</span> <span class="toc-text">Cache aside</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-aside-使用时需要注意的地方"><span class="toc-number">2.1.1.</span> <span class="toc-text">Cache aside 使用时需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存更新的操作"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">缓存更新的操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Write-through"><span class="toc-number">2.2.</span> <span class="toc-text">Read/Write through</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-behind-Write-back"><span class="toc-number">2.3.</span> <span class="toc-text">Write behind (Write back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存常见的问题"><span class="toc-number">3.</span> <span class="toc-text">缓存常见的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存穿透"><span class="toc-number">3.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存雪崩"><span class="toc-number">3.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存容量失控"><span class="toc-number">3.3.</span> <span class="toc-text">缓存容量失控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存算法缺陷"><span class="toc-number">3.4.</span> <span class="toc-text">缓存算法缺陷</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存使用的场景"><span class="toc-number">1.</span> <span class="toc-text">缓存使用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存的常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">缓存的常见设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-aside"><span class="toc-number">2.1.</span> <span class="toc-text">Cache aside</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-aside-使用时需要注意的地方"><span class="toc-number">2.1.1.</span> <span class="toc-text">Cache aside 使用时需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存更新的操作"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">缓存更新的操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Write-through"><span class="toc-number">2.2.</span> <span class="toc-text">Read/Write through</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-behind-Write-back"><span class="toc-number">2.3.</span> <span class="toc-text">Write behind (Write back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存常见的问题"><span class="toc-number">3.</span> <span class="toc-text">缓存常见的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存穿透"><span class="toc-number">3.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存雪崩"><span class="toc-number">3.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存设计的重点"><span class="toc-number">3.3.</span> <span class="toc-text">缓存设计的重点</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -144,10 +144,61 @@
 <h3 id="Write-behind-Write-back"><a href="#Write-behind-Write-back" class="headerlink" title="Write behind (Write back)"></a>Write behind (Write back)</h3><p>Write behind 模式是缓存在更新完自己的数据后就直接返回了，而数据库的更新是异步进行的。  </p>
 <p>这样做的优缺点都很明显：  </p>
 <p>优点：<br>提高吞吐量，如果需要同步等待整个调用环中最耗时的操作完成，整个缓存的更新效率就会较低，同时在高并发的场景下会带来数据库的负载突然升高，出现峰值现象。<br>缺点：<br>由于缓存和数据库更新是分阶段异步进行的，所以数据的一致性问题无法从机制上保证。也就存在这种可能性：如果系统突然断电，还未来得及同步数据库的这段缓存就会出现不一致，这部分未持久化的数据修改就可能丢失。</p>
-<h2 id="缓存常见的问题"><a href="#缓存常见的问题" class="headerlink" title="缓存常见的问题"></a>缓存常见的问题</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>// TODO</p>
-<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>// TODO</p>
-<h3 id="缓存容量失控"><a href="#缓存容量失控" class="headerlink" title="缓存容量失控"></a>缓存容量失控</h3><p>// TODO</p>
-<h3 id="缓存算法缺陷"><a href="#缓存算法缺陷" class="headerlink" title="缓存算法缺陷"></a>缓存算法缺陷</h3><p>// TODO</p>
+<h2 id="缓存常见的问题"><a href="#缓存常见的问题" class="headerlink" title="缓存常见的问题"></a>缓存常见的问题</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透指的是在某些情况下，大量对于同一数据的访问穿过缓存，但是缓存并没有起到应有的保护。  </p>
+<p>常见的例子就是对数据库不存在的数据进行查询，缓存如果对这个不存在的数据不做任何处理，那么这些数据就会穿过缓存直接将查询压力传递到数据库。<br>解决这个问题有两种思路：  </p>
+<ul>
+<li>最直接的思路就是，给这个不存在的值设置一个默认值存入缓存中，这样后面的读取就会从缓存中读取到默认值，而不会直接访问数据库。</li>
+<li>使用BloomFilter，这种数据结构可以高效明确地告诉我们一个值的不存在。</li>
+</ul>
+<p>当然这两种解决方案有各自的优缺点和使用场景：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>回置默认值</td>
+<td>简单直接</td>
+<td>可能会有大量空值缓存，浪费缓存存储空间，进一步会造成缓存命中率下降</td>
+</tr>
+<tr>
+<td>BloomFilter</td>
+<td>海量数据使用有优势</td>
+<td>占用内存资源大；引入运维成本</td>
+</tr>
+</tbody>
+</table>
+<p>除了上面的这种场景之外，在高并发的场景下还有一种 <a href="https://en.wikipedia.org/wiki/Cache_stampede" target="_blank" rel="noopener">Cache stampede</a>（也称作 Dog Pile Effect）同样会有缓存穿透的问题。</p>
+<p>对于缓存中的热key，缓存在更新过程中会有缓存失效，然后去数据库查询的过程，这个过程中如果有大量的并发读请求，就会穿过缓存直接到达数据库，严重的话会造成系统的瘫痪。<br>这种Cache stampede 问题的解决方法有两种：  </p>
+<ul>
+<li>利用分布式锁来进行流量控制的方式进行。</li>
+</ul>
+<p>这里的分布式锁可以有多种选型考虑；缓存系统实现、Zookeeper实现等等。</p>
+<ul>
+<li>缓存预热，在大批流量到来之前主动将缓存填充好，但这种方法的局限性就是，需要提前知道哪些数据可能引发数据穿透问题。</li>
+</ul>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>另一种常见缓存问题是缓存雪崩，在一定的时间内大批缓存失效，原本起屏障作用的缓存失去作用，形成系统压力穿透，引起系统过载、系统崩溃的现象。</p>
+<p>应对缓存雪崩的方法与上面应对 Cache stampede 问题的思路类似：  </p>
+<ul>
+<li>限流，现象发生后保证系统只去承载接纳能够承载的系统压力。</li>
+<li>缓存预热，在有现象预兆的时候事先加载一部分的热点数据。</li>
+</ul>
+<p>还有一种特殊的缓存雪崩是我们在选择缓存加载和设置缓存失效的时候需要注意的，如果大批缓存数据在同一时间加载，并且设置了相同的过期时间，那么缓存系统在这个集中的时间点就会面临缓存雪崩的风险。<br>这类问题的解决方案也比较简单：</p>
+<ol>
+<li>尽量避免集中缓存写入时间；</li>
+<li>如果无法避免，那么就在缓存过期时间上加上（或者减去）一个随机时间，避免同一时间过期。</li>
+</ol>
+<h3 id="缓存设计的重点"><a href="#缓存设计的重点" class="headerlink" title="缓存设计的重点"></a>缓存设计的重点</h3><ul>
+<li>可扩展的缓存系统设计需要有缓存集群，这个集群对于硬件的需求是内存大、存储性能好和网络带宽好<br>缓存本质上是一个内存和IO密集型的系统，所以在系统的硬件选型上需要有所侧重</li>
+<li>需要根据业务的特点和数据监控将适合缓存的数据放入缓存系统。</li>
+<li>缓存本质上是通过空间换时间的算法策略，同时也是通过牺牲数据的强一致性来换取的高性能，因此需要在使用缓存时需要评估是否是适合缓存的场景。</li>
+<li>缓存内部往往会使用LRU策略，在LRU实现的时候考虑到线程安全的因素，需要在内部维护读写锁，这样会降低性能，需要注意。</li>
+<li>LRU的策略也是有缺陷的，如果用户在有意访问一些错误信息就会破坏这个最近访问数据的真实性，如果这样的操作是有组织上规模的（最典型的例子是网络爬虫）就会淘汰掉一些本应该贮存在缓存中的热数据，致使数据库压力突然上升。</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -211,7 +262,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存使用的场景"><span class="toc-number">1.</span> <span class="toc-text">缓存使用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存的常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">缓存的常见设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-aside"><span class="toc-number">2.1.</span> <span class="toc-text">Cache aside</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-aside-使用时需要注意的地方"><span class="toc-number">2.1.1.</span> <span class="toc-text">Cache aside 使用时需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存更新的操作"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">缓存更新的操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Write-through"><span class="toc-number">2.2.</span> <span class="toc-text">Read/Write through</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-behind-Write-back"><span class="toc-number">2.3.</span> <span class="toc-text">Write behind (Write back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存常见的问题"><span class="toc-number">3.</span> <span class="toc-text">缓存常见的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存穿透"><span class="toc-number">3.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存雪崩"><span class="toc-number">3.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存容量失控"><span class="toc-number">3.3.</span> <span class="toc-text">缓存容量失控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存算法缺陷"><span class="toc-number">3.4.</span> <span class="toc-text">缓存算法缺陷</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存使用的场景"><span class="toc-number">1.</span> <span class="toc-text">缓存使用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存的常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">缓存的常见设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-aside"><span class="toc-number">2.1.</span> <span class="toc-text">Cache aside</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-aside-使用时需要注意的地方"><span class="toc-number">2.1.1.</span> <span class="toc-text">Cache aside 使用时需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存更新的操作"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">缓存更新的操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Write-through"><span class="toc-number">2.2.</span> <span class="toc-text">Read/Write through</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-behind-Write-back"><span class="toc-number">2.3.</span> <span class="toc-text">Write behind (Write back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存常见的问题"><span class="toc-number">3.</span> <span class="toc-text">缓存常见的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存穿透"><span class="toc-number">3.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存雪崩"><span class="toc-number">3.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存设计的重点"><span class="toc-number">3.3.</span> <span class="toc-text">缓存设计的重点</span></a></li></ol></li></ol>
  
   </div>
 
