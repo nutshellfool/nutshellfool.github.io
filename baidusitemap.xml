@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/63f58b56/</loc>
+    <lastmod>2020-03-08T14:22:06.065Z</lastmod>
+    <data>
+        <display>
+        <title>如何设计一个短网址服务</title>
+        <pubTime>2020-03-04T10:05:54.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="System Design" url="https://blogs.lirui.me/categories/System-Design/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/34e83c5e/</loc>
     <lastmod>2020-03-07T11:44:07.894Z</lastmod>
     <data>
@@ -46,24 +64,6 @@
         <display>
         <title>如何设计一个精简版的微博（或者Twitter）？</title>
         <pubTime>2020-02-12T13:31:41.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="System Design" url="https://blogs.lirui.me/categories/System-Design/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/63f58b56/</loc>
-    <lastmod>2020-03-04T10:13:39.237Z</lastmod>
-    <data>
-        <display>
-        <title>如何设计一个短网址服务</title>
-        <pubTime>2020-03-04T10:05:54.000Z</pubTime>
         
          
            
