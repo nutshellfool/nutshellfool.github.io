@@ -20,10 +20,13 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-07T11:44:07.894Z">
+<meta property="og:image" content="https://image.ai-byte.com/cache-aside.png">
+<meta property="og:image" content="https://image.ai-byte.com/cache-read-write-through.png">
+<meta property="og:updated_time" content="2020-03-09T11:33:30.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统设计常见组件 - Cache 篇">
 <meta name="twitter:description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
+<meta name="twitter:image" content="https://image.ai-byte.com/cache-aside.png">
 
     
     <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
@@ -121,10 +124,12 @@
 <li>先在数据库更新数据</li>
 <li>再让对应的缓存失效</li>
 </ol>
+<p><img src="https://image.ai-byte.com/cache-aside.png" alt="cache aside"><br>(图片来自 熊燚 - 全栈工程师修炼指南)</p>
 <p>为什么一定是这样的顺序呢？如果先让缓存失效再更新数据库会有什么问题么？<br>先让缓存失效在没有并发的场景下也是可以的，但是如果是在高并发的场景下是会出现缓存读取数据与数据库数据不一致的现象。<br>为什么会出现不一致呢？我们考虑这样的一个场景，应用实例首先失效了需要更新的数据缓存，恰恰在应用去数据库更新数据期间又有一个请求来访问缓存，发现缓存失效，于是从数据库读取数据（此时的数据库更新事务并未提交）改时间点所读取的数据是未更新的过期数据，并将这个过期数据更新到了缓存中，数据库更新数据操作完成之后就出现了缓存与数据库数据不一致的现象，更严重的是如果没有其他机制保证，这个过期的缓存数据就再也没有时机与数据库数据进行同步和更新。</p>
 <p>通过对cache aside 模式的描述，我们可以看出cache与应用实例之间是双向联系的，而与数据库之间是没有交互关系的，所以这个aside可以理解为aside在访问数据库路径。  </p>
 <p>下面的这个模式就与cache aside不同了，cache在应用实例与数据库之间扮演起了“中间人”的角色。</p>
 <h3 id="Read-Write-through"><a href="#Read-Write-through" class="headerlink" title="Read/Write through"></a>Read/Write through</h3><p>在Read/Write through模式下，从应用实例的视角上看，cache与数据库是一体的，对于读取和更新数据的操作只需要和cache打交道，而数据库对它来说是透明的。  </p>
+<p><img src="https://image.ai-byte.com/cache-read-write-through.png" alt="cache through"><br>(图片来自 熊燚 - 全栈工程师修炼指南)</p>
 <p>先看下Read through 数据获取的过程：</p>
 <ol>
 <li>应用先从缓存中查询所需数据</li>
