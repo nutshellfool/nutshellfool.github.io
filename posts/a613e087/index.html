@@ -1,0 +1,630 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  
+    <title>系统设计 - 异步I/O模型及异步编程 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="I/O models,asynchronous programming,I/O 模型,异步编程,Spring Web MVC,Spring WebFlux,Reactive,CGI,FastCGI,WSGI,Servlet">
+    
+    <meta name="description" content="I/O 模型通常输入操作的两个阶段：  等待数据准备好 从内核缓存中读取数据  对于网络（套接字）上的输入操作这两个阶段分别为：    等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区 将数据从内核缓冲区复制到应用进程缓冲区  实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是">
+<meta name="keywords" content="I&#x2F;O models,asynchronous programming,I&#x2F;O 模型,异步编程,Spring Web MVC,Spring WebFlux,Reactive,CGI,FastCGI,WSGI,Servlet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统设计 - 异步I&#x2F;O模型及异步编程">
+<meta property="og:url" content="https://blogs.lirui.me/posts/a613e087/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="I/O 模型通常输入操作的两个阶段：  等待数据准备好 从内核缓存中读取数据  对于网络（套接字）上的输入操作这两个阶段分别为：    等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区 将数据从内核缓冲区复制到应用进程缓冲区  实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://image.ai-byte.com/blockingIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/nonblockingIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/multiplexingIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/signalBasedIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/asynchronousIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/comparison_of_the_IO_models.png">
+<meta property="og:updated_time" content="2020-03-11T11:00:02.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="系统设计 - 异步I&#x2F;O模型及异步编程">
+<meta name="twitter:description" content="I/O 模型通常输入操作的两个阶段：  等待数据准备好 从内核缓存中读取数据  对于网络（套接字）上的输入操作这两个阶段分别为：    等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区 将数据从内核缓冲区复制到应用进程缓冲区  实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是">
+<meta name="twitter:image" content="https://image.ai-byte.com/blockingIO_model.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/a613e087/" title="系统设计 - 异步I/O模型及异步编程" itemprop="url">系统设计 - 异步I/O模型及异步编程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-06-11T10:52:57.000Z" itemprop="datePublished"> 发表于 2019-06-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-模型"><span class="toc-number">1.</span> <span class="toc-text">I/O 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞I-O（blocking-I-O）"><span class="toc-number">1.1.</span> <span class="toc-text">阻塞I/O（blocking I/O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非阻塞I-O（Non-blocking-I-O）"><span class="toc-number">1.2.</span> <span class="toc-text">非阻塞I/O（Non-blocking I/O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O-复用（select-poll）"><span class="toc-number">1.3.</span> <span class="toc-text">I/O 复用（select poll）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信号驱动的I-O（SIGIO）"><span class="toc-number">1.4.</span> <span class="toc-text">信号驱动的I/O（SIGIO）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异步I-O（POSIX-的aio-系列函数）"><span class="toc-number">1.5.</span> <span class="toc-text">异步I/O（POSIX 的aio_系列函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五种I-O模型的对比"><span class="toc-number">1.6.</span> <span class="toc-text">五种I/O模型的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用生活中的例子来类比这个I-O模型"><span class="toc-number">1.7.</span> <span class="toc-text">用生活中的例子来类比这个I/O模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步编程在各个技术生态的发展"><span class="toc-number">2.</span> <span class="toc-text">异步编程在各个技术生态的发展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-stack"><span class="toc-number">2.1.</span> <span class="toc-text">Java stack</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几个容易搞混淆的技术"><span class="toc-number">2.1.1.</span> <span class="toc-text">几个容易搞混淆的技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异步在JavaEE标准的演进"><span class="toc-number">2.1.2.</span> <span class="toc-text">异步在JavaEE标准的演进</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">2.2.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#各种-CGI-是什么，他们与servlet又有什么关系"><span class="toc-number">2.2.1.</span> <span class="toc-text">各种 CGI 是什么，他们与servlet又有什么关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go"><span class="toc-number">2.3.</span> <span class="toc-text">Go</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="I-O-模型"><a href="#I-O-模型" class="headerlink" title="I/O 模型"></a>I/O 模型</h2><p>通常输入操作的两个阶段：</p>
+<ol>
+<li>等待数据准备好</li>
+<li>从内核缓存中读取数据</li>
+</ol>
+<p>对于网络（套接字）上的输入操作这两个阶段分别为：  </p>
+<ol>
+<li>等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区</li>
+<li>将数据从内核缓冲区复制到应用进程缓冲区</li>
+</ol>
+<p>实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是下面5种I/O模型的前4种都是用这种思路解决问题）。</p>
+<p>以下的图片来自 <a href="https://book.douban.com/subject/4859464/" target="_blank" rel="noopener">UNIX网络编程 卷1：套接字联网API</a></p>
+<h3 id="阻塞I-O（blocking-I-O）"><a href="#阻塞I-O（blocking-I-O）" class="headerlink" title="阻塞I/O（blocking I/O）"></a>阻塞I/O（blocking I/O）</h3><p><img src="https://image.ai-byte.com/blockingIO_model.png" alt="BlockingI/O Model"></p>
+<h3 id="非阻塞I-O（Non-blocking-I-O）"><a href="#非阻塞I-O（Non-blocking-I-O）" class="headerlink" title="非阻塞I/O（Non-blocking I/O）"></a>非阻塞I/O（Non-blocking I/O）</h3><p><img src="https://image.ai-byte.com/nonblockingIO_model.png" alt="NonBlockingI/O Model"></p>
+<h3 id="I-O-复用（select-poll）"><a href="#I-O-复用（select-poll）" class="headerlink" title="I/O 复用（select poll）"></a>I/O 复用（select poll）</h3><p><img src="https://image.ai-byte.com/multiplexingIO_model.png" alt="Multiplexing I/O Model"></p>
+<h3 id="信号驱动的I-O（SIGIO）"><a href="#信号驱动的I-O（SIGIO）" class="headerlink" title="信号驱动的I/O（SIGIO）"></a>信号驱动的I/O（SIGIO）</h3><p><img src="https://image.ai-byte.com/signalBasedIO_model.png" alt="SignalDriven I/O Model"></p>
+<h3 id="异步I-O（POSIX-的aio-系列函数）"><a href="#异步I-O（POSIX-的aio-系列函数）" class="headerlink" title="异步I/O（POSIX 的aio_系列函数）"></a>异步I/O（POSIX 的aio_系列函数）</h3><p><img src="https://image.ai-byte.com/asynchronousIO_model.png" alt="Asynchronous I/O Model"></p>
+<h3 id="五种I-O模型的对比"><a href="#五种I-O模型的对比" class="headerlink" title="五种I/O模型的对比"></a>五种I/O模型的对比</h3><p><img src="https://image.ai-byte.com/comparison_of_the_IO_models.png" alt="Comparison of the I/O Models"></p>
+<h3 id="用生活中的例子来类比这个I-O模型"><a href="#用生活中的例子来类比这个I-O模型" class="headerlink" title="用生活中的例子来类比这个I/O模型"></a>用生活中的例子来类比这个I/O模型</h3><p>举一个在餐厅点餐的例子，餐厅点餐会分为两个阶段：  </p>
+<ol>
+<li>排队等待点餐</li>
+<li>点餐、付款以及等餐</li>
+</ol>
+<p>对应的就是输入操作的两个阶段：</p>
+<ol>
+<li>等待数据准备好</li>
+<li>从内核缓存中读取数据</li>
+</ol>
+<p>那么这5种I/O模型对应的就是下面的点餐模式：  </p>
+<ul>
+<li><p>阻塞I/O<br>顾客排队依次等待点餐（等待的过程也不做其他的事情），点完餐以后就一直站在队列前等待，直到点的餐做好取走餐后才离开，然后接待下一个顾客。</p>
+</li>
+<li><p>非阻塞I/O<br>顾客排队等待的过程觉得时间太长，所以他先去做些其他事情过程中每隔一段时间看下队有没有排到自己，如果排到了就开始点餐，然后等到餐完成后取餐离开。</p>
+</li>
+<li><p>I/O 复用（select poll epoll）<br>// TODO</p>
+</li>
+<li><p>信号驱动的I/O（SIGIO）<br>大家发现这种排队的方式实在是太落后了，决定开发一套排队系统。顾客在排队系统上取了号（sigaction系统调用）之后就去做其他的事情，等到快排到自己的时候排队系统会通知（SIGIO）顾客过来点餐。</p>
+</li>
+<li><p>异步I/O<br>后来大家还是不满足于这种排队系统带来的便利，除了排队，在系统上支持点单和支付的业务支持（aio ），这样就做到了在线上搞定排队点餐支付的事情，系统在餐准备好后通知顾客来就餐（听起来是不是太方便了）。</p>
+</li>
+</ul>
+<h2 id="异步编程在各个技术生态的发展"><a href="#异步编程在各个技术生态的发展" class="headerlink" title="异步编程在各个技术生态的发展"></a>异步编程在各个技术生态的发展</h2><h3 id="Java-stack"><a href="#Java-stack" class="headerlink" title="Java stack"></a>Java stack</h3><h4 id="几个容易搞混淆的技术"><a href="#几个容易搞混淆的技术" class="headerlink" title="几个容易搞混淆的技术"></a>几个容易搞混淆的技术</h4><ul>
+<li>Tomcat、Jetty、Netty、WebFlux<br>首先按照在Java生态中所处的层次分一下类：<br>应用容器： Tomcat、Jetty<br>网络编程框架： Netty<br>Spring web framework： Spring WebFlux, Spring Web MVC</li>
+</ul>
+<p>WebFlux 是Spring 框架中的web框架模块，支持以Reactive Stream的方式进行网络编程。<br>WebFlux = Non-Blocking I/O + 函数式编程<br>什么是Reactive？<br>从网络角度的Reactive的角度就是 IO 事件驱动的设计模式 + 非阻塞式的编程（NonBlocking back pressure）</p>
+<p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-framework-choice" target="_blank" rel="noopener">Spring WebFlux framework choice</a></p>
+<h4 id="异步在JavaEE标准的演进"><a href="#异步在JavaEE标准的演进" class="headerlink" title="异步在JavaEE标准的演进"></a>异步在JavaEE标准的演进</h4><ul>
+<li>Servlet 3.0 之前版本： 仅支持同步处理请求，并且只支持Blocking IO</li>
+<li>Servlet 3.0 版本 ： 支持异步处理请求，但是只支持Blocking IO</li>
+<li>Servlet 3.1、4.0 版本 ： 支持异步处理请求，同时支持NoBlocking IO</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Java_servlet#History" target="_blank" rel="noopener">Wikipedia - Java Servlet</a></p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><h4 id="各种-CGI-是什么，他们与servlet又有什么关系"><a href="#各种-CGI-是什么，他们与servlet又有什么关系" class="headerlink" title="各种 CGI 是什么，他们与servlet又有什么关系"></a>各种 CGI 是什么，他们与servlet又有什么关系</h4><p>CGI通俗的来理解就是web server 与服务器上处理请求的程序之间的统一接口标准<a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface" target="_blank" rel="noopener">Wikipedia - Common Gateway Interface</a>。  </p>
+<p>当然上面说的是一个统一接口集，到具体的实现上其实有很多种：  </p>
+<ul>
+<li><p>CGI - 基于PPC模式</p>
+</li>
+<li><p>FastCGI - 基于 Prefork 的PPC模式</p>
+</li>
+</ul>
+<p>后来Python在抛弃了语言的通用性基础上提出了</p>
+<ul>
+<li>WSGI - web server与Python语言实现的应用服务标准</li>
+</ul>
+<p>标准和协议的内容由<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">PEP-3333</a>规定。</p>
+<p>当然随着Python提出自己的标准，其他语言也陆续提出类似的标准<a href="https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface#See_also" target="_blank" rel="noopener">Wikipedia - WSGI - see also</a></p>
+<p>当然Java EE 也有规定自己的接口标准，这个标准在JavaEE一系列标准中叫servlet，当然servlet是基于线程建立的连接模型。</p>
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><p>// TODO</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://book.douban.com/subject/4859464/" target="_blank" rel="noopener">UNIX网络编程 卷1：套接字联网API</a></p>
+<p><a href="https://notes.shichao.io/unp/ch6/" target="_blank" rel="noopener">Shichao’s Notes - Unix Network Programming</a></p>
+<p><a href="https://www.slideshare.net/e456/tyma-paulmultithreaded1" target="_blank" rel="noopener">Thousands of Threads and Blocking I/O</a></p>
+<p><a href="https://stackoverflow.com/questions/39802643/java-async-in-servlet-3-0-vs-nio-in-servlet-3-1" target="_blank" rel="noopener">Java servlet async</a></p>
+<p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html" target="_blank" rel="noopener">Spring Framework - Web on Reactive Stack</a></p>
+<p><a href="https://javaee.github.io/tutorial/servlets013.html#sthref109" target="_blank" rel="noopener">Java EE - Servlet Nonblocking I/O sample</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/System-Design/">System Design</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/a613e087/" data-title="系统设计 - 异步I/O模型及异步编程 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/b84c17e2/" title="研发效能实用贴士 - Vim篇">
+  <strong>上一篇：</strong><br/>
+  <span>
+  研发效能实用贴士 - Vim篇</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/f525d2ef/"  title="二分查找问题及对应解决思路">
+ <strong>下一篇：</strong><br/> 
+ <span>二分查找问题及对应解决思路
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-模型"><span class="toc-number">1.</span> <span class="toc-text">I/O 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞I-O（blocking-I-O）"><span class="toc-number">1.1.</span> <span class="toc-text">阻塞I/O（blocking I/O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非阻塞I-O（Non-blocking-I-O）"><span class="toc-number">1.2.</span> <span class="toc-text">非阻塞I/O（Non-blocking I/O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O-复用（select-poll）"><span class="toc-number">1.3.</span> <span class="toc-text">I/O 复用（select poll）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信号驱动的I-O（SIGIO）"><span class="toc-number">1.4.</span> <span class="toc-text">信号驱动的I/O（SIGIO）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异步I-O（POSIX-的aio-系列函数）"><span class="toc-number">1.5.</span> <span class="toc-text">异步I/O（POSIX 的aio_系列函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五种I-O模型的对比"><span class="toc-number">1.6.</span> <span class="toc-text">五种I/O模型的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用生活中的例子来类比这个I-O模型"><span class="toc-number">1.7.</span> <span class="toc-text">用生活中的例子来类比这个I/O模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步编程在各个技术生态的发展"><span class="toc-number">2.</span> <span class="toc-text">异步编程在各个技术生态的发展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-stack"><span class="toc-number">2.1.</span> <span class="toc-text">Java stack</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几个容易搞混淆的技术"><span class="toc-number">2.1.1.</span> <span class="toc-text">几个容易搞混淆的技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异步在JavaEE标准的演进"><span class="toc-number">2.1.2.</span> <span class="toc-text">异步在JavaEE标准的演进</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">2.2.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#各种-CGI-是什么，他们与servlet又有什么关系"><span class="toc-number">2.2.1.</span> <span class="toc-text">各种 CGI 是什么，他们与servlet又有什么关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go"><span class="toc-number">2.3.</span> <span class="toc-text">Go</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2020
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+  </body>
+</html>
+
