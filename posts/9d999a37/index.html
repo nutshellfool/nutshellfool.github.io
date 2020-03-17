@@ -21,7 +21,8 @@
 <meta property="og:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
-<meta property="og:updated_time" content="2020-02-04T08:35:48.393Z">
+<meta property="og:image" content="https://image.ai-byte.com/tcp.fr_.jpg">
+<meta property="og:updated_time" content="2020-03-17T05:56:07.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="五边飞行与网络拥塞控制">
 <meta name="twitter:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
@@ -140,7 +141,10 @@
 </tr>
 </tbody>
 </table>
-<p>依次类推，如果带宽值为m的话，经过$log_2^m$次RTT后就可以占满了带宽（类似的算法在动态数组的内存分配上也可以找到影子）。<br>所以说在你家网速慢的时候没必要狂点刷新，慢启动算法保证了不会因为的刷新频率而获得更高的带宽。  </p>
+<p>下图中第一段ssthresh（Slow Start threshhold ）之前的部分就是慢启动算法的过程。</p>
+<p><img src="https://image.ai-byte.com/tcp.fr_.jpg" alt="TCP 慢启动算法"></p>
+<p>图片来源酷壳 <a href="https://coolshell.cn/articles/11609.html" target="_blank" rel="noopener">TCP 的那些事儿（下）</a></p>
+<p>依次类推，如果带宽值为m的话，经过 $log_2^m$ 次RTT后就可以占满了带宽（类似的算法在动态数组的内存分配上也可以找到影子）。<br>所以说在你家网速慢的时候没必要狂点刷新，慢启动算法保证了不会因为的刷新频率而获得更高的带宽。  </p>
 <h2 id="产品经理与研发工程师"><a href="#产品经理与研发工程师" class="headerlink" title="产品经理与研发工程师"></a>产品经理与研发工程师</h2><p>在保护紧缺资源的点上，技术管理所使用的原则其实和上面的本质是相同的。<br>都说技术部门的研发和产品是相爱相杀的关系（哈哈。。。。。。）<br>如果产品经理与研发工程师的比例高于合理的比例会怎样？<br>产品设计好了，没有人实现，尴尬。<br>如果研发工程师与产品经理的比例高于合理的比例会怎样？<br>研发资源大量闲置，产品经理被各种挑战，大老板、市场部、运营部。  </p>
 <p>我们来分析下上面这两种情况，以及对应的措施。<br>对于第一种情况，就需要建立标准很高的需求评审机制，让真正的重要需求实现，这里可以要求需求的粒度，需求的完备度都要达到高的标准才能交到研发的手中。<br>对于第二种情况，允许粗粒度的需求交付研发，但是需要与研发在细节上充分沟通。<br>看到了么？这其实是对不同情况下的稀缺资源做的必要保护。核心就一个推动产品向健康的方向发展，毕竟“想”和“做”是不可分割的，产品经理和研发工程师这两个角色离开了谁都搞不成事，就酱。</p>
   
