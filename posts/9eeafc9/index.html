@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  
+    <title>Pythonic 与相关类库使用方法 | 李瑞的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Pythonic,NumPy,Pandas,Data science">
+    
+    <meta name="description" content="语法部分Byte 字节转换为 string1b&quot;hello world&quot;.decode(&quot;utf-8&quot;) 或者 1str(b&quot;hello world&quot;, &apos;utf-8&apos;) 数组初始化1list = [0] * len(base_list) 获取list的安全操作12345def get(self, index):    try:        return self.queue[index]">
+<meta name="keywords" content="Pythonic,NumPy,Pandas,Data science">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pythonic 与相关类库使用方法">
+<meta property="og:url" content="https://blogs.lirui.me/posts/9eeafc9/index.html">
+<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:description" content="语法部分Byte 字节转换为 string1b&quot;hello world&quot;.decode(&quot;utf-8&quot;) 或者 1str(b&quot;hello world&quot;, &apos;utf-8&apos;) 数组初始化1list = [0] * len(base_list) 获取list的安全操作12345def get(self, index):    try:        return self.queue[index]">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-08T01:33:56.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pythonic 与相关类库使用方法">
+<meta name="twitter:description" content="语法部分Byte 字节转换为 string1b&quot;hello world&quot;.decode(&quot;utf-8&quot;) 或者 1str(b&quot;hello world&quot;, &apos;utf-8&apos;) 数组初始化1list = [0] * len(base_list) 获取list的安全操作12345def get(self, index):    try:        return self.queue[index]">
+
+    
+    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/9eeafc9/" title="Pythonic 与相关类库使用方法" itemprop="url">Pythonic 与相关类库使用方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-01T01:29:04.000Z" itemprop="datePublished"> 发表于 2020-12-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法部分"><span class="toc-number">1.</span> <span class="toc-text">语法部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Byte-字节转换为-string"><span class="toc-number">1.1.</span> <span class="toc-text">Byte 字节转换为 string</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组初始化"><span class="toc-number">1.2.</span> <span class="toc-text">数组初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取list的安全操作"><span class="toc-number">1.3.</span> <span class="toc-text">获取list的安全操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历字符串的每个字符"><span class="toc-number">1.4.</span> <span class="toc-text">遍历字符串的每个字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三目表达式"><span class="toc-number">1.5.</span> <span class="toc-text">三目表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构"><span class="toc-number">2.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stack"><span class="toc-number">2.1.</span> <span class="toc-text">Stack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Queue"><span class="toc-number">2.2.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Theard-safe-Queue"><span class="toc-number">2.2.1.</span> <span class="toc-text">Theard safe Queue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#collections-deque"><span class="toc-number">2.2.2.</span> <span class="toc-text">collections.deque</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map-dictionary"><span class="toc-number">2.3.</span> <span class="toc-text">Map (dictionary)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashmap"><span class="toc-number">2.4.</span> <span class="toc-text">LinkedHashmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PriorityQueue-Heap"><span class="toc-number">2.5.</span> <span class="toc-text">PriorityQueue (Heap)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类库"><span class="toc-number">3.</span> <span class="toc-text">类库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Numpy"><span class="toc-number">3.1.</span> <span class="toc-text">Numpy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ndarray-N-dimensional-array-object"><span class="toc-number">3.1.1.</span> <span class="toc-text">ndarray(N-dimensional array object)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#创建数组"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">创建数组</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#构建数组"><span class="toc-number">3.1.1.2.</span> <span class="toc-text">构建数组</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ufunc-universal-function-object"><span class="toc-number">3.1.2.</span> <span class="toc-text">ufunc(universal function object)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#连续数组的创建"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">连续数组的创建</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#数组运算"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">数组运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#统计函数"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">统计函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#数组、矩阵-最大值-amax-最小值-amin"><span class="toc-number">3.1.2.3.1.</span> <span class="toc-text">数组、矩阵 最大值 amax 最小值 amin</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#最大值与最小值之差ptp"><span class="toc-number">3.1.2.3.2.</span> <span class="toc-text">最大值与最小值之差ptp</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#百分位数-percentile"><span class="toc-number">3.1.2.3.3.</span> <span class="toc-text">百分位数 percentile</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#加权平均值-average"><span class="toc-number">3.1.2.3.4.</span> <span class="toc-text">加权平均值 average</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#统计标准差std、方差var"><span class="toc-number">3.1.2.3.5.</span> <span class="toc-text">统计标准差std、方差var</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#排序sort"><span class="toc-number">3.1.3.</span> <span class="toc-text">排序sort</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Panda"><span class="toc-number">3.2.</span> <span class="toc-text">Panda</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">4.</span> <span class="toc-text">References</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="语法部分"><a href="#语法部分" class="headerlink" title="语法部分"></a>语法部分</h2><h3 id="Byte-字节转换为-string"><a href="#Byte-字节转换为-string" class="headerlink" title="Byte 字节转换为 string"></a>Byte 字节转换为 string</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">b"hello world"</span>.decode(<span class="string">"utf-8"</span>)</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str(<span class="string">b"hello world"</span>, <span class="string">'utf-8'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="数组初始化"><a href="#数组初始化" class="headerlink" title="数组初始化"></a>数组初始化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list = [<span class="number">0</span>] * len(base_list)</span><br></pre></td></tr></table></figure>
+<h3 id="获取list的安全操作"><a href="#获取list的安全操作" class="headerlink" title="获取list的安全操作"></a>获取list的安全操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, index)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> self.queue[index]</span><br><span class="line">    <span class="keyword">except</span> IndexError:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<p>或者是自定义一个默认返回值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, index, default)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> self.queue[index]</span><br><span class="line">    <span class="keyword">except</span> IndexError:</span><br><span class="line">        <span class="keyword">return</span> default</span><br></pre></td></tr></table></figure>
+<h3 id="遍历字符串的每个字符"><a href="#遍历字符串的每个字符" class="headerlink" title="遍历字符串的每个字符"></a>遍历字符串的每个字符</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(str)):</span><br><span class="line">    print(str[i])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, v <span class="keyword">in</span> enumerate(str):</span><br><span class="line">    print(v)</span><br></pre></td></tr></table></figure>
+<h3 id="三目表达式"><a href="#三目表达式" class="headerlink" title="三目表达式"></a>三目表达式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># condition ? rt_value : rt_value_else</span></span><br><span class="line">rt_value <span class="keyword">if</span> condition <span class="keyword">else</span> rt_value_else</span><br></pre></td></tr></table></figure>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line">stack = deque()</span><br><span class="line"></span><br><span class="line"><span class="comment"># stack push</span></span><br><span class="line">stack.append(<span class="number">1</span>)</span><br><span class="line">stack.append(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># stack pop</span></span><br><span class="line">stack.pop()</span><br><span class="line"><span class="comment"># output 2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><h4 id="Theard-safe-Queue"><a href="#Theard-safe-Queue" class="headerlink" title="Theard safe Queue"></a>Theard safe Queue</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">queue = Queue()</span><br><span class="line"><span class="comment"># enqueue</span></span><br><span class="line">queue.put(<span class="number">1</span>)</span><br><span class="line">queue.put(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># dequeue</span></span><br><span class="line">queue.get()</span><br><span class="line"><span class="comment"># output 1</span></span><br></pre></td></tr></table></figure>
+<h4 id="collections-deque"><a href="#collections-deque" class="headerlink" title="collections.deque"></a>collections.deque</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line">queue = deque()</span><br><span class="line"></span><br><span class="line"><span class="comment"># enqueue to tail</span></span><br><span class="line">queue.append(<span class="number">1</span>)</span><br><span class="line">queue.append(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># dequeue from top</span></span><br><span class="line">queue.popleft()</span><br><span class="line"><span class="comment"># output 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># enqueue to top</span></span><br><span class="line">queue.appendleft(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># dequeue from tail</span></span><br><span class="line">queue.pop()</span><br><span class="line"><span class="comment"># output 2</span></span><br></pre></td></tr></table></figure>
+<p>left 是队列的head 部分， right是队列的tail位置</p>
+<h3 id="Map-dictionary"><a href="#Map-dictionary" class="headerlink" title="Map (dictionary)"></a>Map (dictionary)</h3><ul>
+<li>Get / Set</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map = dic()</span><br><span class="line">map.get(key, default_value)</span><br><span class="line">map[key] = value</span><br></pre></td></tr></table></figure>
+<ul>
+<li>foreach loop</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> local_map.item():</span><br><span class="line">    print(<span class="string">"key : &#123;0&#125;, value: &#123;1&#125;"</span>.format( key, value))</span><br></pre></td></tr></table></figure>
+<h3 id="LinkedHashmap"><a href="#LinkedHashmap" class="headerlink" title="LinkedHashmap"></a>LinkedHashmap</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"></span><br><span class="line">linkedHashMap = OrderedDict()</span><br><span class="line">linkedHashMap[key] = value</span><br></pre></td></tr></table></figure>
+<h3 id="PriorityQueue-Heap"><a href="#PriorityQueue-Heap" class="headerlink" title="PriorityQueue (Heap)"></a>PriorityQueue (Heap)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>：</span><br><span class="line">    <span class="keyword">from</span> Queue <span class="keyword">import</span> PriorityQueue <span class="comment"># version &lt; 3.0</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="keyword">from</span> queue <span class="keyword">import</span> PriorityQueue</span><br><span class="line"></span><br><span class="line">pq = PriorityQueue()</span><br></pre></td></tr></table></figure>
+<p>入队：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pq.push((weight, value))</span><br></pre></td></tr></table></figure>
+<p>按weight出队：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pq.get()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>为什么Python的PriorityQueue不支持 remove 操作?</li>
+<li>为什么Python的priorityQueue peek 操作是什么？</li>
+</ul>
+<p>动手解决这个问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">from</span> Queue <span class="keyword">import</span> PriorityQueue  <span class="comment"># Version &lt; 3.0</span></span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">    <span class="keyword">from</span> queue <span class="keyword">import</span> PriorityQueue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PriorityQueueX</span><span class="params">(PriorityQueue)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">peek</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> self.queue[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">except</span> IndexError:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove</span><span class="params">(self, element)</span>:</span></span><br><span class="line">        self.queue.remove(element)</span><br><span class="line">        heapq.heapify(self.queue)</span><br></pre></td></tr></table></figure>
+<h2 id="类库"><a href="#类库" class="headerlink" title="类库"></a>类库</h2><h3 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h3><h4 id="ndarray-N-dimensional-array-object"><a href="#ndarray-N-dimensional-array-object" class="headerlink" title="ndarray(N-dimensional array object)"></a>ndarray(N-dimensional array object)</h4><p>为什么使用NumPy的数组结构而不使用Python内建List呢？<br>因为内建List的元素在系统内存中是分散存储的，而NumPy数组是存储在均匀连续的内存中的。</p>
+<h5 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">b = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line"></span><br><span class="line">b[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">6</span></span><br><span class="line"></span><br><span class="line">print(a.shape)</span><br><span class="line">print(b.shape)</span><br><span class="line"></span><br><span class="line">print(a.dtype)</span><br><span class="line">print(b.dtype)</span><br><span class="line"></span><br><span class="line">print(b)</span><br></pre></td></tr></table></figure>
+<h5 id="构建数组"><a href="#构建数组" class="headerlink" title="构建数组"></a>构建数组</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">person_type = np.dtype(&#123;</span><br><span class="line">    <span class="string">'names'</span>:[<span class="string">'name'</span>, <span class="string">'chinese'</span>, <span class="string">'english'</span>, <span class="string">'mathematics'</span>],</span><br><span class="line">    <span class="string">'formats'</span>:[<span class="string">'s32'</span>, <span class="string">'i'</span>, <span class="string">'i'</span>, <span class="string">'i'</span>]</span><br><span class="line">&#125;)</span><br><span class="line">peoples = np.array(</span><br><span class="line">    [(<span class="string">"zhangfei"</span>, <span class="number">66</span>, <span class="number">65</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="string">"guanyu"</span>, <span class="number">95</span>, <span class="number">85</span>, <span class="number">98</span>),</span><br><span class="line">    (<span class="string">"zhaoyun"</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">96</span>),</span><br><span class="line">    (<span class="string">"huangzhong"</span>, <span class="number">90</span>, <span class="number">88</span>, <span class="number">77</span>),</span><br><span class="line">    (<span class="string">"dianwei"</span>, <span class="number">80</span>, <span class="number">90</span>, <span class="number">90</span>)</span><br><span class="line">    ],</span><br><span class="line">    dtype = person_type</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">chinese = peoples[:][<span class="string">'chinese'</span>]</span><br><span class="line">english = peoples[:][<span class="string">'english'</span>]</span><br><span class="line">math = peoples[:][<span class="string">'mathematics'</span>]</span><br><span class="line"></span><br><span class="line">print(np.mean(chinese))</span><br><span class="line">print(np.mean(english))</span><br><span class="line">print(np.mean(math))</span><br></pre></td></tr></table></figure>
+<h4 id="ufunc-universal-function-object"><a href="#ufunc-universal-function-object" class="headerlink" title="ufunc(universal function object)"></a>ufunc(universal function object)</h4><h5 id="连续数组的创建"><a href="#连续数组的创建" class="headerlink" title="连续数组的创建"></a>连续数组的创建</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array_range = np.arange(<span class="number">1</span>, <span class="number">11</span>, <span class="number">2</span>)</span><br><span class="line">array_linear = np.linspace(<span class="number">1</span>, <span class="number">9</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">print(array_range)</span><br><span class="line">print(array_linear)</span><br></pre></td></tr></table></figure>
+<h5 id="数组运算"><a href="#数组运算" class="headerlink" title="数组运算"></a>数组运算</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">array_range = np.arange(<span class="number">1</span>, <span class="number">11</span>, <span class="number">2</span>)</span><br><span class="line">array_linear = np.linspace(<span class="number">1</span>, <span class="number">9</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">print(np.add(array_range, array_linear))</span><br><span class="line">print(np.subtract(array_range, array_linear))</span><br><span class="line">print(np.multiply(array_range, array_linear))</span><br><span class="line">print(np.divide(array_range, array_linear))</span><br><span class="line">print(np.power(array_range, array_linear))</span><br><span class="line"><span class="comment"># array_range % array_linear</span></span><br><span class="line">print(np.reminder(array_range, array_linear))</span><br><span class="line">print(np.mod(array_range, array_linear))</span><br></pre></td></tr></table></figure>
+<h5 id="统计函数"><a href="#统计函数" class="headerlink" title="统计函数"></a>统计函数</h5><h6 id="数组、矩阵-最大值-amax-最小值-amin"><a href="#数组、矩阵-最大值-amax-最小值-amin" class="headerlink" title="数组、矩阵 最大值 amax 最小值 amin"></a>数组、矩阵 最大值 amax 最小值 amin</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">matrix = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line"></span><br><span class="line">print(np.amin(matrix))</span><br><span class="line"><span class="comment"># columns based</span></span><br><span class="line">print(np.amin(matrix, <span class="number">0</span>))</span><br><span class="line"><span class="comment"># row based</span></span><br><span class="line">print(np.amin(matrix, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">print(np.amax(matrix))</span><br><span class="line">print(np.amax(matrix, <span class="number">0</span>))</span><br><span class="line">print(np.amax(matrix, <span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+<h6 id="最大值与最小值之差ptp"><a href="#最大值与最小值之差ptp" class="headerlink" title="最大值与最小值之差ptp"></a>最大值与最小值之差ptp</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">matrix = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line">print(np.ptp(matrix))</span><br><span class="line">print(np.ptp(matrix, axis=<span class="number">0</span>))</span><br><span class="line">print(np.ptp(matrix, axis=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<h6 id="百分位数-percentile"><a href="#百分位数-percentile" class="headerlink" title="百分位数 percentile"></a>百分位数 percentile</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">matrix = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line"></span><br><span class="line">print(np.percentile(matrix, <span class="number">50</span>))</span><br><span class="line">print(np.percentile(matrix, <span class="number">50</span>, axis=<span class="number">0</span>))</span><br><span class="line">print(np.percentile(matrix, <span class="number">50</span>, axis=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>特别的对于50percentile数也就是 median中位数可以使用median, 对于平均数可以使用mean</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">matrix = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line"></span><br><span class="line">print(np.median(matrix))</span><br><span class="line">print(np.median(matrix, axis=<span class="number">0</span>))</span><br><span class="line">print(np.median(matrix, axis=<span class="number">1</span>))</span><br><span class="line">print(np.mean(matrix))</span><br><span class="line">print(np.mean(matrix, axis=<span class="number">0</span>))</span><br><span class="line">print(np.mean(matrix, axis=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<h6 id="加权平均值-average"><a href="#加权平均值-average" class="headerlink" title="加权平均值 average"></a>加权平均值 average</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">weight_array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">print(np.average(array))</span><br><span class="line">print(np.average(array, weights=weight_array))</span><br></pre></td></tr></table></figure>
+<h6 id="统计标准差std、方差var"><a href="#统计标准差std、方差var" class="headerlink" title="统计标准差std、方差var"></a>统计标准差std、方差var</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">print(np.std(array))</span><br><span class="line">print(np.var(array))</span><br></pre></td></tr></table></figure>
+<h4 id="排序sort"><a href="#排序sort" class="headerlink" title="排序sort"></a>排序sort</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">array_2d = np.array([[<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>],[<span class="number">2</span>, <span class="number">4</span>, <span class="number">1</span>]])</span><br><span class="line">print(np.sort(array_2d))</span><br><span class="line">print(<span class="string">"*"</span> * <span class="number">20</span>)</span><br><span class="line">print(np.sort(array_2d, axis=<span class="keyword">None</span>))</span><br><span class="line">print(<span class="string">"*"</span> * <span class="number">20</span>)</span><br><span class="line">print(np.sort(array_2d, axis=<span class="number">0</span>))</span><br><span class="line">print(<span class="string">"*"</span> * <span class="number">20</span>)</span><br><span class="line">print(np.sort(array_2d, axis=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>Jupyter Notebook 参见 <a href="https://github.com/nutshellfool/dataAnalysis/blob/master/notebooks/basic_numpy_usage.ipynb" target="_blank" rel="noopener">Github - dataAnalysis - basic_numpy_usage.ipynb</a></p>
+<h3 id="Panda"><a href="#Panda" class="headerlink" title="Panda"></a>Panda</h3><h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="https://medium.com/better-programming/collections-in-python-d8954b006bb7" target="_blank" rel="noopener">Collections in Python</a></li>
+<li><a href="https://cs231n.github.io/python-numpy-tutorial/#numpy" target="_blank" rel="noopener">Python Numpy Tutorial</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Programming-Languages/">Programming Languages</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/9eeafc9/" data-title="Pythonic 与相关类库使用方法 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/posts/63f58b56/"  title="如何设计一个短网址服务">
+ <strong>下一篇：</strong><br/> 
+ <span>如何设计一个短网址服务
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法部分"><span class="toc-number">1.</span> <span class="toc-text">语法部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Byte-字节转换为-string"><span class="toc-number">1.1.</span> <span class="toc-text">Byte 字节转换为 string</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组初始化"><span class="toc-number">1.2.</span> <span class="toc-text">数组初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取list的安全操作"><span class="toc-number">1.3.</span> <span class="toc-text">获取list的安全操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历字符串的每个字符"><span class="toc-number">1.4.</span> <span class="toc-text">遍历字符串的每个字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三目表达式"><span class="toc-number">1.5.</span> <span class="toc-text">三目表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构"><span class="toc-number">2.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stack"><span class="toc-number">2.1.</span> <span class="toc-text">Stack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Queue"><span class="toc-number">2.2.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Theard-safe-Queue"><span class="toc-number">2.2.1.</span> <span class="toc-text">Theard safe Queue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#collections-deque"><span class="toc-number">2.2.2.</span> <span class="toc-text">collections.deque</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map-dictionary"><span class="toc-number">2.3.</span> <span class="toc-text">Map (dictionary)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashmap"><span class="toc-number">2.4.</span> <span class="toc-text">LinkedHashmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PriorityQueue-Heap"><span class="toc-number">2.5.</span> <span class="toc-text">PriorityQueue (Heap)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类库"><span class="toc-number">3.</span> <span class="toc-text">类库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Numpy"><span class="toc-number">3.1.</span> <span class="toc-text">Numpy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ndarray-N-dimensional-array-object"><span class="toc-number">3.1.1.</span> <span class="toc-text">ndarray(N-dimensional array object)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#创建数组"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">创建数组</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#构建数组"><span class="toc-number">3.1.1.2.</span> <span class="toc-text">构建数组</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ufunc-universal-function-object"><span class="toc-number">3.1.2.</span> <span class="toc-text">ufunc(universal function object)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#连续数组的创建"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">连续数组的创建</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#数组运算"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">数组运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#统计函数"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">统计函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#数组、矩阵-最大值-amax-最小值-amin"><span class="toc-number">3.1.2.3.1.</span> <span class="toc-text">数组、矩阵 最大值 amax 最小值 amin</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#最大值与最小值之差ptp"><span class="toc-number">3.1.2.3.2.</span> <span class="toc-text">最大值与最小值之差ptp</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#百分位数-percentile"><span class="toc-number">3.1.2.3.3.</span> <span class="toc-text">百分位数 percentile</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#加权平均值-average"><span class="toc-number">3.1.2.3.4.</span> <span class="toc-text">加权平均值 average</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#统计标准差std、方差var"><span class="toc-number">3.1.2.3.5.</span> <span class="toc-text">统计标准差std、方差var</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#排序sort"><span class="toc-number">3.1.3.</span> <span class="toc-text">排序sort</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Panda"><span class="toc-number">3.2.</span> <span class="toc-text">Panda</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">4.</span> <span class="toc-text">References</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2020
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+  </body>
+</html>
+
