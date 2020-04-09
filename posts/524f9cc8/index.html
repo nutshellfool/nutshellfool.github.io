@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l /var/www/vhosts/xxx.examp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-05T08:11:26.590Z">
+<meta property="og:updated_time" content="2020-04-09T04:05:48.286Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx必知必会使用方法备忘录">
 <meta name="twitter:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l /var/www/vhosts/xxx.examp">
@@ -229,6 +229,8 @@
 <ul>
 <li>安装</li>
 </ul>
+<p>需要在root用户下安装，免去后续关于renew 权限的问题</p>
+<p><code>sudo su</code></p>
 <p><code>curl https://get.acme.sh | sh</code></p>
 <p>安装成功后关闭并重启当前命令行，使配置生效。</p>
 <ul>
@@ -236,6 +238,8 @@
 </ul>
 <p>当然申请证书之前需要有一个有完全访问权限的web server，以及正确域名指向、运行的http网站。  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue <span class="_">-d</span> example.com \</span><br><span class="line"> -w /path/to/vhosts/root \</span><br><span class="line"> <span class="_">-d</span> www.eample.com \</span><br><span class="line">--nginx /path/to/nginx/conf/sites-available/example.com.conf</span><br></pre></td></tr></table></figure>
+<p>当然也可以使用DNS模式(以阿里云为例)进行</p>
+<p><a href="https://github.com/acmesh-official/acme.sh/wiki/dnsapi#11-use-aliyun-domain-api-to-automatically-issue-cert" target="_blank" rel="noopener">acme - aliyun domain API</a></p>
 <ul>
 <li>配置安装证书</li>
 </ul>
