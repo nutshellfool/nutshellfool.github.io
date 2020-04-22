@@ -3,6 +3,42 @@
 
 
     
+  <url>
+    <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
+    <lastmod>2020-04-22T01:30:32.831Z</lastmod>
+    <data>
+        <display>
+        <title>LaTeX简明教程</title>
+        <pubTime>2020-01-15T13:57:20.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://blogs.lirui.me/posts/94519b49/</loc>
+    <lastmod>2020-04-22T01:28:11.262Z</lastmod>
+    <data>
+        <display>
+        <title>在Mac上编写支持markdown LaTex 的文档</title>
+        <pubTime>2017-03-22T04:31:20.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>https://blogs.lirui.me/posts/99c02a1d/</loc>
@@ -88,24 +124,6 @@
            
              
               <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
-    <lastmod>2020-03-26T02:16:57.311Z</lastmod>
-    <data>
-        <display>
-        <title>LaTeX简明教程</title>
-        <pubTime>2020-01-15T13:57:20.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
           
         </display>
     </data>
@@ -359,24 +377,6 @@
            
              
               <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/94519b49/</loc>
-    <lastmod>2020-02-05T08:16:43.991Z</lastmod>
-    <data>
-        <display>
-        <title>在Mac上编写支持markdown LaTex 的文档</title>
-        <pubTime>2017-03-22T04:31:20.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Efficiency" url="https://blogs.lirui.me/categories/Efficiency/"/>
           
         </display>
     </data>
