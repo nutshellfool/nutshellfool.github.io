@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l /var/www/vhosts/xxx.examp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-09T04:05:48.286Z">
+<meta property="og:updated_time" content="2020-04-22T14:57:59.515Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx必知必会使用方法备忘录">
 <meta name="twitter:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l /var/www/vhosts/xxx.examp">
@@ -227,6 +227,13 @@
 <li>设置定时任务自动更新证书有效期</li>
 </ul>
 <p><code>crontab -e</code><br><code>0 0,12 * * * python -c &#39;import random; import time; time.sleep(random.random() * 3600)&#39; &amp;&amp; certbot renew</code></p>
+<ul>
+<li><p>验证renew操作<br><code>certbot renew --dry-run</code></p>
+</li>
+<li><p>删除现有配置，重新生成证书</p>
+</li>
+</ul>
+<p><code>certbot revoke --cert-path /etc/letsencrypt/live/CERTNAME/cert.pem</code><br>然后将配置文件恢复回certbot修改之前的版本，重新重复上面的配置证书步骤即可</p>
 <h4 id="其他ACME客户端"><a href="#其他ACME客户端" class="headerlink" title="其他ACME客户端"></a>其他ACME客户端</h4><p>官方文档<a href="https://letsencrypt.org/zh-cn/docs/client-options/" target="_blank" rel="noopener">ACME 客户端</a><br>这里选择的是BASH实现的<a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh</a></p>
 <ul>
 <li>安装</li>

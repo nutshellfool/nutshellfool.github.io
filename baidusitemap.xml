@@ -4,6 +4,42 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/524f9cc8/</loc>
+    <lastmod>2020-04-22T14:57:59.515Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx必知必会使用方法备忘录</title>
+        <pubTime>2019-12-16T03:17:01.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://blogs.lirui.me/posts/b6c18b5d/</loc>
+    <lastmod>2020-04-22T03:25:57.509Z</lastmod>
+    <data>
+        <display>
+        <title>mac 开发环境设置备忘录</title>
+        <pubTime>2017-03-31T09:06:21.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/8e8be6ee/</loc>
     <lastmod>2020-04-22T01:30:32.831Z</lastmod>
     <data>
@@ -70,24 +106,6 @@
            
              
               <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Programming-Languages/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/524f9cc8/</loc>
-    <lastmod>2020-04-09T04:05:48.286Z</lastmod>
-    <data>
-        <display>
-        <title>Nginx必知必会使用方法备忘录</title>
-        <pubTime>2019-12-16T03:17:01.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
           
         </display>
     </data>
@@ -372,24 +390,6 @@
         <display>
         <title>Dockerfile 书写方法（cookbook）</title>
         <pubTime>2017-05-29T13:01:23.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/b6c18b5d/</loc>
-    <lastmod>2020-02-05T08:14:46.943Z</lastmod>
-    <data>
-        <display>
-        <title>mac 开发环境设置备忘录</title>
-        <pubTime>2017-03-31T09:06:21.000Z</pubTime>
         
          
            
