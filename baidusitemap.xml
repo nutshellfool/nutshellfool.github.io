@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/2e474ec1/</loc>
+    <lastmod>2020-05-03T08:29:18.883Z</lastmod>
+    <data>
+        <display>
+        <title>部署一个标准Python（Flask）应用的备忘录</title>
+        <pubTime>2017-10-31T11:03:12.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/40a135a6/</loc>
     <lastmod>2020-05-03T01:36:49.724Z</lastmod>
     <data>
@@ -431,24 +449,6 @@
            
              
               <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/2e474ec1/</loc>
-    <lastmod>2020-02-05T08:13:02.462Z</lastmod>
-    <data>
-        <display>
-        <title>部署一个标准Python（Flask）应用的备忘录</title>
-        <pubTime>2017-10-31T11:03:12.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
           
         </display>
     </data>
