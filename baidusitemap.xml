@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/71b19194/</loc>
+    <lastmod>2020-05-03T16:56:58.948Z</lastmod>
+    <data>
+        <display>
+        <title>动态规划（Dynamic Programming）问题及其求解</title>
+        <pubTime>2019-04-03T09:00:39.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/99c02a1d/</loc>
     <lastmod>2020-05-03T09:01:27.634Z</lastmod>
     <data>
@@ -891,24 +909,6 @@
         
          
            
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/71b19194/</loc>
-    <lastmod>2020-02-04T07:51:22.343Z</lastmod>
-    <data>
-        <display>
-        <title>动态规划（Dynamic Programming）问题及其求解</title>
-        <pubTime>2019-04-03T09:00:39.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
-          
         </display>
     </data>
     </url>

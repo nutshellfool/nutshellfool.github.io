@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="李瑞的博客">
 <meta property="og:description" content="动态规划(Dynamic Programming 简称 DP)是一类优化问题的总称，单从名称上来看，其实这里的programming并不是程序编程的意思，至于为什么要叫这个名字，只能说是算法界的一个历史原因，详情请查看Why is dynamic programming called dynamic programming?。   什么样的问题适合用DP来解决DP的确是和一般算法和递归问题有特殊的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-04T07:51:22.343Z">
+<meta property="og:updated_time" content="2020-05-03T16:56:58.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动态规划（Dynamic Programming）问题及其求解">
 <meta name="twitter:description" content="动态规划(Dynamic Programming 简称 DP)是一类优化问题的总称，单从名称上来看，其实这里的programming并不是程序编程的意思，至于为什么要叫这个名字，只能说是算法界的一个历史原因，详情请查看Why is dynamic programming called dynamic programming?。   什么样的问题适合用DP来解决DP的确是和一般算法和递归问题有特殊的">
@@ -171,7 +171,7 @@
 <p>本题还有一个follow up， 要求寻找时间复杂度为$O(nlog^n)$的算法， 这个算法虽然存在，但跳出了DP的解题范围， 所以暂时就留一个TODO 作为题目完整性的补充（之后再来填坑）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Algorithm with time complexity O(nlog^n)</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <h2 id="编辑距离（Edit-Distance-Levinstein-Distance）"><a href="#编辑距离（Edit-Distance-Levinstein-Distance）" class="headerlink" title="编辑距离（Edit Distance/Levinstein Distance）"></a>编辑距离（Edit Distance/Levinstein Distance）</h2><p><a href="https://leetcode.com/problems/edit-distance/" target="_blank" rel="noopener">Edit Distance</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(String word1, String word2)</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(String word1, String word2)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="买股票系列问题"><a href="#买股票系列问题" class="headerlink" title="买股票系列问题"></a>买股票系列问题</h2><h3 id="最简单的买股票时机问题"><a href="#最简单的买股票时机问题" class="headerlink" title="最简单的买股票时机问题"></a>最简单的买股票时机问题</h3><p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock</a><br>只允许交易一次（买入一次、卖出一次）的限制。  </p>
 <p>首先关于题目目前没有太多需要沟通的点，对于传入的参数做好必要的防御性编程就好。  </p>
 <p>首先看下所有可行解：  </p>
