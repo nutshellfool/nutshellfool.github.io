@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>如何设计一个二叉搜索树 | 李瑞的博客</title>
+    <title>如何设计一个二叉搜索树 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何设计一个二叉搜索树">
 <meta property="og:url" content="https://blogs.lirui.me/posts/10a77275/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="树，尤其是二叉搜索树(Binary Search Tree =&amp;gt; BST)是算法、数据结构领域重要的数据结构之一。那么既然BST这么重要，想要了解BST需要了解哪些方面呢？ 树是什么鬼树（tree）是一种由节点(nodes)和无环向量(edges without having any cycle)构成的数据结构（通常是非线性的）。一棵没有节点的树我们称为空树（Empty tree）更多树的细">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg">
@@ -28,7 +28,7 @@
 <meta name="twitter:image" content="https://ooo.0o0.ooo/2017/05/01/5906f205d0ff3.jpeg">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -46,7 +46,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -56,6 +56,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -173,7 +177,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/10a77275/" data-title="如何设计一个二叉搜索树 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/10a77275/" data-title="如何设计一个二叉搜索树 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -386,11 +390,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

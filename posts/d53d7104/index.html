@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>主定理（master theorem） | 李瑞的博客</title>
+    <title>主定理（master theorem） | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="主定理（master theorem）">
 <meta property="og:url" content="https://blogs.lirui.me/posts/d53d7104/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。   什么是主定理主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说   主定理的描述是这样的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T07:49:12.662Z">
@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="在前面讲到的Big-Oh算法复杂度分析的文章时，我曾经提到过主定理，既然主定理是奠定算法分析尤其是递归算法的理论基石，那么就有必要拿出来单独讲一讲，即使我们是属于拿来主义的工程派，理解使用工具的理论根据也是有益无害的吧？当然在最后我们会总结几个工程常用的分析算法复杂度的例子。   什么是主定理主定理来源于算法导论，是在第四章介绍分治法时适时引出的。wikipedia这样说   主定理的描述是这样的">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -44,7 +44,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -54,6 +54,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -128,7 +132,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/d53d7104/" data-title="主定理（master theorem） | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/d53d7104/" data-title="主定理（master theorem） | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -341,11 +345,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

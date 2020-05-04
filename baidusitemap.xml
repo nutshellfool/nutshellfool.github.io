@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/40a135a6/</loc>
+    <lastmod>2020-05-04T09:03:57.118Z</lastmod>
+    <data>
+        <display>
+        <title>编程语言学习精粹</title>
+        <pubTime>2020-04-30T05:34:26.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Programming-Languages/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/71b19194/</loc>
     <lastmod>2020-05-04T02:46:45.588Z</lastmod>
     <data>
@@ -51,24 +69,6 @@
            
              
               <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/40a135a6/</loc>
-    <lastmod>2020-05-03T01:36:49.724Z</lastmod>
-    <data>
-        <display>
-        <title>编程语言学习精粹</title>
-        <pubTime>2020-04-30T05:34:26.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Programming-Languages/"/>
           
         </display>
     </data>

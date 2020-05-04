@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>系统设计常见组件 - Cache 篇 | 李瑞的博客</title>
+    <title>系统设计常见组件 - Cache 篇 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="系统设计常见组件 - Cache 篇">
 <meta property="og:url" content="https://blogs.lirui.me/posts/34e83c5e/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://image.ai-byte.com/cache-aside.png">
@@ -29,7 +29,7 @@
 <meta name="twitter:image" content="https://image.ai-byte.com/cache-aside.png">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -47,7 +47,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -57,6 +57,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -223,7 +227,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/34e83c5e/" data-title="系统设计常见组件 - Cache 篇 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/34e83c5e/" data-title="系统设计常见组件 - Cache 篇 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -436,11 +440,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

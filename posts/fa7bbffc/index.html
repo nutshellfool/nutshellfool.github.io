@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>算法时间复杂度(Big-Oh) | 李瑞的博客</title>
+    <title>算法时间复杂度(Big-Oh) | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法时间复杂度(Big-Oh)">
 <meta property="og:url" content="https://blogs.lirui.me/posts/fa7bbffc/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="关于Big-Oh首先Big-Oh($O$)是用来描述一个函数的渐进行为的工具。关于Big-Oh的正式定义（数学定义）：wikipedia例子：　　$n^3+3n^2+2n+1 = O(n^3)$$0.000000001n^3+3n^2+2n+1)=O(n^3)$$nlog^n+n=O(nlog^n)$ 常见的Big-Oh类型 常数（Constant）$O(1)$ 对数（Logarithmic）$O">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://blogs.lirui.me/images/bigOh/dotted-border.gif">
@@ -29,7 +29,7 @@
 <meta name="twitter:image" content="https://blogs.lirui.me/images/bigOh/dotted-border.gif">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -47,7 +47,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -57,6 +57,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -284,7 +288,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/fa7bbffc/" data-title="算法时间复杂度(Big-Oh) | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/fa7bbffc/" data-title="算法时间复杂度(Big-Oh) | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -497,11 +501,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

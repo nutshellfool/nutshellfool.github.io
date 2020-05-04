@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>Flood fill算法及其应用 | 李瑞的博客</title>
+    <title>Flood fill算法及其应用 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flood fill算法及其应用">
 <meta property="og:url" content="https://blogs.lirui.me/posts/766d9901/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="Flood fill 是什么？算法里还有洪水？😄这里就不掉书袋了，直接搬wikipedia链接 Flood fill算法是从一个区域中提取若干个连通的点与其他相邻区域区分开（或分别染成不同颜色）的经典算法。因为其思路类似洪水从一个区域扩散到所有能到达的区域而得名。在GNU Go和扫雷中，Flood Fill算法被用来计算需要被清除的区域。 实际上Flood fill 在fill的方式上可选DFS">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-04T07:16:27.758Z">
@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Flood fill 是什么？算法里还有洪水？😄这里就不掉书袋了，直接搬wikipedia链接 Flood fill算法是从一个区域中提取若干个连通的点与其他相邻区域区分开（或分别染成不同颜色）的经典算法。因为其思路类似洪水从一个区域扩散到所有能到达的区域而得名。在GNU Go和扫雷中，Flood Fill算法被用来计算需要被清除的区域。 实际上Flood fill 在fill的方式上可选DFS">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -44,7 +44,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -54,6 +54,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -195,7 +199,7 @@ Output: [1, 3, 9]
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/766d9901/" data-title="Flood fill算法及其应用 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/766d9901/" data-title="Flood fill算法及其应用 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -408,11 +412,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

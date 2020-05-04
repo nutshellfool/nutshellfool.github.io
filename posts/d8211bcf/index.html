@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>也谈移动端（iOS、Android）内存管理 | 李瑞的博客</title>
+    <title>也谈移动端（iOS、Android）内存管理 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="也谈移动端（iOS、Android）内存管理">
 <meta property="og:url" content="https://blogs.lirui.me/posts/d8211bcf/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-05T07:23:55.338Z">
@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="每次谈到内存管理问题的时候，你是不是总感觉题主要开始装了？哈哈哈，我仰天长笑，今天这里既不讲理论、也不讲实践，就从代码讲起。 内存管理？为什么内存需要管理 作为一个资深无证工程师，混迹技术圈不靠几把硬刷子怎么走江湖？    这话虽然有些江湖气，但是话糙理不糙。 如果硬说这几把硬刷子都包括什么，内存管理一定是其中之一。相信你在写第一行代码的时候就被各种老鸟教育说注意内存，别写出爆内存的的程序。各个开">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -44,7 +44,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -54,6 +54,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -160,7 +164,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/d8211bcf/" data-title="也谈移动端（iOS、Android）内存管理 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/d8211bcf/" data-title="也谈移动端（iOS、Android）内存管理 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -373,11 +377,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

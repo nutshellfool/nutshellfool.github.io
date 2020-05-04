@@ -4,7 +4,7 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>Nginx必知必会使用方法备忘录 | 李瑞的博客</title>
+    <title>Nginx必知必会使用方法备忘录 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx必知必会使用方法备忘录">
 <meta property="og:url" content="https://blogs.lirui.me/posts/524f9cc8/index.html">
-<meta property="og:site_name" content="李瑞的博客">
+<meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l /var/www/vhosts/xxx.examp">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-04-22T14:57:59.515Z">
@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l /var/www/vhosts/xxx.examp">
 
     
-    <link rel="alternative" href="/atom.xml" title="李瑞的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -44,7 +44,7 @@
 <div>
 		
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="李瑞的博客">李瑞的博客</a></h1>
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -54,6 +54,10 @@
 					<ul>
 					 
 						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
 					
 						<li><a href="/archives">归档</a></li>
 					
@@ -283,7 +287,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/524f9cc8/" data-title="Nginx必知必会使用方法备忘录 | 李瑞的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/524f9cc8/" data-title="Nginx必知必会使用方法备忘录 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -496,11 +500,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 
