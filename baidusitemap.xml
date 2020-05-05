@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/d8211bcf/</loc>
+    <lastmod>2020-05-05T02:40:42.670Z</lastmod>
+    <data>
+        <display>
+        <title>也谈移动端（iOS、Android）内存管理</title>
+        <pubTime>2017-05-17T14:37:02.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
+          
+             
+              <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Algorithm/Programming-Languages/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/40a135a6/</loc>
     <lastmod>2020-05-05T02:18:24.476Z</lastmod>
     <data>
@@ -683,24 +704,6 @@
            
              
               <breadCrumb title="Network" url="https://blogs.lirui.me/categories/Network/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/d8211bcf/</loc>
-    <lastmod>2020-02-05T07:23:55.338Z</lastmod>
-    <data>
-        <display>
-        <title>也谈移动端（iOS、Android）内存管理</title>
-        <pubTime>2017-05-17T14:37:02.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
           
         </display>
     </data>
