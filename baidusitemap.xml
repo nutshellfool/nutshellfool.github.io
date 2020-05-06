@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/99c02a1d/</loc>
+    <lastmod>2020-05-06T04:38:26.866Z</lastmod>
+    <data>
+        <display>
+        <title>Pythonic 及相关高级语法特性</title>
+        <pubTime>2020-04-15T08:38:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Programming-Languages/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/40a135a6/</loc>
     <lastmod>2020-05-05T02:52:10.632Z</lastmod>
     <data>
@@ -51,24 +69,6 @@
            
              
               <breadCrumb title="Algorithm" url="https://blogs.lirui.me/categories/Algorithm/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/99c02a1d/</loc>
-    <lastmod>2020-05-03T09:01:27.634Z</lastmod>
-    <data>
-        <display>
-        <title>Pythonic 及相关高级语法特性</title>
-        <pubTime>2020-04-15T08:38:13.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Programming-Languages/"/>
           
         </display>
     </data>
