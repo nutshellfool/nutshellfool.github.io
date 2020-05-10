@@ -8,6 +8,13 @@
     </url>
 
     <url>
+        <loc>https://blogs.lirui.me/categories/Operations/</loc>
+        <lastmod>2020-05-09T06:38:41.501Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://blogs.lirui.me/categories/System-Design/</loc>
         <lastmod>2020-05-08T13:13:54.315Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -24,13 +31,6 @@
     <url>
         <loc>https://blogs.lirui.me/categories/Algorithm/</loc>
         <lastmod>2020-05-05T02:46:03.052Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blogs.lirui.me/categories/Operations/</loc>
-        <lastmod>2020-05-03T08:29:18.883Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
