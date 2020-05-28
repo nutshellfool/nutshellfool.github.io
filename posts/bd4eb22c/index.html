@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-27T08:38:58.768Z">
+<meta property="og:updated_time" content="2020-05-28T01:59:47.511Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置私有服务器(VPS)备忘录">
 <meta name="twitter:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
@@ -206,6 +206,19 @@
 <li><p>Git 服务器<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="noopener">配置链接</a><br>Git Hook 配置Git自动部署<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" target="_blank" rel="noopener">How To Set Up Automatic Deployment with Git with a VPS</a></p>
 </li>
 <li><p>jenkins</p>
+<ul>
+<li>使用Docker安装<br>选择<a href="https://hub.docker.com/r/jenkins/jenkins" target="_blank" rel="noopener">jenkins/jenkins</a>镜像，注意不是docker官方镜像（官方镜像版本较老，并且长时间未更新）</li>
+<li>获取镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull jenkins/jenkins</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建jenkins需要挂载的host volume目录，并赋予docker用户(uid = 1000)的访问权限<br><code>mkdir /path/to/jekins/home</code></li>
+<li>创建并启动jenkins容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 8080:8080 -p 50000:50000 -v /path/to/jekins/home:/var/jenkins_home --name=jenkins  jenkins/jenkins:lts</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在浏览器中对 <code>http://&lt;host_ip&gt;:8080</code> 或者 <code>http://&lt;jenkins_domain&gt;</code>（需要使用反向代理upstream 端口为8080的jenkins服务） 进行后续的jenkins设置</li>
+</ul>
 </li>
 <li><p>Ansible<br><a href="http://codeheaven.io/an-introduction-to-ansible/" target="_blank" rel="noopener">An Introduction to Ansible: Installing Jenkins on your server</a><br><a href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e" target="_blank" rel="noopener">Deployment with Ansible, Docker, Jenkins and Git</a><br><a href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins" target="_blank" rel="noopener">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
 </li>
