@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-09T12:09:12.331Z">
+<meta property="og:updated_time" content="2020-05-27T08:38:58.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置私有服务器(VPS)备忘录">
 <meta name="twitter:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
@@ -181,11 +181,32 @@
 <p>查看防火墙支持协议：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
 <ul>
-<li>Git 服务器<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="noopener">配置链接</a></li>
-</ul>
-<p>Git Hook 配置Git自动部署<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" target="_blank" rel="noopener">How To Set Up Automatic Deployment with Git with a VPS</a></p>
+<li><p>docker</p>
 <ul>
-<li>jenkins</li>
+<li>设置yum 仓库地址</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install -y yum-utils</span><br><span class="line"></span><br><span class="line">$ sudo yum-config-manager \</span><br><span class="line">  --add-repo \</span><br><span class="line">  https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装docker</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install docker</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置docker为linux service</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start docker</span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+<p>如果没有提示错误，应该就是已经成功安装，如果不是很放心可以使用下面命令检查服务状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status docker</span><br></pre></td></tr></table></figure>
+<ul>
+<li>运行一个helloworld</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+<p>成功运行容器会有下面的信息提示：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line">1. The Docker client contacted the Docker daemon.</span><br><span class="line">2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line">3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line">4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line">$ docker run -it ubuntu bash</span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line">https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line">https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Git 服务器<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps" target="_blank" rel="noopener">配置链接</a><br>Git Hook 配置Git自动部署<br><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" target="_blank" rel="noopener">How To Set Up Automatic Deployment with Git with a VPS</a></p>
+</li>
+<li><p>jenkins</p>
+</li>
 <li><p>Ansible<br><a href="http://codeheaven.io/an-introduction-to-ansible/" target="_blank" rel="noopener">An Introduction to Ansible: Installing Jenkins on your server</a><br><a href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e" target="_blank" rel="noopener">Deployment with Ansible, Docker, Jenkins and Git</a><br><a href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins" target="_blank" rel="noopener">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
 </li>
 <li><p>ApacheBench（ab）</p>

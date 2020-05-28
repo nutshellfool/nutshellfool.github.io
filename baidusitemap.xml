@@ -4,8 +4,26 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/bd4eb22c/</loc>
+    <lastmod>2020-05-27T08:38:58.768Z</lastmod>
+    <data>
+        <display>
+        <title>设置私有服务器(VPS)备忘录</title>
+        <pubTime>2018-01-04T06:37:38.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/99c02a1d/</loc>
-    <lastmod>2020-05-27T05:25:51.038Z</lastmod>
+    <lastmod>2020-05-27T05:29:42.085Z</lastmod>
     <data>
         <display>
         <title>Pythonic 及相关高级语法特性</title>
@@ -467,24 +485,6 @@
            
              
               <breadCrumb title="Reading Notes" url="https://blogs.lirui.me/categories/Reading-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/bd4eb22c/</loc>
-    <lastmod>2020-02-09T12:09:12.331Z</lastmod>
-    <data>
-        <display>
-        <title>设置私有服务器(VPS)备忘录</title>
-        <pubTime>2018-01-04T06:37:38.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
           
         </display>
     </data>
