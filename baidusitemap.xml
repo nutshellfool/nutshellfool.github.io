@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/afc2fadd/</loc>
+    <lastmod>2020-06-03T11:21:39.165Z</lastmod>
+    <data>
+        <display>
+        <title>系统设计常见组件 - 并发锁、分布式锁与无锁编程</title>
+        <pubTime>2019-12-30T11:15:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="System Design" url="https://blogs.lirui.me/categories/System-Design/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/1fe35790/</loc>
     <lastmod>2020-05-29T11:50:33.633Z</lastmod>
     <data>
