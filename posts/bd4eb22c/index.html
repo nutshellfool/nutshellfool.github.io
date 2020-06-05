@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="CombinatorX">
 <meta property="og:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-28T01:59:47.511Z">
+<meta property="og:updated_time" content="2020-06-05T05:54:34.435Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置私有服务器(VPS)备忘录">
 <meta name="twitter:description" content="Linux Distribution OSCentOS 7 必要的安全设置保持服务器系统更新自动更新安全更新 CentOS 使用 yum-cron 自动更新 Fedora 使用 dnf-automatic Debian Ubuntu 使用 unattended upgrade  添加访问受限的用户账号 创建用户 （以用户名 devop 为例， 可以替换成你想创建的用户名）  1useradd de">
@@ -219,6 +219,20 @@
 <ul>
 <li>在浏览器中对 <code>http://&lt;host_ip&gt;:8080</code> 或者 <code>http://&lt;jenkins_domain&gt;</code>（需要使用反向代理upstream 端口为8080的jenkins服务） 进行后续的jenkins设置</li>
 </ul>
+</li>
+<li><p>Redis docker 容器</p>
+<ul>
+<li>获取镜像 <a href="https://hub.docker.com/_/redis" target="_blank" rel="noopener">docker official image</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull redis</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建host本地持久化文件</li>
+</ul>
+<p><code>mkdir /path/to/redis/home</code><br><code>touch /path/to/redis/home/redis.conf</code></p>
+<ul>
+<li>创建并启动redis容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 6379:6379 -v /path/to/redis/home/:/usr/<span class="built_in">local</span>/etc/redis/ --name redis-latest redis redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Ansible<br><a href="http://codeheaven.io/an-introduction-to-ansible/" target="_blank" rel="noopener">An Introduction to Ansible: Installing Jenkins on your server</a><br><a href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e" target="_blank" rel="noopener">Deployment with Ansible, Docker, Jenkins and Git</a><br><a href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins" target="_blank" rel="noopener">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
 </li>
