@@ -4,29 +4,26 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
   
-    <title>去台湾前的准备工作1-证件、机票 | CombinatorX</title>
+    <title>Kafka docker安装及其使用 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
+    <meta name="keywords" content="Kafka docker,Kafka Python client">
     
-      <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
-    
-    <meta name="description" content="决定今年的五一假期去台湾环岛骑行，所以早早就开始了准备工作。当然准备工作包含两个关键部分：    赴台前的证件手续   往返机票    赴台前的证件手续先说说最麻烦的证件这一块吧，总的来说如果是普通的大陆居民（就像你我这样的普通天朝顺民）赴台前是需要三个证件：    大陆居民来往台湾通行证（以下简称大通证）   大陆居民前往台湾签注（以下简称签注）   中华民国台湾地区入出境许可证（入台证）">
-<meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    <meta name="description" content="Kafka docker 的安装和设置首先说下为什么会选择使用 docker （docker-compose） 的方式安装和使用 kafka, 其实就是希望使用方便，免去一大堆繁杂的配置，而且 docker/docker-compose 以及 k8s 的部署方式也是目前云原生环境下事实标准。   下面就是可选的镜像选择：    bitnami/kafka  wurstmeister/kafka">
+<meta name="keywords" content="Kafka docker,Kafka Python client">
 <meta property="og:type" content="article">
-<meta property="og:title" content="去台湾前的准备工作1-证件、机票">
-<meta property="og:url" content="https://blogs.lirui.me/posts/8fcdd486/index.html">
+<meta property="og:title" content="Kafka docker安装及其使用">
+<meta property="og:url" content="https://blogs.lirui.me/posts/1dfe7706/index.html">
 <meta property="og:site_name" content="CombinatorX">
-<meta property="og:description" content="决定今年的五一假期去台湾环岛骑行，所以早早就开始了准备工作。当然准备工作包含两个关键部分：    赴台前的证件手续   往返机票    赴台前的证件手续先说说最麻烦的证件这一块吧，总的来说如果是普通的大陆居民（就像你我这样的普通天朝顺民）赴台前是需要三个证件：    大陆居民来往台湾通行证（以下简称大通证）   大陆居民前往台湾签注（以下简称签注）   中华民国台湾地区入出境许可证（入台证）">
+<meta property="og:description" content="Kafka docker 的安装和设置首先说下为什么会选择使用 docker （docker-compose） 的方式安装和使用 kafka, 其实就是希望使用方便，免去一大堆繁杂的配置，而且 docker/docker-compose 以及 k8s 的部署方式也是目前云原生环境下事实标准。   下面就是可选的镜像选择：    bitnami/kafka  wurstmeister/kafka">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.taiwandao.tw/uploadfile/2012/0819/20120819041311302.jpg">
-<meta property="og:updated_time" content="2020-02-04T09:04:53.804Z">
+<meta property="og:updated_time" content="2020-06-08T03:35:55.560Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="去台湾前的准备工作1-证件、机票">
-<meta name="twitter:description" content="决定今年的五一假期去台湾环岛骑行，所以早早就开始了准备工作。当然准备工作包含两个关键部分：    赴台前的证件手续   往返机票    赴台前的证件手续先说说最麻烦的证件这一块吧，总的来说如果是普通的大陆居民（就像你我这样的普通天朝顺民）赴台前是需要三个证件：    大陆居民来往台湾通行证（以下简称大通证）   大陆居民前往台湾签注（以下简称签注）   中华民国台湾地区入出境许可证（入台证）">
-<meta name="twitter:image" content="http://www.taiwandao.tw/uploadfile/2012/0819/20120819041311302.jpg">
+<meta name="twitter:title" content="Kafka docker安装及其使用">
+<meta name="twitter:description" content="Kafka docker 的安装和设置首先说下为什么会选择使用 docker （docker-compose） 的方式安装和使用 kafka, 其实就是希望使用方便，免去一大堆繁杂的配置，而且 docker/docker-compose 以及 k8s 的部署方式也是目前云原生环境下事实标准。   下面就是可选的镜像选择：    bitnami/kafka  wurstmeister/kafka">
 
     
     <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
@@ -85,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/8fcdd486/" title="去台湾前的准备工作1-证件、机票" itemprop="url">去台湾前的准备工作1-证件、机票</a>
+      <a href="/posts/1dfe7706/" title="Kafka docker安装及其使用" itemprop="url">Kafka docker安装及其使用</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2014-03-28T01:24:16.000Z" itemprop="datePublished"> 发表于 2014-03-28</time>
+    <time datetime="2019-12-16T03:29:14.000Z" itemprop="datePublished"> 发表于 2019-12-16</time>
     
   </p>
 </header>
@@ -101,41 +98,64 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#赴台前的证件手续"><span class="toc-number">1.</span> <span class="toc-text">赴台前的证件手续</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于大通证"><span class="toc-number">1.1.</span> <span class="toc-text">关于大通证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于入台证"><span class="toc-number">1.2.</span> <span class="toc-text">关于入台证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于机票"><span class="toc-number">2.</span> <span class="toc-text">关于机票</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-docker-的安装和设置"><span class="toc-number">1.</span> <span class="toc-text">Kafka docker 的安装和设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bitnami-kafka"><span class="toc-number">1.1.</span> <span class="toc-text">bitnami/kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Standalone"><span class="toc-number">1.1.1.</span> <span class="toc-text">Standalone</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cluster"><span class="toc-number">1.1.2.</span> <span class="toc-text">Cluster</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-使用的常见方法"><span class="toc-number">2.</span> <span class="toc-text">Kafka 使用的常见方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-的常见类库"><span class="toc-number">3.</span> <span class="toc-text">Kafka 的常见类库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">3.1.</span> <span class="toc-text">Python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java"><span class="toc-number">3.2.</span> <span class="toc-text">Java</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
 		
 		</div>
 		
-		<p>决定今年的五一假期去台湾环岛骑行，所以早早就开始了准备工作。<br>当然准备工作包含两个关键部分：  </p>
+		<h2 id="Kafka-docker-的安装和设置"><a href="#Kafka-docker-的安装和设置" class="headerlink" title="Kafka docker 的安装和设置"></a>Kafka docker 的安装和设置</h2><p>首先说下为什么会选择使用 docker （docker-compose） 的方式安装和使用 kafka, 其实就是希望使用方便，免去一大堆繁杂的配置，而且 docker/docker-compose 以及 k8s 的部署方式也是目前云原生环境下事实标准。  </p>
+<p>下面就是可选的镜像选择：  </p>
+<ul>
+<li><p><a href="https://hub.docker.com/r/bitnami/kafka/" target="_blank" rel="noopener">bitnami/kafka</a></p>
+</li>
+<li><p><a href="https://hub.docker.com/r/wurstmeister/kafka" target="_blank" rel="noopener">wurstmeister/kafka</a></p>
+</li>
+</ul>
+<p>前者在配置项方面留出了足够多的灵活度，而后者则支持 <code>docker-compose up --scale</code> 的动态伸缩特性，在下面的例子中我使用前者作为示例，示范如何安装和配置 kafka</p>
+<h3 id="bitnami-kafka"><a href="#bitnami-kafka" class="headerlink" title="bitnami/kafka"></a>bitnami/kafka</h3><p>在安装kafka之前需要的前置条件是已安装了 docker-compose 如果你使用的是 docker desktop for mac 的话，这部分在安装客户端的时候就已经搞定，可以直接进入下一环节。  </p>
+<p>获取 docker-compose 配置文件，这里下载配置文件有两种选择：</p>
 <ol>
-<li>赴台前的证件手续  </li>
-<li>往返机票  </li>
+<li>单独下载配置文件</li>
+<li>Clone Github 工程</li>
 </ol>
-<h2 id="赴台前的证件手续"><a href="#赴台前的证件手续" class="headerlink" title="赴台前的证件手续"></a>赴台前的证件手续</h2><p>先说说最麻烦的证件这一块吧，总的来说如果是普通的大陆居民（就像你我这样的普通天朝顺民）赴台前是需要三个证件：  </p>
-<ol>
-<li>大陆居民来往台湾通行证（以下简称大通证）  </li>
-<li>大陆居民前往台湾签注（以下简称签注）  </li>
-<li>中华民国台湾地区入出境许可证（入台证）  </li>
-</ol>
-<p>这里我又忍不住发一段牢骚，都是自家的，去趟自家后花园还要通行证，要通行证暂且不表，还要比去别家做客手续（护照+签证 而已）麻烦，这是TM什么道理？  </p>
-<p>牢骚归牢骚，言归正传，下面说说该怎么办理这三个证件：<br>首先如果是首次办理的话其实只需要办理两个证件就OK了，因为签注会随着第一次办理大通证附带办理的。<br>所以只需要办理大通证（大陆方面）和入台证（台湾方面）证件的手续就可以了。  </p>
-<h3 id="关于大通证"><a href="#关于大通证" class="headerlink" title="关于大通证"></a>关于大通证</h3><p>办理地点：户籍所在地出入境管理局<br>需要材料：<br>1）户口页 原件、复印件各一份<br>2）身份证 原件、复印件（正反面）一份<br>3）两张两寸白色背景彩色照片  </p>
-<p>费用：共50大洋  </p>
-<p>等待5-7个工作日，证件就到手了。<br>先看看是啥样吧：  </p>
-<p>G签：<br><img src="http://www.taiwandao.tw/uploadfile/2012/0819/20120819041311302.jpg" alt="G签"></p>
-<p>到这里大陆方面的手续已经办完了，那么台湾方面呢？<br>3个手续已经搞定两个了，那么是不是已经完成2/3了呢？<br>NO！最麻烦的手续还没搞定呢，那我们来看看入台证该怎么办理？  </p>
-<h3 id="关于入台证"><a href="#关于入台证" class="headerlink" title="关于入台证"></a>关于入台证</h3><p>首先有大通证是办理入台证的必要条件，由于台湾方面要求办理入台证必须由具有资质的旅行社来办理（自由行也不例外），所以你必须找一家有资质的旅行社来代办，选哪一家呢，见仁见智吧，我为了免去各种麻烦在天猫上选择了一家规模大的国内大型旅行社-<a href="http://detail.tmall.com/item.htm?id=12404765364&amp;spm=a1z09.5.0.0.Mm6uHN" target="_blank" rel="noopener">中青旅</a>（这里不是做广告，我可是自备干粮的，囧）<br>这里的流程讲述比较全面，这里我就不重复了。<br>这里我想说的就是，所有要提交的材料里面有两个相对比较难搞：  </p>
-<ol>
-<li>大陆紧急联络人关系证明</li>
-<li>财力证明</li>
-</ol>
-<p>关于一：本人未婚；父母不在北京，天津；<br>其他证明开具考虑到我国的实际情况，还是洗洗睡了吧。<br>还好签发地是天津，刚好符合“减免紧急联系人套餐A“ 条件，不犹豫，直接购买，不敢说最便宜，但是是最节约时间成本的选择。<br>PS.出行人G签签发地为北京、上海、广州、深圳、杭州、天津六个城市，可以减免紧急联系人资料<br>关于二：公司开具收入证明，最简单，也是最有效的方式。  </p>
-<p>写了这么多，那入台证到底办下来了么？<br>Not yet,<br>为啥？<br>3月20日向移民署提交材料，配额安排在了4月3日，正常出签的时间顺延5天，4月8日。<br>为什么这么久，赶上旺季了，囧。  </p>
-<p><strong>PS: 在4月1号很戏剧性的时间我收到了入台证，当时的第一反应是，不会是在和我开玩笑吧。</strong></p>
-<h2 id="关于机票"><a href="#关于机票" class="headerlink" title="关于机票"></a>关于机票</h2><p>推荐一个低价机票的网站<a href="http://www.tianxun.cn/" target="_blank" rel="noopener">天巡</a><br>横向对比了一下，这里的机票价格还是很靠谱的，而且这个网站中间是不会收取任何费用的（业界良心啊）。</p>
-  
+<p>建议可以考虑 Clone 工程。  </p>
+<p>在获取了 docker-compose 配置文件后可以在配置文件所在的项目根目录下运行这组已经定义好的 docker-compose 容器应用。  </p>
+<p>事实上在目前的状态下，有两种选择，一个是使用只有一个 broker 节点的 standalone 模式的配置 <code>docker-compose.yml</code> ，另一个是使用有三个 broker 节点的  cluster 模式</p>
+<h4 id="Standalone"><a href="#Standalone" class="headerlink" title="Standalone"></a>Standalone</h4><ul>
+<li>下载镜像文件并构建容器</li>
+</ul>
+<p>这里只需要在shell中执行 <code>docker-compose up -d</code> 即可， 如果是第一次使用下载镜像文件的时间可能会稍微较长，请耐心等待。  </p>
+<p>如果一切顺利，这个容器应用就已经运行起来了，我们可以通过 <code>docker-compose ps</code> 来查看正在运行的容器。  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  bitnami-docker-kafka git:(master) docker-compose ps</span><br><span class="line">              Name                            Command               State                          Ports</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">bitnami-docker-kafka_kafka_1       /opt/bitnami/scripts/kafka ...   Up      0.0.0.0:9092-&gt;9092/tcp</span><br><span class="line">bitnami-docker-kafka_zookeeper_1   /opt/bitnami/scripts/zooke ...   Up      0.0.0.0:2181-&gt;2181/tcp, 2888/tcp, 3888/tcp, 8080/tcp</span><br></pre></td></tr></table></figure>
+<h4 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h4><p>// TODO</p>
+<h2 id="Kafka-使用的常见方法"><a href="#Kafka-使用的常见方法" class="headerlink" title="Kafka 使用的常见方法"></a>Kafka 使用的常见方法</h2><p>以下的命令执行都是在容器内 kafka 所安装的 bin 目录下的各种 shell 下执行，所以需要先进入kafka 的bash环境中 <code>docker-compose exec bitnami-docker-kafka_kafka_1 bash</code> 然后进入 kafka 安装目录下的 bin 文件目录下 这里 bitnami 的目录是在 <code>/opt/bitnami/kafka/bin</code></p>
+<ul>
+<li>创建topic</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./kafka-topics.sh --create --zookeeper zookeeper:2181 --topic testtopic --partitions 1 --replication-factor 1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Producer 生产消息</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic testtopic</span><br><span class="line">&gt;</span><br><span class="line">&gt;hello</span><br><span class="line">&gt;world</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Consumer 消费消息</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic testtopic --from-beginning</span><br><span class="line"></span><br><span class="line">hello</span><br><span class="line">world</span><br></pre></td></tr></table></figure>
+<h2 id="Kafka-的常见类库"><a href="#Kafka-的常见类库" class="headerlink" title="Kafka 的常见类库"></a>Kafka 的常见类库</h2><h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><ul>
+<li><a href="https://github.com/dpkp/kafka-python" target="_blank" rel="noopener">kafka-python</a></li>
+<li><a href="https://github.com/Parsely/pykafka" target="_blank" rel="noopener">pykafka</a></li>
+<li><a href="https://github.com/confluentinc/confluent-kafka-python" target="_blank" rel="noopener">confluent-kafka</a></li>
+</ul>
+<p>关于这三个 client 的性能对比可以参考这个benchmark建议 <a href="https://github.com/confluentinc/confluent-kafka-python/issues/418" target="_blank" rel="noopener">Performance comparison of python kafka clients</a> 以及这个对比实验 <a href="http://matthewrocklin.com/blog/work/2017/10/10/kafka-python" target="_blank" rel="noopener">benchmarking by Matthew Rocklin</a></p>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><p>// TODO</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+</div>
 
 
 </div>
@@ -144,7 +164,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/8fcdd486/" data-title="去台湾前的准备工作1-证件、机票 | CombinatorX" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/1dfe7706/" data-title="Kafka docker安装及其使用 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -158,18 +178,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/posts/44516416/" title="技术面试的反思">
+ <a href="/posts/5a7bdbff/" title="研发效能实用贴士 - Git篇">
   <strong>上一篇：</strong><br/>
   <span>
-  技术面试的反思</span>
+  研发效能实用贴士 - Git篇</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/posts/28ccf3f0/"  title="我的第一篇OctoPress博客">
+<a href="/posts/524f9cc8/"  title="Nginx必知必会使用方法备忘录">
  <strong>下一篇：</strong><br/> 
- <span>我的第一篇OctoPress博客
+ <span>Nginx必知必会使用方法备忘录
 </span>
 </a>
 </div>
@@ -190,7 +210,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#赴台前的证件手续"><span class="toc-number">1.</span> <span class="toc-text">赴台前的证件手续</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于大通证"><span class="toc-number">1.1.</span> <span class="toc-text">关于大通证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于入台证"><span class="toc-number">1.2.</span> <span class="toc-text">关于入台证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于机票"><span class="toc-number">2.</span> <span class="toc-text">关于机票</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-docker-的安装和设置"><span class="toc-number">1.</span> <span class="toc-text">Kafka docker 的安装和设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bitnami-kafka"><span class="toc-number">1.1.</span> <span class="toc-text">bitnami/kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Standalone"><span class="toc-number">1.1.1.</span> <span class="toc-text">Standalone</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cluster"><span class="toc-number">1.1.2.</span> <span class="toc-text">Cluster</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-使用的常见方法"><span class="toc-number">2.</span> <span class="toc-text">Kafka 使用的常见方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-的常见类库"><span class="toc-number">3.</span> <span class="toc-text">Kafka 的常见类库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">3.1.</span> <span class="toc-text">Python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java"><span class="toc-number">3.2.</span> <span class="toc-text">Java</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
  
   </div>
 
