@@ -329,6 +329,29 @@
   </entry>
   
   <entry>
+    <title>在 macOS 上安装 kubernates</title>
+    <link href="https://blogs.lirui.me/posts/a2ce2dc3/"/>
+    <id>https://blogs.lirui.me/posts/a2ce2dc3/</id>
+    <published>2019-12-29T10:14:31.000Z</published>
+    <updated>2020-06-09T10:18:06.390Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="在macOS上安装k8s"><a href="#在macOS上安装k8s" class="headerlink" title="在macOS上安装k8s"></a>在macOS上安装k8s</h2><h3 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h3><ul><li>已经妥善安装了 docker desktop for mac</li><li>已经下载 <a href="https://github.com/AliyunContainerService/k8s-for-docker-desktop" target="_blank" rel="noopener">AliyunContainerService / k8s-for-docker-desktop</a> 并完成 ‘配置 Kubernetes’ 之前的步骤</li><li>已经选择了合适的网络代理，并为 terminal 设置了合适的环境变量</li></ul><h3 id="安装-kubernates"><a href="#安装-kubernates" class="headerlink" title="安装 kubernates"></a>安装 kubernates</h3><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p>在安装部署的过程中可以使用下面的命令查看日志：  </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pred=<span class="string">'process matches ".*(ocker|vpnkit).*"</span></span><br><span class="line"><span class="string">  || (process in &#123;"taskgated-helper", "launchservicesd", "kernel"&#125; &amp;&amp; eventMessage contains[c] "docker")'</span></span><br><span class="line">/usr/bin/<span class="built_in">log</span> stream --style syslog --level=debug --color=always --predicate <span class="string">"<span class="variable">$pred</span>"</span></span><br></pre></td></tr></table></figure><h4 id="长时间处于-Kubernetes-is-starting-状态"><a href="#长时间处于-Kubernetes-is-starting-状态" class="headerlink" title="长时间处于 Kubernetes is starting ... 状态"></a>长时间处于 <code>Kubernetes is starting ...</code> 状态</h4><p>这是处于国内环境最经常遇到的问题，碰到这个问题常见操作就是：  </p><ol><li><code>rm -rf ~.kube/</code></li><li><code>rm -rf ~/Library/Group\ Containers/group.com.docker/pki</code></li><li>重启 docker desktop</li></ol><h5 id="cannot-list-nodes-Get-https-kubernetes-docker-internal-6443-api-v1-nodes"><a href="#cannot-list-nodes-Get-https-kubernetes-docker-internal-6443-api-v1-nodes" class="headerlink" title="cannot list nodes: Get https://kubernetes.docker.internal:6443/api/v1/nodes:"></a><code>cannot list nodes: Get https://kubernetes.docker.internal:6443/api/v1/nodes:</code></h5><p>检查 <code>/etc/host</code> 文件中是否有如下配置：  </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Added by Docker Desktop</span></span><br><span class="line"><span class="comment"># To allow the same kube context to work on the host and the container:</span></span><br><span class="line">127.0.0.1 kubernetes.docker.internal</span><br><span class="line"><span class="comment"># End of section</span></span><br></pre></td></tr></table></figure><h5 id="Cannot-list-nodes-Get-https-kubernetes-docker-internal-6443-api-v1-nodes-Forbidden"><a href="#Cannot-list-nodes-Get-https-kubernetes-docker-internal-6443-api-v1-nodes-Forbidden" class="headerlink" title="Cannot list nodes: Get https://kubernetes.docker.internal:6443/api/v1/nodes: Forbidden"></a><code>Cannot list nodes: Get https://kubernetes.docker.internal:6443/api/v1/nodes: Forbidden</code></h5><p>检查是否有合适的系统代理，特别是已经为 terminal 设置合适的系统变量（这一点很重要）</p><h2 id="其他生态"><a href="#其他生态" class="headerlink" title="其他生态"></a>其他生态</h2><h3 id="Helm"><a href="#Helm" class="headerlink" title="Helm"></a>Helm</h3><p>可以简单的认为是云原生应用的管理器（类比 npm dockerhub 等等）。</p><p>更多的使用方法请参考官方文档 <a href="https://helm.sh/docs/intro/quickstart/" target="_blank" rel="noopener">Helm - Quickstart Guide</a></p><h3 id="Istio"><a href="#Istio" class="headerlink" title="Istio"></a>Istio</h3><p><a href="https://istio.io/zh/docs/concepts/what-is-istio/" target="_blank" rel="noopener">Istio 是什么？</a></p><ul><li>它是一个完全开源的服务网格</li><li>它也是一个平台，拥有可以集成任何日志、遥测和策略系统的 API 接口</li></ul><blockquote><p>服务网格用来描述组成这些应用程序的微服务网络以及它们之间的交互</p></blockquote><p>这里有一篇文章用来参考 <a href="https://jimmysong.io/blog/why-do-we-need-istio/" target="_blank" rel="noopener">为什么我们需要Istio？</a></p><p>以及<a href="https://codelabs.developers.google.com/codelabs/cloud-hello-istio/#0" target="_blank" rel="noopener">Google codelabs - cloud-hello-istio</a> 帮你更快熟悉 Istio</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://github.com/AliyunContainerService/k8s-for-docker-desktop" target="_blank" rel="noopener">AliyunContainerService / k8s-for-docker-desktop</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;在macOS上安装k8s&quot;&gt;&lt;a href=&quot;#在macOS上安装k8s&quot; class=&quot;headerlink&quot; title=&quot;在macOS上安装k8s&quot;&gt;&lt;/a&gt;在macOS上安装k8s&lt;/h2&gt;&lt;h3 id=&quot;前置条件&quot;&gt;&lt;a href=&quot;#前置条件&quot; cla
+      
+    
+    </summary>
+    
+      <category term="Operations" scheme="https://blogs.lirui.me/categories/Operations/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>研发效能实用贴士 - Git篇</title>
     <link href="https://blogs.lirui.me/posts/5a7bdbff/"/>
     <id>https://blogs.lirui.me/posts/5a7bdbff/</id>
@@ -464,29 +487,6 @@
     </summary>
     
       <category term="Algorithm" scheme="https://blogs.lirui.me/categories/Algorithm/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JVM 字节码操作工具 AsmTools 的安装及使用方法</title>
-    <link href="https://blogs.lirui.me/posts/8c145ff9/"/>
-    <id>https://blogs.lirui.me/posts/8c145ff9/</id>
-    <published>2019-05-07T10:52:57.000Z</published>
-    <updated>2020-05-09T06:38:41.501Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="AsmTools-是什么"><a href="#AsmTools-是什么" class="headerlink" title="AsmTools 是什么"></a>AsmTools 是什么</h2><p>AsmTools 是OpenJDK CodeTools项目中提供修改JVM字节码的工具。  </p><h3 id="其他操作字节码的工具"><a href="#其他操作字节码的工具" class="headerlink" title="其他操作字节码的工具"></a>其他操作字节码的工具</h3><ul><li><a href="https://bytebuddy.net/" target="_blank" rel="noopener">bytebuddy</a><br>基于<a href="https://asm.ow2.org/" target="_blank" rel="noopener">ASM</a>构建在运行时创建Class文件而不需要编译器帮助的字节码操作类库</li></ul><h2 id="为什么不用编译完成的产物"><a href="#为什么不用编译完成的产物" class="headerlink" title="为什么不用编译完成的产物"></a>为什么不用编译完成的产物</h2><p>官网上如果提供可用的编译完成产物，直接下载使用即可，但是目前提供的<a href="https://adopt-openjdk.ci.cloudbees.com/view/OpenJDK/job/asmtools/" target="_blank" rel="noopener">Downloads - Release</a>是一个404状态的状态链接，所以可行的方案就是将源码下载后进行编译。</p><h2 id="如何从源码进行编译"><a href="#如何从源码进行编译" class="headerlink" title="如何从源码进行编译"></a>如何从源码进行编译</h2><h3 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h3><p><code>hg clone http://hg.openjdk.java.net/code-tools/asmtools</code></p><h3 id="准备编译工具"><a href="#准备编译工具" class="headerlink" title="准备编译工具"></a>准备编译工具</h3><p>编译前需要准备好两个工具：  </p><ul><li>JDK 8.0+</li><li>Ant 1.8+</li></ul><p>这里JDK的安装就不再赘述，Ant的安装在macOS上可以选择使用brew或者macport包管理工具安装：<br>使用brew安装：<br><code>brew update &amp; brew install ant</code></p><h3 id="执行编译命令"><a href="#执行编译命令" class="headerlink" title="执行编译命令"></a>执行编译命令</h3><p><code>cd /path/to/asmtools/build</code><br><code>ant build</code></p><p>默认会在 <code>/path/to/asmtools</code>路径的平行路径下生成asmtools的编译结果，以当前AsmTools7.0版本为例，生成的文件夹名为<code>asmtools-7.0-build</code> 其中<code>asmtools-7.0-build/release/lib/asmtools.jar</code>就是我们希望得到的AsmTools lib类库。</p><h2 id="AsmTools的使用方法"><a href="#AsmTools的使用方法" class="headerlink" title="AsmTools的使用方法"></a>AsmTools的使用方法</h2><h3 id="反汇编（由class文件生成JASM格式文件）"><a href="#反汇编（由class文件生成JASM格式文件）" class="headerlink" title="反汇编（由class文件生成JASM格式文件）"></a>反汇编（由class文件生成JASM格式文件）</h3><p>AsmTools 关键类<code>org.openjdk.asmtools.jdis.Main</code></p><p>命令使用方法：  </p><p><code>$ java -cp asmtools.jar org.openjdk.asmtools.jdis.Main [options] filename.clas</code></p><h3 id="汇编（JASM-gt-class）"><a href="#汇编（JASM-gt-class）" class="headerlink" title="汇编（JASM -&gt; class）"></a>汇编（JASM -&gt; class）</h3><p>ASMTools 关键类<code>org.openjdk.asmtools.jasm.Main</code></p><p>命令使用方法：</p><p><code>$ java -cp asmtools.jar org.openjdk.asmtools.jasm.Main [options] filename.jasm</code></p><p>其实AsmTools除了支持JASM格式的文件之外还支持JCOD格式，详情请参照<a href="https://wiki.openjdk.java.net/display/CodeTools/Chapter+2#Chapter2-Jasmvs.Jcod" target="_blank" rel="noopener">Jasm vs. Jcod</a></p><p>更多AsmTools的用法请参照<a href="https://wiki.openjdk.java.net/display/CodeTools/Chapter+2#Chapter2-ToolUsage" target="_blank" rel="noopener">Tool Usage</a></p><h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul><li><a href="https://wiki.openjdk.java.net/display/CodeTools/asmtools" target="_blank" rel="noopener">OpenJDK Wiki - AsmTools</a></li><li><a href="https://wiki.openjdk.java.net/display/CodeTools/How+to+build+AsmTools" target="_blank" rel="noopener">OpenJDK Wiki - How to build AsmTools</a></li><li><a href="https://wiki.openjdk.java.net/display/CodeTools/AsmTools+User+Guide" target="_blank" rel="noopener">OpenJDK Wiki - AsmTools User Guide</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;AsmTools-是什么&quot;&gt;&lt;a href=&quot;#AsmTools-是什么&quot; class=&quot;headerlink&quot; title=&quot;AsmTools 是什么&quot;&gt;&lt;/a&gt;AsmTools 是什么&lt;/h2&gt;&lt;p&gt;AsmTools 是OpenJDK CodeTools项目中
-      
-    
-    </summary>
-    
-      <category term="Operations" scheme="https://blogs.lirui.me/categories/Operations/"/>
     
     
   </entry>
