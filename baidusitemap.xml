@@ -4,8 +4,26 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/a2ce2dc3/</loc>
+    <lastmod>2020-06-14T03:23:33.279Z</lastmod>
+    <data>
+        <display>
+        <title>在 macOS 上安装 kubernates 备忘录</title>
+        <pubTime>2019-12-29T10:14:31.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/51df7fb6/</loc>
-    <lastmod>2020-06-13T05:47:54.793Z</lastmod>
+    <lastmod>2020-06-14T02:10:39.741Z</lastmod>
     <data>
         <display>
         <title>混入（mixin）在实际编程语言中的应用</title>
@@ -15,24 +33,6 @@
            
              
               <breadCrumb title="Programming Languages" url="https://blogs.lirui.me/categories/Programming-Languages/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/a2ce2dc3/</loc>
-    <lastmod>2020-06-09T10:18:40.067Z</lastmod>
-    <data>
-        <display>
-        <title>在 macOS 上安装 kubernates</title>
-        <pubTime>2019-12-29T10:14:31.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
           
         </display>
     </data>
