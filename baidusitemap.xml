@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blogs.lirui.me/posts/1fe35790/</loc>
+    <lastmod>2020-09-30T09:49:32.357Z</lastmod>
+    <data>
+        <display>
+        <title>CI/CD - Python Django 项目在 Jenkins 上的实践</title>
+        <pubTime>2019-12-29T10:46:43.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blogs.lirui.me/posts/a2ce2dc3/</loc>
     <lastmod>2020-06-14T03:23:33.279Z</lastmod>
     <data>
@@ -105,24 +123,6 @@
            
              
               <breadCrumb title="System Design" url="https://blogs.lirui.me/categories/System-Design/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blogs.lirui.me/posts/1fe35790/</loc>
-    <lastmod>2020-05-29T11:50:33.633Z</lastmod>
-    <data>
-        <display>
-        <title>CI/CD - Python Django 项目在 Jenkins 上的实践</title>
-        <pubTime>2019-12-29T10:46:43.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="Operations" url="https://blogs.lirui.me/categories/Operations/"/>
           
         </display>
     </data>
