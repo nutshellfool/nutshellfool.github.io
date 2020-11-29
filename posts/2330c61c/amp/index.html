@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html ⚡>
+  <head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blogs.lirui.me/posts/2330c61c/" >
+    <title>使用Wireshark研究网络协议 - TCP/IP 协议问题 - CombinatorX</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    
+    <meta property="og:title" content="使用Wireshark研究网络协议 - TCP/IP 协议问题">
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://blogs.lirui.me/posts/2330c61c/">
+	
+		<meta property="og:image" content="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg">
+	
+	<meta property="og:site_name" content="CombinatorX">
+	
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="CombinatorX">
+	<meta name="twitter:url" content="https://blogs.lirui.me/posts/2330c61c/">
+	<meta name="twitter:title" content="使用Wireshark研究网络协议 - TCP/IP 协议问题 - CombinatorX">
+	
+    
+    	<meta name="twitter:image" content="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg">
+	
+	
+	
+    
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+    <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+    <!--
+  	<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
+    -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script type="application/ld+json">
+		{
+			"@context": "http://schema.org",
+			"@type": "BlogPosting",
+			"headline": "使用Wireshark研究网络协议 - TCP/IP 协议问题",
+			
+			"mainEntityOfPage":{
+			    "@type":"WebPage",
+			    "@id":"https://blogs.lirui.me/posts/2330c61c/"
+			},
+			"datePublished": "2020-02-17T11:14:51.000Z",
+			"dateModified": "2020-03-04T02:15:58.318Z",
+			
+			"image": {
+				"@type": "ImageObject",
+				"url": "https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg",
+				"width" : "2664",
+				"height" : "422"
+			},
+			
+			"author": {
+			    "@type": "Person",
+			    "name": "李瑞"
+			},
+			"publisher": {
+			    "@type": "Organization",
+			    "name": "CombinatorX"
+			    
+			    ,
+			    "logo": {
+			      "@type": "ImageObject",
+			      "url": "https://blogs.lirui.me/amp-dist/sample/sample-logo.png",
+			      "width": 600,
+			      "height": 60
+			    }
+			    
+			}
+		}
+	</script>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<style amp-custom>
+		
+abbr,
+acronym,
+address,
+applet,
+big,
+blockquote,
+body,
+caption,
+cite,
+code,
+dd,
+del,
+dfn,
+div,
+dl,
+dt,
+em,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+html,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+object,
+ol,
+p,
+pre,
+q,
+s,
+samp,
+small,
+span,
+strike,
+strong,
+sub,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr,
+tt,
+ul,
+var {
+  border: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+abbr {
+  cursor: help;
+  border-bottom: 1px dotted;
+  font-variant: normal;
+}
+acronym {
+  border-bottom: 1px dotted;
+  font-variant: normal;
+}
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  background: #fff;
+  color: #2d3d40;
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 2rem;
+  text-rendering: optimizelegibility;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+figure.highlight td,
+.post .entry-content figure.highlight th {
+  border: 0;
+  padding: 0;
+}
+caption,
+table,
+td,
+th {
+  vertical-align: middle;
+}
+caption,
+td,
+th,
+.table-align-left {
+  text-align: left;
+}
+del {
+  text-decoration: line-through;
+}
+html {
+  font-size: 14px;
+}
+:root sub,
+:root sup {
+  vertical-align: baseline;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+a {
+  color: #e91e63;
+  text-decoration: none;
+  -webkit-transition: 0.7s;
+  -ms-transition: 0.7s;
+  -moz-transition: 0.7s;
+  -o-transition: 0.7s;
+  -webkit-transition: 0.7s;
+  -moz-transition: 0.7s;
+  -o-transition: 0.7s;
+  -ms-transition: 0.7s;
+  transition: 0.7s;
+  border: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+a img {
+  border: none;
+}
+a:hover {
+  -webkit-transition: 0.2s;
+  -ms-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  -ms-transition: 0.2s;
+  transition: 0.2s;
+  color: #930e3b;
+}
+@media (min-width: 481px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media (min-width: 0px) and (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
+.clearfix:after {
+  clear: both;
+  visibility: hidden;
+  content: ".";
+  display: block;
+  height: 0;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.circle {
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+.thumbImg-w {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.thumbImg {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.__web-inspector-hide-shortcut__ {
+  visibility: hidden ;
+}
+button {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -o-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  text-align: center;
+  cursor: default;
+  color: buttontext;
+  background-color: buttonface;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2px 6px 3px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+  -webkit-border-image: initial;
+  -moz-border-image: initial;
+  -o-border-image: initial;
+  border-image: initial;
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  margin: 0em 0em 0em 0em;
+  font: 11px system-ui;
+  -webkit-writing-mode: horizontal-tb;
+  -webkit-appearance: button;
+}
+.hamburger {
+  display: inline-block;
+  background-color: transparent;
+  background-image: url("data:image/svg+xmlutf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-3 -6 24 24\"><path fill=\"#4A4A4A\" d=\"M0 12h18v-2H0v2M0 7h18V5H0v2M0 0v2h18V0H0\"/></svg>");
+  background-repeat: no-repeat;
+  -webkit-background-size: 30px 24px;
+  -moz-background-size: 30px 24px;
+  background-size: 30px 24px;
+  background-position: center center;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  -webkit-align-self: center;
+  align-self: center;
+  -ms-flex-item-align: center;
+}
+.nav ul:after {
+  clear: both;
+  visibility: hidden;
+}
+.nav,
+.nav-icon {
+  position: relative;
+}
+.nav ul {
+  display: block;
+}
+.nav ul li {
+  display: block;
+}
+.nav ul li a {
+  display: block;
+}
+.tab {
+  position: relative;
+  color: #424242;
+  padding: 6px;
+  margin: 0 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  -webkit-transition: 0.1s ease color;
+  -webkit-transition: 0.1s ease color;
+  -moz-transition: 0.1s ease color;
+  -o-transition: 0.1s ease color;
+  -ms-transition: 0.1s ease color;
+  transition: 0.1s ease color;
+}
+amp-sidebar {
+  width: 200px;
+}
+amp-sidebar ul {
+  padding: 10px 0;
+}
+amp-sidebar li a {
+  display: block;
+  padding: 10px 20px;
+}
+header {
+  height: 60px;
+  background-color: #222f31;
+  -webkit-box-shadow: 0 -1px 0 #3c5155 inset, 0 -3px 0 #1e292b inset;
+  box-shadow: 0 -1px 0 #3c5155 inset, 0 -3px 0 #1e292b inset;
+  -webkit-box-shadow: 0 -1px 0 #3c5155 inset, 0 -3px 0 #1e292b inset;
+}
+header .header-title a {
+  padding: 0 0 0 20px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 0.2em;
+}
+header .nav-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+header .left-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -o-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  font-size: 20px;
+  margin-left: 0;
+  font-weight: 300;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -o-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  text-align: left;
+  width: auto;
+  font-size: 15px;
+}
+header .right {
+  font-size: 15px;
+}
+header .alt {
+  padding: 0;
+  text-align: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  -o-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.blog-title a {
+  position: relative;
+}
+button {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -o-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  text-align: center;
+  cursor: default;
+  color: buttontext;
+  background-color: buttonface;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2px 6px 3px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+  -webkit-border-image: initial;
+  -moz-border-image: initial;
+  -o-border-image: initial;
+  border-image: initial;
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  margin: 0em 0em 0em 0em;
+  font: 11px system-ui;
+  -webkit-writing-mode: horizontal-tb;
+  -webkit-appearance: button;
+}
+.__web-inspector-hide-shortcut__ {
+  visibility: hidden ;
+}
+.hamburger {
+  display: inline-block;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-3 -6 24 24\"><path fill=\"#FFF\" d=\"M0 12h18v-2H0v2M0 7h18V5H0v2M0 0v2h18V0H0\"/></svg>");
+  background-repeat: no-repeat;
+  -webkit-background-size: 30px 24px;
+  -moz-background-size: 30px 24px;
+  background-size: 30px 24px;
+  background-position: center center;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  -webkit-align-self: center;
+  align-self: center;
+  -ms-flex-item-align: center;
+}
+.tab {
+  position: relative;
+  color: #2d3d40;
+  padding: 6px;
+  margin: 0 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  -webkit-transition: 0.1s ease color;
+  -webkit-transition: 0.1s ease color;
+  -moz-transition: 0.1s ease color;
+  -o-transition: 0.1s ease color;
+  -ms-transition: 0.1s ease color;
+  transition: 0.1s ease color;
+}
+amp-sidebar {
+  width: 250px;
+  background-color: #182022;
+}
+amp-sidebar ul {
+  padding: 10px 0;
+}
+amp-sidebar li {
+  border-top: 1px solid #2f4043;
+}
+amp-sidebar li:last-child {
+  border-bottom: 1px solid #2f4043;
+}
+amp-sidebar li a {
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  padding: 10px 20px;
+}
+amp-sidebar li a:hover {
+  color: #ccc;
+  background-color: #030404;
+}
+.categories-header {
+  background-color: #2d3d40;
+  padding: 0rem 0.8rem;
+}
+.categories-header a {
+  color: #fff;
+}
+.categories-header a:hover {
+  color: #fff;
+}
+.categories-header .breadcrumb ol li {
+  list-style: none;
+  display: inline-block;
+  margin: 0;
+}
+.categories-header .breadcrumb ol li span {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.categories-header .breadcrumb ol li:after {
+  content: "/";
+  color: #fff;
+  display: inline-block;
+  margin: 0 0.4rem;
+}
+.categories-header .breadcrumb ol li:last-child:after {
+  content: "";
+  margin: 0;
+}
+.entry-header {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.entry-header .flx:first-child {
+  margin: 0 1rem 0 0;
+}
+.header-cap {
+  -webkit-flex-grow: 3;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -o-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+}
+.title-cover {
+  background-color: #fff;
+  color: #2d3d40;
+  padding: 1.5rem 0.8rem 0 0.8rem;
+}
+.title-cover a {
+  font-size: 1.2rem;
+  color: #2d3d40;
+  text-align: left;
+  font-weight: bold;
+}
+.entry-title {
+  margin: 0;
+}
+.entry-meta-header {
+  font-size: 0.85rem;
+  text-align: center;
+}
+.entry-meta-header .date {
+  font-family: sans-serif;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  color: #2d3d40;
+  text-decoration: none;
+}
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover {
+  color: #e91e63;
+}
+#container {
+  margin-left: auto;
+  margin-right: auto;
+}
+#main {
+  margin-bottom: 3em;
+  padding-left: 0;
+}
+.post {
+  margin-bottom: 3rem;
+  position: relative;
+}
+.entry-content {
+  margin: 0 0.6rem;
+  font-size: 1rem;
+}
+.entry-content h1 {
+  font-size: 1.7rem;
+  line-height: 1.5;
+  margin: 1em 0 0.8em;
+}
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6,
+.entry-content h2 span,
+.entry-content h3 span,
+.entry-content h4 span,
+.entry-content h5 span,
+.entry-content h6 span {
+  color: #98b8be;
+  font-weight: bold;
+}
+.entry-content h2,
+.entry-content h2 span {
+  font-size: 1.8rem;
+  line-height: 2.6rem;
+  text-align: center;
+}
+.entry-content h2 {
+  border-bottom: 2px solid #cce4e8;
+  margin: 4.5rem 0 0.5em;
+  padding: 0.8em 0;
+}
+.entry-content h3,
+.entry-content h3 span {
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+  text-align: center;
+}
+.entry-content h3 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content h4,
+.entry-content h4 span {
+  font-size: 1.4rem;
+  line-height: 2rem;
+  text-align: center;
+}
+.entry-content h4 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content h5,
+.entry-content h5 span {
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  text-align: center;
+}
+.entry-content h5 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content h6,
+.entry-content h6 span {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+  text-align: center;
+}
+.entry-content h6 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content p {
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  line-height: 2.2rem;
+  margin: 3rem 0.8rem;
+}
+.entry-content p a {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: inline;
+  border-bottom: 1px dashed #f1729d;
+  padding-bottom: 0.3rem;
+}
+.entry-content p a:hover {
+  border-bottom: 1px dashed #9c0f3f;
+  padding-bottom: 0.4rem;
+}
+.entry-content em {
+  background-color: #f9f5d1;
+  color: #886d00;
+  font-style: normal;
+  margin: 0 2px;
+  padding: 0.4em;
+}
+.entry-content strong {
+  color: #871c1c;
+  font-style: normal;
+  margin: 0 2px;
+  padding: 0.4em;
+  background-color: #fadcdc;
+}
+.entry-content hr {
+  border: 0;
+  border-top: 3px solid #cce4e8;
+  margin: 3rem auto;
+  width: 20%;
+}
+.entry-content img,
+.entry-content video {
+  display: block;
+  height: auto;
+  margin: auto;
+  max-width: 100%;
+}
+.entry-content iframe {
+  width: 100% ;
+}
+.entry-content blockquote {
+  margin: 3rem 0.8rem;
+  padding: 1rem 1.8rem;
+  position: relative;
+  background-color: none;
+  border-left: 3px solid #98b8be;
+  font-style: italic;
+}
+.entry-content blockquote p {
+  margin: 0.5rem 0;
+}
+.entry-content blockquote blockquote {
+  border-left: none;
+}
+.entry-content .table-wrapper {
+  margin: 3rem 0.8rem;
+}
+.entry-content table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: auto;
+  display: block;
+  font-size: 0.85rem;
+  margin: 0 auto;
+  width: auto;
+}
+.entry-content td,
+.entry-content th {
+  line-height: 1.8em;
+  padding: 0.8rem 0.8rem;
+  font-size: 0.85rem;
+}
+.entry-content td em,
+.entry-content th em,
+.entry-content td strong,
+.entry-content th strong,
+.entry-content td a,
+.entry-content th a {
+  font-size: 0.85rem;
+}
+.entry-content td {
+  border: 1px solid #c4c4c4;
+}
+.entry-content th {
+  background-color: #ecf5f7;
+  border: 1px solid #c4c4c4;
+}
+.entry-content .table-align-center {
+  text-align: center;
+}
+.entry-content .table-align-right {
+  text-align: right;
+}
+.entry-content ul,
+.entry-content ol,
+.entry-content dl {
+  margin: 3rem 0 3rem 1.6rem;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+}
+.entry-content ul li,
+.entry-content ol li,
+.entry-content dl li {
+  line-height: 2rem;
+  position: relative;
+  padding: 0;
+}
+.entry-content ul li p,
+.entry-content ol li p,
+.entry-content dl li p {
+  line-height: 2rem;
+  margin: 0;
+}
+.entry-content ul li p:not(:first-child),
+.entry-content ol li p:not(:first-child),
+.entry-content dl li p:not(:first-child) {
+  color: #57767c;
+  margin: 0.5rem;
+}
+.entry-content ul li ul,
+.entry-content ol li ul,
+.entry-content dl li ul,
+.entry-content ul li ol,
+.entry-content ol li ol,
+.entry-content dl li ol,
+.entry-content ul li dl,
+.entry-content ol li dl,
+.entry-content dl li dl {
+  margin: 1rem;
+}
+.entry-content ul li {
+  margin: 0.4rem 0 0.4rem 0.8rem;
+}
+.entry-content ul li::after {
+  position: absolute;
+  display: block;
+  content: '';
+  top: 0.75rem;
+  left: -1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #cce4e8;
+  border-radius: 100%;
+}
+.entry-content ol {
+  counter-reset: number;
+}
+.entry-content ol li {
+  margin: 0.4rem 0 0.4rem 2rem;
+}
+.entry-content ol li p:first-child {
+  display: inline-block;
+  line-height: 1.6rem;
+  height: 1.6rem;
+}
+.entry-content ol li:before {
+  position: absolute;
+  display: inline-block;
+  float: left;
+  margin: 0 0.2rem 0 0;
+  padding: 0;
+  counter-increment: number;
+  content: counter(number);
+  left: -2.2rem;
+  top: 0.2rem;
+  background-color: #98b8be;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+}
+kbd {
+  font-family: sans-serif;
+  text-align: center;
+  display: inline-block;
+  color: #425a5e;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 0 0 10px #e8e8e8 inset, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 3px 3px #333;
+  box-shadow: 0 0 10px #e8e8e8 inset, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 3px 3px #333;
+  -webkit-box-shadow: 0 0 10px #e2e2e2 inset, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 3px 3px #333;
+  -webkit-font-smoothing: subpixel-antialiased;
+  background: #fff;
+  border-left: 1px solid #fff;
+  border-radius: 3px;
+  border-right: 1px solid #e6e6e6;
+  border-top: 1px solid #fff;
+  font-size: 0.85rem;
+  line-height: 1rem;
+  margin: 5px;
+  padding: 6px 8px 3px;
+  text-shadow: 0 1px 0 #fff;
+  vertical-align: baseline;
+  
+}
+img.responsive-img {
+  height: auto;
+  max-width: 100%;
+}
+video.responsive-video {
+  height: auto;
+  max-width: 100%;
+}
+amp-instagram,
+amp-vimeo,
+amp-video,
+amp-youtube,
+amp-twitter,
+.soundcloud-wrapper,
+.amp-img-wrapper,
+.googleAdPost,
+.ad-footer {
+  margin: 3rem 0.8rem;
+}
+code,
+figure.highlight .code,
+pre {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+code,
+pre,
+samp {
+  font-family: Menlo, Consolas, Monaco, Consolas, monospace;
+}
+p code {
+  font-size: 1rem;
+}
+code,
+pre {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+  background-color: #ecf5f7;
+  color: #007e96;
+}
+code {
+  margin: 0 3px;
+  padding: 0.4em;
+}
+samp {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+}
+sub,
+sup {
+  font-size: 0.75rem;
+  line-height: 0;
+  position: relative;
+}
+sub {
+  bottom: -0.2em;
+}
+sup {
+  top: -0.5em;
+}
+pre {
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  margin: 0 3px;
+  padding: 15px;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  border: 0;
+  line-height: 1.3rem;
+  overflow-x: auto;
+}
+pre .addition,
+pre .css .tag,
+pre .keyword,
+pre .method,
+pre .nginx .title,
+pre .request,
+pre .status,
+pre .winutils {
+  color: #66d9ef;
+}
+pre .attr_selector,
+pre .cdata,
+pre .clojure .title,
+pre .diff .change,
+pre .important {
+  color: #9882eb;
+}
+pre .preprocessor {
+  color: #9882eb;
+}
+pre .preprocessor .keyword {
+  color: #9882eb;
+}
+pre .shebang,
+pre .special,
+pre .subst {
+  color: #9882eb;
+}
+pre .symbol {
+  color: #9882eb;
+}
+pre .symbol .string {
+  color: #9882eb;
+}
+pre .attribute,
+pre .class .title,
+pre .constant,
+pre .haskell .type,
+pre .lisp .body,
+pre .parent,
+pre .smalltalk .number,
+pre .variable {
+  color: #a6e22e;
+}
+pre .built_in,
+pre .chunk,
+pre .decorator,
+pre .id,
+pre .identifier,
+pre .literal,
+pre .localvars,
+pre .title,
+pre .vhdl,
+pre .deletion {
+  color: #f92672;
+}
+pre .command,
+pre .hexcolor,
+pre .number,
+pre .phpdoc,
+pre .regexp,
+pre .string,
+pre .tag .value,
+pre .tex .formula {
+  color: #e6db74;
+}
+pre .comment,
+pre .diff .header,
+pre .doctype,
+pre .javadoc,
+pre .lisp .string,
+pre .pi,
+pre .template_comment {
+  color: #75715e;
+  font-weight: normal;
+}
+.line {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+  line-height: 2rem;
+  color: #f8f8f2;
+}
+.line span {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+}
+.gist {
+  background: #fff;
+  border: 1px solid color-gutter;
+  color: #f8f8f2;
+  line-height: 1.6rem;
+  margin-top: 15px;
+  overflow: auto;
+  padding: 7px 15px;
+}
+.gist .gist-file {
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0;
+  margin: 0;
+}
+.gist .gist-file .gist-data {
+  background: 0 0;
+  border-bottom: none;
+}
+.gist .gist-file .gist-data pre {
+  font-family: Menlo, Consolas, Monaco, Consolas, monospace;
+  padding: 0 ;
+}
+.gist .gist-file .gist-meta {
+  background: 0 0;
+  color: #f8f8f2;
+  font-size: 1rem;
+  margin-top: 5px;
+  padding: 0;
+}
+.gist .gist-file .gist-meta a {
+  color: #f8f8f2;
+}
+.gist .gist-file .gist-meta a:visited {
+  color: #f8f8f2;
+}
+figure.highlight {
+  font-size: 0.95rem;
+  margin: 3rem 0.8rem;
+  background: #263338;
+  border: 1px solid color-gutter;
+  line-height: 2rem;
+  overflow: auto;
+  position: relative;
+}
+figure.highlight .code {
+  padding: 0 1em 1em 1em;
+  color: #f8f8f2;
+}
+figure.highlight .gutter {
+  display: none;
+}
+figure.highlight figcaption {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #e9e9d6;
+  background-color: #1e282c;
+  padding: 0.6em 1em;
+}
+figure.highlight figcaption a {
+  position: absolute;
+  right: 1rem;
+}
+figure.highlight figcaption:before {
+  content: "\f121";
+  font-family: "fontawesome";
+  text-align: center;
+  display: inline-block;
+  margin-right: 0.6em;
+}
+figure.highlight pre {
+  background: 0 0;
+  border: none;
+  margin: 0;
+  padding: 0.5rem;
+}
+figure.highlight table {
+  border-spacing: 0;
+  margin: 0;
+}
+figure.highlight th {
+  border: 0;
+  font-weight: 400;
+  padding: 0;
+}
+figure.highlight td {
+  border: 0;
+  font-size: 1.1rem;
+  padding: 0;
+}
+.entry-content .toc {
+  background: #fff;
+  padding: 0.5rem;
+  margin: 3rem 0;
+  border: 1px solid #cce4e8;
+  border-radius: 2px;
+}
+.entry-content .toc ul {
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #5d8b93;
+  border-radius: 2px;
+}
+.entry-content .toc ul:first-child {
+  border-top: none;
+}
+.entry-content .toc ul ul,
+.entry-content .toc ul ol {
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+}
+.entry-content .toc ul li {
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #5d8b93;
+}
+.entry-content .toc ul li:first-child {
+  border-top: none;
+}
+.entry-content .toc ul li::after,
+.entry-content .toc ul li::before {
+  content: normal;
+}
+.entry-content .toc ul li a {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: block;
+  padding: 1rem;
+  background-color: #3d5b61;
+  color: #fff;
+  -webkit-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+}
+.entry-content .toc ul li a:hover {
+  color: #fff;
+  background-color: #2c4145;
+}
+.entry-content .toc ul li a:before {
+  content: "\f02d";
+  font-family: "fontawesome";
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  margin-right: 0.8rem;
+}
+.entry-content .toc ul li ul,
+.entry-content .toc ul li ol {
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+}
+.entry-content .toc ul li ul li a,
+.entry-content .toc ul li ol li a {
+  padding: 0.5rem 0.75rem 0.5rem 2rem;
+  font-size: 0.9rem;
+  background-color: #416167;
+}
+.entry-content .toc ul li ul li a:before,
+.entry-content .toc ul li ol li a:before {
+  content: "\f0da";
+  font-family: "fontawesome";
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  margin-right: 0.6rem;
+}
+.entry-content .toc ul li ul li ul li a,
+.entry-content .toc ul li ol li ul li a {
+  padding: 0.5rem 0.75rem 0.5rem 4rem;
+}
+.entry-content .toc ul li ul li ul li a:before,
+.entry-content .toc ul li ol li ul li a:before {
+  content: none;
+}
+.meta-content {
+  background-color: #fff;
+  margin: 1.5rem 0.8rem;
+  padding: 0;
+  border-top: 1px dotted #cce4e8;
+  letter-spacing: 0.05rem;
+}
+.meta-wrapper {
+  margin: 3rem 0.8rem;
+  padding: 0;
+  background-color: #fff;
+}
+h6.tag,
+h6.categories {
+  color: #2d3d40;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.article-tag-list {
+  padding: 0;
+}
+.article-tag,
+.article-tag-list,
+.article-categories,
+.article-categories-list {
+  padding: 0;
+  margin: 0;
+}
+.article-categories {
+  margin-bottom: 1.6em;
+}
+.article-tag-list li,
+.article-categories-list li {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0.2rem 0.1rem;
+}
+.article-tag-list li a,
+.article-categories-list li a {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.4rem 0.8rem;
+  margin: 0;
+  background-color: #ecf5f7;
+  color: #2d3d40;
+  border-radius: 2px;
+  display: block;
+}
+.article-tag-list li a:before,
+.article-categories-list li a:before {
+  content: "#";
+}
+.article-tag-list li a:hover,
+.article-categories-list li a:hover {
+  color: #fff;
+  background-color: #2d3d40;
+}
+.widget {
+  margin: 1.5rem 0.8rem;
+  padding: 0;
+}
+.widget-h {
+  text-align: center;
+  margin: 1.6rem 0;
+}
+.widget-h h6 {
+  color: #fff;
+  background-color: #2d3d40;
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.posts-list li {
+  list-style: none;
+  margin: 0.8rem 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.posts-list li .posts-list-link {
+  -webkit-flex-grow: 3;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -o-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+}
+.posts-list li .posts-list-link a {
+  color: #2d3d40;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.posts-list li .posts-list-link a:hover {
+  color: #e91e63;
+}
+.posts-list li .posts-list-meta {
+  font-size: 0.7rem;
+}
+.posts-list li .flx:first-child {
+  margin: 0 1rem 0 0;
+}
+.posts-list li amp-img {
+  border-radius: 2px;
+}
+#footer {
+  background-color: #2d3d40;
+  color: #fff;
+  display: block;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  line-height: 2rem;
+  margin: 3rem 0 0 0;
+  padding: 0;
+}
+.site-author-info {
+  margin: 0;
+  padding: 3rem 1.6rem;
+}
+.site-author-info h6 {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+  display: inline-block;
+  background-color: #222f31;
+  padding: 0.4rem 0.8rem;
+}
+.site-author-info-wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.site-author-info-wrapper .flx:first-child {
+  margin: 0 1rem 0 0;
+}
+.authorCap-wrapper {
+  -webkit-flex-grow: 3;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -o-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+}
+.authorCap {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.authorReading {
+  font-size: 0.7rem;
+}
+.site-author-desc {
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+  margin: 1.4rem 0;
+}
+.copyright-tool {
+  margin: 0;
+  padding: 1.5rem 1.6rem;
+  border-top: 1px solid #384b4f;
+}
+.copyright-notice p {
+  font-size: 0.6rem;
+  letter-spacing: 0.05rem;
+  line-height: 1.2rem;
+  color: #8ba8ae;
+}
+.copyright-title {
+  font-size: 1rem;
+  text-align: center;
+  margin: 0.8rem 0 0.4rem 0;
+}
+.copyright-license {
+  margin: 0.4rem 0 0.8rem 0;
+  font-size: 0.7rem;
+  text-align: center;
+}
+.copyright-license a {
+  color: #e6e6e6;
+  font-size: 0.7rem;
+}
+.copyright-license a:hover {
+  color: #b3b3b3;
+}
+.sns-link {
+  margin: 0;
+  text-align: center;
+}
+.sns-link a {
+  display: inline-block;
+  font-size: 1.6rem;
+  text-align: center;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0.6rem;
+  margin: 0 0.1rem;
+  background-color: #222f31;
+  color: #fff;
+  border-radius: 4px;
+}
+.sns-link a:hover {
+  color: #ccc;
+  background-color: #030404;
+}
+.footer-menu {
+  padding: 1.5rem 0.8rem;
+  border-top: 1px solid #384b4f;
+}
+.footer-menu ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-menu ul li a {
+  display: block;
+  padding: 0.6rem;
+  margin: 0.2rem 1.6rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #222f31;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+.footer-menu ul li a:hover {
+  color: #ccc;
+  background-color: #030404;
+}
+.social-share {
+  margin: 1.5rem 0.8rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.social-share amp-social-share,
+.social-share .sbtn {
+  margin: 5px;
+}
+.sbtn {
+  padding: 0;
+  width: 4rem;
+  height: 3rem;
+  line-height: 3rem;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  border-radius: 4px;
+}
+.sbtn:hover {
+  color: #fff;
+}
+.tw {
+  background-color: #1cafe8;
+}
+.tw:hover {
+  background-color: #0f6b8f;
+}
+.fb {
+  background-color: #4f677f;
+}
+.fb:hover {
+  background-color: #283440;
+}
+.ht {
+  background-color: #35acda;
+}
+.ht:hover {
+  background-color: #1a6e8f;
+}
+.gp {
+  background-color: #d56153;
+}
+.gp:hover {
+  background-color: #9c3326;
+}
+.tb {
+  background-color: #465f79;
+}
+.tb:hover {
+  background-color: #212c38;
+}
+.icon-hatena:before {
+  content: "B";
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+#totop {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.6rem;
+  font-size: 1.2rem;
+  z-index: 995;
+}
+#totop a {
+  background: rgba(152,184,190,0.6);
+  text-decoration: none;
+  color: #fff;
+  padding: 0.8rem;
+  border-radius: 50%;
+}
+#totop a:before {
+  content: "\f062";
+  font-family: "fontawesome";
+  font-size: 1.2rem;
+}
+#totop a:hover {
+  text-decoration: none;
+  background: #5d8b93;
+  color: #fff;
+  line-height: 2.3em;
+}
+@media (min-width: 800px) {
+  .title-cover,
+  .entry-content,
+  .categories,
+  .meta-content,
+  .site-author-info {
+    width: 780px;
+    margin: 0 auto;
+  }
+  .nav-container {
+    width: 800px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 0px) and (max-width: 480px) {
+  .site-author-info-wrapper {
+    display: block;
+  }
+  .gravatar-area {
+    text-align: center;
+  }
+  .gravatar-area amp-img {
+    display: inline-block;
+  }
+  .entry-content td,
+  .entry-content th {
+    line-height: 1.8em;
+    padding: 0.6rem 0.6rem;
+    font-size: 0.5rem;
+  }
+  .entry-content td em,
+  .entry-content th em,
+  .entry-content td strong,
+  .entry-content th strong,
+  .entry-content td a,
+  .entry-content th a {
+    font-size: 0.5rem;
+  }
+}
+
+	</style>
+	
+  </head>
+  <body>
+  	
+  	
+  	<!-- google analytics -->
+  	
+  	
+  	
+  	<!-- menu -->
+  	<header>
+  		<div class="nav-container">
+	  		<div class="left-nav">
+	  			<div class="header-title">
+	  				<a href="/">CombinatorX</a>
+	  			</div>
+	  		</div>
+	  		
+	  	</div>
+    </header>
+  	
+  	
+  	<!-- sidebar -->
+  	
+  	
+  	<!-- container -->
+  	<div id="container">
+	  	<div id="main">
+		    <article id="post-learning-network-by-wireshark" class="post">
+		    
+		   		<!-- categories and bread crumb -->
+		    	
+				<div class="categories-header">
+					<div class="categories">
+						<div class="breadcrumb inline-icon">
+							<ol itemscope itemtype="http://schema.org/BreadcrumbList">
+							  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+							    <a itemprop="item" href="/">
+							    	<span class="sns-icon home-icon"></span>
+							        <span itemprop="name"><span class="fa fa-fw fa-home"></span></span>
+							    </a>
+							    <meta itemprop="position" content="1" />
+							  </li>
+
+								
+						    		<li itemprop="itemListElement" itemscope
+									      itemtype="http://schema.org/ListItem">
+									    <a itemprop="item" href="/categories/Network/">
+									      
+									      	<span class="sns-icon folder-icon"></span>
+									      
+									      <span itemprop="name">Network</span>
+									    </a>
+									    <meta itemprop="position" content="2" />
+									</li>
+								
+							</ol>
+						</div>
+					</div>
+				</div>
+				
+		    
+		    	<!-- entry title -->
+				<div class="title-cover">
+					<div class="entry-header">
+						
+						
+						
+			          	<div class="header-thumb flx">
+			          		<div class="thumbImg-w circle">
+			          			<amp-img class="thumbImg" layout="fixed" width="631" height="100" src="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg">
+			          			</amp-img>
+			          		</div>
+			          	</div>
+			            
+			            
+			            <div class="header-cap flx">
+							
+							  <h1 class="article-title entry-title" itemprop="name">
+							    <a href="https://blogs.lirui.me/posts/2330c61c/" target="_blank" itemprop="url">使用Wireshark研究网络协议 - TCP/IP 协议问题</a>
+							  </h1>
+							
+						</div>
+					</div>
+					
+					<!-- datePublished -->
+					<div class="entry-meta-header">
+						<span class="meta-elements date">
+							<span class="fa fa-fw fa-clock-o"></span>
+							<time datetime="2020-02-17" itemprop="datePublished">2020.02.17</time>
+						</span>
+					</div>
+				</div>
+				
+				
+				
+				<!-- entry content -->
+			    <div class="entry-content ecp">
+			    	<!-- social share button -->
+			    	
+			    	
+			    	
+                    <!-- google Adsense Matched content -->
+                    
+                    
+			    	<!-- content -->
+			  		<h2 id="&#x8FD8;&#x662F;&#x4ECE;TCP-IP&#x534F;&#x8BAE;&#x8BF4;&#x8D77;"><a href="#&#x8FD8;&#x662F;&#x4ECE;TCP-IP&#x534F;&#x8BAE;&#x8BF4;&#x8D77;" class="headerlink" title="&#x8FD8;&#x662F;&#x4ECE;TCP/IP&#x534F;&#x8BAE;&#x8BF4;&#x8D77;"></a>&#x8FD8;&#x662F;&#x4ECE;TCP/IP&#x534F;&#x8BAE;&#x8BF4;&#x8D77;</h2><p>&#x9996;&#x5148;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x7BC7;&#x5B8C;&#x5168;&#x7684;&#x79D1;&#x666E;&#x6587;&#x7AE0;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x5E76;&#x4E0D;&#x6253;&#x7B97;&#x56DE;&#x987E;&#x534F;&#x8BAE;&#x539F;&#x7406;&#x7684;&#x90E8;&#x5206;&#xFF08;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x3001;&#x56DB;&#x6B21;&#x6325;&#x624B;&#x7684;&#x534F;&#x8BAE;&#x7EC6;&#x8282;&#x5C31;&#x4E0D;&#x6253;&#x7B97;&#x5570;&#x55E6;&#x4E86;&#xFF09;&#x548C;&#x534F;&#x8BAE;&#x7684;&#x5386;&#x53F2;&#x6CBF;&#x9769;&#xFF08;&#x660E;&#x660E;TCP&#x548C;IP&#x5C5E;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x7F51;&#x7EDC;&#x5C42;- &#x4F20;&#x8F93;&#x5C42;&#x548C;&#x7F51;&#x7EDC;&#x5C42;&#x53C8;&#x4E3A;&#x4EC0;&#x4E48;&#x653E;&#x5728;&#x4E00;&#x8D77;&#x8BB2;&#xFF1F;&#xFF09;&#x3002;  </p>
+<p>&#x4E0B;&#x9762;&#x7684;&#x90E8;&#x5206;&#x4F1A;&#x4ECE;&#x5E38;&#x89C1;&#x7684;&#x51E0;&#x4E2A;&#x7F51;&#x7EDC;&#x95EE;&#x9898;&#x5F00;&#x59CB;&#xFF0C;&#x9010;&#x6B65;&#x6839;&#x636E;&#x73B0;&#x8C61;&#x627E;&#x672C;&#x8D28;&#x3002;</p>
+<h2 id="&#x5E38;&#x89C1;&#x7684;&#x7F51;&#x7EDC;&#x95EE;&#x9898;"><a href="#&#x5E38;&#x89C1;&#x7684;&#x7F51;&#x7EDC;&#x95EE;&#x9898;" class="headerlink" title="&#x5E38;&#x89C1;&#x7684;&#x7F51;&#x7EDC;&#x95EE;&#x9898;"></a>&#x5E38;&#x89C1;&#x7684;&#x7F51;&#x7EDC;&#x95EE;&#x9898;</h2><h3 id="&#x5C0F;&#x5305;&#x95EE;&#x9898;&#x4E5F;&#x53EB;&#x611A;&#x7B28;&#x7A97;&#x53E3;&#x7EFC;&#x5408;&#x75C7;&#xFF08;Silly-Window-Syndrome&#xFF09;"><a href="#&#x5C0F;&#x5305;&#x95EE;&#x9898;&#x4E5F;&#x53EB;&#x611A;&#x7B28;&#x7A97;&#x53E3;&#x7EFC;&#x5408;&#x75C7;&#xFF08;Silly-Window-Syndrome&#xFF09;" class="headerlink" title="&#x5C0F;&#x5305;&#x95EE;&#x9898;&#x4E5F;&#x53EB;&#x611A;&#x7B28;&#x7A97;&#x53E3;&#x7EFC;&#x5408;&#x75C7;&#xFF08;Silly Window Syndrome&#xFF09;"></a>&#x5C0F;&#x5305;&#x95EE;&#x9898;&#x4E5F;&#x53EB;&#x611A;&#x7B28;&#x7A97;&#x53E3;&#x7EFC;&#x5408;&#x75C7;&#xFF08;Silly Window Syndrome&#xFF09;</h3><p>&#x5E38;&#x5E38;&#x4F1A;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5E94;&#x7528;&#x5C42;&#x4F20;&#x9012;&#x7ED9;TCP&#x4F20;&#x8F93;&#x5C42;&#x7684;&#x6570;&#x636E;&#x5F88;&#x5C0F;&#xFF0C;&#x8981;&#x6BD4;TCP&#xFF08;20Bytes&#xFF09;+ IP&#xFF08;20Byte&#xFF09;&#x5934;&#x90E8;&#x7684;&#x5927;&#x5C0F;&#x8FD8;&#x8981;&#x5C0F;&#xFF0C;&#x8FD9;&#x6837;&#x5176;&#x5B9E;&#x662F;&#x4E00;&#x79CD;&#x6D6A;&#x8D39;&#xFF0C;&#x6211;&#x4EEC;&#x628A;&#x8FD9;&#x6837;&#x7684;&#x95EE;&#x9898;&#x53EB;&#x611A;&#x7B28;&#x7A97;&#x53E3;&#x7EFC;&#x5408;&#x75C7;&#xFF0C;&#x4E5F;&#x53EB;&#x5C0F;&#x5305;&#x95EE;&#x9898;&#x3002;</p>
+<h3 id="&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#xFF08;Delayed-ACK&#xFF09;-&#x4E0E;-Nagle-&#x7B97;&#x6CD5;"><a href="#&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#xFF08;Delayed-ACK&#xFF09;-&#x4E0E;-Nagle-&#x7B97;&#x6CD5;" class="headerlink" title="&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#xFF08;Delayed ACK&#xFF09; &#x4E0E; Nagle &#x7B97;&#x6CD5;"></a>&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#xFF08;Delayed ACK&#xFF09; &#x4E0E; Nagle &#x7B97;&#x6CD5;</h3><p>&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x662F;&#x4E00;&#x79CD;&#x5E38;&#x89C1;&#x7684;TCP&#x4EA4;&#x4E92;&#x5F0F;&#x573A;&#x666F;&#x7B56;&#x7565;&#xFF0C;&#x5E38;&#x89C1;&#x7684;&#x4F8B;&#x5B50;&#xFF08;&#x611A;&#x7B28;&#x7A97;&#x53E3;&#x7EFC;&#x5408;&#x75C7;&#xFF09;&#x5C31;&#x662F;SSH&#x4E0E;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;&#x5668;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x4E4B;&#x540E;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x8F93;&#x5165;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x5B57;&#x6BCD;&#x5728;&#x53D1;&#x9001;&#x65B9;&#x6253;&#x5F00;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x7684;TCP&#x9009;&#x9879;&#x4E4B;&#x540E;&#xFF0C;&#x53D1;&#x9001;&#x65B9;&#x53D1;&#x7ED9;&#x63A5;&#x6536;&#x65B9;&#x7684;&#x7F51;&#x7EDC;&#x5305;&#x4E2D;&#x5982;&#x679C;&#x9664;&#x4E86;&#x786E;&#x8BA4;&#x6536;&#x5230;&#x62A5;&#x6587;&#x4E4B;&#x5916;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x4FE1;&#x606F;&#x9700;&#x8981;&#x56DE;&#x590D;&#x7ED9;&#x53D1;&#x9001;&#x65B9;&#xFF0C;&#x90A3;&#x4E48;&#x63A5;&#x6536;&#x65B9;&#x5C31;&#x4F1A;&#x7B49;&#x5F85;&#x4E00;&#x4E2A;&#x8D85;&#x65F6;&#x7684;&#x65F6;&#x95F4;(TCP&#x534F;&#x8BAE;&#x89C4;&#x5B9A;&#x8FD9;&#x4E2A;&#x503C;&#x5E94;&#x5F53;&#x5C0F;&#x4E8E;500ms <a href="https://tools.ietf.org/html/rfc1122#page-96" target="_blank" rel="noopener">rfc1122</a>&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E2D;&#x8FD9;&#x4E2A;&#x503C;&#x6709;&#x6240;&#x4E0D;&#x540C;)&#x4E4B;&#x540E;&#x5728;&#x56DE;&#x590D;&#x786E;&#x8BA4;&#x62A5;&#x6587;&#x3002;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x901A;&#x8FC7;&#x5728;&#x7F51;&#x7EDC;&#x4FE1;&#x9053;&#x4E2D;&#x51CF;&#x5C11;&#x7F51;&#x7EDC;&#x5305;&#x7684;&#x53D1;&#x9001;&#x6765;&#x4F18;&#x5316;&#x7F51;&#x7EDC;&#x3002;<br>Nagle&#x7B97;&#x6CD5;&#x662F;&#x901A;&#x8FC7;&#x5728;&#x53D1;&#x9001;&#x65B9;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x201C;buffer&#x201D;&#xFF0C;&#x5C06;&#x53D1;&#x9001;&#x5305;&#x4F53;&#x5927;&#x5C0F;&#x79EF;&#x7D2F;&#x5230;&#x4E00;&#x4E2A;MSS&#x4E4B;&#x540E;&#x53D1;&#x9001;&#x7F51;&#x7EDC;&#x5305;&#x3002;</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if there is new data to send then</span><br><span class="line">    if the window size &#x2265; MSS and available data is &#x2265; MSS then</span><br><span class="line">        send complete MSS segment now</span><br><span class="line">    else</span><br><span class="line">        if there is unconfirmed data still in the pipe then</span><br><span class="line">            enqueue data in the buffer until an acknowledge is received</span><br><span class="line">        else</span><br><span class="line">            send data immediately</span><br><span class="line">        end if</span><br><span class="line">    end if</span><br><span class="line">end if</span><br></pre></td></tr></tbody></table></figure>
+<p>&#x672C;&#x8D28;&#x4E0A;&#x4E5F;&#x662F;&#x901A;&#x8FC7;&#x5728;&#x4FE1;&#x9053;&#x4E2D;&#x51CF;&#x5C11;&#x7F51;&#x7EDC;&#x5305;&#x7684;&#x53D1;&#x9001;&#x6570;&#x91CF;&#x6765;&#x4F18;&#x5316;&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x3002;</p>
+<p>&#x542C;&#x8D77;&#x6765;&#x4E24;&#x79CD;&#x673A;&#x5236;&#x90FD;&#x662F;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x95EE;&#x9898;&#x7684;&#xFF0C;&#x90FD;&#x662F;&#x5728;&#x89E3;&#x51B3;&#x7279;&#x5B9A;&#x73AF;&#x5883;&#x4E0B;&#x7684;&#x7279;&#x5B9A;&#x95EE;&#x9898;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x53D1;&#x9001;&#x65B9;&#x5F00;&#x542F;&#x4E86;Nagle&#x7B97;&#x6CD5;&#x4E0E;&#x6B64;&#x540C;&#x65F6;&#x63A5;&#x6536;&#x65B9;&#x4E5F;&#x5F00;&#x542F;&#x4E86;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#xFF0C;&#x5728;&#x53D1;&#x9001;&#x65B9;&#x51FA;&#x73B0;write-write-read&#x8FD9;&#x6837;&#x7684;&#x62A5;&#x6587;&#x7EC4;&#x5408;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x6709;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x7B49;&#x5F85;&#x5230;&#x4E00;&#x4E2A;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x540E;&#x7684;&#x7F51;&#x7EDC;&#x7B49;&#x5F85;&#x3002;</p>
+<h4 id="&#x5982;&#x4F55;&#x89E3;&#x51B3;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x4E0E;Nagle&#x7B97;&#x6CD5;&#x51B2;&#x7A81;&#x7684;&#x95EE;&#x9898;"><a href="#&#x5982;&#x4F55;&#x89E3;&#x51B3;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x4E0E;Nagle&#x7B97;&#x6CD5;&#x51B2;&#x7A81;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x5982;&#x4F55;&#x89E3;&#x51B3;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x4E0E;Nagle&#x7B97;&#x6CD5;&#x51B2;&#x7A81;&#x7684;&#x95EE;&#x9898;"></a>&#x5982;&#x4F55;&#x89E3;&#x51B3;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x4E0E;Nagle&#x7B97;&#x6CD5;&#x51B2;&#x7A81;&#x7684;&#x95EE;&#x9898;</h4><p>&#x4E24;&#x79CD;&#x601D;&#x8DEF;&#xFF1A;</p>
+<ul>
+<li>&#x5728;&#x5E94;&#x7528;&#x5C42;&#xFF0C;&#x907F;&#x514D;&#x51FA;&#x73B0; write-wirte-read&#x8FD9;&#x6837;&#x7684;&#x7F51;&#x7EDC;&#x8C03;&#x7528;</li>
+<li>&#x5728;&#x4F20;&#x8F93;&#x534F;&#x8BAE;&#x5C42;&#xFF0C;&#x5728;&#x53D1;&#x9001;&#x65B9;&#x5173;&#x95ED;Nagle&#x7B97;&#x6CD5;&#x673A;&#x5236;&#x6216;&#x8005;&#x5728;&#x63A5;&#x6536;&#x65B9;&#x5173;&#x95ED;DelayACK</li>
+</ul>
+<p>&#x5BF9;&#x4E8E;&#x5173;&#x95ED;DelayedACK&#xFF1A;  </p>
+<ol>
+<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>TCP_QUICKACK</code></li>
+<li>&#x5982;&#x679C;&#x662F;RHRL&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x4FEE;&#x6539;<code>tcp_delack_min</code>&#x7684;&#x503C;&#xFF08;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A; 40ms&#xFF09;</li>
+</ol>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># echo 1 &gt; /proc/sys/net/ipv4/tcp_delack_min</span></span><br></pre></td></tr></tbody></table></figure>
+<p><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_MRG/1.3/html/Realtime_Tuning_Guide/sect-Realtime_Tuning_Guide-General_System_Tuning-Reducing_the_TCP_delayed_ack_timeout.html" target="_blank" rel="noopener">RHEL - realtime tuning - Reduce TCP Delayed ack timeout</a></p>
+<p>&#x5BF9;&#x4E8E;&#x5173;&#x95ED; Nagle &#x7B97;&#x6CD5;&#xFF1A;<br>&#x5728;TCP&#x8FDE;&#x63A5;&#x9009;&#x9879;&#x4E2D;&#x9009;&#x62E9; <code>TCP_NO_DELAY</code></p>
+<p><a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" rel="noopener"></a></p>
+<h3 id="&#x7F51;&#x7EDC;&#x5305;&#x91CD;&#x4F20;"><a href="#&#x7F51;&#x7EDC;&#x5305;&#x91CD;&#x4F20;" class="headerlink" title="&#x7F51;&#x7EDC;&#x5305;&#x91CD;&#x4F20;"></a>&#x7F51;&#x7EDC;&#x5305;&#x91CD;&#x4F20;</h3><p>&#x534F;&#x8BAE;&#x4E2D;&#x7684;&#x91CD;&#x4F20;&#x573A;&#x666F;&#xFF1A;</p>
+<h4 id="&#x8D85;&#x65F6;&#x91CD;&#x4F20;"><a href="#&#x8D85;&#x65F6;&#x91CD;&#x4F20;" class="headerlink" title="&#x8D85;&#x65F6;&#x91CD;&#x4F20;"></a>&#x8D85;&#x65F6;&#x91CD;&#x4F20;</h4><p>&#x51FA;&#x73B0;&#x62E5;&#x585E;&#xFF0C;&#x5F53;&#x53D1;&#x9001;&#x65B9;&#x7684;&#x539F;&#x5305;&#x53D1;&#x51FA;&#x540E;&#x7ECF;&#x8FC7;&#x4E00;&#x4E2A;RTO&#x7684;&#x8D85;&#x65F6;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x540E;&#x5C31;&#x4F1A;&#x91CD;&#x4F20;&#x8FD9;&#x4E2A;&#x7F51;&#x7EDC;&#x5305;&#x3002;<br>&#x8D85;&#x65F6;&#x91CD;&#x4F20;&#x4E4B;&#x540E;&#xFF0C;&#x62E5;&#x585E;&#x7A97;&#x53E3;&#x7684;&#x5927;&#x5C0F;&#x4E5F;&#x9700;&#x8981;&#x8C03;&#x6574;&#xFF0C;&#x534F;&#x8BAE;&#x4E2D;&#x5EFA;&#x8BAE; ssthresh = max ( FlightSize / 2, 2MSS)&#x3002;</p>
+<h4 id="&#x5FEB;&#x901F;&#x91CD;&#x4F20;"><a href="#&#x5FEB;&#x901F;&#x91CD;&#x4F20;" class="headerlink" title="&#x5FEB;&#x901F;&#x91CD;&#x4F20;"></a>&#x5FEB;&#x901F;&#x91CD;&#x4F20;</h4><p>&#x5982;&#x679C;&#x63A5;&#x6536;&#x65B9;&#x6536;&#x5230;&#x4E00;&#x7EC4;&#x4E71;&#x5E8F;&#x7684;&#x7F51;&#x7EDC;&#x5305;&#xFF0C;&#x6309;&#x7167;&#x534F;&#x8BAE;&#x5B83;&#x5E94;&#x5F53;&#x8FDE;&#x7EED;&#x53D1;&#x9001;3&#x4E2A;&#x91CD;&#x590D;ack&#xFF0C;&#x5F53;&#x53D1;&#x9001;&#x65B9;&#x6536;&#x5230;&#x8FD9;&#x6837;&#x7684;ACK&#x540E;&#x9700;&#x8981;&#x542F;&#x52A8;&#x5FEB;&#x901F;&#x91CD;&#x4F20;&#x673A;&#x5236;&#x3002;<br>&#x5177;&#x4F53;&#x7EC6;&#x8282;&#x8BE6;&#x89C1;&#x4E0B;&#x9762;wireshark&#x6293;&#x5305;&#x5206;&#x6790;&#x622A;&#x56FE;&#xFF1A;<br></p><div class="amp-img-wrapper"><amp-img src="https://image.ai-byte.com/tcp_fast_retransmission_20200225.jpg" width="2664" height="422" layout="responsive"></amp-img></div>
+<h3 id="&#x7F51;&#x7EDC;&#x5305;&#x4E71;&#x5E8F;"><a href="#&#x7F51;&#x7EDC;&#x5305;&#x4E71;&#x5E8F;" class="headerlink" title="&#x7F51;&#x7EDC;&#x5305;&#x4E71;&#x5E8F;"></a>&#x7F51;&#x7EDC;&#x5305;&#x4E71;&#x5E8F;</h3><p>&#x63A5;&#x6536;&#x65B9;&#x6536;&#x5230;&#x4E71;&#x5E8F;&#x5305;&#x9700;&#x8981;&#x6839;&#x636E;&#x534F;&#x8BAE;&#x53D1;&#x9001;&#x91CD;&#x590D;&#x7684;3&#x4E2A;ACK&#x786E;&#x8BA4;&#x5305;&#xFF0C;&#x968F;&#x540E;&#x53D1;&#x9001;&#x65B9;&#x4F1A;&#x6709;&#x5FEB;&#x901F;&#x91CD;&#x4F20;&#x7684;&#x673A;&#x5236;&#x5C06;&#x63A5;&#x6536;&#x65B9;&#x7684;ACK&#x5305;&#x91CD;&#x4F20;&#xFF0C;&#x800C;&#x65E0;&#x89C6;RTO&#x7684;&#x8D85;&#x65F6;&#x9650;&#x5236;&#x3002;<br>&#x7EC6;&#x8282;&#x53C2;&#x89C1;&#x4E0A;&#x65B9;&#x5FEB;&#x901F;&#x91CD;&#x4F20;Wireshark&#x6293;&#x5305;&#x5206;&#x6790;&#x622A;&#x56FE;&#x3002;</p>
+<h3 id="&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x6162;&#x901F;"><a href="#&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x6162;&#x901F;" class="headerlink" title="&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x6162;&#x901F;"></a>&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x6162;&#x901F;</h3><h4 id="&#x6162;&#x542F;&#x52A8;&#x4E0E;&#x7F51;&#x7EDC;&#x62E5;&#x585E;&#x70B9;"><a href="#&#x6162;&#x542F;&#x52A8;&#x4E0E;&#x7F51;&#x7EDC;&#x62E5;&#x585E;&#x70B9;" class="headerlink" title="&#x6162;&#x542F;&#x52A8;&#x4E0E;&#x7F51;&#x7EDC;&#x62E5;&#x585E;&#x70B9;"></a>&#x6162;&#x542F;&#x52A8;&#x4E0E;&#x7F51;&#x7EDC;&#x62E5;&#x585E;&#x70B9;</h4><p>&#x8BA1;&#x5212;&#x4F7F;&#x7528;FTP&#x534F;&#x8BAE;&#x4F20;&#x8F93;&#x5927;&#x6587;&#x4EF6;&#xFF0C;&#x8FDB;&#x884C;&#x7F51;&#x7EDC;&#x6293;&#x5305;&#x5206;&#x6790;&#xFF0C;&#x5F97;&#x51FA;&#x7C7B;&#x4F3C;&#x4E0B;&#x9762;&#x7684; time/sequence graph&#xFF08;steven&#xFF09;&#xFF1A;<br>// TODO<br></p><div class="amp-img-wrapper"><amp-img src="https://image.ai-byte.com/tcp_slow_start_20200225.jpg" width="1780" height="716" layout="responsive"></amp-img></div>
+<h4 id="TCP&#x53D1;&#x9001;&#x7A97;&#x53E3;"><a href="#TCP&#x53D1;&#x9001;&#x7A97;&#x53E3;" class="headerlink" title="TCP&#x53D1;&#x9001;&#x7A97;&#x53E3;"></a>TCP&#x53D1;&#x9001;&#x7A97;&#x53E3;</h4><p>LRO&#xFF08;Large Recieve offload&#xFF09;</p>
+<h3 id="&#x5927;&#x91CF;&#x5904;&#x4E8E;TIME-WAIT&#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;"><a href="#&#x5927;&#x91CF;&#x5904;&#x4E8E;TIME-WAIT&#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;" class="headerlink" title="&#x5927;&#x91CF;&#x5904;&#x4E8E;TIME_WAIT&#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;"></a>&#x5927;&#x91CF;&#x5904;&#x4E8E;TIME_WAIT&#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;</h3><h4 id="&#x73B0;&#x8C61;"><a href="#&#x73B0;&#x8C61;" class="headerlink" title="&#x73B0;&#x8C61;"></a>&#x73B0;&#x8C61;</h4><p>&#x8FDC;&#x7A0B;&#x767B;&#x5F55;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x540E;&#x4F7F;&#x7528; <code>netstat -nlp | head -n 11</code>&#x547D;&#x4EE4;&#x67E5;&#x770B;TCP&#x534F;&#x8BAE;&#x4E2D;&#x6709;&#x5927;&#x91CF;&#x5904;&#x4E8E;TIME_WAIT&#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;</p>
+<h4 id="&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;TIME-WAIT&#x8FD9;&#x4E2A;&#x72B6;&#x6001;"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;TIME-WAIT&#x8FD9;&#x4E2A;&#x72B6;&#x6001;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;TIME_WAIT&#x8FD9;&#x4E2A;&#x72B6;&#x6001;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;TIME_WAIT&#x8FD9;&#x4E2A;&#x72B6;&#x6001;</h4><p>&#x6839;&#x636E;RFC-1122&#x534F;&#x8BAE;&#x4E2D;&#x5173;&#x4E8E;TCP&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x7684;&#x89C4;&#x5B9A;&#xFF08;<a href="https://tools.ietf.org/html/rfc1122#page-88" target="_blank" rel="noopener">RFC-1122 Closing a Connection</a>&#xFF09;</p>
+<p>&#x6D88;&#x606F;&#x53D1;&#x9001;&#x65B9;&#x5728;&#x4E3B;&#x52A8;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#xFF0C;&#x6536;&#x5230;&#x6D88;&#x606F;&#x63A5;&#x6536;&#x65B9;&#x7684;ACK&#x548C;FIN&#x6D88;&#x606F;&#x4E4B;&#x540E;&#x5C31;&#x4F1A;&#x8FDB;&#x5165;&#x8FD9;&#x4E2A;<code>TIME_WAIT</code>&#x72B6;&#x6001;&#xFF0C;&#x540C;&#x65F6;&#x4F1A;&#x7B49;&#x5F85;<code>2 * MSL</code>&#x65F6;&#x95F4;timeout&#x4E4B;&#x540E;&#x4F1A;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#xFF0C;&#x8FDB;&#x5165;<code>ClOSED</code>&#x7684;&#x72B6;&#x6001;&#x3002;<br>&#x8FD9;&#x4E2A;<code>MSL</code>&#x5728;&#x534F;&#x8BAE;&#x4E2D;&#x7684;&#x7EA6;&#x5B9A;&#x662F;2&#x5206;&#x949F;&#xFF08;2 minutes&#xFF09;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x73B0;&#x4E0B;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x503C;&#x3002;<br>&#x4EE5;CentOS&#x4E3A;&#x4F8B;&#xFF0C;&#x5229;&#x7528;<code>cat /proc/sys/net/ipv4/tcp_fin_timeout</code>&#x67E5;&#x770B;&#x5F97;&#x77E5;<code>2 * MSL</code>&#xFF0C;&#x8BE5;&#x503C;&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;<code>60</code>s</p>
+<h4 id="&#x5982;&#x4F55;&#x89E3;&#x51B3;"><a href="#&#x5982;&#x4F55;&#x89E3;&#x51B3;" class="headerlink" title="&#x5982;&#x4F55;&#x89E3;&#x51B3;"></a>&#x5982;&#x4F55;&#x89E3;&#x51B3;</h4><p>&#x5927;&#x91CF;&#x5904;&#x4E8E; TIME_WAIT &#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;&#xFF0C;&#x5B83;&#x4EEC;&#x4F1A;&#x5360;&#x7528;&#x5927;&#x91CF;&#x5185;&#x5B58;&#x548C;&#x7AEF;&#x53E3;&#x8D44;&#x6E90;&#x3002;&#x8FD9;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F18;&#x5316;&#x4E0E; TIME_WAIT &#x72B6;&#x6001;&#x76F8;&#x5173;&#x7684;&#x5185;&#x6838;&#x9009;&#x9879;&#xFF0C;&#x6BD4;&#x5982;&#x91C7;&#x53D6;&#x4E0B;&#x9762;&#x51E0;&#x79CD;&#x63AA;&#x65BD;&#x3002;&#xFF08;&#x6CE8;&#xFF1A; &#x4E00;&#x5B9A;&#x786E;&#x5B9A;&#x8BE5;&#x4FEE;&#x6539;&#x9879;&#x5728;&#x8BF7;&#x6C42;&#x53D1;&#x8D77;&#x65B9;-&#x201C;&#x5BA2;&#x6237;&#x7AEF;&#x201D;&#x8FDB;&#x884C;&#xFF09;&#xFF1A;  </p>
+<ul>
+<li>&#x589E;&#x5927;&#x5904;&#x4E8E; TIME_WAIT &#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;&#x6570;&#x91CF; <code>net.ipv4.tcp_max_tw_buckets</code> &#xFF0C;&#x5E76;&#x589E;&#x5927;&#x8FDE;&#x63A5;&#x8DDF;&#x8E2A;&#x8868;&#x7684;&#x5927;&#x5C0F; <code>net.netfilter.nf_conntrack_max</code>&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net.ipv4.tcp_max_tw_buckets</td>
+<td>5000</td>
+<td>1048576</td>
+</tr>
+<tr>
+<td>net.netfilter.nf_conntrack_max</td>
+<td></td>
+<td>1048576</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>&#x51CF;&#x5C0F; <code>net.ipv4.tcp_fin_timeout</code> &#x548C; <code>net.netfilter.nf_conntrack_tcp_timeout_time_wait</code> &#xFF0C;&#x8BA9;&#x7CFB;&#x7EDF;&#x5C3D;&#x5FEB;&#x91CA;&#x653E;&#x5B83;&#x4EEC;&#x6240;&#x5360;&#x7528;&#x7684;&#x8D44;&#x6E90;&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net.ipv4.tcp_fin_timeout</td>
+<td>60</td>
+<td>15</td>
+</tr>
+<tr>
+<td>net.netfilter.nf_conntrack_tcp_timeout_time_wait</td>
+<td></td>
+<td>30</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>&#x5F00;&#x542F;&#x7AEF;&#x53E3;&#x590D;&#x7528; <code>net.ipv4.tcp_tw_reuse</code>&#x3002;&#x8FD9;&#x6837;&#xFF0C;&#x88AB; TIME_WAIT &#x72B6;&#x6001;&#x5360;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#xFF0C;&#x8FD8;&#x80FD;&#x7528;&#x5230;&#x65B0;&#x5EFA;&#x7684;&#x8FDE;&#x63A5;&#x4E2D;&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net.ipv4.tcp_tw_reuse</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>&#x589E;&#x5927;&#x672C;&#x5730;&#x7AEF;&#x53E3;&#x7684;&#x8303;&#x56F4; <code>net.ipv4.ip_local_port_range</code> &#x3002;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x66F4;&#x591A;&#x8FDE;&#x63A5;&#xFF0C;&#x63D0;&#x9AD8;&#x6574;&#x4F53;&#x7684;&#x5E76;&#x53D1;&#x80FD;&#x529B;&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net.ipv4.ip_local_port_range</td>
+<td>32768 60999</td>
+<td>10000 65000</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>&#x589E;&#x52A0;&#x6700;&#x5927;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x7684;&#x6570;&#x91CF;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>fs.nr_open</code> &#x548C; <code>fs.file-max</code> &#xFF0C;&#x5206;&#x522B;&#x589E;&#x5927;&#x8FDB;&#x7A0B;&#x548C;&#x7CFB;&#x7EDF;&#x7684;&#x6700;&#x5927;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x6570;&#xFF1B;&#x6216;&#x5728;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684; systemd &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x914D;&#x7F6E; LimitNOFILE &#xFF0C;&#x8BBE;&#x7F6E;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x6700;&#x5927;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x6570;&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fs.nr_open</td>
+<td></td>
+<td>1048576</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="SYN-flood"><a href="#SYN-flood" class="headerlink" title="SYN-flood"></a>SYN-flood</h3><h4 id="&#x4EC0;&#x4E48;&#x662F;-SYN-FLOOD"><a href="#&#x4EC0;&#x4E48;&#x662F;-SYN-FLOOD" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F; SYN FLOOD"></a>&#x4EC0;&#x4E48;&#x662F; SYN FLOOD</h4><p>&#x6211;&#x4EEC;&#x90FD;&#x77E5;&#x9053;&#xFF0C;TCP &#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x7684;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x673A;&#x5236;&#xFF0C;&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x662F;&#x522B;&#x6709;&#x7528;&#x5FC3;&#x7684;&#x9ED1;&#x5BA2;&#xFF0C;&#x5728;&#x53D1;&#x9001;&#x7B2C;&#x4E00;&#x4E2A;SYN&#x4E4B;&#x540E;&#x5C31;&#x4E0D;&#x518D;&#x56DE;&#x590D;ACK&#xFF0C;&#x8FD9;&#x6837;&#x4F1A;&#x9020;&#x6210;&#x5927;&#x91CF;&#x7684;&#x8FDE;&#x63A5;&#x5904;&#x4E8E;&#x534A;&#x8FDE;&#x63A5;&#x72B6;&#x6001;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x76F4;&#x6301;&#x7EED;&#x4E0D;&#x65AD;&#x7684;SYN&#x4E0D;&#x56DE;&#x590D;ACK&#xFF0C;&#x4F1A;&#x9020;&#x6210;&#x5927;&#x91CF;&#x7684;&#x8D44;&#x6E90;&#x6D88;&#x8017;&#x3001;&#x5360;&#x6EE1;&#x6574;&#x4E2A;syn&#x961F;&#x5217;&#x8BA9;&#x6B63;&#x5E38;&#x7684;&#x4E1A;&#x52A1;&#x6D41;&#x91CF;&#x8FDB;&#x4E0D;&#x6765;&#xFF0C;&#x4ECE;&#x800C;&#x8FBE;&#x5230;&#x641E;&#x57AE;&#x670D;&#x52A1;&#x7684;&#x76EE;&#x7684;&#x3002;</p>
+<h4 id="&#x5982;&#x4F55;&#x89E3;&#x51B3;-SYN-FlOOD-&#x95EE;&#x9898;"><a href="#&#x5982;&#x4F55;&#x89E3;&#x51B3;-SYN-FlOOD-&#x95EE;&#x9898;" class="headerlink" title="&#x5982;&#x4F55;&#x89E3;&#x51B3; SYN FlOOD &#x95EE;&#x9898;"></a>&#x5982;&#x4F55;&#x89E3;&#x51B3; SYN FlOOD &#x95EE;&#x9898;</h4><p>&#x5176;&#x5B9E;SYN FLOOD&#x662F;&#x534F;&#x8BAE;&#x6808;&#x7684;&#x8BBE;&#x8BA1;&#x6F0F;&#x6D1E;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x8FD9;&#x4E9B;&#x63AA;&#x65BD;&#x8FDB;&#x884C;&#x4F18;&#x5316;&#xFF1A;</p>
+<ul>
+<li>&#x589E;&#x5927; TCP &#x534A;&#x8FDE;&#x63A5;&#x7684;&#x6700;&#x5927;&#x6570;&#x91CF; <code>net.ipv4.tcp_max_syn_backlog</code> &#xFF0C;&#x6216;&#x8005;&#x5F00;&#x542F; TCP SYN Cookies <code>net.ipv4.tcp_syncookies</code> &#xFF0C;&#x6765;&#x7ED5;&#x5F00;&#x534A;&#x8FDE;&#x63A5;&#x6570;&#x91CF;&#x9650;&#x5236;&#x7684;&#x95EE;&#x9898;&#xFF08;&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x9009;&#x9879;&#x4E0D;&#x53EF;&#x540C;&#x65F6;&#x4F7F;&#x7528;&#xFF09;&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net.ipv4.tcp_max_syn_backlog</td>
+<td>1024</td>
+<td>16384</td>
+</tr>
+<tr>
+<td>net.ipv4.tcp_syncookies</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>&#x51CF;&#x5C11; SYN_RECV &#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;&#x91CD;&#x4F20; SYN+ACK &#x5305;&#x7684;&#x6B21;&#x6570; <code>net.ipv4.tcp_synack_retries</code>&#x3002;</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>&#x5185;&#x6838;&#x9009;&#x9879;</th>
+<th>&#x9ED8;&#x8BA4;&#x503C;</th>
+<th>&#x53C2;&#x8003;&#x503C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net.ipv4.tcp_synack_retries</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="WireShark-&#x5982;&#x4F55;&#x89E3;&#x51B3;"><a href="#WireShark-&#x5982;&#x4F55;&#x89E3;&#x51B3;" class="headerlink" title="WireShark &#x5982;&#x4F55;&#x89E3;&#x51B3;"></a>WireShark &#x5982;&#x4F55;&#x89E3;&#x51B3;</h2><h3 id="&#x67E5;&#x770B;&#x8D85;&#x65F6;&#x91CD;&#x4F20;&#x7684;&#x65B9;&#x6CD5;"><a href="#&#x67E5;&#x770B;&#x8D85;&#x65F6;&#x91CD;&#x4F20;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x67E5;&#x770B;&#x8D85;&#x65F6;&#x91CD;&#x4F20;&#x7684;&#x65B9;&#x6CD5;"></a>&#x67E5;&#x770B;&#x8D85;&#x65F6;&#x91CD;&#x4F20;&#x7684;&#x65B9;&#x6CD5;</h3><blockquote>
+<p>Analysis -&gt; Expert information</p>
+</blockquote>
+<p>Note &#x7C7B;&#x4FE1;&#x606F;&#x4E2D;Summary &#x90E8;&#x5206;&#x4E3A; &#x201C;this frame is a (suspected) retransmission &#x201C;</p>
+<h3 id="&#x4F7F;&#x7528;Wireshark&#x81EA;&#x52A8;&#x5206;&#x6790;"><a href="#&#x4F7F;&#x7528;Wireshark&#x81EA;&#x52A8;&#x5206;&#x6790;" class="headerlink" title="&#x4F7F;&#x7528;Wireshark&#x81EA;&#x52A8;&#x5206;&#x6790;"></a>&#x4F7F;&#x7528;Wireshark&#x81EA;&#x52A8;&#x5206;&#x6790;</h3><ul>
+<li>&#x67E5;&#x770B;&#x5206;&#x6790;&#x7684;&#x6458;&#x8981;&#x4FE1;&#x606F;</li>
+</ul>
+<blockquote>
+<p>Analysis -&gt; Expert information</p>
+</blockquote>
+<ul>
+<li>&#x9009;&#x5B9A;&#x9700;&#x8981;&#x67E5;&#x770B;&#x7684;TCP&#x8FDE;&#x63A5;&#xFF0C;&#x67E5;&#x770B;TCP stream Graph &#x7B49;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;</li>
+</ul>
+<blockquote>
+<p>Statistics -&gt; TCP Stream Graph</p>
+</blockquote>
+<p>Time-Sequence Graph(steven)</p>
+<ul>
+<li>&#x67E5;&#x770B;TCP &#x6D41;&#x56FE;</li>
+</ul>
+<blockquote>
+<p>Statistics -&gt; Flow Graph</p>
+</blockquote>
+<p>Flow type &#x4E2D;&#x9009;&#x62E9;&#xFF1A; TCP Flows</p>
+<div class="amp-img-wrapper"><amp-img src="https://image.ai-byte.com/TCP-4wayShakehands_TerminatingConnection-flowGraph.jpg" width="1335" height="412" layout="responsive"></amp-img></div>
+<h2 id="&#x6709;&#x7528;&#x7684;&#x51E0;&#x4E2A;WireShark&#x914D;&#x7F6E;"><a href="#&#x6709;&#x7528;&#x7684;&#x51E0;&#x4E2A;WireShark&#x914D;&#x7F6E;" class="headerlink" title="&#x6709;&#x7528;&#x7684;&#x51E0;&#x4E2A;WireShark&#x914D;&#x7F6E;"></a>&#x6709;&#x7528;&#x7684;&#x51E0;&#x4E2A;WireShark&#x914D;&#x7F6E;</h2><ul>
+<li>WireShark&#x4E2D;&#x5217;&#x51FA;&#x8D85;&#x8FC7;200ms&#x7684;ack&#x62A5;&#x6587;(&#x67E5;&#x8BE2;&#x7591;&#x4F3C;&#x5EF6;&#x8FDF;&#x786E;&#x8BA4;&#x62A5;&#x6587;)</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp.analysis.ack_rtt&gt;0.1 and tcp.len==0</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="&#x5E38;&#x7528;&#x7684;&#x51E0;&#x4E2A;&#x7F51;&#x7EDC;&#x547D;&#x4EE4;"><a href="#&#x5E38;&#x7528;&#x7684;&#x51E0;&#x4E2A;&#x7F51;&#x7EDC;&#x547D;&#x4EE4;" class="headerlink" title="&#x5E38;&#x7528;&#x7684;&#x51E0;&#x4E2A;&#x7F51;&#x7EDC;&#x547D;&#x4EE4;"></a>&#x5E38;&#x7528;&#x7684;&#x51E0;&#x4E2A;&#x7F51;&#x7EDC;&#x547D;&#x4EE4;</h2><ul>
+<li>&#x4F7F;&#x7528;ICMP&#x53D1;&#x9001;&#x6307;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x7F51;&#x7EDC;&#x5305;&#xFF08;macOS&#xFF09;</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping &lt;ip_address&gt; <span class="_">-s</span> &lt;packa_size_of_IP_Package_content&gt; -D -c &lt;repeat_time&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>&#x5176;&#x4E2D; -D &#x53C2;&#x6570;&#x8868;&#x793A; &#x5728; IP &#x5305;&#x4E2D;flag&#x8BBE;&#x7F6E;&#x4E2D; DF&#xFF08;Don&#x2019;t Fragment&#xFF09; &#x6807;&#x5FD7;</p>
+<h2 id="&#x5E38;&#x89C1;&#x540D;&#x8BCD;&#x89E3;&#x91CA;"><a href="#&#x5E38;&#x89C1;&#x540D;&#x8BCD;&#x89E3;&#x91CA;" class="headerlink" title="&#x5E38;&#x89C1;&#x540D;&#x8BCD;&#x89E3;&#x91CA;"></a>&#x5E38;&#x89C1;&#x540D;&#x8BCD;&#x89E3;&#x91CA;</h2><h3 id="MSS-Maximum-Segment-Size"><a href="#MSS-Maximum-Segment-Size" class="headerlink" title="MSS(Maximum Segment Size)"></a>MSS(Maximum Segment Size)</h3><p>TCP&#x7684;3&#x6B21;&#x63E1;&#x624B;&#x4F1A;&#x5C06;&#x53CC;&#x65B9;&#x7684;MSS&#x503C;&#x544A;&#x8BC9;&#x5BF9;&#x65B9;&#xFF0C;&#x5C06;MSS&#x503C;&#x52A0;&#x4E0A;TCP&#x5934;&#x548C;IP&#x5934;&#x7684;&#x957F;&#x5EA6;&#x5C31;&#x77E5;&#x9053;&#x4E86;&#x4E0B;&#x9762;&#x7684;MTU&#x7684;&#x5927;&#x5C0F;&#x3002;</p>
+<h3 id="MTU-Maximum-Trasmission-Unit"><a href="#MTU-Maximum-Trasmission-Unit" class="headerlink" title="MTU(Maximum Trasmission Unit)"></a>MTU(Maximum Trasmission Unit)</h3><p>MTU = MSS + TCP Head length(&#x4E00;&#x822C;&#x662F;20Bytes) + IP Head leagth(20Bytes)</p>
+<p>&#x901A;&#x5E38;&#x7684;&#x5927;&#x591A;&#x6570;&#x7F51;&#x7EDC;&#x4E2D;MTU&#x7684;&#x5927;&#x5C0F;&#x5728; 1500 Bytes&#xFF0C;&#x800C;&#x5F00;&#x542F;&#x4E86;&#x5DE8;&#x5E27;&#xFF08;Jumbo Frame&#xFF09;&#x7684;&#x7F51;&#x7EDC;MTU&#x7684;&#x5927;&#x5C0F;&#x5728; 9000 Bytes&#x3002;</p>
+<h3 id="LSO-Large-Segmentation-Offload"><a href="#LSO-Large-Segmentation-Offload" class="headerlink" title="LSO(Large Segmentation Offload)"></a>LSO(Large Segmentation Offload)</h3><h3 id="LRO-Large-Reciever-Offload"><a href="#LRO-Large-Reciever-Offload" class="headerlink" title="LRO(Large Reciever Offload)"></a>LRO(Large Reciever Offload)</h3><h3 id="RTO-Retransmission-TimeOut"><a href="#RTO-Retransmission-TimeOut" class="headerlink" title="RTO(Retransmission TimeOut)"></a>RTO(Retransmission TimeOut)</h3><p>&#x53D1;&#x9001;&#x7AEF;&#x4ECE;&#x4E22;&#x5305;&#x5230;&#x91CD;&#x4F20;&#x5305;&#x4E4B;&#x95F4;&#x7ECF;&#x8FC7;&#x7684;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x4E2A;&#x6570;&#x503C;&#x5728;&#x4E00;&#x4E9B;OS&#x4E2D;&#x63D0;&#x4F9B;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#xFF0C;RTO&#x8BBE;&#x7F6E;&#x6570;&#x503C;&#x8BE5;&#x4E3A;&#x591A;&#x5C11;&#x6709;&#x5728;&#x534F;&#x8BAE;&#x4E2D;&#x7531;Karn &#x7B97;&#x6CD5;&#x4EE5;&#x53CA; Jacobson &#x7B97;&#x6CD5; <a href="https://tools.ietf.org/html/rfc1122#page-95" target="_blank" rel="noopener">rfc1122 - Retransmission Timeout Calculation</a>&#x8BA1;&#x7B97;&#x51B3;&#x5B9A;&#x3002;</p>
+<h3 id="SACK-Selective-Acknowlegement"><a href="#SACK-Selective-Acknowlegement" class="headerlink" title="SACK(Selective Acknowlegement)"></a>SACK(Selective Acknowlegement)</h3><p>&#x5728;Sliding-Windows ARQ&#x673A;&#x5236;&#x4E2D; &#x6709;&#x4E00;&#x79CD;&#x7EA0;&#x9519;&#x7684;&#x673A;&#x5236;&#x662F;Selective Repeate ARQ (&#x4E5F;&#x53EB; Selective Rejection)&#xFF0C;&#x662F;&#x5728;&#x63A5;&#x6536;&#x65B9;&#x6253;&#x5F00;Selective Acknowledge &#x9009;&#x9879;&#x540E;&#x7684;&#x4E00;&#x79CD;&#x65E8;&#x5728;&#x63D0;&#x5347;&#x7EA0;&#x9519;&#x6548;&#x7387;&#x7684;&#x673A;&#x5236;&#x3002;</p>
+<h2 id="&#x66F4;&#x591A;&#x53C2;&#x8003;"><a href="#&#x66F4;&#x591A;&#x53C2;&#x8003;" class="headerlink" title="&#x66F4;&#x591A;&#x53C2;&#x8003;"></a>&#x66F4;&#x591A;&#x53C2;&#x8003;</h2><h3 id="&#x7F51;&#x4E0A;&#x94FE;&#x63A5;"><a href="#&#x7F51;&#x4E0A;&#x94FE;&#x63A5;" class="headerlink" title="&#x7F51;&#x4E0A;&#x94FE;&#x63A5;"></a>&#x7F51;&#x4E0A;&#x94FE;&#x63A5;</h3><p><a href="https://wiki.wireshark.org/FrontPage" target="_blank" rel="noopener">Wireshark &#x5B98;&#x65B9;wiki</a><br><a href="https://wiki.wireshark.org/SampleCaptures" target="_blank" rel="noopener">Wireshark &#x6293;&#x5305;&#x6837;&#x4F8B;</a><br><a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener">&#x9177;&#x58F3; - TCP &#x7684;&#x90A3;&#x4E9B;&#x4E8B;&#x513F;&#xFF08;&#x4E0A;&#xFF09;</a><br><a href="https://coolshell.cn/articles/11609.html" target="_blank" rel="noopener">&#x9177;&#x58F3; - TCP &#x7684;&#x90A3;&#x4E9B;&#x4E8B;&#x513F;&#xFF08;&#x4E0B;&#xFF09;</a></p>
+<h3 id="&#x4E66;&#x7C4D;"><a href="#&#x4E66;&#x7C4D;" class="headerlink" title="&#x4E66;&#x7C4D;"></a>&#x4E66;&#x7C4D;</h3><p><a href="https://book.douban.com/subject/26268767/" target="_blank" rel="noopener">Wireshark&#x7F51;&#x7EDC;&#x5206;&#x6790;&#x5C31;&#x8FD9;&#x4E48;&#x7B80;&#x5355;</a><br><a href="https://book.douban.com/subject/26710788/" target="_blank" rel="noopener">wireshark&#x7F51;&#x7EDC;&#x5206;&#x6790;&#x7684;&#x827A;&#x672F;</a><br><a href="https://book.douban.com/subject/1088054/" target="_blank" rel="noopener">TCP/IP&#x8BE6;&#x89E3; &#x5377;1&#xFF1A;&#x534F;&#x8BAE;</a><br><a href="https://book.douban.com/subject/1087767/" target="_blank" rel="noopener">TCP/IP&#x8BE6;&#x89E3; &#x5377;2&#xFF1A;&#x5B9E;&#x73B0;</a></p>
+
+			  		
+			  		<!-- google Adsense -->
+			  		
+					
+					
+					
+					
+			    	
+					
+					<!-- google Adsense Matched content -->
+			  		
+			  	</div>
+				
+		  	</article>
+		  	
+		  	
+		  	<!-- TAGS -->
+		  	
+		  	
+		  	<!-- Categories posts -->
+		  	
+		  	
+		  	
+		  	<!-- Detailed categories  posts -->
+		  	
+		  	
+		  	
+		  	<!-- Latests -->
+		  	
+			
+		</div>
+		
+		
+		<footer id="footer">
+		
+			
+			
+			
+			
+			<div class="copyright-tool">
+				
+				
+				
+				<div class="copyright-title">
+					<span>
+					&copy; 2020&nbsp;CombinatorX
+					</span>
+				</div>
+				
+				<div class="copyright-license">
+					<aside>
+						Powered by <a href="https://hexo.io/">Hexo</a>. <a href="https://github.com/tea3/hexo-generator-amp">AMP-Theme</a> designed by <a href="https://github.com/tea3/">tea</a>.
+					</aside>
+				</div>
+			</div>
+			
+		</footer>
+
+
+  	<div id="totop"><a href="#"></a></div>
+
+
+  </body>
+</html>
