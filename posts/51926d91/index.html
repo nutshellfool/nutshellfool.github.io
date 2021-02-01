@@ -12,25 +12,22 @@
 
     <meta name="keywords" content="Algorithm,Data structure,LeetCode,2sum,two sum,3sum,three sum,4 sum,four sum,subset sum problem">
     
-    <meta name="description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。 如何">
+    <meta name="description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。wik">
 <meta name="keywords" content="Algorithm,Data structure,LeetCode,2sum,two sum,3sum,three sum,4 sum,four sum,subset sum problem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Leetcode 中子集和问题及其解法">
 <meta property="og:url" content="https://blogs.lirui.me/posts/51926d91/index.html">
 <meta property="og:site_name" content="CombinatorX">
-<meta property="og:description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。 如何">
+<meta property="og:description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。wik">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-05T08:14:12.451Z">
+<meta property="og:updated_time" content="2021-01-21T11:49:21.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Leetcode 中子集和问题及其解法">
-<meta name="twitter:description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。 如何">
+<meta name="twitter:description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。wik">
 
     
     <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
-    
-    <!-- Add for  hexo-generator-amp  https://github.com/tea3/hexo-generator-amp -->
-    <link rel="amphtml" href="https://blogs.lirui.me/posts/51926d91/amp/index.html">
     
 
     
@@ -115,7 +112,7 @@
 <li><a href="https://leetcode.com/problems/4sum/" target="_blank" rel="noopener">4Sum</a></li>
 </ol>
 <p>这一类问题泛化后的问题是：<br>给定一个数组，返回X个数组元素之和为给定目标数的元素列表。  </p>
-<h2 id="为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"><a href="#为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）" class="headerlink" title="为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"></a>为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</h2><p>该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。</p>
+<h2 id="为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"><a href="#为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）" class="headerlink" title="为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"></a>为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</h2><p>该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。<br><a href="https://en.wikipedia.org/wiki/Subset_sum_problem" target="_blank" rel="noopener">wiki – Subset sum problem</a></p>
 <h2 id="如何求解，及求解思路（How）"><a href="#如何求解，及求解思路（How）" class="headerlink" title="如何求解，及求解思路（How）"></a>如何求解，及求解思路（How）</h2><h3 id="3sum"><a href="#3sum" class="headerlink" title="3sum"></a>3sum</h3><p>这里我们选择3Sum作为讲解例子：  </p>
 <h4 id="关于题目本身"><a href="#关于题目本身" class="headerlink" title="关于题目本身"></a>关于题目本身</h4><p>首先对于3Sum问题，题目本身有什么需要注意的点么？仔细想来可能会有以下这些：</p>
 <ol>
@@ -334,7 +331,7 @@
 
 		<p class="copyright">
 		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
-		© 2020
+		© 2021
 		
 		<a href="/about" target="_blank" title="李瑞">李瑞</a>
 		

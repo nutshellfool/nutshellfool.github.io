@@ -4,33 +4,30 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>在Mac上编写支持markdown LaTex 的文档 | CombinatorX</title>
+    <title>配置markdown写作环境 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="markdowm,LaTex,atom,markdown preview enhanced">
+    <meta name="keywords" content="markdowm,LaTex,markdown preview enhanced,mermaid,mermaid.js">
     
-    <meta name="description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。  工欲善其事，必先利其器。  所以找一个合适的编辑器就是比较重要的事情了。 编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：  支持Markdown写作，语法高亮啥">
-<meta name="keywords" content="markdowm,LaTex,atom,markdown preview enhanced">
+    <meta name="description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。  工欲善其事，必先利其器。  所以找一个合适的编辑器就是比较重要的事情了。 LaTex编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：  支持Markdown写作，">
+<meta name="keywords" content="markdowm,LaTex,markdown preview enhanced,mermaid,mermaid.js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Mac上编写支持markdown LaTex 的文档">
+<meta property="og:title" content="配置markdown写作环境">
 <meta property="og:url" content="https://blogs.lirui.me/posts/94519b49/index.html">
 <meta property="og:site_name" content="CombinatorX">
-<meta property="og:description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。  工欲善其事，必先利其器。  所以找一个合适的编辑器就是比较重要的事情了。 编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：  支持Markdown写作，语法高亮啥">
+<meta property="og:description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。  工欲善其事，必先利其器。  所以找一个合适的编辑器就是比较重要的事情了。 LaTex编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：  支持Markdown写作，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-22T01:28:11.262Z">
+<meta property="og:updated_time" content="2021-02-01T06:01:07.198Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Mac上编写支持markdown LaTex 的文档">
-<meta name="twitter:description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。  工欲善其事，必先利其器。  所以找一个合适的编辑器就是比较重要的事情了。 编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：  支持Markdown写作，语法高亮啥">
+<meta name="twitter:title" content="配置markdown写作环境">
+<meta name="twitter:description" content="使用markdown写文章现在已经是我的标配，那你的呢？最近在学习MachineLearning的一些内容，做笔记、写文章的时候就会用到大量的数学公式，连加、连乘、矩阵运算神马的，所以慢慢的支持LaTex又成为我写作的硬需求。  工欲善其事，必先利其器。  所以找一个合适的编辑器就是比较重要的事情了。 LaTex编辑器需要支持的功能下面是编辑器必须满足的几个关键的点：  支持Markdown写作，">
 
     
     <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
     
-    
-    <!-- Add for  hexo-generator-amp  https://github.com/tea3/hexo-generator-amp -->
-    <link rel="amphtml" href="https://blogs.lirui.me/posts/94519b49/amp/index.html">
     
 
     
@@ -88,7 +85,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/94519b49/" title="在Mac上编写支持markdown LaTex 的文档" itemprop="url">在Mac上编写支持markdown LaTex 的文档</a>
+      <a href="/posts/94519b49/" title="配置markdown写作环境" itemprop="url">配置markdown写作环境</a>
   </h1>
   <p class="article-author">By
        
@@ -104,7 +101,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑器需要支持的功能"><span class="toc-number">1.</span> <span class="toc-text">编辑器需要支持的功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#之前使用编辑器的迁移史"><span class="toc-number">2.</span> <span class="toc-text">之前使用编辑器的迁移史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置"><span class="toc-number">3.</span> <span class="toc-text">如何配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">4.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2020年2月4日"><span class="toc-number">4.1.</span> <span class="toc-text">2020年2月4日</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTex"><span class="toc-number">1.</span> <span class="toc-text">LaTex</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑器需要支持的功能"><span class="toc-number">1.1.</span> <span class="toc-text">编辑器需要支持的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#之前使用编辑器的迁移史"><span class="toc-number">1.2.</span> <span class="toc-text">之前使用编辑器的迁移史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何配置"><span class="toc-number">1.3.</span> <span class="toc-text">如何配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图表"><span class="toc-number">2.</span> <span class="toc-text">图表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#可选工具"><span class="toc-number">2.1.</span> <span class="toc-text">可选工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插件"><span class="toc-number">2.2.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#样例"><span class="toc-number">2.2.1.</span> <span class="toc-text">样例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">3.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2020年2月4日"><span class="toc-number">3.1.</span> <span class="toc-text">2020年2月4日</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -113,14 +110,14 @@
 <p>工欲善其事，必先利其器。</p>
 </blockquote>
 <p>所以找一个合适的编辑器就是比较重要的事情了。</p>
-<h2 id="编辑器需要支持的功能"><a href="#编辑器需要支持的功能" class="headerlink" title="编辑器需要支持的功能"></a>编辑器需要支持的功能</h2><p>下面是编辑器必须满足的几个关键的点：</p>
+<h2 id="LaTex"><a href="#LaTex" class="headerlink" title="LaTex"></a>LaTex</h2><h3 id="编辑器需要支持的功能"><a href="#编辑器需要支持的功能" class="headerlink" title="编辑器需要支持的功能"></a>编辑器需要支持的功能</h3><p>下面是编辑器必须满足的几个关键的点：</p>
 <ul>
 <li>支持Markdown写作，语法高亮啥的是标配。</li>
 <li>分屏预览（一边写作，一边预览） 所见即所得。</li>
 <li>支持 LaTex 语法渲染（支持mathJax, pandoc更好）</li>
 </ul>
-<h2 id="之前使用编辑器的迁移史"><a href="#之前使用编辑器的迁移史" class="headerlink" title="之前使用编辑器的迁移史"></a>之前使用编辑器的迁移史</h2><p>最开始的时候使用的是Mac自带编辑器，用起来相当不方便<br>后来使用了sublime text 2 但仅限于编辑一些简单的文档，和写一些ReadMe文档<br>因为sublime text在最开始的时候对markdown支持不好，写markdown很不方便所以找了一个<br>轻量级的markdown编辑器 Mou – 小清新，功能全而不累赘，很得我心。<br>但是不巧的是Mou很长时间都没有更新，这还不要紧，关键是在macOS sierra 后Mou竟然不能用了！<br>这就迫使我寻找一个新的编辑器，很快就找到了MacDown， 这个据说是完全仿照Mou做的，最开始的时候还觉得OK，但是随着数学公式需求越来越强就发现了它的缺点了，不能实时查看公式的渲染效果。<br>于是决定重新找个编辑器彻底解决这个问题， 恰巧Github开源出来的<a href="https://atom.io" target="_blank" rel="noopener">Atom</a>可以完美结局这个问题。  </p>
-<h2 id="如何配置"><a href="#如何配置" class="headerlink" title="如何配置"></a>如何配置</h2><p>使用Atom来写markdown有个好的体验就需要安装几个能够提升效率的插件：<br>这个插件就是： <a href="https://atom.io/packages/markdown-preview-enhanced" target="_blank" rel="noopener">markdown-preview-enhanced</a></p>
+<h3 id="之前使用编辑器的迁移史"><a href="#之前使用编辑器的迁移史" class="headerlink" title="之前使用编辑器的迁移史"></a>之前使用编辑器的迁移史</h3><p>最开始的时候使用的是Mac自带编辑器，用起来相当不方便<br>后来使用了sublime text 2 但仅限于编辑一些简单的文档，和写一些ReadMe文档<br>因为sublime text在最开始的时候对markdown支持不好，写markdown很不方便所以找了一个<br>轻量级的markdown编辑器 Mou – 小清新，功能全而不累赘，很得我心。<br>但是不巧的是Mou很长时间都没有更新，这还不要紧，关键是在macOS sierra 后Mou竟然不能用了！<br>这就迫使我寻找一个新的编辑器，很快就找到了MacDown， 这个据说是完全仿照Mou做的，最开始的时候还觉得OK，但是随着数学公式需求越来越强就发现了它的缺点了，不能实时查看公式的渲染效果。<br>于是决定重新找个编辑器彻底解决这个问题， 恰巧Github开源出来的<a href="https://atom.io" target="_blank" rel="noopener">Atom</a>可以完美结局这个问题。  </p>
+<h3 id="如何配置"><a href="#如何配置" class="headerlink" title="如何配置"></a>如何配置</h3><p>使用Atom来写markdown有个好的体验就需要安装几个能够提升效率的插件：<br>这个插件就是： <a href="https://atom.io/packages/markdown-preview-enhanced" target="_blank" rel="noopener">markdown-preview-enhanced</a></p>
 <p>具体安装Atom插件的方法是：</p>
 <ol>
 <li>Preferences -&gt; install</li>
@@ -134,6 +131,17 @@
 <li>会在core packages 下列出一个“markdowm preview”组件，点击disable，禁用。</li>
 </ol>
 <p>好，现在创建一个含有数学公式的文档(.md 或 .markdown)<br>现在还看不到效果，按住 control + shift + m 在屏幕的右边就会出现一个预览效果的窗口<br>现在是不是markdown写的飞起？</p>
+<h2 id="图表"><a href="#图表" class="headerlink" title="图表"></a>图表</h2><h3 id="可选工具"><a href="#可选工具" class="headerlink" title="可选工具"></a>可选工具</h3><ul>
+<li><a href="https://mermaid-js.github.io/mermaid/#/" target="_blank" rel="noopener">mermaid.js</a></li>
+</ul>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><ul>
+<li><p><a href="https://marketplace.visualstudio.com/items?itemName=bpruitt-goddard.mermaid-markdown-syntax-highlighting" target="_blank" rel="noopener">Mermaid Markdown Syntax Highlighting
+</a></p>
+</li>
+<li><p><a href="https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid" target="_blank" rel="noopener">bierner.markdown-mermaid</a></p>
+</li>
+</ul>
+<h4 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph TD;</span><br><span class="line">    A--&gt;B;</span><br><span class="line">    A--&gt;C;</span><br><span class="line">    B--&gt;D;</span><br><span class="line">    C--&gt;D;</span><br></pre></td></tr></table></figure>
 <h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><h3 id="2020年2月4日"><a href="#2020年2月4日" class="headerlink" title="2020年2月4日"></a>2020年2月4日</h3><p>目前使用VS code的原生markdown编辑器编写markdown文档，并组合markdownlint检查markdown语法，目前使用良好，并推荐大家使用。</p>
 <p>以上<br>// EOF</p>
   
@@ -153,7 +161,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/94519b49/" data-title="在Mac上编写支持markdown LaTex 的文档 | CombinatorX" data-tsina="null" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/94519b49/" data-title="配置markdown写作环境 | CombinatorX" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -199,7 +207,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑器需要支持的功能"><span class="toc-number">1.</span> <span class="toc-text">编辑器需要支持的功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#之前使用编辑器的迁移史"><span class="toc-number">2.</span> <span class="toc-text">之前使用编辑器的迁移史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置"><span class="toc-number">3.</span> <span class="toc-text">如何配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">4.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2020年2月4日"><span class="toc-number">4.1.</span> <span class="toc-text">2020年2月4日</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTex"><span class="toc-number">1.</span> <span class="toc-text">LaTex</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑器需要支持的功能"><span class="toc-number">1.1.</span> <span class="toc-text">编辑器需要支持的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#之前使用编辑器的迁移史"><span class="toc-number">1.2.</span> <span class="toc-text">之前使用编辑器的迁移史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何配置"><span class="toc-number">1.3.</span> <span class="toc-text">如何配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图表"><span class="toc-number">2.</span> <span class="toc-text">图表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#可选工具"><span class="toc-number">2.1.</span> <span class="toc-text">可选工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插件"><span class="toc-number">2.2.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#样例"><span class="toc-number">2.2.1.</span> <span class="toc-text">样例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-number">3.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2020年2月4日"><span class="toc-number">3.1.</span> <span class="toc-text">2020年2月4日</span></a></li></ol></li></ol>
  
   </div>
 
@@ -320,7 +328,7 @@
 
 		<p class="copyright">
 		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
-		© 2020
+		© 2021
 		
 		<a href="/about" target="_blank" title="李瑞">李瑞</a>
 		
