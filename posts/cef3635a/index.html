@@ -1,0 +1,611 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>HTTP 编年史 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Web,HTTP,Network,HTTP2">
+    
+    <meta name="description" content="HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP&#x2F;0.9 到 HTTP&#x2F;1.0 再到 HTTP&#x2F;1.1 以至于到现在的最新版本 HTTP&#x2F;2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。 HTTP&#x2F;0.9HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 编年史">
+<meta property="og:url" content="https://blogs.lirui.me/posts/cef3635a/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP&#x2F;0.9 到 HTTP&#x2F;1.0 再到 HTTP&#x2F;1.1 以至于到现在的最新版本 HTTP&#x2F;2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。 HTTP&#x2F;0.9HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-04-18T10:01:05.000Z">
+<meta property="article:modified_time" content="2020-02-05T07:25:05.219Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/cef3635a/" title="HTTP 编年史" itemprop="url">HTTP 编年史</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-18T10:01:05.000Z" itemprop="datePublished"> 发表于 2017-04-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-0-9"><span class="toc-number">1.</span> <span class="toc-text">HTTP&#x2F;0.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-1-0"><span class="toc-number">2.</span> <span class="toc-text">HTTP&#x2F;1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%EF%BC%8F1-1"><span class="toc-number">3.</span> <span class="toc-text">HTTP／1.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-2"><span class="toc-number">4.</span> <span class="toc-text">HTTP&#x2F;2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%BA%E4%BE%BF%E6%8F%90%E4%B8%80%E5%8F%A5"><span class="toc-number">6.</span> <span class="toc-text">顺便提一句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">7.</span> <span class="toc-text">参考链接</span></a></li></ol>
+		
+		</div>
+		
+		<p>HTTP 协议作为应用层重要的网络协议，同时也随着时代的发展不断演进。从最初的 HTTP/0.9 到 HTTP/1.0 再到 HTTP/1.1 以至于到现在的最新版本 HTTP/2 。 每个版本的演进都是为了解决网络传输协议中的痛点，下面就来总结下每个版本到底都更新了些什么。</p>
+<h2 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP/0.9"></a>HTTP/0.9</h2><p>HTTP 的 1991原型版本，这个原型版本定义的初衷是为了传输简单的HTML对象，因此在设计上有很多严重的缺陷，例如：  </p>
+<ol>
+<li>只支持GET方法</li>
+<li>不支持多媒体内容的MIME类型</li>
+<li>不支持 HTTP HEADER</li>
+</ol>
+<p>正是因为这些硬伤，所以这个版本存活没多久就被新的版本取代了。  </p>
+<h2 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP/1.0"></a>HTTP/1.0</h2><p>既然是新的版本，那么上一版本的这些硬伤就应该被妥善解决。<br>因此 1.0 版本新增：  </p>
+<ol>
+<li>支持多媒体格式文件（图片、视频等）的传输</li>
+<li>支持更多除了GET之外的HTTP方法（POST）</li>
+<li>添加状态码（例如： 200 OK，301 move permanently ， 404 not found，500 internal server error  <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">详细内容参见这里</a>）</li>
+<li>多字符集，multi-part type, 版本号 等功能支持</li>
+<li>HTTP HEADER</li>
+</ol>
+<p>那么这个版本又有什么问题呢？  </p>
+<ol>
+<li>每个TCP连接只能发送一个请求，数据发送完毕后连接就关闭了，如果要请求其他资源就需要重新建立连接。换句话说就是不支持后来的持久连接 keep-live 功能 。</li>
+<li>不支持虚拟主机和代理连接功能。</li>
+</ol>
+<h2 id="HTTP／1-1"><a href="#HTTP／1-1" class="headerlink" title="HTTP／1.1"></a>HTTP／1.1</h2><p>同样上个版本的硬伤，下个版本都需要妥善地解决。<br>因此，1.1版本新增：  </p>
+<ol>
+<li>持久连接（persistent connection），并且规定对于同一个域名（这里同一根域名下的子域名属于不同域名）允许同时建立6个连接。  </li>
+<li>管道机制 （pipelining）<br>在没有管道机制之前，假设完成一个操作需要一系列的请求（例如[A,B,C,D]）需要A发送请求并完成数据传输后，B才能发送请求，依次类推。<br>引入了pipelining机制后，允许B可以在A没有收到数据的情况下发送请求，但是服务端还是会按照A，B的顺序响应，先处理完A的请求后再处理B的请求。  </li>
+<li>由于一个持久连接会有多个回应，就有必要区分数据包是属于哪个回应的，对应的就有 content-length , Transfer-Encoding等机制来保证。  </li>
+<li>增加更多HTTP方法（PUT，PATCH，DELETE，HEAD，OPTIONS）</li>
+</ol>
+<p>那么这样一个改进的版本会有什么问题呢？<br>主要还是持久连接上的问题，你会问：持久连接解决了频繁创建连接的高代价问题，管道机制解决了请求必须顺序发送的时序问题，似乎主要问题得到了解决，但是，注意但是来了，这些做法只是从连接的发送方来解决，服务方依然是按照顺序依次处理请求。这就会有排队现象，这个处理慢的请求会拖慢整个网站速度，尤其是这个慢的请求越靠前影响越大。所以说现有流行的http版本的问题会是“排队等待阻塞问题”  </p>
+<p>那这个问题在新版本出现之前是怎样解决的呢？  </p>
+<ul>
+<li>比如压缩css、js文件，减小网络传输数据量。  </li>
+<li>合并小文件，减少请求数量。  </li>
+<li>域名分片（domain sharding）  </li>
+</ul>
+<p>这里单独拿出域名分片来说一说：<br>上面不是说到每个持久连接下不是有6个域名同时建立连接的限制么？<br>我们聪明的工程师想到，好像我们可以用这6个域名搞事情。比如说有这样一个例子： 现在有个网页上面会有3个比较大的图片文件，如果这三个文件放在同一个持久连接下，那么这三个文件会依次获得从服务器的响应。如果我们将这三个图片放在不同的域名下然后分别创建持久连接，那么这里就解决了请求排队等待的问题。<br>上面的这种做法你会发现在很多主流的网站都有使用，后来这也成为大流量、对网站响应速度有高要求的站点的网站优化常用手段。<br>注意到什么问题么？似乎这个解决方案解决了排队等待阻塞的问题，但是它是用创建新的持久连接为代价来做的，这种方案适用的场景还是属于创建连接代价小于排队代价的场景。这种优化其实也是一种trade off。<br>说到底，这个排队等待阻塞的问题在HTTP/1.1版本内还是一个痛点。那我们就只有寄希望于后续版本从根本上解决这个问题。  </p>
+<h2 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h2><p>HTTP/2 是2015正式发布。<br>HTTP/2最激动人心的部分莫过于使用了</p>
+<ul>
+<li><p>多路复用的通信方式<br>这一通信方式的改变，从根本上解决了“排队等待阻塞”的问题。<br>说的这么好，那么多路复用到底是怎样工作的呢？<br>举个例子，一个连接上会有A，B两个请求，如果未使用多路复用的通信方式的时候，那么A，B可以依次发送请求，由于服务端是按照顺序依次处理请求的，所以B一定是等到服务端返回A的数据之后才接收到数据。这样是不是很低效？<br>那么使用了多路复用后又是怎样的情况呢？<br>A，B发送完请求后，服务端会首先将已经处理好的请求返回，而并不是必须等待A完成后再发送B，这样其实是打乱了返回数据包顺序的限制，从而使队列不再等待。</p>
+</li>
+<li><p>数据流<br>由于上面的数据包返回不再按照请求的顺序返回，因此需要使用一种机制来标记数据包属于哪个请求，在这样的需求下就诞生了“流”的概念。<br>一个请求的的所有数据包被称为流，每个流都有一个唯一的ID编号，这样就区分出了数据包属于哪个流。<br>同时HTTP/2 还规定可以在不关闭连接的情况下取消数据的传输，这个在之前的版本是想都不敢想的。<br>既然顺序已经放开，那么可以要求重要的流数据优先传输么？当然可以，HTTP/2 支持流优先级的设定。  </p>
+</li>
+<li><p>二进制协议<br>HTTP/2之前 HTTP HEADER 部分都是以文本的形式传输，而BODY部分可以选择使用文本或者二进制的方式传输。<br>而到了HTTP/2 HEADER和BODY部分都需要使用二进制传输，并且统称这些为帧，一是减小网络传输数据量，另一个是为了之后协议的扩展打基础。  </p>
+</li>
+<li><p>HEADER 信息压缩<br>由于HTTP是不带有状态的，每次请求必须附上所有信息。这样就造成HEADER的一部分信息重复。<br>HTTP/2在HEADER部分引入 header compression 机制。使得HEADER信息传输更有效率。  </p>
+</li>
+<li><p>服务推送 （server push）<br>HTTP/2 允许服务器未经请求，主动向客户端发送资源，这叫做服务器推送（server push）。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们纵观HTTP协议的发展历史，从原型版本的HTTP/0.9 到功能基本完整的 HTTP/1.0 再到通信方式改进的 HTTP/1.1 再到性能大幅提升的 HTTP/2.0 这俨然是一个软件迭代发展的路径。<br>原型阶段的协议只是为了支持简单的html文本信息传输。<br>到了1.0版本可以支持多媒体文件的传输、状态码、HEADER以及更多HTTP方法使得这个正式的版本能够满足多媒体的互联网传输需求。<br>再到1.1版本大家发现随着文件越来越大，传输速度成为制约互联网发展的瓶颈，于是便有了持久连接和管道机制的解决方案。<br>不断变化的环境促使人们不断追寻更高效的传输方式，于是便有了多路复用的HTTP/2。<br>相信在不久的将来还会有更高效的HTTP版本的协议出现。  </p>
+<h2 id="顺便提一句"><a href="#顺便提一句" class="headerlink" title="顺便提一句"></a>顺便提一句</h2><p>是不是HTTP/2 就是最高效的呢？<br>答案显然是否定的，注意到HTTP协议其实是应用层的协议，以上的演进也都是在这个层面展开的，那么在它下一层传输层的协议是否有提升空间呢？<br>是的于是就有了基于UDP协议封装的一个高效可靠传输协议<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/QUIC">QUIC</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/08/http.html">阮一峰博客</a><br><a target="_blank" rel="noopener" href="http://slides.com/sunng/http09-to-quic#/">孙宁GDGFest分享</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Network/">Network</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/cef3635a/" data-title="HTTP 编年史 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/cac864f3/" title="如何用递归的方式解决问题？">
+  <strong>上一篇：</strong><br/>
+  <span>
+  如何用递归的方式解决问题？</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/d53d7104/"  title="主定理（master theorem）">
+ <strong>下一篇：</strong><br/> 
+ <span>主定理（master theorem）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-0-9"><span class="toc-number">1.</span> <span class="toc-text">HTTP&#x2F;0.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-1-0"><span class="toc-number">2.</span> <span class="toc-text">HTTP&#x2F;1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%EF%BC%8F1-1"><span class="toc-number">3.</span> <span class="toc-text">HTTP／1.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-2"><span class="toc-number">4.</span> <span class="toc-text">HTTP&#x2F;2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%BA%E4%BE%BF%E6%8F%90%E4%B8%80%E5%8F%A5"><span class="toc-number">6.</span> <span class="toc-text">顺便提一句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">7.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

@@ -1,0 +1,641 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>技术面试的反思 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    
+      <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    
+    <meta name="description" content="周五面试了一个实习岗位的候选者，面试结束后想到了许多，所以写下此文。以下的内容尽可能不会涉及到过多面试细节，即使涉及到也会技术性隐去涉及候选人隐私信息的部分。（当然下文可能涉及到对一类人的评判，请不要对号入座）   背景由于近日的一系列人事活动（人事部门邮件的常用口气），和团队业务的需要（是真心需要啊），PM告诉我需要增加一个实习生岗位，作为iOS团队的人才储备，我心想好事啊，但是PM很快就泼了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术面试的反思">
+<meta property="og:url" content="https://blogs.lirui.me/posts/44516416/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="周五面试了一个实习岗位的候选者，面试结束后想到了许多，所以写下此文。以下的内容尽可能不会涉及到过多面试细节，即使涉及到也会技术性隐去涉及候选人隐私信息的部分。（当然下文可能涉及到对一类人的评判，请不要对号入座）   背景由于近日的一系列人事活动（人事部门邮件的常用口气），和团队业务的需要（是真心需要啊），PM告诉我需要增加一个实习生岗位，作为iOS团队的人才储备，我心想好事啊，但是PM很快就泼了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blogs.lirui.me/images/20140329thinkingontechniqueinterview/interview.jpg">
+<meta property="article:published_time" content="2014-03-29T12:05:17.000Z">
+<meta property="article:modified_time" content="2020-02-04T09:20:08.260Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blogs.lirui.me/images/20140329thinkingontechniqueinterview/interview.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/44516416/" title="技术面试的反思" itemprop="url">技术面试的反思</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2014-03-29T12:05:17.000Z" itemprop="datePublished"> 发表于 2014-03-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">面试前的准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">面试过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%90%8E%E7%9A%84%E6%80%9D%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">面试后的思考</span></a></li></ol>
+		
+		</div>
+		
+		<p><img src="/images/20140329thinkingontechniqueinterview/interview.jpg" alt="interview"></p>
+<p>周五面试了一个实习岗位的候选者，面试结束后想到了许多，所以写下此文。<br>以下的内容尽可能不会涉及到过多面试细节，即使涉及到也会技术性隐去涉及候选人隐私信息的部分。（当然下文可能涉及到对一类人的评判，请不要对号入座）  </p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>由于近日的一系列人事活动（人事部门邮件的常用口气），和团队业务的需要（是真心需要啊），PM告诉我需要增加一个实习生岗位，作为iOS团队的人才储备，我心想好事啊，但是PM很快就泼了盆凉水–“不要期望过高，基本上是白纸一张”。好吧，没有期望，那至少不要突破我的底线吧。<br>下面说说面试前的准备，以及面试过程（现在看来怎么像我是参加面试的角色呢？）  </p>
+<h3 id="面试前的准备"><a href="#面试前的准备" class="headerlink" title="面试前的准备"></a>面试前的准备</h3><p>为了谨慎起见，同时也是为了对候选人负责，我专门拜访了两位资深的面试官，希望能从那里得到中肯的建议（现在看来，这一步还是相当重要的）。<br>总结下来，有下面几点建议：  </p>
+<ol>
+<li>不要过多面试技术问题</li>
+<li>更多关注候选人的软实力（沟通能力，对技术的热情，对业界技术的关注）  </li>
+<li>对于应届生，更多的了解学校的经历（学习成绩，参加的社团）</li>
+<li>有实习经历的话更多了解实习项目的情况（重点是在项目中担任的角色）</li>
+</ol>
+<p>为了充分准备我还准备了两套面试方案，具体细节就不透露了。  </p>
+<h3 id="面试过程"><a href="#面试过程" class="headerlink" title="面试过程"></a>面试过程</h3><p>由于面试的时间是早上刚上班，所以来公司的路上一定赶上了早高峰（天煞的帝都，天煞的早高峰地铁，顿时让你忘记做人的尊严）。因此我想用一个轻松的话题打开局面，抱怨下糟糕的地铁，或者糟糕的天气。。。。。。<br>正在想着，人事部的同事已经把候选人带来了。好吧，那就开始吧。<br>人事部的同事把候选人带到面试会客间，做了简单的介绍就离开了，这时候我注意到候选人还是有些紧张，所以我故意找了个理由出去了一下，留给他一些时间平复紧张的情绪。<br>回到会客室，我用余光注意到他已经不再搓手，表示他现在不是那么紧张了。好的开始，我默默对自己说。<br>“来的路上挺辛苦吧，是从学校直接来的么？”– 我笑着对他说，明显这个话题对缓解紧张的气氛是有效的。  </p>
+<ul>
+<li>“介绍下自己吧”  </li>
+</ul>
+<p>– 面试的老套路了，但是是有效的开始的问题。<br>   介绍部分按常规套路，有顺序，有逻辑。  </p>
+<ul>
+<li>“简要介绍下学校和专业的情况吧”</li>
+</ul>
+<p>– 专业背景也是考察的重要一项，轻松过度，毫无痕迹。<br>专业介绍中提到了有培训机构的经历，不禁对自学能力有所怀疑，现在下结论还为时过早，记下来，用后面的问题来验证我的怀疑。<br>然后问到了些开放性的问题:  </p>
+<ul>
+<li>“平时使用什么搜索引擎搜索问题，关注哪些技术相关的网站、博客？”</li>
+</ul>
+<p>– 关于搜索引擎<br>不出我意料–百度<br>“还有其他的么？“<br>–暗示的意味再明显不过了，就是问你会不会用G打头的那个。<br>结果是否定的，说明他碰到的技术问题没有深度，扣分项。  </p>
+<ul>
+<li>“平时技术的解决方案会有记录么？”</li>
+<li>“如果有记录会使用什么工具记录？”  </li>
+</ul>
+<p>到这里我已经隐约感到这个候选人是属于被动学习类型的学生了，并且让我感到是一个被动的人。好吧，再出几个问题来证实我的判断。<br>当然在这里我也适时介绍了我们部门和团队的特点，说完这些继续回到面试的Context中。</p>
+<ul>
+<li><p>“如果给你两个星期让你学习一种新的开发语言，你打算怎么做？”<br>不出意外，没有说出个所以然。</p>
+</li>
+<li><p>“开发过程中，经理给你分配了一个难度超过你能力范围的任务，你该怎么办？”<br>等待救援的典型心态，主动学习差！没有汇报，及时反馈问题的沟通意识。</p>
+</li>
+<li><p>“开发过程中，经理给你安排了一堆开发任务，你该怎么做？”<br>不出意外，回答没有亮点，看来是真实想法。  </p>
+</li>
+</ul>
+<p>面试到了这里，其实他的分数已经很低了，但是我还是决定给他给机会，让他说说自己擅长的东西。  </p>
+<ul>
+<li>“根据你的简历上的内容，其中提到了一些项目经历，选一个你引以为豪的经历说说你在项目中的角色”<br>他竟然说自己在项目扮演Leader的角色，并负责核心模块的开发。  </li>
+</ul>
+<p>– 呦，有货啊，难道是我之前的结论下的过早？  </p>
+<ul>
+<li><p>“那详细说说你负责的那块模块”<br>很显然，他说的那两个模块不是核心模块，那是不是真的做过呢？</p>
+</li>
+<li><p>“这个系统是用JSP做的么？那说说核心模块的开发细节吧，比如界面是怎样做的？”<br>顾左右而言其他，一会说负责关键模块开发，一会说界面部分不是自己做的。  </p>
+</li>
+</ul>
+<p>– 有隐瞒，有撒谎的嫌疑！绝不可容忍！<br>交谈中他谈到项目中提到最让他感到自豪的是做领导的感觉。<br>– 就这一点就足够一票否定</p>
+<p>其实到这里他的分数已经不及格了，但是作为一个完整的面试过程我决定还是再全面了解下。问点什么呢？语言吧。  </p>
+<ul>
+<li><p>“学校里都学了哪些语言？”<br>不出意外，C，C++，C#，Java。</p>
+</li>
+<li><p>“那哪个语言用的最顺手呢？”<br>Java</p>
+</li>
+</ul>
+<p>– 不出意外的回答</p>
+<ul>
+<li>“那说说你对Java GC回收的理解吧”<br>是session关闭的操作么？  </li>
+</ul>
+<p>– 啥？ 我没有说清楚么？</p>
+<ul>
+<li>“不好意思，是我没有说清楚么？是GC回收，垃圾回收机制”<br>很明显，他不懂我在说什么。</li>
+</ul>
+<p>再聊下去已经没有意义了，换个话题吧，对了，看看他的英文阅读的水平怎样？</p>
+<ul>
+<li>“简历中你提到英语水平是读写熟练，那就给你5分钟，然后5分钟后告诉我这一页技术文档说了些什么？”  </li>
+</ul>
+<p>– 我把之前准备的一片关于iOS开发的技术文档递给他。<br>5分钟后的结果是，在重复2-3遍后终于说出了文章的大意。<br>– 此项，及格。<br>但是仅此一项也不足以挽回之前的劣势。  </p>
+<ul>
+<li>“好的，你的情况我大致了解了，之后会有人事部的同事和你联系，回家等消息吧。”</li>
+</ul>
+<p>整个面试过程到此结束。  </p>
+<h3 id="面试后的思考"><a href="#面试后的思考" class="headerlink" title="面试后的思考"></a>面试后的思考</h3><ol>
+<li><strong>不管出于什么理由，面试前做足准备工作。这既是对自己负责，同时也是对面试官的尊重。</strong></li>
+<li><strong>诚实，有一说一绝对是必须的，否则其他一律免谈。</strong></li>
+<li><strong>面试的时候一定要表现出自信，传递出积极主动的信号，适时的能让面试官感觉到。</strong></li>
+<li><strong>如果有实习经历，项目经历可以围绕这这个来多谈一些，相信面试官也会感兴趣的。</strong></li>
+<li><strong>如果没有那么多项目经历怎么办？用实例表现出学习能力的一面。</strong></li>
+</ol>
+<blockquote>
+<p>“成绩只能代表过去，状态只能说明现在，而学习能力才能代表未来。“</p>
+</blockquote>
+<p>  <em><strong>最重要的是一定要在关键问题上给面试官惊喜（至少不是惊吓），答案超出面试官的预期。</strong></em></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/44516416/" data-title="技术面试的反思 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/fc66f6f7/" title="壮游台湾之台湾初印象">
+  <strong>上一篇：</strong><br/>
+  <span>
+  壮游台湾之台湾初印象</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/8fcdd486/"  title="去台湾前的准备工作1-证件、机票">
+ <strong>下一篇：</strong><br/> 
+ <span>去台湾前的准备工作1-证件、机票
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">面试前的准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">面试过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%90%8E%E7%9A%84%E6%80%9D%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">面试后的思考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

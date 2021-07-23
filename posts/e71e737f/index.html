@@ -1,0 +1,581 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search） | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Algorithm,Data structure,Breadth First Search,Depth First Search,Heuristic Search,搜索算法,深度优先搜索,广度优先搜索,启发式搜索">
+    
+    <meta name="description" content="按照教科书的顺序来说，搜索相关的问题应该放在图的章节。但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？   DFS的典型实现一般来说，在以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search）">
+<meta property="og:url" content="https://blogs.lirui.me/posts/e71e737f/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="按照教科书的顺序来说，搜索相关的问题应该放在图的章节。但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？   DFS的典型实现一般来说，在以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-04-12T11:24:16.000Z">
+<meta property="article:modified_time" content="2020-02-05T08:09:39.837Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/e71e737f/" title="深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search）" itemprop="url">深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-12T11:24:16.000Z" itemprop="datePublished"> 发表于 2017-04-12</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS%E7%9A%84%E5%85%B8%E5%9E%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">DFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS%E7%9A%84%E5%85%B8%E5%9E%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">BFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WFS-Weight-First-Search"><span class="toc-number">3.</span> <span class="toc-text">WFS (Weight First Search)</span></a></li></ol>
+		
+		</div>
+		
+		<p>按照教科书的顺序来说，搜索相关的问题应该放在图的章节。<br>但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。<br>首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。<br>讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？  </p>
+<h2 id="DFS的典型实现"><a href="#DFS的典型实现" class="headerlink" title="DFS的典型实现"></a>DFS的典型实现</h2><p>一般来说，在以往的教材里我们都被教育DFS的实现都需要一个栈的数据结构，除此之外还需要一个额外的数据结构来记录已经访问的节点。<br>好吧，废话少说，上代码。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_dfs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Stack&lt;Node&gt; stack = <span class="keyword">new</span> Stack&lt;Node&gt;();</span><br><span class="line">       Set&lt;Node&gt; visited = <span class="keyword">new</span> HashSet&lt;Node&gt;();</span><br><span class="line">       stack.push(<span class="keyword">this</span>.root);</span><br><span class="line">       <span class="keyword">while</span> (!stack.isEmpty()) &#123;</span><br><span class="line">           Node node = stack.pop();</span><br><span class="line">           visited.add(node);</span><br><span class="line">           <span class="comment">// do something process</span></span><br><span class="line">           doProcess(node)</span><br><span class="line"></span><br><span class="line">           ArrayList&lt;Node&gt; adjacentNodes = getUnvistedAdjacentNodes(node, visited);</span><br><span class="line">           <span class="keyword">for</span> (Node nodeItem : adjacentNodes) &#123;</span><br><span class="line">             stack.push(nodeItem);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面是java版本，python呢，算法结构是一样的，不一样的是python下需要用list来实现stack。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>():</span></span><br><span class="line">    stack = []</span><br><span class="line">    visited = <span class="built_in">set</span>()</span><br><span class="line">    stack.append(self.root)</span><br><span class="line">    visited.add(self.root)</span><br><span class="line">    <span class="keyword">while</span> stack:</span><br><span class="line">        node = stack.pop()</span><br><span class="line">        visited.add(node)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        do_process(node)</span><br><span class="line"></span><br><span class="line">        adjacent_nodes = generate_unvisited_adjacent_nodes(node, visited)</span><br><span class="line">        stack.extend(adjacent_nodes)</span><br></pre></td></tr></table></figure>
+
+<h2 id="BFS的典型实现"><a href="#BFS的典型实现" class="headerlink" title="BFS的典型实现"></a>BFS的典型实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_bfs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Queue&lt;Node&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    Set&lt;Node&gt; visited = <span class="keyword">new</span> HashSet&lt;Node&gt;();</span><br><span class="line">    queue.offer(<span class="keyword">this</span>.root);</span><br><span class="line">    <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">        Node node = queue.poll();</span><br><span class="line">        visited.add(node);</span><br><span class="line">        doProcess(node)</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;Node&gt; adjacentNodes = getUnvistedAdjacentNodes(node, visited);</span><br><span class="line">        <span class="keyword">for</span> (Node nodeItem : adjacentNodes) &#123;</span><br><span class="line">          queue.offer(nodeItem);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样，python版本需要解决Queue的实现，这里需要用到双端队列deque（注意这个单词发 deck 音）  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>():</span></span><br><span class="line">    queue = deque()</span><br><span class="line">    visited = <span class="built_in">set</span>()</span><br><span class="line">    queue.append(self.root)</span><br><span class="line">    visited.add(self.root)</span><br><span class="line">    <span class="keyword">while</span> stack:</span><br><span class="line">        node = queue.popleft()</span><br><span class="line">        visited.add(node)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        do_process(node)</span><br><span class="line"></span><br><span class="line">        adjacent_nodes = generate_unvisited_adjacent_nodes(node, visited)</span><br><span class="line">        queue.extend(adjacent_nodes)</span><br></pre></td></tr></table></figure>
+
+<h2 id="WFS-Weight-First-Search"><a href="#WFS-Weight-First-Search" class="headerlink" title="WFS (Weight First Search)"></a>WFS (Weight First Search)</h2><p>这是什么鬼？教科书里没有啊。<br>是的，这是我根据启发式搜索（Heuristic Search）写出的一个自定义搜索方式。<br>要想说清楚 WFS 就要先搞清楚启发式搜索，要想说清启发式搜索又要看看 DFS 和 BFS 的算法。<br>我们注意到 DFS 和 BFS 算法在只是在使用的数据结构上有所不同，DFS 使用的是Stack， BFS 使用的是Queue， 而我们知道在PriorityQueue的前提下，Stack和Queue是可以统一的，如果这里的数据结构换成ProrityQueue就变成了启发式搜索（Heuristic Search）。<br>下面说WFS，这里如果PriorityQueue的估价函数是关于权重的话，那么这个搜索就是WFS。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">_wfs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    PriorityQueue&lt;Node&gt; priorityQueue = <span class="keyword">new</span> PriorityQueue&lt;Node&gt;();</span><br><span class="line"><span class="comment">//        PriorityQueue&lt;TreeNode&gt; priorityQueue = new PriorityQueue&lt;TreeNode&gt;((a,b) -&gt; b.data - a.data);</span></span><br><span class="line">    Set&lt;Node&gt; visited = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    priorityQueue.add(<span class="keyword">this</span>.root);</span><br><span class="line">    <span class="keyword">while</span> (!priorityQueue.isEmpty()) &#123;</span><br><span class="line">        Node node = priorityQueue.poll();</span><br><span class="line">        visited.add(node);</span><br><span class="line">        doProcess(node);</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;Node&gt; adjacentNodes = getUnvistedAdjacentNodes(node, visited);</span><br><span class="line">        <span class="keyword">for</span> (Node nodeItem : adjacentNodes) &#123;</span><br><span class="line">          queue.offer(nodeItem);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当然这里Node需要实现 Compareable interface.  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span> <span class="keyword">implements</span> <span class="title">Compareable</span>&lt;<span class="title">Node</span>&gt;</span>&#123;</span><br><span class="line">  ......</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Node o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> o.data - data;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似的，python的实现需要解决PriorityQueue的实现问题，很幸运，PriorityQueue在collection下有实现，那么具体的WFS实现如下：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfs</span>(<span class="params">self</span>):</span></span><br><span class="line">    priority_queue = PriorityQueue()</span><br><span class="line">    visited = <span class="built_in">set</span>()</span><br><span class="line">    priority_queue.put(self.root)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> priority_queue.empty():</span><br><span class="line">        node = priority_queue.get()</span><br><span class="line">        do_process(node)</span><br><span class="line"></span><br><span class="line">        adjacent_nodes = generate_unvisited_adjacent_nodes(node, visited)</span><br><span class="line">        queue.extend(adjacent_nodes)</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">类似的Node需要重写 _cmp_ 方法</span><br><span class="line"></span><br><span class="line">``` python</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__cmp__</span>(<span class="params">self, other</span>):</span></span><br><span class="line">        <span class="keyword">return</span> other.val - self.val</span><br></pre></td></tr></table></figure>
+
+<p>对应的这三种搜索实现在BST下都有具体的工程实现，实现参考github工程的<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/me/lirui/algo/tree/BinarySearchTree.java">java实现</a> —  <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare_python/blob/master/src/binarysearchtree/binarysearchtree.py">python实现</a><br>和对应的<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/tree/BinarySearchTreeTest.java">java测试工程</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/e71e737f/" data-title="深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search） | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/6e0a9a90/" title="系统设计估算方法以及必知的那些数据">
+  <strong>上一篇：</strong><br/>
+  <span>
+  系统设计估算方法以及必知的那些数据</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/602ee0a8/"  title="优先队列">
+ <strong>下一篇：</strong><br/> 
+ <span>优先队列
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS%E7%9A%84%E5%85%B8%E5%9E%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">DFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS%E7%9A%84%E5%85%B8%E5%9E%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">BFS的典型实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WFS-Weight-First-Search"><span class="toc-number">3.</span> <span class="toc-text">WFS (Weight First Search)</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

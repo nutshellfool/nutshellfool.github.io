@@ -1,0 +1,596 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>从管理风格的角度看 TCP/IP | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    
+      <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    
+    <meta name="description" content="从一道经典的问题说起 请描述一下TCP与UDP协议的不同  这有什么好讲的，即使是初入职场的同学们多少都可以答上一些，再不济也能答上一句：“TCP是面向可靠连接的协议而UDP则不是。”，好一些的会接着从协议的角度来答TCP是通过什么样的机制来保证连接的可靠性（3次握手和4次挥手、流量控制、超时重传、拥塞控制等等）。这些都是知识性的信息，能回答出TCP通过什么样的机制来保证连接的可靠性说明你在这块的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从管理风格的角度看 TCP&#x2F;IP">
+<meta property="og:url" content="https://blogs.lirui.me/posts/a036b45b/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="从一道经典的问题说起 请描述一下TCP与UDP协议的不同  这有什么好讲的，即使是初入职场的同学们多少都可以答上一些，再不济也能答上一句：“TCP是面向可靠连接的协议而UDP则不是。”，好一些的会接着从协议的角度来答TCP是通过什么样的机制来保证连接的可靠性（3次握手和4次挥手、流量控制、超时重传、拥塞控制等等）。这些都是知识性的信息，能回答出TCP通过什么样的机制来保证连接的可靠性说明你在这块的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-24T10:52:53.000Z">
+<meta property="article:modified_time" content="2020-02-24T11:40:05.393Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/a036b45b/" title="从管理风格的角度看 TCP/IP" itemprop="url">从管理风格的角度看 TCP/IP</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-02-24T10:52:53.000Z" itemprop="datePublished"> 发表于 2020-02-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E4%B8%80%E9%81%93%E7%BB%8F%E5%85%B8%E7%9A%84%E9%97%AE%E9%A2%98%E8%AF%B4%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">从一道经典的问题说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E7%AE%A1%E7%90%86%E5%8F%88%E6%9C%89%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="toc-number">2.</span> <span class="toc-text">和管理又有什么关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%BE%E9%81%93%E7%9C%9F%E7%9A%84%E5%B0%B1%E6%98%AF%E4%B8%80%E6%97%A0%E6%98%AF%E5%A4%84%E4%BA%86"><span class="toc-number">3.</span> <span class="toc-text">难道真的就是一无是处了</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="从一道经典的问题说起"><a href="#从一道经典的问题说起" class="headerlink" title="从一道经典的问题说起"></a>从一道经典的问题说起</h2><blockquote>
+<p>请描述一下TCP与UDP协议的不同</p>
+</blockquote>
+<p>这有什么好讲的，即使是初入职场的同学们多少都可以答上一些，再不济也能答上一句：“TCP是面向可靠连接的协议而UDP则不是。”，好一些的会接着从协议的角度来答TCP是通过什么样的机制来保证连接的可靠性（3次握手和4次挥手、流量控制、超时重传、拥塞控制等等）。<br>这些都是知识性的信息，能回答出TCP通过什么样的机制来保证连接的可靠性说明你在这块的知识是结构化的，同时侧面体现出你有建立自己知识结构的习惯（嗯，在面试中可能是个加分项）。然而今天的这篇文章并不想从这些已有的知识中进行知识整理和挖掘，想从这个问题的一个引申结论谈起。  </p>
+<blockquote>
+<p>UDP协议要比TCP协议好</p>
+</blockquote>
+<p>先抛开观点的对错不说，这样的一种表述其实就不是客观的，在一个讨论问题的环境中很容易就引起一片争论不休的情绪碰撞，场面很可能不亚于“PHP是最美的编程语言”和“最好编辑器”的争论。<br>其实稍微客观点的描述会是：  </p>
+<blockquote>
+<p>同等条件下，UDP协议的实现性能会优于TCP协议实现<br>持这样观点的同学的依据是：  </p>
+</blockquote>
+<ul>
+<li>UDP在协议层仅仅是在数据报文前添加传输层头部信息，而TCP做了3次握手和4次挥手等其他保证传输可靠性的工作</li>
+</ul>
+<h2 id="和管理又有什么关系"><a href="#和管理又有什么关系" class="headerlink" title="和管理又有什么关系"></a>和管理又有什么关系</h2><p>如果你熟悉TCP协议，熟悉其中的三次握手和四次挥手的协议细节，如果将协议中的这几个角色做一下替换，看看会有什么的结论：  </p>
+<p>应用层：大老板<br>传输层：中层管理者<br>网络层：一线工程师<br>网络包：工作任务</p>
+<p>UDP：希望用行政手段解决问题的管理者<br>TCP：懂技术细节的希望用技术手段解决问题的管理者</p>
+<p>三次握手：项目按照立项流程启动<br>四次挥手：项目按照工程管理流程进行总结结项</p>
+<p>哎～是不是感觉好像还真的对上号了。<br>大老板负责定方向、提需求，具体是用技术的方式管理还是行政的方式管理项目不是他该关心的部分。<br>技术风格的中层管理者拿到立项的项目就需要想了：  </p>
+<ul>
+<li>这个任务是不是大到需要拆分的程度（是否需要网络分包）</li>
+<li>如果是拆分，需要拆成几期（每个网络包的大小该是多少）</li>
+<li>用什么策略来控制项目进度？<br>由于是新的团队还不知道工程师实际的工程能力，所以打算实行前期多一些设计工作和逐步增加任务的策略去找出团队交付速度的临界点（TCP慢启动），到任务饱和点（临界窗口值）的时候，考虑适当减少任务安排并保持现有的交付速度（拥塞避免）。</li>
+<li>和需要合作的其他团队该用什么策略和机制沟通进度？<br>前期大家都不太熟悉、对按时完成任务的目标都没有信心，所以沟通的频度会高一些，比如一天两次或者一天一次；<br>后来大家发现，很多资源都浪费到召开沟通会议上了，反而影响了交付的效率，所以决定降低开会确认进度的频率（TCP延迟确认），进度报告也选择在有个稍微大一些进度的时候进行信息同步（Nagle算法）</li>
+</ul>
+<p>行政风格的中层管理者在处理相同场景的任务时就是另一个风格了：</p>
+<p>这是上面老大（应用层）的给的需求，你们看着办。</p>
+<p>底下的兄弟们（网络层）听到是大老板的需求，自然也不敢怠慢，可是具体该怎么做能搞定这个大需求也是一头雾水，只能先按功能数量进行任务拆分，什么系统架构，系统伸缩性的都不管了，老夫上来就是coding一把梭（UDP将分包直接交给IP层进行）。<br>幸运的是这样的项目机制在前期还比较顺利，但是随着项目规模的逐渐变大（数据包增大）、项目中其他因素的影响不断增多（网络信道环境变化）出现bug增多（丢包）的情况，由于交付物中也没有日志和必要的提示信息，所以合作团队只能给简单的反馈“产品有bug”（UDP丢包反馈），收到反馈的工程师们由于没有反馈信息，排查起来也是一头雾水，所以管他三七二十一先重新打个包发过去再说（UDP 丢包整包重传）。</p>
+<p>所以故事讲到这里，你还认为“UDP的性能要比TCP好”么？</p>
+<h2 id="难道真的就是一无是处了"><a href="#难道真的就是一无是处了" class="headerlink" title="难道真的就是一无是处了"></a>难道真的就是一无是处了</h2><p>当然不是，行政风格（特别是公司就只有大老板一个人担任这个角色的时候）的管理在一家初创公司的初期阶段也有着积极的意义：  </p>
+<ul>
+<li>不需要遵从繁琐的各种公司流程，只要是有利于业务的事情就去做，团队执行力强。</li>
+<li>不需要层层汇报，大老板直接拍板决定，决策效率高。</li>
+<li>快速执行、快速试错、快速验证商业模式。</li>
+</ul>
+<p>所以行政式的管理风格并不是一无是处，效率低只是用错了场景。  </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Network/">Network</a>►<a class="article-category-link" href="/categories/Network/Management/">Management</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/a036b45b/" data-title="从管理风格的角度看 TCP/IP | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/63f58b56/" title="如何设计一个短网址服务">
+  <strong>上一篇：</strong><br/>
+  <span>
+  如何设计一个短网址服务</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/2330c61c/"  title="使用Wireshark研究网络协议 - TCP/IP 协议问题">
+ <strong>下一篇：</strong><br/> 
+ <span>使用Wireshark研究网络协议 - TCP/IP 协议问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E4%B8%80%E9%81%93%E7%BB%8F%E5%85%B8%E7%9A%84%E9%97%AE%E9%A2%98%E8%AF%B4%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">从一道经典的问题说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E7%AE%A1%E7%90%86%E5%8F%88%E6%9C%89%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="toc-number">2.</span> <span class="toc-text">和管理又有什么关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%BE%E9%81%93%E7%9C%9F%E7%9A%84%E5%B0%B1%E6%98%AF%E4%B8%80%E6%97%A0%E6%98%AF%E5%A4%84%E4%BA%86"><span class="toc-number">3.</span> <span class="toc-text">难道真的就是一无是处了</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

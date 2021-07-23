@@ -1,0 +1,662 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>系统设计 - 异步I/O模型及异步编程 Ⅱ - 从C10K问题到C10M问题 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="C10K,C10M,epoll,event-driven">
+    
+    <meta name="description" content="推动互联网发展的技术挑战C10k问题互联网在20年前还并不像现在这样有大规模的应用，在当时还没有现在的分布式、微服务这样的系统设计；大家的注意力还都放在如何提升单台服务器性能，如何榨干硬件的最后价值上，当然这背后的推动力其实也是成本的考量；在1999年 Dan Kegel 提出了 C10k问题：简单来说就是在当时1200美元能够购买的单机硬件成本配置下（具体配置见下表）如何使得单机能够同时处理10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统设计 - 异步I&#x2F;O模型及异步编程 Ⅱ - 从C10K问题到C10M问题">
+<meta property="og:url" content="https://blogs.lirui.me/posts/4b0392f1/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="推动互联网发展的技术挑战C10k问题互联网在20年前还并不像现在这样有大规模的应用，在当时还没有现在的分布式、微服务这样的系统设计；大家的注意力还都放在如何提升单台服务器性能，如何榨干硬件的最后价值上，当然这背后的推动力其实也是成本的考量；在1999年 Dan Kegel 提出了 C10k问题：简单来说就是在当时1200美元能够购买的单机硬件成本配置下（具体配置见下表）如何使得单机能够同时处理10">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.aosabook.org/images/nginx/architecture.png">
+<meta property="article:published_time" content="2020-05-10T12:46:51.000Z">
+<meta property="article:modified_time" content="2020-05-13T11:11:30.694Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.aosabook.org/images/nginx/architecture.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/4b0392f1/" title="系统设计 - 异步I/O模型及异步编程 Ⅱ - 从C10K问题到C10M问题" itemprop="url">系统设计 - 异步I/O模型及异步编程 Ⅱ - 从C10K问题到C10M问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-10T12:46:51.000Z" itemprop="datePublished"> 发表于 2020-05-10</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%91%E5%B1%95%E7%9A%84%E6%8A%80%E6%9C%AF%E6%8C%91%E6%88%98"><span class="toc-number">1.</span> <span class="toc-text">推动互联网发展的技术挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C10k%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">C10k问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%B1%E5%93%8DC10k%E6%80%A7%E8%83%BD%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">影响C10k性能的限制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%EF%BC%88File-descriptor%EF%BC%89%E6%89%93%E5%BC%80%E6%95%B0%E9%87%8F%E9%99%90%E5%88%B6"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">文件描述符（File descriptor）打开数量限制</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%9C%A8Linux%E4%B8%8A%E4%BF%AE%E6%94%B9FD%E6%9C%80%E5%A4%A7%E6%89%93%E5%BC%80%E6%95%B0"><span class="toc-number">1.1.1.1.1.</span> <span class="toc-text">在Linux上修改FD最大打开数</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%99%90%E5%88%B6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">线程限制</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3C10k%E9%97%AE%E9%A2%98%E7%9A%84%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">解决C10k问题的建议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#kenel-%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">kenel 层面</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#zero-copy"><span class="toc-number">1.1.2.1.1.</span> <span class="toc-text">zero_copy</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9F%BA%E4%BA%8Eepoll-IOCompletionPort%E7%9A%84IO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">使用基于epoll()&#x2F;IOCompletionPort的IO模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B0%BD%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%A6%E6%9C%89%E7%BC%93%E5%AD%98%E7%9A%84IO%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">尽可能的使用带有缓存的IO方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8EC10k%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8BNginx"><span class="toc-number">1.1.3.</span> <span class="toc-text">从C10k问题的角度看Nginx</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C10M%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">C10M问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#C10M%E5%B9%B6%E5%8F%91%E8%BF%9E%E6%8E%A5%E6%8C%91%E6%88%98%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88"><span class="toc-number">1.2.1.</span> <span class="toc-text">C10M并发连接挑战意味着什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0C10M%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.2.</span> <span class="toc-text">实现C10M的思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="推动互联网发展的技术挑战"><a href="#推动互联网发展的技术挑战" class="headerlink" title="推动互联网发展的技术挑战"></a>推动互联网发展的技术挑战</h2><h3 id="C10k问题"><a href="#C10k问题" class="headerlink" title="C10k问题"></a>C10k问题</h3><p>互联网在20年前还并不像现在这样有大规模的应用，在当时还没有现在的分布式、微服务这样的系统设计；<br>大家的注意力还都放在如何提升单台服务器性能，如何榨干硬件的最后价值上，当然这背后的推动力其实也是成本的考量；<br>在1999年 Dan Kegel 提出了 C10k问题：<br>简单来说就是在当时1200美元能够购买的单机硬件成本配置下（具体配置见下表）如何使得单机能够同时处理10k个连接请求。  </p>
+<table>
+<thead>
+<tr>
+<th>计算资源</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>1 core - 1000MHZ</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>2G</td>
+</tr>
+<tr>
+<td>Ethernet</td>
+<td>1Gb/s</td>
+</tr>
+<tr>
+<td>Disk</td>
+<td>HDD</td>
+</tr>
+</tbody></table>
+<p>当然 Dan Kegel 在1999年的时候已经在 ftp 服务站点 cdrom.com 上实现了这个目标。并在它的C10k问题的主页上给出了一些实现 C10k目标的建议。</p>
+<h4 id="影响C10k性能的限制"><a href="#影响C10k性能的限制" class="headerlink" title="影响C10k性能的限制"></a>影响C10k性能的限制</h4><h5 id="文件描述符（File-descriptor）打开数量限制"><a href="#文件描述符（File-descriptor）打开数量限制" class="headerlink" title="文件描述符（File descriptor）打开数量限制"></a>文件描述符（File descriptor）打开数量限制</h5><p>在 Unix-like 的操作系统中这个最大文件打开数的配置由<code>ulimit</code>或<code>setrlimit</code>设置。</p>
+<p>CentOS这个值的默认值为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /proc/sys/fs/file-max</span></span><br><span class="line"></span><br><span class="line">818354</span><br></pre></td></tr></table></figure>
+
+<p>这个值的含义是每个登录的用户会话可以打开的FD数；<br>当然这个数会与Linux发行版有关，这个值在Ubuntu下为 176772</p>
+<h6 id="在Linux上修改FD最大打开数"><a href="#在Linux上修改FD最大打开数" class="headerlink" title="在Linux上修改FD最大打开数"></a>在Linux上修改FD最大打开数</h6><ul>
+<li><p>下次机器重启前修改有效<br><code>$ sudo sysctl -w fs.file-max=500000</code><br>检查修改是否生效：<br><code>$ cat /proc/sys/fs/file-max</code></p>
+</li>
+<li><p>修改永久有效<br><code>$ sudo vi /etc/sysctl.conf</code><br>然后添加下面配置<br><code>fs.file-max=500000</code><br>如果希望不再重新登录后生效：<br><code>$ sudo sysctl -p</code></p>
+</li>
+</ul>
+<p>更详细的配置参看这个 Post <a target="_blank" rel="noopener" href="https://www.tecmint.com/increase-set-open-file-limits-in-linux/">How to Increase Number of Open Files Limit in Linux</a></p>
+<h5 id="线程限制"><a href="#线程限制" class="headerlink" title="线程限制"></a>线程限制</h5><p>// TODO</p>
+<h4 id="解决C10k问题的建议"><a href="#解决C10k问题的建议" class="headerlink" title="解决C10k问题的建议"></a>解决C10k问题的建议</h4><h5 id="kenel-层面"><a href="#kenel-层面" class="headerlink" title="kenel 层面"></a>kenel 层面</h5><h6 id="zero-copy"><a href="#zero-copy" class="headerlink" title="zero_copy"></a>zero_copy</h6><h5 id="使用基于epoll-IOCompletionPort的IO模型"><a href="#使用基于epoll-IOCompletionPort的IO模型" class="headerlink" title="使用基于epoll()/IOCompletionPort的IO模型"></a>使用基于epoll()/IOCompletionPort的IO模型</h5><h5 id="尽可能的使用带有缓存的IO方法"><a href="#尽可能的使用带有缓存的IO方法" class="headerlink" title="尽可能的使用带有缓存的IO方法"></a>尽可能的使用带有缓存的IO方法</h5><h4 id="从C10k问题的角度看Nginx"><a href="#从C10k问题的角度看Nginx" class="headerlink" title="从C10k问题的角度看Nginx"></a>从C10k问题的角度看Nginx</h4><p>使用上述方式解决C10K问题的典型WebServer代表就是Nginx，使用了以事件驱动（event-driven）、异步非阻塞的多路复用的I/O模型 epoll/kqueue。  </p>
+<p><img src="https://www.aosabook.org/images/nginx/architecture.png" alt="Nginx architecture"></p>
+<p>更多Nginx架构信息请查看<a target="_blank" rel="noopener" href="https://www.aosabook.org/en/nginx.htm">NGINX architecture, by Andrew Alexeev</a><br>如果你对Nginx还不太熟悉可以参考下这篇官方文章 <a target="_blank" rel="noopener" href="https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/">Inside NGINX: How We Designed for Performance &amp; Scale</a><br>官方的这篇文章也从C10K的角度提出了Nginx性能调优的建议 <a target="_blank" rel="noopener" href="https://www.nginx.com/blog/tuning-nginx/">Tuning NGINX for Performance</a><br>经过调优后的 Nginx 可以达到 10K并发连接 / 工作进程 的性能，我们都知道 Nginx 是根据宿主机器的CPU核心数进行工作进程的分配，所以这样的性能也就等同于 10k并发连接/核心 。</p>
+<h3 id="C10M问题"><a href="#C10M问题" class="headerlink" title="C10M问题"></a>C10M问题</h3><p>恰恰是C10k问题提出的10后Robert David Graham在Shmoocon提出了C10M的问题：<br>10年的硬件发展水平使得硬件的计算能力有了10k倍数的提升，那么在1200美元购置的标准硬件下如何使得单机能够处理10M的连接请求。  </p>
+<table>
+<thead>
+<tr>
+<th>计算资源</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>8 core - 1000MHZ</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>64G</td>
+</tr>
+<tr>
+<td>Ethernet</td>
+<td>10Gb/s</td>
+</tr>
+<tr>
+<td>Drive</td>
+<td>SSD</td>
+</tr>
+</tbody></table>
+<p>事实上在硬件的发展速度上来看，系统的scalability的限制已经不在硬件设备上，而是在软件，特别是操作系统上。  </p>
+<p>其实 C10k提出10年后的2010年，大家已经将注意力从单体性能转移到如何通过分布式和微服务的方式提升整体服务的性能，那为什么还会有人在意单体的性能呢？<br>原因就是虽然通过scale out 的方式可以提升connection per second 的性能，但是很不幸，这个提升并不是线性的关系，而是低于线性增长的关系($O(log^n)$ ?) 详情参见<a target="_blank" rel="noopener" href="https://youtu.be/73XNtI0w7jA?t=236">YouTube -Shmoocon 2013 - C10M Defending The Internet At Scale</a><br>所以大家又同时开始关注单机层面的性能提升，继续薅“单机”羊毛，不过这一次与C10k的那次不同，不再从I/O模型的层面思考如何改善kernel部分的性能，而是考虑将数据层的工作全部交给应用程序，将控制层的工作交给内核；这一就是 <a target="_blank" rel="noopener" href="http://highscalability.com/blog/2013/5/13/the-secret-to-10-million-concurrent-connections-the-kernel-i.html">The Secret To 10 Million Concurrent Connections -The Kernel Is The Problem, Not The Solution</a> 这篇著名博文核心主张</p>
+<blockquote>
+<p>The kernel isn’t the solution. The kernel is the problem.<br>Which means:<br>Don’t let the kernel do all the heavy lifting.</p>
+</blockquote>
+<h4 id="C10M并发连接挑战意味着什么"><a href="#C10M并发连接挑战意味着什么" class="headerlink" title="C10M并发连接挑战意味着什么"></a>C10M并发连接挑战意味着什么</h4><ul>
+<li>1千万的并发连接数</li>
+<li>1百万个连接/秒——每个连接以这个速率持续约10秒</li>
+<li>10GB/秒的连接——快速连接到互联网</li>
+<li>1千万个数据包/秒——据估计目前的服务器每秒处理50K的数据包，以后会更多。过去服务器每秒可以处理100K的中断，并且每一个数据包都产生中断</li>
+<li>10微秒的延迟——可扩展服务器也许可以处理这个规模，但延迟可能会飙升</li>
+<li>10微秒的抖动——限制最大延迟</li>
+<li>并发10核技术——软件应支持更多核的服务器。通常情况下，软件能轻松扩展到四核。服务器可以扩展到更多核，因此需要重写软件，以支持更多核的服务器。</li>
+</ul>
+<h4 id="实现C10M的思路"><a href="#实现C10M的思路" class="headerlink" title="实现C10M的思路"></a>实现C10M的思路</h4><ul>
+<li><p>网络包 Scalability - 绕过Unix TCP网络栈的限制，实现自己的网络驱动<br>当然这个思路并不是从零开始，目前支持你编写自己的网络驱动，直接将数据包发送到你的应用程序的开发工具或开发平台主要有下面3个：  </p>
+<ul>
+<li>Intel <a target="_blank" rel="noopener" href="https://www.dpdk.org/">DPDK</a> (Data Plane Development Kit)<br>Intel 提供技术支持的封闭生态解决方案</li>
+<li><a target="_blank" rel="noopener" href="https://www.ntop.org/products/packet-capture/pf_ring/">PF_RING</a></li>
+<li><a target="_blank" rel="noopener" href="http://info.iet.unipi.it/~luigi/netmap/">NETMAP</a></li>
+</ul>
+</li>
+<li><p>CPU多核 Scalability</p>
+</li>
+<li><p>内存 Scalability</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>//TODO</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.kegel.com/c10k.html">The C10K problem</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.aosabook.org/en/nginx.html">NGINX architecture, by Andrew Alexeev</a></li>
+<li><a target="_blank" rel="noopener" href="http://c10m.robertgraham.com/p/manifesto.html">The C10M problem</a></li>
+<li><a target="_blank" rel="noopener" href="http://highscalability.com/blog/2013/5/13/the-secret-to-10-million-concurrent-connections-the-kernel-i.html">The Secret To 10 Million Concurrent Connections -The Kernel Is The Problem, Not The Solution</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/System-Design/">System Design</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/4b0392f1/" data-title="系统设计 - 异步I/O模型及异步编程 Ⅱ - 从C10K问题到C10M问题 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/484ff7c2/" title="kubernetes 架构">
+  <strong>上一篇：</strong><br/>
+  <span>
+  kubernetes 架构</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/a613e087/"  title="系统设计 - 异步I/O模型及异步编程">
+ <strong>下一篇：</strong><br/> 
+ <span>系统设计 - 异步I/O模型及异步编程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%91%E5%B1%95%E7%9A%84%E6%8A%80%E6%9C%AF%E6%8C%91%E6%88%98"><span class="toc-number">1.</span> <span class="toc-text">推动互联网发展的技术挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C10k%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">C10k问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%B1%E5%93%8DC10k%E6%80%A7%E8%83%BD%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">影响C10k性能的限制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%EF%BC%88File-descriptor%EF%BC%89%E6%89%93%E5%BC%80%E6%95%B0%E9%87%8F%E9%99%90%E5%88%B6"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">文件描述符（File descriptor）打开数量限制</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%9C%A8Linux%E4%B8%8A%E4%BF%AE%E6%94%B9FD%E6%9C%80%E5%A4%A7%E6%89%93%E5%BC%80%E6%95%B0"><span class="toc-number">1.1.1.1.1.</span> <span class="toc-text">在Linux上修改FD最大打开数</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%99%90%E5%88%B6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">线程限制</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3C10k%E9%97%AE%E9%A2%98%E7%9A%84%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">解决C10k问题的建议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#kenel-%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">kenel 层面</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#zero-copy"><span class="toc-number">1.1.2.1.1.</span> <span class="toc-text">zero_copy</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9F%BA%E4%BA%8Eepoll-IOCompletionPort%E7%9A%84IO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">使用基于epoll()&#x2F;IOCompletionPort的IO模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B0%BD%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%A6%E6%9C%89%E7%BC%93%E5%AD%98%E7%9A%84IO%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">尽可能的使用带有缓存的IO方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8EC10k%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8BNginx"><span class="toc-number">1.1.3.</span> <span class="toc-text">从C10k问题的角度看Nginx</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C10M%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">C10M问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#C10M%E5%B9%B6%E5%8F%91%E8%BF%9E%E6%8E%A5%E6%8C%91%E6%88%98%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88"><span class="toc-number">1.2.1.</span> <span class="toc-text">C10M并发连接挑战意味着什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0C10M%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.2.</span> <span class="toc-text">实现C10M的思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

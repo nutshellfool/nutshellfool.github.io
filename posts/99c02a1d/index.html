@@ -1,0 +1,729 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Pythonic 及相关高级语法特性 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Pythonic,List comprehension,Dict comprehension,Set comprehension,Iterator,Generator,Decorator,function decorator,class decorator,列表推导式,字典推导式,集合推导式,迭代器,生成器,装饰器,函数装饰器,类装饰器,Python unittest @skip 原理">
+    
+    <meta name="description" content="高级语法特性部分List comprehension123[i for i in range(10) if i % 2 &#x3D;&#x3D; 0]# [0, 2, 4, 6, 8]  Dict comprehension12dict_square &#x3D; &amp;#123;i: i**2 for i in range(3)&amp;#125;# &amp;#123;0: 0, 1: 1, 2: 4&amp;#125;  Set comprehen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pythonic 及相关高级语法特性">
+<meta property="og:url" content="https://blogs.lirui.me/posts/99c02a1d/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="高级语法特性部分List comprehension123[i for i in range(10) if i % 2 &#x3D;&#x3D; 0]# [0, 2, 4, 6, 8]  Dict comprehension12dict_square &#x3D; &amp;#123;i: i**2 for i in range(3)&amp;#125;# &amp;#123;0: 0, 1: 1, 2: 4&amp;#125;  Set comprehen">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-15T08:38:13.000Z">
+<meta property="article:modified_time" content="2020-05-27T05:29:42.085Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/99c02a1d/" title="Pythonic 及相关高级语法特性" itemprop="url">Pythonic 及相关高级语法特性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-15T08:38:13.000Z" itemprop="datePublished"> 发表于 2020-04-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95%E7%89%B9%E6%80%A7%E9%83%A8%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">高级语法特性部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#List-comprehension"><span class="toc-number">1.1.</span> <span class="toc-text">List comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dict-comprehension"><span class="toc-number">1.2.</span> <span class="toc-text">Dict comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set-comprehension"><span class="toc-number">1.3.</span> <span class="toc-text">Set comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Functional-funtion"><span class="toc-number">1.4.</span> <span class="toc-text">Functional funtion</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#map"><span class="toc-number">1.4.1.</span> <span class="toc-text">map()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#filter"><span class="toc-number">1.4.2.</span> <span class="toc-text">filter()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reduce"><span class="toc-number">1.4.3.</span> <span class="toc-text">Reduce</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iterator"><span class="toc-number">1.5.</span> <span class="toc-text">Iterator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%ADcontainer%E6%98%AF%E5%90%A6%E6%98%AF%E5%8F%AF%E8%BF%AD%E4%BB%A3%E7%9A%84"><span class="toc-number">1.5.1.</span> <span class="toc-text">如何判断container是否是可迭代的</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generator"><span class="toc-number">1.6.</span> <span class="toc-text">Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Generator-to-list"><span class="toc-number">1.6.1.</span> <span class="toc-text">Generator to list</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decorator"><span class="toc-number">1.7.</span> <span class="toc-text">Decorator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%80%A7%E8%B4%A8"><span class="toc-number">1.7.1.</span> <span class="toc-text">函数式性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Decorator-%E6%9C%AC%E8%B4%A8%E4%B8%8A%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.7.2.</span> <span class="toc-text">Decorator 本质上是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Method-decorator"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">Method decorator</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Class-Decorator"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">Class Decorator</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Decorator%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.7.3.</span> <span class="toc-text">Decorator的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Decorator%E7%9A%84%E5%8F%A6%E7%B1%BB%E7%94%A8%E6%B3%95"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">Decorator的另类用法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Context-manager"><span class="toc-number">1.8.</span> <span class="toc-text">Context manager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mataclass"><span class="toc-number">1.9.</span> <span class="toc-text">mataclass</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFmetaclass"><span class="toc-number">1.9.1.</span> <span class="toc-text">什么是metaclass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E5%92%8C%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmetaclass"><span class="toc-number">1.9.2.</span> <span class="toc-text">如何自定义和使用一个metaclass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metaclass-%E5%AF%B9%E5%BA%94%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95hook"><span class="toc-number">1.9.3.</span> <span class="toc-text">metaclass 对应的生命周期方法hook</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E6%8C%87%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84metaclass%E5%90%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.9.3.1.</span> <span class="toc-text">类指定自定义的metaclass后生命周期方法调用顺序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%B1%BB%E5%90%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.9.3.2.</span> <span class="toc-text">实例化类后生命周期方法调用顺序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metaclass-%E5%9C%A8%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.9.4.</span> <span class="toc-text">metaclass 在实际项目中的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#metaclass-%E5%9C%A8pyyaml-framework%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.9.4.1.</span> <span class="toc-text">metaclass 在pyyaml framework中的使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metaclass-%E5%9C%A8Django-ORM%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.9.5.</span> <span class="toc-text">metaclass 在Django ORM中的使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">2.</span> <span class="toc-text">References</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="高级语法特性部分"><a href="#高级语法特性部分" class="headerlink" title="高级语法特性部分"></a>高级语法特性部分</h2><h3 id="List-comprehension"><a href="#List-comprehension" class="headerlink" title="List comprehension"></a>List comprehension</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>) <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>]</span><br><span class="line"><span class="comment"># [0, 2, 4, 6, 8]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Dict-comprehension"><a href="#Dict-comprehension" class="headerlink" title="Dict comprehension"></a>Dict comprehension</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dict_square = &#123;i: i**<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)&#125;</span><br><span class="line"><span class="comment"># &#123;0: 0, 1: 1, 2: 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Set-comprehension"><a href="#Set-comprehension" class="headerlink" title="Set comprehension"></a>Set comprehension</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set_comprehension_expres = &#123;i**<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>]&#125;</span><br><span class="line"><span class="comment"># &#123;1, 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Functional-funtion"><a href="#Functional-funtion" class="headerlink" title="Functional funtion"></a>Functional funtion</h3><h4 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>(function_to_apply, list_of_inputs)</span><br></pre></td></tr></table></figure>
+
+<p>例如将一个tuple list取出第一个元素并返回列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_list_tuple = [(<span class="number">1</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">3</span>, <span class="number">5</span>), (<span class="number">4</span>, <span class="number">7</span>)]</span><br><span class="line">_list_tuple_first_elem = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x : x[<span class="number">0</span>], _list_tuple))</span><br><span class="line"><span class="comment"># [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">filter</span>(function_to_apply, list_of_inputs)</span><br></pre></td></tr></table></figure>
+
+<p>紧接着上面的例子，从tuple list 取出第一个元素，并返回元素为偶数的列表：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_list_tuple = [(<span class="number">1</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">3</span>, <span class="number">5</span>), (<span class="number">4</span>, <span class="number">7</span>)]</span><br><span class="line">_list_tuple_first_elem = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: x[<span class="number">0</span>], <span class="built_in">list</span>(<span class="built_in">filter</span>(<span class="keyword">lambda</span> x : x[<span class="number">0</span>] % <span class="number">2</span> == <span class="number">0</span>, _list_tuple))))</span><br><span class="line"><span class="comment"># [2, 4]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Reduce(function_to_apply, list_of_inputs)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">product = <span class="number">1</span></span><br><span class="line"><span class="built_in">list</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">list</span>:</span><br><span class="line">    product = product * num</span><br><span class="line"></span><br><span class="line"><span class="comment"># product = 24</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">produce = reduce((<span class="keyword">lambda</span> x, y: x * y), [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># product = 24</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h3><p>container implements method <code>next()</code> and <code>__iter__</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CountdownIterator</span>(<span class="params">Object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, init_number</span>):</span></span><br><span class="line">        self.__init_number = init_number</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.__init_number == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line">        self.__init_number -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> element <span class="keyword">in</span> CountdownIterator(<span class="number">2</span>):</span><br><span class="line">    <span class="built_in">print</span>(element)</span><br><span class="line"><span class="comment"># 2 1 0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="如何判断container是否是可迭代的"><a href="#如何判断container是否是可迭代的" class="headerlink" title="如何判断container是否是可迭代的"></a>如何判断container是否是可迭代的</h4><ul>
+<li>通过类型转化</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_iterable</span>(<span class="params">param</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="built_in">iter</span>(param)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">except</span> TypeError:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过调用 <code>isinstance(object, iterable)</code> 方法判断</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable</span><br><span class="line"><span class="built_in">isinstance</span>([], Iterable)</span><br><span class="line"><span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>Generator 可以被理解为懒汉加载版的Iterator，在语法上通常与关键词”yield”共同出现。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index_generator</span>(<span class="params">L, target</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        L:  the given list</span></span><br><span class="line"><span class="string">        target: the target element</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Yields: the index list of target element in the given list</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">  <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(L):</span><br><span class="line">        <span class="keyword">if</span> num == target:</span><br><span class="line">            <span class="keyword">yield</span> i</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(index_generator([<span class="number">1</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">2</span>], <span class="number">10</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>特别需要注意的是在Google的code style guide中要求在docstring 中将<code>Returns</code>改为<code>Yields</code> <a target="_blank" rel="noopener" href="http://google.github.io/styleguide/pyguide.html#29-generators">Google Python Style Guide - generators</a>  </p>
+<p>正如style guide中所描述的generator优势，由于在每次调用next之前局部变量和control flow 状态都会保留，这使得无需像iterator和其他函数一样提前创建一整个list的数据， 同时还使得代码变得简洁</p>
+<p>generator 的另一种简洁写法生成器表达式（generator expression）：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">generator_for_loop = (i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100000</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="Generator-to-list"><a href="#Generator-to-list" class="headerlink" title="Generator to list"></a>Generator to list</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>((i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100000</span>)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Decorator"><a href="#Decorator" class="headerlink" title="Decorator"></a>Decorator</h3><p>函数在Python中是一等公民（first-class citizen），这里Python中的函数有下面几个性质：  </p>
+<h4 id="函数式性质"><a href="#函数式性质" class="headerlink" title="函数式性质"></a>函数式性质</h4><ul>
+<li>函数可以作为对象赋值给变量</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">format_string</span>(<span class="params">message</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;message : &#123;&#125;&quot;</span>.<span class="built_in">format</span>(message))</span><br><span class="line"></span><br><span class="line">print_message = format_string</span><br><span class="line"></span><br><span class="line">print_message(<span class="string">&#x27;hello&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数可以作为参数传入另一个函数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_format_string</span>(<span class="params">message</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;message: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(message)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">call_print</span>(<span class="params">func, message</span>)</span></span><br><span class="line"><span class="function">    <span class="title">return</span> <span class="title">print</span>(<span class="params">func(<span class="params">message</span>)</span>)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">call_print</span>(<span class="params">get_format_string, <span class="string">&#x27;hello&#x27;</span></span>)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数内可以定义函数，即函数的嵌套</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">message</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_format_string</span>():</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;message : &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(message))</span><br><span class="line">    <span class="keyword">return</span> get_format_string()</span><br><span class="line"></span><br><span class="line">func(<span class="string">&#x27;hello&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数的返回值也可以是函数对象（closure）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func_closure</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_format_string</span>(<span class="params">message</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;message : &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(message))</span><br><span class="line">    <span class="keyword">return</span> get_format_string</span><br><span class="line"></span><br><span class="line">print_format = func_closure()</span><br><span class="line"></span><br><span class="line">print_format(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line">print_format(<span class="string">&#x27;world&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Decorator-本质上是什么"><a href="#Decorator-本质上是什么" class="headerlink" title="Decorator 本质上是什么"></a>Decorator 本质上是什么</h4><h5 id="Method-decorator"><a href="#Method-decorator" class="headerlink" title="Method decorator"></a>Method decorator</h5><p>我们常常说的Decorator是以下面的这种形式出现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecorator</span>(<span class="params">func</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_decorator_wrapper</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;my decorator&#x27;</span>)</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> _decorator_wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@mydecorator</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">greet_func()</span><br></pre></td></tr></table></figure>
+
+<p>这里的mydecorator()函数就是一个装饰器，这个函数在没有改变原函数greet_func()内部结构的前提下，改变了外部行为表现。<br>实际山<code>@mydecorator</code>是一个语法糖，它在语法去糖之后是这样的<code>greet_func = mydecorator(greet_fun)</code>.  </p>
+<p>同时Decorator也支持自定义的参数：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecorator</span>(<span class="params">base_str, repeat_num</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_decorator_wrapper</span>(<span class="params">func</span>):</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__decorator_wrapper</span>(<span class="params">*xargs, **kwargs</span>):</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(repeat_num):</span><br><span class="line">                <span class="built_in">print</span>(base_str)</span><br><span class="line">            func(*xargs, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> __decorator_wrapper</span><br><span class="line">    <span class="keyword">return</span> _decorator_wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@mydecorator(<span class="params">base_str=<span class="string">&#x27;hello from mydecorator&#x27;</span>, repeat_num=<span class="number">2</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">greet_func()</span><br></pre></td></tr></table></figure>
+
+<p>当然被包装的函数也可能会有函数返回值，所以更泛化(generic)的decorator的代码模版(pattern)会是：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecorator</span>(<span class="params">arg1, arg2</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_decorator_wrapper</span>(<span class="params">func</span>):</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__decorator_wrapper</span>(<span class="params">*xargs, **kwargs</span>):</span></span><br><span class="line">            do_something_befor(arg1, arg2, *xargs, **kwargs)</span><br><span class="line">            result = func(*xargs, **kwargs)</span><br><span class="line">            do_something_after(result, arg1, arg2, *xargs, **kwargs)</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">return</span> __decorator_wrapper</span><br><span class="line">    <span class="keyword">return</span> _decorator_wrapper</span><br></pre></td></tr></table></figure>
+
+<p>对于method decorator 其实有一个细节需要大家注意，我们回到语法去糖之后的函数表达式<code>greet_func = mydecorator(greet_fun)</code>， 其实在经过<code>mydecorator</code>处理后的函数已经不是原先传入的函数对象了，以下是一段验证程序：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecorator</span>(<span class="params">func</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_decorator_wrapper</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;my decorator&#x27;</span>)</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> _decorator_wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(greet_func.__name__)</span><br><span class="line"><span class="built_in">print</span>(greet_func.__doc__)</span><br><span class="line">greet_func = mydecorator(greet_func)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(greet_func.__name__)</span><br><span class="line"><span class="built_in">print</span>(greet_func.__doc__)</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">greet_func</span><br><span class="line">    greet function</span><br><span class="line">    :return:</span><br><span class="line"></span><br><span class="line">_decorator_wrapper</span><br><span class="line">        Decorator wrapper</span><br><span class="line">        :param args:</span><br><span class="line">        :param kwargs:</span><br><span class="line">        :return:</span><br></pre></td></tr></table></figure>
+
+<p>可见经过decorator处理后的函数其函数的元信息（特别是 <code>__name__</code> 和 <code>__doc__</code>）是被修改了  </p>
+<p>那么这会有什么问题么？<br>主要会有两个问题：  </p>
+<ol>
+<li>docstring 会引用wrapper函数的docstring</li>
+<li>decorator 在应用在多个函数的时候，如果程序出现问题，需要debug的时候，堆栈的信息并不能准确的找出是那个函数出了问题</li>
+</ol>
+<p>那么如何解决呢？<br>其实也比较简洁在decorator的wrapper函数上用<code>functool.warp(func)</code>进行修饰就可以了：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecorator</span>(<span class="params">func</span>):</span></span><br><span class="line"><span class="meta">    @functools.wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_decorator_wrapper</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;my decorator&#x27;</span>)</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> _decorator_wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(greet_func.__name__)</span><br><span class="line">greet_func = mydecorator(greet_func)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(greet_func.__name__)</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">greet_func</span><br><span class="line">greet_func</span><br></pre></td></tr></table></figure>
+
+<h5 id="Class-Decorator"><a href="#Class-Decorator" class="headerlink" title="Class Decorator"></a>Class Decorator</h5><p>事实上，decorator 也可以是一个类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecoratorAsClass</span>(<span class="params">Object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, func</span>):</span></span><br><span class="line">        self.func = func</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, *xargs, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># do_something_befor(*xargs, **kwargs)</span></span><br><span class="line">        result = self.fun(*xargs, **kwargs)</span><br><span class="line">        <span class="comment"># do_soming_after(result, *xargs, **kwargs)</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@DecoratorAsClass</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果Class Decorator需要参数化修饰，比如下面的这种用法：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DecoratorAsClass(<span class="params">arg1=<span class="string">&quot;Number:&quot;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>直接在原有的类上进行参数话修饰是会提示参数匹配错误<code>typeError: __init__() takes at least 2 arguments</code>”的， 可选的解决办法是有两个：  </p>
+<ol>
+<li>使用函数式decorator重写（推荐）</li>
+<li>如果一定要使用class decorator，可以使用function 做一层包装</li>
+</ol>
+<p>第一种方式就不多说了， 下面的代码段是展示第二种解决办法的：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_DecoratorAsClass</span>(<span class="params">Object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, func, arg1=<span class="string">&#x27;default:&#x27;</span></span>):</span></span><br><span class="line">        self.func = func</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, *xargs, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># do_something_befor(*xargs, **kwargs)</span></span><br><span class="line">        result = self.fun(*xargs, **kwargs)</span><br><span class="line">        <span class="comment"># do_soming_after(result, *xargs, **kwargs)</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">DecoratorAsClass</span>(<span class="params">func, arg1 = <span class="string">&quot;default:&quot;</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> func:</span><br><span class="line">        <span class="keyword">return</span> _DecoratorAsClass(func)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span>(<span class="params">func</span>):</span></span><br><span class="line">            <span class="keyword">return</span> _DecoratorAsClass(func, arg1)</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7492068/python-class-decorator-arguments">stackoverflow - Python class decorator arguments</a></p>
+<p>另一个紧接着的相关的小问题就是，既然class 可以作为decorator， 那么是所有的class都可以么？ 如果不是，那么怎么判断哪些class 可以？</p>
+<p>调用函数 <code>callable(object)</code> 进行判断，事实上内部实现是判断目标对象是否具有<code>__call__</code>属性， 换句话说就是内部调用<code>hasattr(obj, &#39;__call__&#39;)</code>进行判断。  </p>
+<h4 id="Decorator的应用"><a href="#Decorator的应用" class="headerlink" title="Decorator的应用"></a>Decorator的应用</h4><ul>
+<li>参数检查（argument checking）</li>
+<li>缓存（caching）</li>
+<li>代理（proxy）</li>
+<li>context provider</li>
+</ul>
+<h5 id="Decorator的另类用法"><a href="#Decorator的另类用法" class="headerlink" title="Decorator的另类用法"></a>Decorator的另类用法</h5><p>我们先回头看下method decorator的标准实现:  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecorator</span>(<span class="params">func</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_decorator_wrapper</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;my decorator&#x27;</span>)</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> _decorator_wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@mydecorator</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet_func</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">greet_func()</span><br></pre></td></tr></table></figure>
+
+<p>这里如果在<code>_decorator_wrapper</code>中不再调用方法，那这是不是又起到了跳过函数体执行的效果呢？事实上Python unnittest 单元测试框架中的 <code>@skip</code> decorator就是这样的实现原理，下面是这部分的源码：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">skip</span>(<span class="params">reason</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Unconditionally skip a test.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span>(<span class="params">test_item</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">isinstance</span>(test_item, (<span class="built_in">type</span>, types.ClassType)):</span><br><span class="line"><span class="meta">            @functools.wraps(<span class="params">test_item</span>)</span></span><br><span class="line">            <span class="function"><span class="keyword">def</span> <span class="title">skip_wrapper</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">                <span class="keyword">raise</span> SkipTest(reason)</span><br><span class="line">            test_item = skip_wrapper</span><br><span class="line"></span><br><span class="line">        test_item.__unittest_skip__ = <span class="literal">True</span></span><br><span class="line">        test_item.__unittest_skip_why__ = reason</span><br><span class="line">        <span class="keyword">return</span> test_item</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中对于decorator传入的待测函数 <code>test_item</code> 并没有执行函数调用的操作，只是用一个空壳函数 skip_wrapper做了一个函数指针的替换， 从而达到了跳过指定测试方法的目的。</p>
+<h3 id="Context-manager"><a href="#Context-manager" class="headerlink" title="Context manager"></a>Context manager</h3><p>// TODO</p>
+<h3 id="mataclass"><a href="#mataclass" class="headerlink" title="mataclass"></a>mataclass</h3><h4 id="什么是metaclass"><a href="#什么是metaclass" class="headerlink" title="什么是metaclass"></a>什么是metaclass</h4><p>在很多书中翻译为元类，但这里meta翻译为元类并不合适，容易误解为所有累的基类。事实上meta在这里的语境是超越的意思，目前在业内还没有合适的翻译，所以下面依旧称作metaclass。<br>用简单的一句话来解释metaclass就是 “metaclass是class的class”，好像还是比较绕，我们都知道 对象是class的实例， 那么class是谁的实例呢？在python中是<code>type</code>，我们可以把它看作是metaclass的“基类”。</p>
+<h4 id="如何自定义和使用一个metaclass"><a href="#如何自定义和使用一个metaclass" class="headerlink" title="如何自定义和使用一个metaclass"></a>如何自定义和使用一个metaclass</h4><p>在Python3中使用类似类的继承的方式定义一个metaclass</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomizedMetaClass</span>(<span class="params"><span class="built_in">type</span></span>):</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>使用下面的方式为一个类指定metaclass：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomizedClass</span>(<span class="params">metaclass=CustomizedMetaClass</span>):</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="metaclass-对应的生命周期方法hook"><a href="#metaclass-对应的生命周期方法hook" class="headerlink" title="metaclass 对应的生命周期方法hook"></a>metaclass 对应的生命周期方法hook</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Metaclass</span>(<span class="params"><span class="built_in">type</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span>(<span class="params">metacls, name, bases, namespace</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(metacls, <span class="string">&quot;__new__ called&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>().__new__(metacls, name, bases, namespace)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__prepare__</span>(<span class="params">metacls, name, bases, **kwargs</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(metacls, <span class="string">&quot;__prepare__ called&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>().__prepare__(name, bases, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">cls, name, bases, namespace, **kwargs</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(cls, <span class="string">&quot;__init__ called&quot;</span>)</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, bases, namespace)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">cls, *args, **kwargs</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(cls, <span class="string">&quot;__call__ called&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>().__call__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MetaRevealingClass</span>(<span class="params">metaclass=Metaclass</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span>(<span class="params">cls, *args, **kwargs</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(cls, <span class="string">&quot;__new__ called&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>().__new__(cls)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(self, <span class="string">&quot;__init__ called&quot;</span>)</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &#x27;Metaclass&#x27;&gt; __prepare__ called</span><br><span class="line">&lt;class &#x27;Metaclass&#x27;&gt; __new__ called</span><br><span class="line">&lt;class &#x27;MetaRevealingClass&#x27;&gt; __init__ called</span><br></pre></td></tr></table></figure>
+
+<p><code>&gt;&gt;&gt; instance = MetaRevealingClass()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &#x27;MetaRevealingClass&#x27;&gt; __call__ called</span><br><span class="line">&lt;class &#x27;MetaRevealingClass&#x27;&gt; __new__ called</span><br><span class="line">&lt;MetaRevealingClass object at 0x10ff28978&gt; __init__ called</span><br></pre></td></tr></table></figure>
+
+<h5 id="类指定自定义的metaclass后生命周期方法调用顺序"><a href="#类指定自定义的metaclass后生命周期方法调用顺序" class="headerlink" title="类指定自定义的metaclass后生命周期方法调用顺序"></a>类指定自定义的metaclass后生命周期方法调用顺序</h5><ol>
+<li>metaclass <code>__prepare__</code></li>
+<li>metaclass <code>__new__</code></li>
+<li>class <code>__new__</code></li>
+</ol>
+<h5 id="实例化类后生命周期方法调用顺序"><a href="#实例化类后生命周期方法调用顺序" class="headerlink" title="实例化类后生命周期方法调用顺序"></a>实例化类后生命周期方法调用顺序</h5><ol>
+<li>class <code>__call__</code></li>
+<li>class <code>__new__</code></li>
+<li>instance <code>__init__</code></li>
+</ol>
+<h4 id="metaclass-在实际项目中的应用"><a href="#metaclass-在实际项目中的应用" class="headerlink" title="metaclass 在实际项目中的应用"></a>metaclass 在实际项目中的应用</h4><p>由于metaclass具有强大的修改类型的能力，同时就意味着如果使用不当就会造成类型继承体系变混乱的糟糕结果，所以在实际的项目中需要谨慎使用。<br>目前已知的使用场景是在framework的开发中会有部分的应用场景。<br>常见的有：  </p>
+<ul>
+<li>DSL</li>
+<li>ORM</li>
+</ul>
+<h5 id="metaclass-在pyyaml-framework中的使用"><a href="#metaclass-在pyyaml-framework中的使用" class="headerlink" title="metaclass 在pyyaml framework中的使用"></a>metaclass 在pyyaml framework中的使用</h5><p>pyyaml是一个非常流行的YAML framework, 在定义好对应的实体类后只要继承<code>YAMLObject</code>类后就可以使用<code>dump()</code>和反向的<code>load()</code>进行YAML的反序列化和序列化操作。<br>我们如果不去看framework的内部实现，猜想内部一定会存在一个dictionary 用来进行{‘yaml_tag’: YAMLObject}的映射，那么具体是怎么做的呢？我们查看下面源码。</p>
+<p><code>pyyaml/lib3/yaml/__init__.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YAMLObjectMetaclass</span>(<span class="params"><span class="built_in">type</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    The metaclass for YAMLObject.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">cls, name, bases, kwds</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(YAMLObjectMetaclass, cls).__init__(name, bases, kwds)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;yaml_tag&#x27;</span> <span class="keyword">in</span> kwds <span class="keyword">and</span> kwds[<span class="string">&#x27;yaml_tag&#x27;</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">isinstance</span>(cls.yaml_loader, <span class="built_in">list</span>):</span><br><span class="line">                <span class="keyword">for</span> loader <span class="keyword">in</span> cls.yaml_loader:</span><br><span class="line">                    loader.add_constructor(cls.yaml_tag, cls.from_yaml)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cls.yaml_loader.add_constructor(cls.yaml_tag, cls.from_yaml)</span><br><span class="line"></span><br><span class="line">            cls.yaml_dumper.add_representer(cls, cls.to_yaml)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YAMLObject</span>(<span class="params">metaclass=YAMLObjectMetaclass</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    An object that can dump itself to a YAML stream</span></span><br><span class="line"><span class="string">    and load itself from a YAML stream.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    __slots__ = ()  <span class="comment"># no direct instantiation, so allow immutable subclasses</span></span><br><span class="line"></span><br><span class="line">    yaml_loader = [Loader, FullLoader, UnsafeLoader]</span><br><span class="line">    yaml_dumper = Dumper</span><br><span class="line"></span><br><span class="line">    yaml_tag = <span class="literal">None</span></span><br><span class="line">    yaml_flow_style = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_yaml</span>(<span class="params">cls, loader, node</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Convert a representation node to a Python object.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> loader.construct_yaml_object(node, cls)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to_yaml</span>(<span class="params">cls, dumper, data</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Convert a Python object to a representation node.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> dumper.represent_yaml_object(cls.yaml_tag, data, cls,</span><br><span class="line">                flow_style=cls.yaml_flow_style)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/yaml/pyyaml/blob/d0d660d035905d9c49fc0f8dafb579d2cc68c0c8/lib3/yaml/__init__.py#L384">Github - pyyaml/lib3/yaml/_<em>init</em>_.py</a></p>
+<h4 id="metaclass-在Django-ORM中的使用"><a href="#metaclass-在Django-ORM中的使用" class="headerlink" title="metaclass 在Django ORM中的使用"></a>metaclass 在Django ORM中的使用</h4><p><a target="_blank" rel="noopener" href="https://programmer.help/blogs/python-how-to-implement-orm-with-metaclasses.html">Python – how to implement ORM with metaclasses</a></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26791781/">Expert Python Programming - Second Edition</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/howto/functional.html">Python官方指引文档 - 函数式编程指引</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/google/py-decorators-tutorial/blob/master/decorators-tutorial.ipynb">Google - Python decorators tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/624926/how-do-i-detect-whether-a-python-variable-is-a-function">Stack Overflow - How do I detect whether a Python variable is a function?</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Programming-Languages/">Programming Languages</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/99c02a1d/" data-title="Pythonic 及相关高级语法特性 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/40a135a6/" title="编程语言学习地图">
+  <strong>上一篇：</strong><br/>
+  <span>
+  编程语言学习地图</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/63f58b56/"  title="如何设计一个短网址服务">
+ <strong>下一篇：</strong><br/> 
+ <span>如何设计一个短网址服务
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95%E7%89%B9%E6%80%A7%E9%83%A8%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">高级语法特性部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#List-comprehension"><span class="toc-number">1.1.</span> <span class="toc-text">List comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dict-comprehension"><span class="toc-number">1.2.</span> <span class="toc-text">Dict comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set-comprehension"><span class="toc-number">1.3.</span> <span class="toc-text">Set comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Functional-funtion"><span class="toc-number">1.4.</span> <span class="toc-text">Functional funtion</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#map"><span class="toc-number">1.4.1.</span> <span class="toc-text">map()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#filter"><span class="toc-number">1.4.2.</span> <span class="toc-text">filter()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reduce"><span class="toc-number">1.4.3.</span> <span class="toc-text">Reduce</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iterator"><span class="toc-number">1.5.</span> <span class="toc-text">Iterator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%ADcontainer%E6%98%AF%E5%90%A6%E6%98%AF%E5%8F%AF%E8%BF%AD%E4%BB%A3%E7%9A%84"><span class="toc-number">1.5.1.</span> <span class="toc-text">如何判断container是否是可迭代的</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generator"><span class="toc-number">1.6.</span> <span class="toc-text">Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Generator-to-list"><span class="toc-number">1.6.1.</span> <span class="toc-text">Generator to list</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decorator"><span class="toc-number">1.7.</span> <span class="toc-text">Decorator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%80%A7%E8%B4%A8"><span class="toc-number">1.7.1.</span> <span class="toc-text">函数式性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Decorator-%E6%9C%AC%E8%B4%A8%E4%B8%8A%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.7.2.</span> <span class="toc-text">Decorator 本质上是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Method-decorator"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">Method decorator</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Class-Decorator"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">Class Decorator</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Decorator%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.7.3.</span> <span class="toc-text">Decorator的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Decorator%E7%9A%84%E5%8F%A6%E7%B1%BB%E7%94%A8%E6%B3%95"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">Decorator的另类用法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Context-manager"><span class="toc-number">1.8.</span> <span class="toc-text">Context manager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mataclass"><span class="toc-number">1.9.</span> <span class="toc-text">mataclass</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFmetaclass"><span class="toc-number">1.9.1.</span> <span class="toc-text">什么是metaclass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E5%92%8C%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmetaclass"><span class="toc-number">1.9.2.</span> <span class="toc-text">如何自定义和使用一个metaclass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metaclass-%E5%AF%B9%E5%BA%94%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95hook"><span class="toc-number">1.9.3.</span> <span class="toc-text">metaclass 对应的生命周期方法hook</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E6%8C%87%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84metaclass%E5%90%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.9.3.1.</span> <span class="toc-text">类指定自定义的metaclass后生命周期方法调用顺序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%B1%BB%E5%90%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.9.3.2.</span> <span class="toc-text">实例化类后生命周期方法调用顺序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metaclass-%E5%9C%A8%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.9.4.</span> <span class="toc-text">metaclass 在实际项目中的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#metaclass-%E5%9C%A8pyyaml-framework%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.9.4.1.</span> <span class="toc-text">metaclass 在pyyaml framework中的使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metaclass-%E5%9C%A8Django-ORM%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.9.5.</span> <span class="toc-text">metaclass 在Django ORM中的使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">2.</span> <span class="toc-text">References</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

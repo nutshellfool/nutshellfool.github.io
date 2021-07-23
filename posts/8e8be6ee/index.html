@@ -1,0 +1,744 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LaTeX简明教程 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="LaTeX,Markdown,LaTeX cheatsheet,MathJax">
+    
+    <meta name="description" content="LaTeX 是什么LaTeX (发音：&#x2F;‘letɛks&#x2F; 美式发音 &#x2F;‘leɪteks&#x2F; 英式发音 Lamport TeX 的简写）是一种文档排版系统，在生成复杂的数学公式、图表都有无可比拟的优势。   我有word公式编辑器要它有啥用注意尤其在编写数学公式有着很棒的体验，不用再发愁在博客中写数学公式了，相信你和我一样在没有遇见LaTeX之前都是在word公式编辑器下编辑完公式后把图片导出然后贴到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX简明教程">
+<meta property="og:url" content="https://blogs.lirui.me/posts/8e8be6ee/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="LaTeX 是什么LaTeX (发音：&#x2F;‘letɛks&#x2F; 美式发音 &#x2F;‘leɪteks&#x2F; 英式发音 Lamport TeX 的简写）是一种文档排版系统，在生成复杂的数学公式、图表都有无可比拟的优势。   我有word公式编辑器要它有啥用注意尤其在编写数学公式有着很棒的体验，不用再发愁在博客中写数学公式了，相信你和我一样在没有遇见LaTeX之前都是在word公式编辑器下编辑完公式后把图片导出然后贴到">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-15T13:57:20.000Z">
+<meta property="article:modified_time" content="2020-04-22T01:30:32.831Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/8e8be6ee/" title="LaTeX简明教程" itemprop="url">LaTeX简明教程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-01-15T13:57:20.000Z" itemprop="datePublished"> 发表于 2020-01-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTeX-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">LaTeX 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E6%9C%89word%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91%E5%99%A8%E8%A6%81%E5%AE%83%E6%9C%89%E5%95%A5%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">我有word公式编辑器要它有啥用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8markdown%E4%B8%8B%E6%80%8E%E4%B9%88%E5%86%99LaTeX"><span class="toc-number">3.</span> <span class="toc-text">在markdown下怎么写LaTeX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTeX-%E7%9A%84%E4%B8%BB%E8%A6%81%E8%AF%AD%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">LaTeX 的主要语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6%E7%AC%A6%E5%8F%B7"><span class="toc-number">4.1.</span> <span class="toc-text">基础数学符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5"><span class="toc-number">4.2.</span> <span class="toc-text">矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%87%BD%E6%95%B0"><span class="toc-number">4.3.</span> <span class="toc-text">分段函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E7%A8%8B%E5%BC%8F"><span class="toc-number">4.4.</span> <span class="toc-text">方程式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">更多参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">6.</span> <span class="toc-text">工具</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="LaTeX-是什么"><a href="#LaTeX-是什么" class="headerlink" title="LaTeX 是什么"></a>LaTeX 是什么</h2><p>LaTeX (发音：/‘letɛks/ <a target="_blank" rel="noopener" href="http://dict.youdao.com/dictvoice?audio=latex&type=0">美式发音</a> /‘leɪteks/ <a target="_blank" rel="noopener" href="http://dict.youdao.com/dictvoice?audio=latex&type=1">英式发音</a> Lamport TeX 的简写）是一种文档排版系统，在生成复杂的数学公式、图表都有无可比拟的优势。  </p>
+<h2 id="我有word公式编辑器要它有啥用"><a href="#我有word公式编辑器要它有啥用" class="headerlink" title="我有word公式编辑器要它有啥用"></a>我有word公式编辑器要它有啥用</h2><p>注意尤其在编写数学公式有着很棒的体验，不用再发愁在博客中写数学公式了，相信你和我一样在没有遇见LaTeX之前都是在word公式编辑器下编辑完公式后把图片导出然后贴到文章中，如果一次写对还好，但是，但是如果公式中有任何一个错误这个过程就需要重新来一遍，如果一次还没有改完，我的天，想死的心都有了。<br>直到有一天我遇到了LaTeX, 用起来那酸爽，简直无法比拟。</p>
+<h2 id="在markdown下怎么写LaTeX"><a href="#在markdown下怎么写LaTeX" class="headerlink" title="在markdown下怎么写LaTeX"></a>在markdown下怎么写LaTeX</h2><p><a target="_blank" rel="noopener" href="https://www.mathjax.org/">mathjax</a>是正解。<br>如果用的是hexo的jacman主题，那么主题内部就内建了mathjax的支持，只需要在主题的配置文件_config.yml内添加<code>mathjax: true</code>；<br>如果是其他主题，那么就请参考官方文档进行接入 <a target="_blank" rel="noopener" href="http://docs.mathjax.org/en/latest/start.html">文档链接</a>  </p>
+<p>在markdown下写LaTeX：<br>直接在文档中插入<code>$$</code>， 在<code>$</code>之间插入LaTeX就可以了。<br>至于LaTeX的一些语法参考这篇 <a target="_blank" rel="noopener" href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference">reference</a></p>
+<h2 id="LaTeX-的主要语法"><a href="#LaTeX-的主要语法" class="headerlink" title="LaTeX 的主要语法"></a>LaTeX 的主要语法</h2><h3 id="基础数学符号"><a href="#基础数学符号" class="headerlink" title="基础数学符号"></a>基础数学符号</h3><table>
+<thead>
+<tr>
+<th align="left">数学符号</th>
+<th align="center">LaTeX</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">对数</td>
+<td align="center">$log_5^3$</td>
+<td align="center">\log_5^3</td>
+</tr>
+<tr>
+<td align="left">平方根</td>
+<td align="center">$\sqrt{x^2 + y^2}$</td>
+<td align="center">\sqrt{x^2 + y^2}</td>
+</tr>
+<tr>
+<td align="left">n次方根</td>
+<td align="center">$\sqrt[n]{x}$</td>
+<td align="center">\sqrt[n]{x}</td>
+</tr>
+<tr>
+<td align="left">分数</td>
+<td align="center">$\frac{x}{y}$</td>
+<td align="center">\frac{x}{y}</td>
+</tr>
+<tr>
+<td align="left">连加</td>
+<td align="center">$\sum_{k=1}^n$</td>
+<td align="center">\sum_{k=1}^n</td>
+</tr>
+<tr>
+<td align="left">连乘</td>
+<td align="center">$\prod_{k=1}^n$</td>
+<td align="center">\prod_{k=1}^n</td>
+</tr>
+<tr>
+<td align="left">导数</td>
+<td align="center">$f^\prime(x)$</td>
+<td align="center">\f^\prime(x)</td>
+</tr>
+<tr>
+<td align="left">小于等于</td>
+<td align="center">$\leq$</td>
+<td align="center">\let</td>
+</tr>
+<tr>
+<td align="left">大于等于</td>
+<td align="center">$\geq$</td>
+<td align="center">\get</td>
+</tr>
+<tr>
+<td align="left">不等于</td>
+<td align="center">$\neq$</td>
+<td align="center">\neq</td>
+</tr>
+<tr>
+<td align="left">约等于</td>
+<td align="center">$\approx$</td>
+<td align="center">\approx</td>
+</tr>
+<tr>
+<td align="left">杈乘</td>
+<td align="center">$\times$</td>
+<td align="center">\times</td>
+</tr>
+<tr>
+<td align="left">点乘</td>
+<td align="center">$\cdot$</td>
+<td align="center">\cdot</td>
+</tr>
+<tr>
+<td align="left">除</td>
+<td align="center">$\div$</td>
+<td align="center">\div</td>
+</tr>
+<tr>
+<td align="left">正负</td>
+<td align="center">$\pm$</td>
+<td align="center">\pm</td>
+</tr>
+<tr>
+<td align="left">无穷</td>
+<td align="center">$\infty$</td>
+<td align="center">\infty</td>
+</tr>
+<tr>
+<td align="left">superset</td>
+<td align="center">$\supset$</td>
+<td align="center">\supset</td>
+</tr>
+<tr>
+<td align="left">subset</td>
+<td align="center">$\subset$</td>
+<td align="center">\subset</td>
+</tr>
+<tr>
+<td align="left">任意</td>
+<td align="center">$\forall$</td>
+<td align="center">\forall</td>
+</tr>
+<tr>
+<td align="left">属于</td>
+<td align="center">$\in$</td>
+<td align="center">\in</td>
+</tr>
+<tr>
+<td align="left">不属于</td>
+<td align="center">$\notin$</td>
+<td align="center">\notin</td>
+</tr>
+<tr>
+<td align="left">存在于</td>
+<td align="center">$\exists$</td>
+<td align="center">\exists</td>
+</tr>
+<tr>
+<td align="left">单线右箭头</td>
+<td align="center">$\rightarrow$</td>
+<td align="center">\rightarrow</td>
+</tr>
+<tr>
+<td align="left">双线右箭头</td>
+<td align="center">$\Rightarrow$</td>
+<td align="center">\Rightarrow</td>
+</tr>
+<tr>
+<td align="left">单线左右箭头</td>
+<td align="center">$\leftrightarrow$</td>
+<td align="center">\leftrightarrow</td>
+</tr>
+<tr>
+<td align="left">a 点</td>
+<td align="center">$\dot a$</td>
+<td align="center">\dot a</td>
+</tr>
+<tr>
+<td align="left">a 帽</td>
+<td align="center">$\hat a$</td>
+<td align="center">\hat a</td>
+</tr>
+<tr>
+<td align="left">a bar</td>
+<td align="center">$\bar a$</td>
+<td align="center">\bar a</td>
+</tr>
+<tr>
+<td align="left">a tilde</td>
+<td align="center">$\tilde a$</td>
+<td align="center">\tilde a</td>
+</tr>
+</tbody></table>
+<p>其他参考这个<a target="_blank" rel="noopener" href="https://wch.github.io/latexsheet/latexsheet-a4.pdf">cheatsheet</a>  </p>
+<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">...</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>在begin end中间添加矩阵元素，每行元素以<code>\\</code>结束，元素之间以<code>&amp;</code>隔开,如下面的例子：<br>$$<br>\begin{matrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{matrix}<br>$$</p>
+<p>如果是其他形式的括号，只需要替换matrix这个关键字就可。下面是支持的几种表达方式：  </p>
+<p>pmatrix:<br>$$<br>\begin{pmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{pmatrix}<br>$$</p>
+<p>bmatrix:<br>$$<br>\begin{bmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{bmatrix}<br>$$</p>
+<p>Bmatrix:<br>$$<br>\begin{Bmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{Bmatrix}<br>$$</p>
+<p>vmatrix:<br>$$<br>\begin{vmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{vmatrix}<br>$$</p>
+<p>Vmatirx:<br>$$<br>\begin{Vmatrix}<br>1&amp;2\<br>3&amp;4\<br>\end{Vmatrix}<br>$$</p>
+<h3 id="分段函数"><a href="#分段函数" class="headerlink" title="分段函数"></a>分段函数</h3><p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f(n)</span><br><span class="line">\begin&#123;cases&#125;</span><br><span class="line">value1,     &amp; \text&#123;if ....&#125; \\</span><br><span class="line">value2,     &amp; \text&#123;if ....&#125; \\</span><br><span class="line">value3,     &amp; \text&#123;if ....&#125;</span><br><span class="line">\end&#123;cases&#125;</span><br></pre></td></tr></table></figure>
+
+<p>begin和end之间定义函数，行间的间隔、行内元素间隔与矩阵的规则一致, 注意：<code>&amp;</code> <code>\\</code>符号需要对齐。<br>例子：<br>$$<br>  f(n) =<br>\begin{cases}<br>0,              &amp; \text{if n = 0,1} \<br>f(n-1)+f(n-2),  &amp; \text{if n &gt; 2}<br>\end{cases}<br>$$</p>
+<h3 id="方程式"><a href="#方程式" class="headerlink" title="方程式"></a>方程式</h3><p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;cases&#125;</span><br><span class="line">line 1 \\</span><br><span class="line">line 2 \\</span><br><span class="line">....</span><br><span class="line">lastline</span><br><span class="line">\end&#123;cases&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：<code>\\</code>符号需要对齐。  </p>
+<p>例如：<br>$$\begin{cases}<br>a_1x+b_1y+c_1z = d_1\<br>a_2x+b_2y+c_2z = d_2\<br>a_3x+b_3y+c_3z = d_3<br>\end{cases}<br>$$</p>
+<p>要强制对齐等号呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\left\&#123;</span><br><span class="line">\begin&#123;aligned&#125;</span><br><span class="line">...</span><br><span class="line">\end&#123;aligned&#125;</span><br><span class="line">\right</span><br></pre></td></tr></table></figure>
+
+<h2 id="更多参考资料"><a href="#更多参考资料" class="headerlink" title="更多参考资料"></a>更多参考资料</h2><p><a target="_blank" rel="noopener" href="https://oi-wiki.org/intro/latex/">OI Wiki - LaTeX 入门</a></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li>截屏获取LaTeX公式工具 <a target="_blank" rel="noopener" href="https://mathpix.com/">mathpix snipping tool</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Efficiency/">Efficiency</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/8e8be6ee/" data-title="LaTeX简明教程 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/b637e0c8/" title="如何设计一个精简版的微博（或者Twitter）？">
+  <strong>上一篇：</strong><br/>
+  <span>
+  如何设计一个精简版的微博（或者Twitter）？</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/afc2fadd/"  title="系统设计常见组件 - 并发锁、分布式锁与无锁编程">
+ <strong>下一篇：</strong><br/> 
+ <span>系统设计常见组件 - 并发锁、分布式锁与无锁编程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTeX-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">LaTeX 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E6%9C%89word%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91%E5%99%A8%E8%A6%81%E5%AE%83%E6%9C%89%E5%95%A5%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">我有word公式编辑器要它有啥用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8markdown%E4%B8%8B%E6%80%8E%E4%B9%88%E5%86%99LaTeX"><span class="toc-number">3.</span> <span class="toc-text">在markdown下怎么写LaTeX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTeX-%E7%9A%84%E4%B8%BB%E8%A6%81%E8%AF%AD%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">LaTeX 的主要语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6%E7%AC%A6%E5%8F%B7"><span class="toc-number">4.1.</span> <span class="toc-text">基础数学符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5"><span class="toc-number">4.2.</span> <span class="toc-text">矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%87%BD%E6%95%B0"><span class="toc-number">4.3.</span> <span class="toc-text">分段函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E7%A8%8B%E5%BC%8F"><span class="toc-number">4.4.</span> <span class="toc-text">方程式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">更多参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">6.</span> <span class="toc-text">工具</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

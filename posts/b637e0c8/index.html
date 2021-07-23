@@ -1,0 +1,843 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>如何设计一个精简版的微博（或者Twitter）？ | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="系统设计,高可用系统设计,System Design,NewsFeed Design,High Available Design">
+    
+    <meta name="description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何设计一个精简版的微博（或者Twitter）？">
+<meta property="og:url" content="https://blogs.lirui.me/posts/b637e0c8/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.1.1.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-V1.0.jpg">
+<meta property="article:published_time" content="2020-02-12T13:31:41.000Z">
+<meta property="article:modified_time" content="2020-03-04T10:14:39.225Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.ai-byte.com/twitter-abstract-design-0.1.1.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/b637e0c8/" title="如何设计一个精简版的微博（或者Twitter）？" itemprop="url">如何设计一个精简版的微博（或者Twitter）？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-02-12T13:31:41.000Z" itemprop="datePublished"> 发表于 2020-02-12</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%B2%9F%E9%80%9A%E5%92%8C%E7%BB%86%E5%8C%96%E9%9C%80%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">进一步沟通和细化需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">用例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">核心功能用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E5%8A%9F%E8%83%BD%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.2.</span> <span class="toc-text">非功能用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AC%A1%E7%BA%A7%E5%8A%9F%E8%83%BD%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.3.</span> <span class="toc-text">次级功能用例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">系统约束条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">2.3.</span> <span class="toc-text">阶段1产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1%EF%BC%88High-Level-Design%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">概要设计（High Level Design）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%B1%82%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">逻辑层概要设计分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">数据持久层设计分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#V0-1-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">3.2.1.</span> <span class="toc-text">V0.1 系统设计架构图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">3.3.</span> <span class="toc-text">阶段2产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%86%E5%88%AB%E5%8D%95%E7%82%B9%E6%95%85%E9%9A%9C%EF%BC%8C%E8%BF%9B%E8%A1%8C%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%B1%95"><span class="toc-number">4.</span> <span class="toc-text">识别单点故障，进行系统扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B53%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">4.1.</span> <span class="toc-text">阶段3产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.</span> <span class="toc-text">关键组件详细设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%B1%82%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3"><span class="toc-number">5.1.</span> <span class="toc-text">逻辑层对外接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RESTful-API"><span class="toc-number">5.1.1.</span> <span class="toc-text">RESTful API</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%B1%82Schema%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.</span> <span class="toc-text">持久层Schema设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E8%A1%A8"><span class="toc-number">5.2.1.</span> <span class="toc-text">实体表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%A1%A8"><span class="toc-number">5.2.2.</span> <span class="toc-text">关系表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B54%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">5.3.</span> <span class="toc-text">阶段4产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%80%9D%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">进一步思考</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B-%E5%85%B3%E4%BA%8E%E6%B6%88%E6%81%AF%E4%BC%A0%E6%92%AD%E7%9A%84%E8%A7%A6%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="toc-number">6.1.</span> <span class="toc-text">应用实例 - 关于消息传播的触发方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-session-%E9%97%AE%E9%A2%98%E7%9A%84%E8%80%83%E8%99%91"><span class="toc-number">6.2.</span> <span class="toc-text">shared session 问题的考虑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BC%B8%E7%BC%A9"><span class="toc-number">6.3.</span> <span class="toc-text">数据库的伸缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.4.</span> <span class="toc-text">缓存的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%81%E5%8F%91%E7%9A%84%E6%B5%81%E9%87%8F%E6%BF%80%E5%A2%9E%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">6.5.</span> <span class="toc-text">突发的流量激增该怎么办</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。</p>
+<h2 id="进一步沟通和细化需求"><a href="#进一步沟通和细化需求" class="headerlink" title="进一步沟通和细化需求"></a>进一步沟通和细化需求</h2><p>对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。<br>我们需要从下面这些维度进行沟通和细化：  </p>
+<ul>
+<li>用例</li>
+<li>用户量</li>
+<li>主要操作及频度</li>
+<li>RPS、QPS及TPS</li>
+<li>读写比</li>
+<li>数据规模（如果有的化）</li>
+</ul>
+<h3 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h3><p>首先，从之前的描述来看用例是相对比较清楚的：  </p>
+<h4 id="核心功能用例"><a href="#核心功能用例" class="headerlink" title="核心功能用例"></a>核心功能用例</h4><ul>
+<li>发布微博</li>
+<li>关注用户</li>
+<li>收藏微博</li>
+<li>显示用户数据和微博数据</li>
+</ul>
+<h4 id="非功能用例"><a href="#非功能用例" class="headerlink" title="非功能用例"></a>非功能用例</h4><ul>
+<li>系统高可用(HA)</li>
+</ul>
+<h4 id="次级功能用例"><a href="#次级功能用例" class="headerlink" title="次级功能用例"></a>次级功能用例</h4><ul>
+<li>删除微博</li>
+<li>取消关注用户</li>
+<li>取消收藏</li>
+</ul>
+<h3 id="系统约束条件"><a href="#系统约束条件" class="headerlink" title="系统约束条件"></a>系统约束条件</h3><p>这一部分需要进行沟通，<br>如果是面试环境下，这个沟通的对象会是桌子对面的面试官；<br>如果是实际的产品功能沟通会场景，这个沟通对象可能会是产品经理、业务负责人甚至是CEO；<br>当然不同的背景的沟通对象对于同一问题的沟通话术和技巧会不同，但是不管是对方是怎样的沟通对象，沟通的原则是“换位思考，站在对方的角度去沟通对方关注的价值”。<br>看起来这个是一个简单的环节，但是在实际的工作中这一步其实是比较复杂的环节，这里就不展开进行论述。以下我们假设沟通环境是开放和透明的，所提供的信息是准确的。  </p>
+<ul>
+<li>用户量</li>
+</ul>
+<p>我: “这样的微博系统，用户量级会是怎样的？”<br>面试官： “嗯，这是个好问题，我们可以考虑这个系统是这样的量级，DAU: 1000w, 每天有1亿HTTP请求”（注：根据2018年新浪微博披露的数据 DAU 大概在5000w）</p>
+<p>$$ RPS =  10000w / (24 * 60 * 60) \approx 1000  $$</p>
+<ul>
+<li>用户关注关系规模（社交网络好友关系数据规模）</li>
+</ul>
+<p>我：“用户的关联度是怎样的？每个用户平均会有几个关注者？”<br>面试官： “每个用户平均会有200个关注者，当然会有影响力比较大的KOL会有1000+的关注者”</p>
+<p>用户好友关注关系数据规模 = DAU * 200 = 20亿</p>
+<ul>
+<li>主要操作 - 微博发送数量、收藏数量</li>
+</ul>
+<p>我： “微博发送、收藏量的数据规模是怎样的？”<br>面试官： “嗯， 每个用户平均每天发1条微博，收藏2条微博”</p>
+<p>根据之前沟通的DAU数据，可以估算得出：<br>发送微博数量 = DAU * 1 = 1000w / 天<br>收藏微博数量 = DAU * 2 = 2000w / 天</p>
+<p>粗略估计读写比 10000W - (1000W + 2000W) : (1000w + 2000w) = 7:3</p>
+<h3 id="阶段1产出物"><a href="#阶段1产出物" class="headerlink" title="阶段1产出物"></a>阶段1产出物</h3><ul>
+<li>用例：  </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>用例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心功能需求</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>发布微博</td>
+</tr>
+<tr>
+<td></td>
+<td>关注用户</td>
+</tr>
+<tr>
+<td></td>
+<td>收藏微博</td>
+</tr>
+<tr>
+<td></td>
+<td>展示用户和微博数据</td>
+</tr>
+<tr>
+<td>非功能性需求</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>高可用</td>
+</tr>
+</tbody></table>
+<ul>
+<li>设计约束：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>约束</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日活跃用户数</td>
+<td>1000W</td>
+</tr>
+<tr>
+<td>日用户关注数据规模</td>
+<td>20亿单位</td>
+</tr>
+<tr>
+<td>每日发送微博数</td>
+<td>1000w</td>
+</tr>
+<tr>
+<td>每日收藏微博数</td>
+<td>2000w</td>
+</tr>
+<tr>
+<td>每日HTTP请求数</td>
+<td>1亿</td>
+</tr>
+<tr>
+<td>RPS</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>读写比</td>
+<td>7:3</td>
+</tr>
+<tr>
+<td>激增流量</td>
+<td>对于某些用户和微博会有瞬时的激增流量风险</td>
+</tr>
+</tbody></table>
+<h2 id="概要设计（High-Level-Design）"><a href="#概要设计（High-Level-Design）" class="headerlink" title="概要设计（High Level Design）"></a>概要设计（High Level Design）</h2><p>在开始概要设计之前我们将上个阶段分析得出的用例在这里展示出来：  </p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>用例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心功能需求</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>发布微博</td>
+</tr>
+<tr>
+<td></td>
+<td>关注用户</td>
+</tr>
+<tr>
+<td></td>
+<td>收藏微博</td>
+</tr>
+<tr>
+<td></td>
+<td>展示用户和微博数据</td>
+</tr>
+<tr>
+<td>非功能性需求</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>高可用</td>
+</tr>
+</tbody></table>
+<p>从现有的简单需求来看，系统做两层分层就足够，</p>
+<ol>
+<li>逻辑层</li>
+<li>数据持久层</li>
+</ol>
+<p>其中逻辑层主要负责请求的处理和必要数据的整合组装， 数据持久层负责将逻辑层处理后需要持久化存储的数据进行存储和获取。  </p>
+<h3 id="逻辑层概要设计分析"><a href="#逻辑层概要设计分析" class="headerlink" title="逻辑层概要设计分析"></a>逻辑层概要设计分析</h3><p>在概要设计阶段我们先不考虑逻辑层内的具体实现，需要重新结合之前得出的设计约束来看下这一层在功能和非功能性需求上有哪些需要解决的问题？这一层上主要是处理用户请求，结合之前分析得到的 日请求数、RPS的数据，我们知道这个系统平均每秒会有1000个请求，而对于这样的系统，请求的分布也一定不是平均分布的，所以合理的假设是日常的请求水平是这个平均数的10倍，也就是 QPS = 1w Reqs / second<br>这样的一个量级其实也是在单机性能可承受的范围内（考虑 经典的C10k问题、及近些年来的C10m问题），考虑到之后的系统的可伸缩性（Scalability），所以在这一层的系统概要设计就需要考虑系统的可伸缩性。<br>在系统伸缩性的考虑上有两个可考虑的手段</p>
+<ul>
+<li>Scale up(纵向伸缩)</li>
+</ul>
+<p>Pros：<br>操作直接，无需对现有系统做修改（或者是仅需少量修改）</p>
+<p>Cons：<br>纵向伸缩的操作会受限于硬件设计的技术极限和财务角度的限制，</p>
+<ul>
+<li>Scale out（横向伸缩）</li>
+</ul>
+<p>Pros：<br>适合系统负载明显递增的情况<br>增加系统应用实例抗击风险能力，提高应用实例的系统可用性</p>
+<p>Cons：<br>一定程度上增加系统的复杂性  </p>
+<p>综合之前对系统需求沟通中有激增流量的场景，这里的逻辑层适合采用 Scale out 的方式进行系统伸缩， 常见的解决办法就是在逻辑层添加<strong>负载均衡（load balancer）</strong></p>
+<h3 id="数据持久层设计分析"><a href="#数据持久层设计分析" class="headerlink" title="数据持久层设计分析"></a>数据持久层设计分析</h3><p>下面来考虑数据持久层，首先是这一层可选的持久存储的方式：<br>文件？ 在需求分析阶段其实会发现有明显的实体-关系结构，所以使用关系型数据库会比较自然，但是使用非关系型数据库好像也未尝不可（业务中没有对事务的依赖和强需求），以下的设计就暂时使用关系型数据库的选型进行。  </p>
+<p>这里对需要持久化存储的数据规模做一个估算：  </p>
+<p>首先是新增微博：<br>每日新发送微博会有 1000W 条，为了简化问题我们假设微博对单条微博的字数限制为140个字，每个字按4Byte大小计算，字符的存储不考虑字符的压缩，那么每天的新增微博数据存储数量会是：  </p>
+<p>$$1000w * 140 * 4 Byte \approx 5.6GB$$</p>
+<p>其次是用户关注：<br>用户关注的数据的数量级在 1000W * 200 = 20亿<br>用户关注部分的关系数据主要是两个Int类型的用户Id，在加上表的主键，一条记录按12Byte计算<br>所以这部分的数据规模是 20亿 * 12Byte = 240W KB = 2400MB = 2.4 GB</p>
+<p>再次就是微博的收藏：<br>与用户关注计算类似，我们有：<br>2000W * 12Byte = 24W KB = 0.24 GB</p>
+<p>可以看的出来存储的数据中微博内容的存储会是主要的部分。<br>而且对于微博内容数据存储我们做一个年存储量的估算：<br>$$5.6GB * 365 \approx 2TB$$<br>这样的一个单表量级尚未达到MySQL和Linux操作系统单文件大小限制（16TB - EXT4 on RHEL <a target="_blank" rel="noopener" href="https://access.redhat.com/solutions/1532">What are the file and file system size limitations for Red Hat Enterprise Linux?</a>）<br>所以，在这个维度上MySQL（Oracle）这样的关系型数据库是能够胜任的，只不过数据发展到必要的时期需要做一些数据库上的技术改造（Sharding or Partitioning）</p>
+<h4 id="V0-1-系统设计架构图"><a href="#V0-1-系统设计架构图" class="headerlink" title="V0.1 系统设计架构图"></a>V0.1 系统设计架构图</h4><p>所以我们现在根据之前的分析和系统概要设计分析，得出这样的一个系统架构图：</p>
+<p><img src="https://image.ai-byte.com/twitter-abstract-design-0.1.1.jpg" alt="Abstract Design Diagram V0.1"></p>
+<p>正所谓一图胜万言，相信有了这样一个基础就可以抛砖引玉，引出后面系统的演进。<br>其实仔细回顾用例和设计约束，还有部分仍然未满足。至少非功能性需求“高可用”在目前的设计中并未完全满足。<br>另外，从功能的角度以上的设计也存在问题，作为一个具有社交属性的 news feed 系统，用户登录是隐含功能，有了用户登录，就需要cookie-session的机制，一般来说session是以临时文件的形式存储在应用实例上的，如果在应用实例上做 Scale out，那么遇到的第一个问题就是：  </p>
+<ul>
+<li>session 共享（shared session）问题<br>如何解决这个问题呢？<br>常见的思路就是提取一个供应用实例共享的 session 存储读取服务。<br>对于这样的存储服务，我们可以选型：  </li>
+</ul>
+<ol>
+<li>文件</li>
+<li>NO-SQL</li>
+<li>SQL</li>
+</ol>
+<p>如果是文件，需要考虑的是高可用的方案，简单的文件高可用可以选择RAID(RAID0, RAID1, RAID5 RAID6, RAID10), 如何选型RAID可以参考 <a target="_blank" rel="noopener" href="https://www.prepressure.com/library/technology/raid">Redundant Array of Independent Drives</a><br>如果是NO-SQL、SQL可以考虑CPA中的AP存储方案。<br>这部分的详细设计方案在后续的步骤演进中细化。  </p>
+<p>在解决了 shared seesion 问题后，我们回去审视用例和设计约束，我们发现其实还有一个问题我们还未处理，在读写比较高的业务场景下，为了减少下层存储层负载使用缓存会是一个比较合适的选型选择。  </p>
+<p>所以我们可以在逻辑层与持久存储层之间引入缓存层，于是系统架构设计图就有了第二个版本:</p>
+<h3 id="阶段2产出物"><a href="#阶段2产出物" class="headerlink" title="阶段2产出物"></a>阶段2产出物</h3><p><img src="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg" alt="Abstract Design Diagram V0.2"></p>
+<h2 id="识别单点故障，进行系统扩展"><a href="#识别单点故障，进行系统扩展" class="headerlink" title="识别单点故障，进行系统扩展"></a>识别单点故障，进行系统扩展</h2><p>审视着阶段2的系统架构设计图，对照着高可用的目标，我们看现在的设计中还有什么单点故障风险？<br>好像负载均衡本身会是整个系统中的孤立单点，如果需要解决这个单点问题，我们可以在DNS阶段做负载，DNS根据合理的策略选择将流量导向部署了以上系统架构的数据中心。<br>好的，到了这一步我们的系统已经从最开始的简单单体架构演进成为了多数据中心多活的系统架构，</p>
+<h3 id="阶段3产出物"><a href="#阶段3产出物" class="headerlink" title="阶段3产出物"></a>阶段3产出物</h3><p><img src="https://image.ai-byte.com/twitter-abstract-design-V1.0.jpg" alt="Abstract Design Diagram V1.0"></p>
+<h2 id="关键组件详细设计"><a href="#关键组件详细设计" class="headerlink" title="关键组件详细设计"></a>关键组件详细设计</h2><h3 id="逻辑层对外接口"><a href="#逻辑层对外接口" class="headerlink" title="逻辑层对外接口"></a>逻辑层对外接口</h3><h4 id="RESTful-API"><a href="#RESTful-API" class="headerlink" title="RESTful API"></a>RESTful API</h4><ul>
+<li>获取用户信息</li>
+</ul>
+<p>GET /api/user/<user_id></p>
+<ul>
+<li>获得关注人列表</li>
+</ul>
+<p>GET /api/user/<user_id>/followee</p>
+<ul>
+<li>关注某个用户</li>
+</ul>
+<p>POST /api/user/<user_id>/follow</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">user_id</span>:<span class="string">&quot;xxxxxxx&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获得粉丝列表</li>
+</ul>
+<p>GET /api/user/<user_id>/follower</p>
+<ul>
+<li>获取用户订阅的微博</li>
+</ul>
+<p>GET /api/user/<user_id>/posts?page=1</p>
+<ul>
+<li>发送微博</li>
+</ul>
+<p>POST /api/user/<user_id>/posts</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">content</span>: <span class="string">&quot;weibo content&quot;</span>,</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>收藏微博列表</li>
+</ul>
+<p>GET /api/user/<user_id>/favorite_posts</p>
+<ul>
+<li>收藏微博</li>
+</ul>
+<p>POST /api/user/<user_id>/favorite_posts</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">post_id</span>:<span class="string">&quot;xxxxxx&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="持久层Schema设计"><a href="#持久层Schema设计" class="headerlink" title="持久层Schema设计"></a>持久层Schema设计</h3><h4 id="实体表"><a href="#实体表" class="headerlink" title="实体表"></a>实体表</h4><ul>
+<li>t_user</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">id: <span class="number">123</span>,</span><br><span class="line"><span class="attr">user_name</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">passsword_hash</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">password_salt <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">created_at</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">version</span>: <span class="number">1</span>,</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>t_posts</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id: <span class="number">123</span>,</span><br><span class="line"><span class="attr">user_id</span>: <span class="number">123</span></span><br><span class="line"><span class="attr">content</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">created_at</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">version</span>: <span class="number">1</span>,</span><br></pre></td></tr></table></figure>
+
+<h4 id="关系表"><a href="#关系表" class="headerlink" title="关系表"></a>关系表</h4><ul>
+<li>t_user_relations</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id: <span class="number">123</span>,</span><br><span class="line"><span class="attr">follower_user_id</span>: <span class="number">123</span>,</span><br><span class="line"><span class="attr">followee_user_id</span>: <span class="number">122</span>,</span><br><span class="line"><span class="attr">created_at</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">version</span>: <span class="number">1</span>,</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>t_posts_favorits</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id: <span class="number">123</span>,</span><br><span class="line"><span class="attr">user_id</span>: <span class="number">123</span>,</span><br><span class="line"><span class="attr">post_id</span>: <span class="number">122</span>,</span><br><span class="line"><span class="attr">created_at</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line"><span class="attr">version</span>: <span class="number">1</span>,</span><br></pre></td></tr></table></figure>
+
+<h3 id="阶段4产出物"><a href="#阶段4产出物" class="headerlink" title="阶段4产出物"></a>阶段4产出物</h3><ul>
+<li><p>RESTful API文档</p>
+</li>
+<li><p>数据库实体-关系设计图</p>
+</li>
+</ul>
+<h2 id="进一步思考"><a href="#进一步思考" class="headerlink" title="进一步思考"></a>进一步思考</h2><h3 id="应用实例-关于消息传播的触发方式"><a href="#应用实例-关于消息传播的触发方式" class="headerlink" title="应用实例 - 关于消息传播的触发方式"></a>应用实例 - 关于消息传播的触发方式</h3><p>以上我们在进行设计都是基于 pull on demand 的“拉”模型，下面我们按照pull模型，分析下这个“拉”的过程：  </p>
+<p>如果每个用户发出的微博是一个时间线，那么这个用户所能看到的时间线内容就是这个用户关注人时间线按照一定业务规则（比如时间）合并后的时间线。<br>扩展下，如果时间线是数组（或者是链表），那么这个合并时间线的问题实际上就是一个典型数据结构算法问题。</p>
+<p>总结一下，如果是拉模型的话需要解决的就是  </p>
+<ul>
+<li>如何合并多个时间线（<a target="_blank" rel="noopener" href="https://leetcode.com/problems/merge-k-sorted-lists/">Merge k Sorted Lists</a>）<br>这里就不展开解这个算法问题了，说一下算法思路：<br>k 个lists的问题最终还是回到两个Lists的合并问题，对于两个Lists的合并问题其实就是一个比较基础的问题了。<br>具体的实现可以参考：<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmPlayground/blob/f27c528591e85ced8546a67b611b717b1517487a/src/main/java/me/lirui/algo/linkedlist/SingleLinkedList.java#L273">Github - algorithmPlayground - mergeKLists</a></li>
+</ul>
+<p>以及对应测试用例：<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmPlayground/blob/f27c528591e85ced8546a67b611b717b1517487a/src/test/java/me/lirui/algo/linkedlist/SingleLinkedListTwoListTest.java#L76">Github - algorithmPlayground - testMergeKLists</a></p>
+<p>当然消息传播的触发模式除了“pull on demand” 之外 还有 “push on change”，至于两种方式有何利弊，该如何选择？可以参考这篇文章<a target="_blank" rel="noopener" href="http://highscalability.com/blog/2009/10/13/why-are-facebook-digg-and-twitter-so-hard-to-scale.html">Why Are Facebook, Digg, And Twitter So Hard To Scale?</a></p>
+<h3 id="shared-session-问题的考虑"><a href="#shared-session-问题的考虑" class="headerlink" title="shared session 问题的考虑"></a>shared session 问题的考虑</h3><p>其实在这里，我们可以有一个方案将session持久化到 缓存层(caching tier)，使用Redis做 in-memory cache，同时对于session持久化的需求可以单独开辟一组Redis实例使用RDB或者AOF方案，详细的两种方案的对比可以参考<a target="_blank" rel="noopener" href="https://redis.io/topics/persistence">Redis Persistence</a></p>
+<h3 id="数据库的伸缩"><a href="#数据库的伸缩" class="headerlink" title="数据库的伸缩"></a>数据库的伸缩</h3><p>数据库的伸缩问题实际上是一个比较通用的专题，后续会有文章单独介绍。  </p>
+<h3 id="缓存的设计"><a href="#缓存的设计" class="headerlink" title="缓存的设计"></a>缓存的设计</h3><p>同上，会有后续文章介绍。</p>
+<h3 id="突发的流量激增该怎么办"><a href="#突发的流量激增该怎么办" class="headerlink" title="突发的流量激增该怎么办"></a>突发的流量激增该怎么办</h3><p>从现在的系统架构来看，基本上消除了单纯的单点故障风险，而常见的业务中会有某些名人或者热点事件带来的突发流量激增，怎样应对这样的风险？ 怎样在出现流量激增的趋势之前自动伸缩？<br>这个问题的解决思路是：<br>首先需要建立完备（或者是必要）的组件、服务监控。<br>其次如果需要在一定的SLA的可用度（比如 99.99%）这就需要运维不能依赖人工操作，适时考虑类似K8s等数据中心OS进行自动化扩容。  </p>
+<p>未完待续</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/System-Design/">System Design</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/b637e0c8/" data-title="如何设计一个精简版的微博（或者Twitter）？ | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/449cfdc4/" title="系统设计基础组件 - 数据库伸缩">
+  <strong>上一篇：</strong><br/>
+  <span>
+  系统设计基础组件 - 数据库伸缩</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/8e8be6ee/"  title="LaTeX简明教程">
+ <strong>下一篇：</strong><br/> 
+ <span>LaTeX简明教程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%B2%9F%E9%80%9A%E5%92%8C%E7%BB%86%E5%8C%96%E9%9C%80%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">进一步沟通和细化需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">用例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">核心功能用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E5%8A%9F%E8%83%BD%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.2.</span> <span class="toc-text">非功能用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AC%A1%E7%BA%A7%E5%8A%9F%E8%83%BD%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.3.</span> <span class="toc-text">次级功能用例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">系统约束条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">2.3.</span> <span class="toc-text">阶段1产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1%EF%BC%88High-Level-Design%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">概要设计（High Level Design）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%B1%82%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">逻辑层概要设计分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">数据持久层设计分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#V0-1-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">3.2.1.</span> <span class="toc-text">V0.1 系统设计架构图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">3.3.</span> <span class="toc-text">阶段2产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%86%E5%88%AB%E5%8D%95%E7%82%B9%E6%95%85%E9%9A%9C%EF%BC%8C%E8%BF%9B%E8%A1%8C%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%B1%95"><span class="toc-number">4.</span> <span class="toc-text">识别单点故障，进行系统扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B53%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">4.1.</span> <span class="toc-text">阶段3产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.</span> <span class="toc-text">关键组件详细设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%B1%82%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3"><span class="toc-number">5.1.</span> <span class="toc-text">逻辑层对外接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RESTful-API"><span class="toc-number">5.1.1.</span> <span class="toc-text">RESTful API</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%B1%82Schema%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.</span> <span class="toc-text">持久层Schema设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E8%A1%A8"><span class="toc-number">5.2.1.</span> <span class="toc-text">实体表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%A1%A8"><span class="toc-number">5.2.2.</span> <span class="toc-text">关系表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B54%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-number">5.3.</span> <span class="toc-text">阶段4产出物</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%80%9D%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">进一步思考</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B-%E5%85%B3%E4%BA%8E%E6%B6%88%E6%81%AF%E4%BC%A0%E6%92%AD%E7%9A%84%E8%A7%A6%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="toc-number">6.1.</span> <span class="toc-text">应用实例 - 关于消息传播的触发方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-session-%E9%97%AE%E9%A2%98%E7%9A%84%E8%80%83%E8%99%91"><span class="toc-number">6.2.</span> <span class="toc-text">shared session 问题的考虑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BC%B8%E7%BC%A9"><span class="toc-number">6.3.</span> <span class="toc-text">数据库的伸缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.4.</span> <span class="toc-text">缓存的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%81%E5%8F%91%E7%9A%84%E6%B5%81%E9%87%8F%E6%BF%80%E5%A2%9E%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">6.5.</span> <span class="toc-text">突发的流量激增该怎么办</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

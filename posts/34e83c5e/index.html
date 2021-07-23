@@ -1,0 +1,665 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>系统设计常见组件 - Cache 篇 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Cache,系统设计,缓存,Cache aside,Cache-As-SoR,Cache read through,Cache write through,Cache write behind">
+    
+    <meta name="description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统设计常见组件 - Cache 篇">
+<meta property="og:url" content="https://blogs.lirui.me/posts/34e83c5e/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="缓存使用的场景常见使用缓存解决问题的场景是：    降低系统响应延迟 提高系统吞吐性能  第一个场景比较好理解，就是我们常见的追求“更快”，  数据库的查询更新缓存 应用实例热数据的缓存 静态资源的CDN缓存 浏览器的站点资源缓存 DNS的本地缓存都是这一类的场景。  缓存的常见设计模式Cache aside是最常见的缓存应用模式，整个过程也比较好理解。  应用先从缓存中查找是否有所需的数据 如果">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.ai-byte.com/cache-aside.png">
+<meta property="og:image" content="https://image.ai-byte.com/cache-read-write-through.png">
+<meta property="article:published_time" content="2020-02-14T09:16:00.000Z">
+<meta property="article:modified_time" content="2020-03-09T11:33:30.697Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.ai-byte.com/cache-aside.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/34e83c5e/" title="系统设计常见组件 - Cache 篇" itemprop="url">系统设计常见组件 - Cache 篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-02-14T09:16:00.000Z" itemprop="datePublished"> 发表于 2020-02-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">缓存使用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">缓存的常见设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-aside"><span class="toc-number">2.1.</span> <span class="toc-text">Cache aside</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-aside-%E4%BD%BF%E7%94%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="toc-number">2.1.1.</span> <span class="toc-text">Cache aside 使用时需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">缓存更新的操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Write-through"><span class="toc-number">2.2.</span> <span class="toc-text">Read&#x2F;Write through</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-behind-Write-back"><span class="toc-number">2.3.</span> <span class="toc-text">Write behind (Write back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">缓存常见的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">3.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">3.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%87%8D%E7%82%B9"><span class="toc-number">3.3.</span> <span class="toc-text">缓存设计的重点</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="缓存使用的场景"><a href="#缓存使用的场景" class="headerlink" title="缓存使用的场景"></a>缓存使用的场景</h2><p>常见使用缓存解决问题的场景是：  </p>
+<ol>
+<li>降低系统响应延迟</li>
+<li>提高系统吞吐性能</li>
+</ol>
+<p>第一个场景比较好理解，就是我们常见的追求“更快”，</p>
+<ul>
+<li>数据库的查询更新缓存</li>
+<li>应用实例热数据的缓存</li>
+<li>静态资源的CDN缓存</li>
+<li>浏览器的站点资源缓存</li>
+<li>DNS的本地缓存<br>都是这一类的场景。</li>
+</ul>
+<h2 id="缓存的常见设计模式"><a href="#缓存的常见设计模式" class="headerlink" title="缓存的常见设计模式"></a>缓存的常见设计模式</h2><h3 id="Cache-aside"><a href="#Cache-aside" class="headerlink" title="Cache aside"></a>Cache aside</h3><p>是最常见的缓存应用模式，整个过程也比较好理解。</p>
+<ol>
+<li>应用先从缓存中查找是否有所需的数据</li>
+<li>如果有直接返回数据</li>
+<li>如果没有，从数据库中查找返回</li>
+<li>然后应用将数据存入缓存</li>
+</ol>
+<h4 id="Cache-aside-使用时需要注意的地方"><a href="#Cache-aside-使用时需要注意的地方" class="headerlink" title="Cache aside 使用时需要注意的地方"></a>Cache aside 使用时需要注意的地方</h4><h5 id="缓存更新的操作"><a href="#缓存更新的操作" class="headerlink" title="缓存更新的操作"></a>缓存更新的操作</h5><p>缓存更新的顺序是</p>
+<ol>
+<li>先在数据库更新数据</li>
+<li>再让对应的缓存失效</li>
+</ol>
+<p><img src="https://image.ai-byte.com/cache-aside.png" alt="cache aside"><br>(图片来自 熊燚 - 全栈工程师修炼指南)</p>
+<p>为什么一定是这样的顺序呢？如果先让缓存失效再更新数据库会有什么问题么？<br>先让缓存失效在没有并发的场景下也是可以的，但是如果是在高并发的场景下是会出现缓存读取数据与数据库数据不一致的现象。<br>为什么会出现不一致呢？我们考虑这样的一个场景，应用实例首先失效了需要更新的数据缓存，恰恰在应用去数据库更新数据期间又有一个请求来访问缓存，发现缓存失效，于是从数据库读取数据（此时的数据库更新事务并未提交）改时间点所读取的数据是未更新的过期数据，并将这个过期数据更新到了缓存中，数据库更新数据操作完成之后就出现了缓存与数据库数据不一致的现象，更严重的是如果没有其他机制保证，这个过期的缓存数据就再也没有时机与数据库数据进行同步和更新。</p>
+<p>通过对cache aside 模式的描述，我们可以看出cache与应用实例之间是双向联系的，而与数据库之间是没有交互关系的，所以这个aside可以理解为aside在访问数据库路径。  </p>
+<p>下面的这个模式就与cache aside不同了，cache在应用实例与数据库之间扮演起了“中间人”的角色。</p>
+<h3 id="Read-Write-through"><a href="#Read-Write-through" class="headerlink" title="Read/Write through"></a>Read/Write through</h3><p>在Read/Write through模式下，从应用实例的视角上看，cache与数据库是一体的，对于读取和更新数据的操作只需要和cache打交道，而数据库对它来说是透明的。  </p>
+<p><img src="https://image.ai-byte.com/cache-read-write-through.png" alt="cache through"><br>(图片来自 熊燚 - 全栈工程师修炼指南)</p>
+<p>先看下Read through 数据获取的过程：</p>
+<ol>
+<li>应用先从缓存中查询所需数据</li>
+<li>如果缓存中有，则返回数据给应用</li>
+<li>如果没有，缓存从数据库中读取然后将数据设置在自己的缓存中</li>
+<li>然后缓存将数据返回应用</li>
+</ol>
+<p>Write through数据更新的过程：</p>
+<ol>
+<li>应用要求缓存更新数据</li>
+<li>如果缓存中有数据那就更新数据</li>
+<li>缓存更新数据库数据</li>
+<li>缓存通知应用更新完成</li>
+</ol>
+<p>对于写操作，在并发的场景下需要注意的是：缓存更新数据库的操作顺序应当与应用请求更新的顺序一致。<br>举个例子，有两个请求依次要把同一缓存更新为A和B，那么最终缓存应当更新为B（与数据库值一致）。这个一致性可以通过数据库的乐观锁来保证。</p>
+<p>Read/Write through的策略往往是在有一些框架中实现，比如Java生态中的 Ehcache 就支持以上提到的所有策略<a target="_blank" rel="noopener" href="https://www.ehcache.org/documentation/3.8/caching-patterns.html">Ehcache - caching patterns</a></p>
+<h3 id="Write-behind-Write-back"><a href="#Write-behind-Write-back" class="headerlink" title="Write behind (Write back)"></a>Write behind (Write back)</h3><p>Write behind 模式是缓存在更新完自己的数据后就直接返回了，而数据库的更新是异步进行的。  </p>
+<p>这样做的优缺点都很明显：  </p>
+<p>优点：<br>提高吞吐量，如果需要同步等待整个调用环中最耗时的操作完成，整个缓存的更新效率就会较低，同时在高并发的场景下会带来数据库的负载突然升高，出现峰值现象。<br>缺点：<br>由于缓存和数据库更新是分阶段异步进行的，所以数据的一致性问题无法从机制上保证。也就存在这种可能性：如果系统突然断电，还未来得及同步数据库的这段缓存就会出现不一致，这部分未持久化的数据修改就可能丢失。</p>
+<h2 id="缓存常见的问题"><a href="#缓存常见的问题" class="headerlink" title="缓存常见的问题"></a>缓存常见的问题</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透指的是在某些情况下，大量对于同一数据的访问穿过缓存，但是缓存并没有起到应有的保护。  </p>
+<p>常见的例子就是对数据库不存在的数据进行查询，缓存如果对这个不存在的数据不做任何处理，那么这些数据就会穿过缓存直接将查询压力传递到数据库。<br>解决这个问题有两种思路：  </p>
+<ul>
+<li>最直接的思路就是，给这个不存在的值设置一个默认值存入缓存中，这样后面的读取就会从缓存中读取到默认值，而不会直接访问数据库。</li>
+<li>使用BloomFilter，这种数据结构可以高效明确地告诉我们一个值的不存在。</li>
+</ul>
+<p>当然这两种解决方案有各自的优缺点和使用场景：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>回置默认值</td>
+<td>简单直接</td>
+<td>可能会有大量空值缓存，浪费缓存存储空间，进一步会造成缓存命中率下降</td>
+</tr>
+<tr>
+<td>BloomFilter</td>
+<td>海量数据使用有优势</td>
+<td>占用内存资源大；引入运维成本</td>
+</tr>
+</tbody></table>
+<p>除了上面的这种场景之外，在高并发的场景下还有一种 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cache_stampede">Cache stampede</a>（也称作 Dog Pile Effect）同样会有缓存穿透的问题。</p>
+<p>对于缓存中的热key，缓存在更新过程中会有缓存失效，然后去数据库查询的过程，这个过程中如果有大量的并发读请求，就会穿过缓存直接到达数据库，严重的话会造成系统的瘫痪。<br>这种Cache stampede 问题的解决方法有两种：  </p>
+<ul>
+<li>利用分布式锁来进行流量控制的方式进行。</li>
+</ul>
+<p>这里的分布式锁可以有多种选型考虑；缓存系统实现、Zookeeper实现等等。</p>
+<ul>
+<li>缓存预热，在大批流量到来之前主动将缓存填充好，但这种方法的局限性就是，需要提前知道哪些数据可能引发数据穿透问题。</li>
+</ul>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>另一种常见缓存问题是缓存雪崩，在一定的时间内大批缓存失效，原本起屏障作用的缓存失去作用，形成系统压力穿透，引起系统过载、系统崩溃的现象。</p>
+<p>应对缓存雪崩的方法与上面应对 Cache stampede 问题的思路类似：  </p>
+<ul>
+<li>限流，现象发生后保证系统只去承载接纳能够承载的系统压力。</li>
+<li>缓存预热，在有现象预兆的时候事先加载一部分的热点数据。</li>
+</ul>
+<p>还有一种特殊的缓存雪崩是我们在选择缓存加载和设置缓存失效的时候需要注意的，如果大批缓存数据在同一时间加载，并且设置了相同的过期时间，那么缓存系统在这个集中的时间点就会面临缓存雪崩的风险。<br>这类问题的解决方案也比较简单：</p>
+<ol>
+<li>尽量避免集中缓存写入时间；</li>
+<li>如果无法避免，那么就在缓存过期时间上加上（或者减去）一个随机时间，避免同一时间过期。</li>
+</ol>
+<h3 id="缓存设计的重点"><a href="#缓存设计的重点" class="headerlink" title="缓存设计的重点"></a>缓存设计的重点</h3><ul>
+<li>可扩展的缓存系统设计需要有缓存集群，这个集群对于硬件的需求是内存大、存储性能好和网络带宽好<br>缓存本质上是一个内存和IO密集型的系统，所以在系统的硬件选型上需要有所侧重</li>
+<li>需要根据业务的特点和数据监控将适合缓存的数据放入缓存系统。</li>
+<li>缓存本质上是通过空间换时间的算法策略，同时也是通过牺牲数据的强一致性来换取的高性能，因此需要在使用缓存时需要评估是否是适合缓存的场景。</li>
+<li>缓存内部往往会使用LRU策略，在LRU实现的时候考虑到线程安全的因素，需要在内部维护读写锁，这样会降低性能，需要注意。</li>
+<li>LRU的策略也是有缺陷的，如果用户在有意访问一些错误信息就会破坏这个最近访问数据的真实性，如果这样的操作是有组织上规模的（最典型的例子是网络爬虫）就会淘汰掉一些本应该贮存在缓存中的热数据，致使数据库压力突然上升。</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/System-Design/">System Design</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/34e83c5e/" data-title="系统设计常见组件 - Cache 篇 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/2330c61c/" title="使用Wireshark研究网络协议 - TCP/IP 协议问题">
+  <strong>上一篇：</strong><br/>
+  <span>
+  使用Wireshark研究网络协议 - TCP/IP 协议问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/449cfdc4/"  title="系统设计基础组件 - 数据库伸缩">
+ <strong>下一篇：</strong><br/> 
+ <span>系统设计基础组件 - 数据库伸缩
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">缓存使用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">缓存的常见设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-aside"><span class="toc-number">2.1.</span> <span class="toc-text">Cache aside</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-aside-%E4%BD%BF%E7%94%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="toc-number">2.1.1.</span> <span class="toc-text">Cache aside 使用时需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">缓存更新的操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Write-through"><span class="toc-number">2.2.</span> <span class="toc-text">Read&#x2F;Write through</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-behind-Write-back"><span class="toc-number">2.3.</span> <span class="toc-text">Write behind (Write back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">缓存常见的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">3.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">3.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%87%8D%E7%82%B9"><span class="toc-number">3.3.</span> <span class="toc-text">缓存设计的重点</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

@@ -1,0 +1,677 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Redis 数据类型及对应操作命令 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Redis,data type,command">
+    
+    <meta name="description" content="数据结构String单个元素的设置和查询SETSET &lt;key&gt; &lt;value&gt; &lt;option&gt; 这里的option 有：  nx  只有key不存在的时候才更新value  xx  只有key存在的时候才会更新value  ex  设置过期时间（时间单位秒）  px  设置过期时间（时间单位毫秒） GET根据 key 获取 value GET &lt;key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 数据类型及对应操作命令">
+<meta property="og:url" content="https://blogs.lirui.me/posts/3a46e0d2/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="数据结构String单个元素的设置和查询SETSET &lt;key&gt; &lt;value&gt; &lt;option&gt; 这里的option 有：  nx  只有key不存在的时候才更新value  xx  只有key存在的时候才会更新value  ex  设置过期时间（时间单位秒）  px  设置过期时间（时间单位毫秒） GET根据 key 获取 value GET &lt;key">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-01T08:45:24.000Z">
+<meta property="article:modified_time" content="2020-04-05T08:47:13.707Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/3a46e0d2/" title="Redis 数据类型及对应操作命令" itemprop="url">Redis 数据类型及对应操作命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-01T08:45:24.000Z" itemprop="datePublished"> 发表于 2019-02-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String"><span class="toc-number">1.1.</span> <span class="toc-text">String</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E4%B8%AA%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BE%E7%BD%AE%E5%92%8C%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.1.</span> <span class="toc-text">单个元素的设置和查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SET"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">SET</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#GET"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">GET</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BE%E7%BD%AE%E5%92%8C%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">多个元素的设置和查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MSET"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">MSET</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MGET"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">MGET</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%85%83%E7%B4%A0%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.3.</span> <span class="toc-text">通用元素的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#EXIST"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">EXIST</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DEL"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">DEL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">查询数据类型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.4.</span> <span class="toc-text">过期时间的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#EXPIRE"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">EXPIRE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PEXPIRE"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">PEXPIRE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TTL"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">TTL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PTTL"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">PTTL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lists"><span class="toc-number">1.2.</span> <span class="toc-text">Lists</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">常规操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LPUSH"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">LPUSH</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPUSH"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">RPUSH</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LPOP"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">LPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPOP"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">RPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LRANGE"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">LRANGE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LTRIM"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">LTRIM</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.2.</span> <span class="toc-text">阻塞队列操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LPUSH-RPOP-%E7%BB%84%E5%90%88%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">LPUSH + RPOP 组合有什么问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BRPOP"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">BRPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BLPOP"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">BLPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AAlist%E5%85%83%E7%B4%A0%E7%9A%84%E8%BD%AC%E7%A7%BB"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">两个list元素的转移</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AAlist%E5%85%83%E7%B4%A0%E7%9A%84%E8%BD%AC%E7%A7%BB-%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%89%88"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">两个list元素的转移 - 阻塞队列版</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hashs"><span class="toc-number">1.3.</span> <span class="toc-text">Hashs</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HMSET"><span class="toc-number">1.3.1.</span> <span class="toc-text">HMSET</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HGET"><span class="toc-number">1.3.2.</span> <span class="toc-text">HGET</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HMGET"><span class="toc-number">1.3.3.</span> <span class="toc-text">HMGET</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HGETALL"><span class="toc-number">1.3.4.</span> <span class="toc-text">HGETALL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HINCRBY"><span class="toc-number">1.3.5.</span> <span class="toc-text">HINCRBY</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sets"><span class="toc-number">1.4.</span> <span class="toc-text">Sets</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SADD"><span class="toc-number">1.4.1.</span> <span class="toc-text">SADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SCARD"><span class="toc-number">1.4.2.</span> <span class="toc-text">SCARD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SMEMBERS"><span class="toc-number">1.4.3.</span> <span class="toc-text">SMEMBERS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SISMEMBER"><span class="toc-number">1.4.4.</span> <span class="toc-text">SISMEMBER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SREM"><span class="toc-number">1.4.5.</span> <span class="toc-text">SREM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SPOP"><span class="toc-number">1.4.6.</span> <span class="toc-text">SPOP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SMOVE"><span class="toc-number">1.4.7.</span> <span class="toc-text">SMOVE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SINTER"><span class="toc-number">1.4.8.</span> <span class="toc-text">SINTER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SUNION"><span class="toc-number">1.4.9.</span> <span class="toc-text">SUNION</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SDIFF"><span class="toc-number">1.4.10.</span> <span class="toc-text">SDIFF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SINTERSTORE"><span class="toc-number">1.4.11.</span> <span class="toc-text">SINTERSTORE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SUNIONSTORE"><span class="toc-number">1.4.12.</span> <span class="toc-text">SUNIONSTORE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SDIFFSTORE"><span class="toc-number">1.4.13.</span> <span class="toc-text">SDIFFSTORE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Order-Sets"><span class="toc-number">1.5.</span> <span class="toc-text">Order Sets</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SADD-gt-ZADD"><span class="toc-number">1.5.1.</span> <span class="toc-text">SADD -&gt; ZADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZRANGE"><span class="toc-number">1.5.2.</span> <span class="toc-text">ZRANGE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZREVRANGE"><span class="toc-number">1.5.3.</span> <span class="toc-text">ZREVRANGE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bitmaps"><span class="toc-number">1.6.</span> <span class="toc-text">Bitmaps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HyperLogLogs"><span class="toc-number">1.7.</span> <span class="toc-text">HyperLogLogs</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><h4 id="单个元素的设置和查询"><a href="#单个元素的设置和查询" class="headerlink" title="单个元素的设置和查询"></a>单个元素的设置和查询</h4><h5 id="SET"><a href="#SET" class="headerlink" title="SET"></a>SET</h5><p><code>SET &lt;key&gt; &lt;value&gt; &lt;option&gt;</code></p>
+<p>这里的option 有：</p>
+<ul>
+<li>nx</li>
+</ul>
+<p>只有key不存在的时候才更新value</p>
+<ul>
+<li>xx</li>
+</ul>
+<p>只有key存在的时候才会更新value</p>
+<ul>
+<li>ex</li>
+</ul>
+<p>设置过期时间（时间单位秒）</p>
+<ul>
+<li>px</li>
+</ul>
+<p>设置过期时间（时间单位毫秒）</p>
+<h5 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h5><p>根据 key 获取 value</p>
+<p><code>GET &lt;key&gt;</code></p>
+<h4 id="多个元素的设置和查询"><a href="#多个元素的设置和查询" class="headerlink" title="多个元素的设置和查询"></a>多个元素的设置和查询</h4><h5 id="MSET"><a href="#MSET" class="headerlink" title="MSET"></a>MSET</h5><p><code>MSET &lt;key1&gt; &lt;value1&gt; &lt;key2&gt; &lt;value2&gt; ...</code></p>
+<h5 id="MGET"><a href="#MGET" class="headerlink" title="MGET"></a>MGET</h5><p><code>MGET &lt;key1&gt; &lt;key2&gt;</code></p>
+<h4 id="通用元素的操作"><a href="#通用元素的操作" class="headerlink" title="通用元素的操作"></a>通用元素的操作</h4><h5 id="EXIST"><a href="#EXIST" class="headerlink" title="EXIST"></a>EXIST</h5><p><code>EXISTS  &lt;key&gt;</code></p>
+<h5 id="DEL"><a href="#DEL" class="headerlink" title="DEL"></a>DEL</h5><p>根据key删除数据</p>
+<p><code>DEL &lt;key&gt;</code></p>
+<h5 id="查询数据类型"><a href="#查询数据类型" class="headerlink" title="查询数据类型"></a>查询数据类型</h5><p><code>TYPE &lt;key&gt;</code></p>
+<h4 id="过期时间的操作"><a href="#过期时间的操作" class="headerlink" title="过期时间的操作"></a>过期时间的操作</h4><h5 id="EXPIRE"><a href="#EXPIRE" class="headerlink" title="EXPIRE"></a>EXPIRE</h5><p>设置key对应的数据过期时间(秒)</p>
+<p><code>EXPIRE &lt;key&gt; &lt;seconds&gt;</code></p>
+<h5 id="PEXPIRE"><a href="#PEXPIRE" class="headerlink" title="PEXPIRE"></a>PEXPIRE</h5><p>设置key对应的数据过期时间(毫秒)<br><code>PEXPIRE &lt;key&gt; &lt;milliseconds&gt;</code></p>
+<h5 id="TTL"><a href="#TTL" class="headerlink" title="TTL"></a>TTL</h5><p>查看对应key的过期时间（秒）</p>
+<p><code>TTL &lt;key&gt;</code></p>
+<h5 id="PTTL"><a href="#PTTL" class="headerlink" title="PTTL"></a>PTTL</h5><p>查看对应key的过期时间（秒）</p>
+<p><code>PTTL &lt;key&gt;</code></p>
+<h3 id="Lists"><a href="#Lists" class="headerlink" title="Lists"></a>Lists</h3><h4 id="常规操作"><a href="#常规操作" class="headerlink" title="常规操作"></a>常规操作</h4><h5 id="LPUSH"><a href="#LPUSH" class="headerlink" title="LPUSH"></a>LPUSH</h5><p>在List的head添加数据</p>
+<p><code>LPUSH &lt;list_name&gt; &lt;element&gt;</code></p>
+<h5 id="RPUSH"><a href="#RPUSH" class="headerlink" title="RPUSH"></a>RPUSH</h5><p>在List的tail添加数据</p>
+<p><code>RPUSH &lt;list_name&gt; &lt;element&gt;</code></p>
+<h5 id="LPOP"><a href="#LPOP" class="headerlink" title="LPOP"></a>LPOP</h5><p>从List的head 移除并返回数据</p>
+<p><code>LPOP &lt;list_name&gt;</code></p>
+<h5 id="RPOP"><a href="#RPOP" class="headerlink" title="RPOP"></a>RPOP</h5><p>从List的tail 移除并返回数据</p>
+<p><code>RPOP &lt;list_name&gt;</code></p>
+<h5 id="LRANGE"><a href="#LRANGE" class="headerlink" title="LRANGE"></a>LRANGE</h5><p>按照指定范围获取列表元素</p>
+<p><code>LRANGE &lt;list_name&gt; &lt;start-index&gt; &lt;end-index&gt;</code></p>
+<h5 id="LTRIM"><a href="#LTRIM" class="headerlink" title="LTRIM"></a>LTRIM</h5><p>按照指定范围截取并生成新的队列</p>
+<p><code>LTRIM &lt;list_name&gt;</code></p>
+<blockquote>
+<p>注：该操作的算法复杂度为 $O(n)$</p>
+</blockquote>
+<h4 id="阻塞队列操作"><a href="#阻塞队列操作" class="headerlink" title="阻塞队列操作"></a>阻塞队列操作</h4><h5 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h5><p>生产者 - 消费者模型</p>
+<h5 id="LPUSH-RPOP-组合有什么问题"><a href="#LPUSH-RPOP-组合有什么问题" class="headerlink" title="LPUSH + RPOP 组合有什么问题"></a>LPUSH + RPOP 组合有什么问题</h5><p>如果list为空的情况下，消费者需要轮询(polling)该列表（过一段timeout时间后再去执行RPOP命令）， 这样做很低效</p>
+<ul>
+<li>执行的是无意义的命令</li>
+<li>如果timeout的数是一个比较小的数，这会使Redis执行更多无意义的命令</li>
+</ul>
+<h5 id="BRPOP"><a href="#BRPOP" class="headerlink" title="BRPOP"></a>BRPOP</h5><p><code>BRPOP &lt;list_name&gt;</code></p>
+<h5 id="BLPOP"><a href="#BLPOP" class="headerlink" title="BLPOP"></a>BLPOP</h5><p><code>BLPOP &lt;list_name&gt;</code></p>
+<h5 id="两个list元素的转移"><a href="#两个list元素的转移" class="headerlink" title="两个list元素的转移"></a>两个list元素的转移</h5><p><code>RPOPLPUSH &lt;source_list_name&gt; &lt;destination_list_name&gt;</code></p>
+<h5 id="两个list元素的转移-阻塞队列版"><a href="#两个list元素的转移-阻塞队列版" class="headerlink" title="两个list元素的转移 - 阻塞队列版"></a>两个list元素的转移 - 阻塞队列版</h5><p><code>BRPOPLPUSH &lt;source_list_name&gt; &lt;destination_list_name&gt;</code></p>
+<h3 id="Hashs"><a href="#Hashs" class="headerlink" title="Hashs"></a>Hashs</h3><h4 id="HMSET"><a href="#HMSET" class="headerlink" title="HMSET"></a>HMSET</h4><p>给一个hash 元素设置多个filed的value值</p>
+<p><code>HMSET &lt;hash_key&gt; &lt;name1 filed1 name2 filed2 ...&gt;</code></p>
+<h4 id="HGET"><a href="#HGET" class="headerlink" title="HGET"></a>HGET</h4><p>获取一个hash元素的某一个filed的value值</p>
+<p><code>HGET &lt;hash_key&gt; &lt;name&gt;</code></p>
+<h4 id="HMGET"><a href="#HMGET" class="headerlink" title="HMGET"></a>HMGET</h4><p>获取一个hash元素的某一个filed的多个value值</p>
+<p><code>HMGET &lt;hash_key&gt; &lt;name1&gt; &lt;name2&gt;</code></p>
+<h4 id="HGETALL"><a href="#HGETALL" class="headerlink" title="HGETALL"></a>HGETALL</h4><p>获取一个hash元素的所有filed-value</p>
+<p><code>HGETALL &lt;hash_key&gt;</code></p>
+<h4 id="HINCRBY"><a href="#HINCRBY" class="headerlink" title="HINCRBY"></a>HINCRBY</h4><p>给一个hash元素的某一个filed（整数）加数</p>
+<p><code>HINCRBY &lt;hash_key&gt; &lt;filed&gt; &lt;increse_by_value&gt;</code></p>
+<p><a target="_blank" rel="noopener" href="http://redis.io/commands#hash">full list of hash commands in the documentation</a></p>
+<h3 id="Sets"><a href="#Sets" class="headerlink" title="Sets"></a>Sets</h3><h4 id="SADD"><a href="#SADD" class="headerlink" title="SADD"></a>SADD</h4><p>向无序set添加元素</p>
+<p><code>SADD &lt;key&gt; &lt;value1 value2 ...&gt;</code></p>
+<h4 id="SCARD"><a href="#SCARD" class="headerlink" title="SCARD"></a>SCARD</h4><p>获得set的元素数量</p>
+<p><code>SCARD &lt;key&gt;</code></p>
+<h4 id="SMEMBERS"><a href="#SMEMBERS" class="headerlink" title="SMEMBERS"></a>SMEMBERS</h4><p>列出set的所有元素</p>
+<p><code>SMEMBERS &lt;key&gt;</code></p>
+<h4 id="SISMEMBER"><a href="#SISMEMBER" class="headerlink" title="SISMEMBER"></a>SISMEMBER</h4><p>判断元素是否在set中存在</p>
+<p><code>SISMEMBER &lt;key&gt; &lt;value&gt;</code></p>
+<h4 id="SREM"><a href="#SREM" class="headerlink" title="SREM"></a>SREM</h4><p>从set中删除元素</p>
+<p><code>SREM &lt;key&gt; &lt;value1 value2 ...&gt;</code></p>
+<h4 id="SPOP"><a href="#SPOP" class="headerlink" title="SPOP"></a>SPOP</h4><p>从set中移除并返回元素</p>
+<p><code>SPOP &lt;key&gt; &lt;count&gt;</code></p>
+<h4 id="SMOVE"><a href="#SMOVE" class="headerlink" title="SMOVE"></a>SMOVE</h4><p>从source set 移动一个元素到 destination set</p>
+<p><code>SMOVE &lt;source_key&gt; &lt;destination_key&gt; &lt;value&gt;</code></p>
+<h4 id="SINTER"><a href="#SINTER" class="headerlink" title="SINTER"></a>SINTER</h4><p>set求交集</p>
+<p><code>SINTER &lt;key1 key2 ...&gt;</code></p>
+<h4 id="SUNION"><a href="#SUNION" class="headerlink" title="SUNION"></a>SUNION</h4><p>set求并集</p>
+<p><code>SUNION &lt;key1 key2 ...&gt;</code></p>
+<h4 id="SDIFF"><a href="#SDIFF" class="headerlink" title="SDIFF"></a>SDIFF</h4><p>set求差集</p>
+<p><code>SDIFF &lt;key1 key2 ...&gt;</code></p>
+<h4 id="SINTERSTORE"><a href="#SINTERSTORE" class="headerlink" title="SINTERSTORE"></a>SINTERSTORE</h4><p>set求交集并存储结果到新set</p>
+<p><code>SINTERSTORE &lt;destinatio_key&gt; &lt;key1 key2 ...&gt;</code></p>
+<h4 id="SUNIONSTORE"><a href="#SUNIONSTORE" class="headerlink" title="SUNIONSTORE"></a>SUNIONSTORE</h4><p>set求并集</p>
+<p><code>SUNIONSTORE &lt;destinatio_key&gt; &lt;key1 key2 ...&gt;</code></p>
+<h4 id="SDIFFSTORE"><a href="#SDIFFSTORE" class="headerlink" title="SDIFFSTORE"></a>SDIFFSTORE</h4><p>set求差集</p>
+<p><code>SDIFFSTORE &lt;destinatio_key&gt; &lt;key1 key2 ...&gt;</code></p>
+<h3 id="Order-Sets"><a href="#Order-Sets" class="headerlink" title="Order Sets"></a>Order Sets</h3><h4 id="SADD-gt-ZADD"><a href="#SADD-gt-ZADD" class="headerlink" title="SADD -&gt; ZADD"></a>SADD -&gt; ZADD</h4><p>添加元素到有序集</p>
+<p><code>ZADD &lt;key&gt; [option] &lt;score1 value1 score2 value2 ...&gt;</code></p>
+<p>option有下面的这些选项</p>
+<ul>
+<li>XX</li>
+</ul>
+<p>只更新已经存在的元素</p>
+<ul>
+<li>NX</li>
+</ul>
+<p>只添加新元素，不更新已经存在的元素</p>
+<ul>
+<li>CH</li>
+</ul>
+<p>修改返回值的行为 从“新元素添加数量“为”score 更新元素数量“</p>
+<ul>
+<li>INCR</li>
+</ul>
+<p>对应元素的score + 1</p>
+<p>类似的将无序集合的<code>S</code>前缀替换为<code>Z</code>就是对应的有序集合命令</p>
+<h4 id="ZRANGE"><a href="#ZRANGE" class="headerlink" title="ZRANGE"></a>ZRANGE</h4><p><code>ZRANGE &lt;key&gt; &lt;start_index&gt; &lt;end_index&gt;</code></p>
+<h4 id="ZREVRANGE"><a href="#ZREVRANGE" class="headerlink" title="ZREVRANGE"></a>ZREVRANGE</h4><p><code>ZREVRANGE &lt;key&gt; &lt;start_index&gt; &lt;end_index&gt;</code></p>
+<p>其他sorted sets命令 <a target="_blank" rel="noopener" href="https://redis.io/commands#sorted_set">Redis - Sorted Sets Command</a></p>
+<h3 id="Bitmaps"><a href="#Bitmaps" class="headerlink" title="Bitmaps"></a>Bitmaps</h3><h3 id="HyperLogLogs"><a href="#HyperLogLogs" class="headerlink" title="HyperLogLogs"></a>HyperLogLogs</h3>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/3a46e0d2/" data-title="Redis 数据类型及对应操作命令 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/d5d76783/" title="滑动窗口算法问题及其衍生问题">
+  <strong>上一篇：</strong><br/>
+  <span>
+  滑动窗口算法问题及其衍生问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/51926d91/"  title="Leetcode 中子集和问题及其解法">
+ <strong>下一篇：</strong><br/> 
+ <span>Leetcode 中子集和问题及其解法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String"><span class="toc-number">1.1.</span> <span class="toc-text">String</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E4%B8%AA%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BE%E7%BD%AE%E5%92%8C%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.1.</span> <span class="toc-text">单个元素的设置和查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SET"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">SET</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#GET"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">GET</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BE%E7%BD%AE%E5%92%8C%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">多个元素的设置和查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MSET"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">MSET</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MGET"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">MGET</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%85%83%E7%B4%A0%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.3.</span> <span class="toc-text">通用元素的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#EXIST"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">EXIST</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DEL"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">DEL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">查询数据类型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.4.</span> <span class="toc-text">过期时间的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#EXPIRE"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">EXPIRE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PEXPIRE"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">PEXPIRE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TTL"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">TTL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PTTL"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">PTTL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lists"><span class="toc-number">1.2.</span> <span class="toc-text">Lists</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">常规操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LPUSH"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">LPUSH</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPUSH"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">RPUSH</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LPOP"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">LPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPOP"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">RPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LRANGE"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">LRANGE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LTRIM"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">LTRIM</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.2.</span> <span class="toc-text">阻塞队列操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LPUSH-RPOP-%E7%BB%84%E5%90%88%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">LPUSH + RPOP 组合有什么问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BRPOP"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">BRPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BLPOP"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">BLPOP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AAlist%E5%85%83%E7%B4%A0%E7%9A%84%E8%BD%AC%E7%A7%BB"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">两个list元素的转移</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AAlist%E5%85%83%E7%B4%A0%E7%9A%84%E8%BD%AC%E7%A7%BB-%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%89%88"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">两个list元素的转移 - 阻塞队列版</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hashs"><span class="toc-number">1.3.</span> <span class="toc-text">Hashs</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HMSET"><span class="toc-number">1.3.1.</span> <span class="toc-text">HMSET</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HGET"><span class="toc-number">1.3.2.</span> <span class="toc-text">HGET</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HMGET"><span class="toc-number">1.3.3.</span> <span class="toc-text">HMGET</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HGETALL"><span class="toc-number">1.3.4.</span> <span class="toc-text">HGETALL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HINCRBY"><span class="toc-number">1.3.5.</span> <span class="toc-text">HINCRBY</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sets"><span class="toc-number">1.4.</span> <span class="toc-text">Sets</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SADD"><span class="toc-number">1.4.1.</span> <span class="toc-text">SADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SCARD"><span class="toc-number">1.4.2.</span> <span class="toc-text">SCARD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SMEMBERS"><span class="toc-number">1.4.3.</span> <span class="toc-text">SMEMBERS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SISMEMBER"><span class="toc-number">1.4.4.</span> <span class="toc-text">SISMEMBER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SREM"><span class="toc-number">1.4.5.</span> <span class="toc-text">SREM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SPOP"><span class="toc-number">1.4.6.</span> <span class="toc-text">SPOP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SMOVE"><span class="toc-number">1.4.7.</span> <span class="toc-text">SMOVE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SINTER"><span class="toc-number">1.4.8.</span> <span class="toc-text">SINTER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SUNION"><span class="toc-number">1.4.9.</span> <span class="toc-text">SUNION</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SDIFF"><span class="toc-number">1.4.10.</span> <span class="toc-text">SDIFF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SINTERSTORE"><span class="toc-number">1.4.11.</span> <span class="toc-text">SINTERSTORE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SUNIONSTORE"><span class="toc-number">1.4.12.</span> <span class="toc-text">SUNIONSTORE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SDIFFSTORE"><span class="toc-number">1.4.13.</span> <span class="toc-text">SDIFFSTORE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Order-Sets"><span class="toc-number">1.5.</span> <span class="toc-text">Order Sets</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SADD-gt-ZADD"><span class="toc-number">1.5.1.</span> <span class="toc-text">SADD -&gt; ZADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZRANGE"><span class="toc-number">1.5.2.</span> <span class="toc-text">ZRANGE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZREVRANGE"><span class="toc-number">1.5.3.</span> <span class="toc-text">ZREVRANGE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bitmaps"><span class="toc-number">1.6.</span> <span class="toc-text">Bitmaps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HyperLogLogs"><span class="toc-number">1.7.</span> <span class="toc-text">HyperLogLogs</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

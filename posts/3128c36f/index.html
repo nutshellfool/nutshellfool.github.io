@@ -1,0 +1,583 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>在DigitalOcean上安装kubernetes cluster | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="kubernetes,tectonic">
+    
+    <meta name="description" content="提前准备 CoreOS账号链接 DigitalOcean账号带我推荐码的注册链接 一个有控制权的域名（子域名）  开搞CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal access to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在DigitalOcean上安装kubernetes cluster">
+<meta property="og:url" content="https://blogs.lirui.me/posts/3128c36f/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="提前准备 CoreOS账号链接 DigitalOcean账号带我推荐码的注册链接 一个有控制权的域名（子域名）  开搞CoreOS账号准备 申请获取Tectonic License 和 Pull Secret将申请好的Tectonic License 和 Pull Secret保存好，以备后用  DigitalOcean 操作 生成 Personal access to">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-30T10:19:37.000Z">
+<meta property="article:modified_time" content="2020-02-05T07:26:01.772Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/3128c36f/" title="在DigitalOcean上安装kubernetes cluster" itemprop="url">在DigitalOcean上安装kubernetes cluster</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-30T10:19:37.000Z" itemprop="datePublished"> 发表于 2018-03-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%89%8D%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%90%9E"><span class="toc-number">2.</span> <span class="toc-text">开搞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS%E8%B4%A6%E5%8F%B7%E5%87%86%E5%A4%87"><span class="toc-number">2.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E8%A7%A3%E5%8E%8B-Tectonic-Installer"><span class="toc-number">2.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEterraform-tfvars%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">配置terraform.tfvars配置文件</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="提前准备"><a href="#提前准备" class="headerlink" title="提前准备"></a>提前准备</h2><ul>
+<li>CoreOS账号<a target="_blank" rel="noopener" href="https://account.coreos.com/login">链接</a></li>
+<li>DigitalOcean账号<a target="_blank" rel="noopener" href="https://m.do.co/c/9f0131ec4f0f">带我推荐码的注册链接</a></li>
+<li>一个有控制权的域名（子域名）</li>
+</ul>
+<h2 id="开搞"><a href="#开搞" class="headerlink" title="开搞"></a>开搞</h2><h3 id="CoreOS账号准备"><a href="#CoreOS账号准备" class="headerlink" title="CoreOS账号准备"></a>CoreOS账号准备</h3><ul>
+<li>申请获取Tectonic License 和 Pull Secret<br>将申请好的<code>Tectonic License</code> 和 <code>Pull Secret</code>保存好，以备后用</li>
+</ul>
+<h3 id="DigitalOcean-操作"><a href="#DigitalOcean-操作" class="headerlink" title="DigitalOcean 操作"></a>DigitalOcean 操作</h3><ul>
+<li><p>生成 Personal access token<br>API -&gt; Tokens/Keys<br>注意，Scope 需要勾选Write选项</p>
+</li>
+<li><p>生成 Space access keys<br>API -&gt; Tokens/Keys<br>生成的过程中会开通Spaces服务</p>
+</li>
+<li><p>添加DNS zone<br>Networking -&gt; Domains<br>添加一个base DNS domain</p>
+</li>
+</ul>
+<h3 id="下载并解压-Tectonic-Installer"><a href="#下载并解压-Tectonic-Installer" class="headerlink" title="下载并解压 Tectonic Installer"></a>下载并解压 Tectonic Installer</h3><p>具体安装步骤参见官方网站链接<a target="_blank" rel="noopener" href="https://coreos.com/tectonic/docs/1.8.4-tectonic.2/install/aws/aws-terraform.html">链接地址</a></p>
+<ul>
+<li>这里注意将所有命令中<code>aws</code>替换为<code>digitalocean</code>就可以，另外注意选择正确的“platform”。</li>
+<li>AWS_ACCESS_KEY_ID、AWS_SECRET_ACCESS_KEY、AWS_REGION 这三个环境变量无需设置</li>
+</ul>
+<h3 id="配置terraform-tfvars配置文件"><a href="#配置terraform-tfvars配置文件" class="headerlink" title="配置terraform.tfvars配置文件"></a>配置terraform.tfvars配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><span class="line">// Your Tectonic cluster administration email address</span><br><span class="line">tectonic_admin_email = &quot;example@example.com&quot;</span><br><span class="line"></span><br><span class="line">// Your desired Tectonic cluster administration password</span><br><span class="line">tectonic_admin_password = &quot;examplepassword&quot;</span><br><span class="line"></span><br><span class="line">// Your API token for DigitalOcean</span><br><span class="line">tectonic_do_token = &quot;DIGITALOCEAN API TOKEN&quot;</span><br><span class="line"></span><br><span class="line">// Access key ID and secret access key for DigitalOcean Spaces.</span><br><span class="line">// The Tectonic Installer uses a Spaces bucket to store Tectonic assets and kubeconfig.</span><br><span class="line">tectonic_do_spaces_access_key_id = &quot;ACCESS KEY ID&quot;</span><br><span class="line">tectonic_do_spaces_secret_access_key = &quot;SECRET ACCESS KEY&quot;</span><br><span class="line"></span><br><span class="line">// Instance size for the etcd node(s). Read the [etcd recommended hardware](https://coreos.com/etcd/docs/latest/op-guide/hardware.html) guide for best performance</span><br><span class="line">tectonic_do_etcd_droplet_size = &quot;1gb&quot;</span><br><span class="line"></span><br><span class="line">// (optional) Instance size for the master node(s).</span><br><span class="line">tectonic_do_master_droplet_size = &quot;1gb&quot;</span><br><span class="line"></span><br><span class="line">// (optional) Instance size for the worker node(s).</span><br><span class="line">tectonic_do_worker_droplet_size = &quot;1gb&quot;</span><br><span class="line"></span><br><span class="line">// A list of DigitalOcean SSH IDs to enable in the created droplets.</span><br><span class="line">// example to get the SSH keyids</span><br><span class="line">// curl -X GET -H &#x27;Content-Type: application/json&#x27; -H &#x27;Authorization: Bearer &lt;TOKEN&gt;&#x27; &quot;https://api.digitalocean.com/v2/account/keys&quot;</span><br><span class="line">tectonic_do_ssh_keys = [1, 2]</span><br><span class="line"></span><br><span class="line">// (optional) The region to create your droplets in.</span><br><span class="line">tectonic_do_droplet_region = &quot;sgp1&quot;</span><br><span class="line"></span><br><span class="line">// The base DNS domain of the cluster. It must NOT contain a trailing period. Some</span><br><span class="line">// DNS providers will automatically add this if necessary.</span><br><span class="line">//</span><br><span class="line">// Example: `openstack.dev.coreos.systems`.</span><br><span class="line">//</span><br><span class="line">// Note: This field MUST be set manually prior to creating the cluster.</span><br><span class="line">// This applies only to cloud platforms.</span><br><span class="line">//</span><br><span class="line">// [Azure-specific NOTE]</span><br><span class="line">// To use Azure-provided DNS, `tectonic_base_domain` should be set to `&quot;&quot;`</span><br><span class="line">// If using DNS records, ensure that `tectonic_base_domain` is set to a properly configured external DNS zone.</span><br><span class="line">// Instructions for configuring delegated domains for Azure DNS can be found here: https://docs.microsoft.com/en-us/azure/dns/dns-delegate-domain-azure-dns</span><br><span class="line">tectonic_base_domain = &quot;TECTONIC BASE DOMAIN&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The content of the PEM-encoded CA certificate, used to generate Tectonic Console&#x27;s server certificate.</span><br><span class="line">// If left blank, a CA certificate will be automatically generated.</span><br><span class="line">// tectonic_ca_cert = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The content of the PEM-encoded CA key, used to generate Tectonic Console&#x27;s server certificate.</span><br><span class="line">// This field is mandatory if `tectonic_ca_cert` is set.</span><br><span class="line">// tectonic_ca_key = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The algorithm used to generate tectonic_ca_key.</span><br><span class="line">// The default value is currently recommended.</span><br><span class="line">// This field is mandatory if `tectonic_ca_cert` is set.</span><br><span class="line">// tectonic_ca_key_alg = &quot;RSA&quot;</span><br><span class="line"></span><br><span class="line">// (optional) This declares the IP range to assign Kubernetes pod IPs in CIDR notation.</span><br><span class="line">// tectonic_cluster_cidr = &quot;10.2.0.0/16&quot;</span><br><span class="line"></span><br><span class="line">// The name of the cluster.</span><br><span class="line">// If used in a cloud-environment, this will be prepended to `tectonic_base_domain` resulting in the URL to the Tectonic console.</span><br><span class="line">//</span><br><span class="line">// Note: This field MUST be set manually prior to creating the cluster.</span><br><span class="line">// Warning: Special characters in the name like &#x27;.&#x27; may cause errors on OpenStack platforms due to resource name constraints.</span><br><span class="line">tectonic_cluster_name = &quot;demo&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The Container Linux update channel.</span><br><span class="line">//</span><br><span class="line">// Examples: `stable`, `beta`, `alpha`</span><br><span class="line">// tectonic_container_linux_channel = &quot;stable&quot;</span><br><span class="line"></span><br><span class="line">// The Container Linux version to use. Set to `latest` to select the latest available version for the selected update channel.</span><br><span class="line">//</span><br><span class="line">// Examples: `latest`, `1465.6.0`</span><br><span class="line">tectonic_container_linux_version = &quot;latest&quot;</span><br><span class="line"></span><br><span class="line">// (optional) A list of PEM encoded CA files that will be installed in /etc/ssl/certs on etcd, master, and worker nodes.</span><br><span class="line">// tectonic_custom_ca_pem_list = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) This only applies if you use the modules/dns/ddns module.</span><br><span class="line">//</span><br><span class="line">// Specifies the RFC2136 Dynamic DNS server key algorithm.</span><br><span class="line">// tectonic_ddns_key_algorithm = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) This only applies if you use the modules/dns/ddns module.</span><br><span class="line">//</span><br><span class="line">// Specifies the RFC2136 Dynamic DNS server key name.</span><br><span class="line">// tectonic_ddns_key_name = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) This only applies if you use the modules/dns/ddns module.</span><br><span class="line">//</span><br><span class="line">// Specifies the RFC2136 Dynamic DNS server key secret.</span><br><span class="line">// tectonic_ddns_key_secret = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) This only applies if you use the modules/dns/ddns module.</span><br><span class="line">//</span><br><span class="line">// Specifies the RFC2136 Dynamic DNS server IP/host to register IP addresses to.</span><br><span class="line">// tectonic_ddns_server = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) DNS prefix used to construct the console and API server endpoints.</span><br><span class="line">// tectonic_dns_name = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The size in MB of the PersistentVolume used for handling etcd backups.</span><br><span class="line">// tectonic_etcd_backup_size = &quot;512&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The name of an existing Kubernetes StorageClass that will be used for handling etcd backups.</span><br><span class="line">// tectonic_etcd_backup_storage_class = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The path of the file containing the CA certificate for TLS communication with etcd.</span><br><span class="line">//</span><br><span class="line">// Note: This works only when used in conjunction with an external etcd cluster.</span><br><span class="line">// If set, the variable `tectonic_etcd_servers` must also be set.</span><br><span class="line">// tectonic_etcd_ca_cert_path = &quot;/dev/null&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The path of the file containing the client certificate for TLS communication with etcd.</span><br><span class="line">//</span><br><span class="line">// Note: This works only when used in conjunction with an external etcd cluster.</span><br><span class="line">// If set, the variables `tectonic_etcd_servers`, `tectonic_etcd_ca_cert_path`, and `tectonic_etcd_client_key_path` must also be set.</span><br><span class="line">// tectonic_etcd_client_cert_path = &quot;/dev/null&quot;</span><br><span class="line"></span><br><span class="line">// (optional) The path of the file containing the client key for TLS communication with etcd.</span><br><span class="line">//</span><br><span class="line">// Note: This works only when used in conjunction with an external etcd cluster.</span><br><span class="line">// If set, the variables `tectonic_etcd_servers`, `tectonic_etcd_ca_cert_path`, and `tectonic_etcd_client_cert_path` must also be set.</span><br><span class="line">// tectonic_etcd_client_key_path = &quot;/dev/null&quot;</span><br><span class="line"></span><br><span class="line">// The number of etcd nodes to be created.</span><br><span class="line">// If set to zero, the count of etcd nodes will be determined automatically.</span><br><span class="line">//</span><br><span class="line">// Note: This is not supported on bare metal.</span><br><span class="line">tectonic_etcd_count = &quot;0&quot;</span><br><span class="line"></span><br><span class="line">// (optional) List of external etcd v3 servers to connect with (hostnames/IPs only).</span><br><span class="line">// Needs to be set if using an external etcd cluster.</span><br><span class="line">// Note: If this variable is defined, the installer will not create self-signed certs.</span><br><span class="line">// To provide a CA certificate to trust the etcd servers, set &quot;tectonic_etcd_ca_cert_path&quot;.</span><br><span class="line">//</span><br><span class="line">// Example: `[&quot;etcd1&quot;, &quot;etcd2&quot;, &quot;etcd3&quot;]`</span><br><span class="line">// tectonic_etcd_servers = &quot;&quot;</span><br><span class="line"></span><br><span class="line">// (optional) If set to `true`, all etcd endpoints will be configured to use the &quot;https&quot; scheme.</span><br><span class="line">//</span><br><span class="line">// Note: If `tectonic_experimental` is set to `true` this variable has no effect, because the experimental self-hosted etcd always uses TLS.</span><br><span class="line">// tectonic_etcd_tls_enabled = true</span><br><span class="line"></span><br><span class="line">// The path to the tectonic licence file.</span><br><span class="line">// You can download the Tectonic license file from your Account overview page at [1].</span><br><span class="line">//</span><br><span class="line">// [1] https://account.coreos.com/overview</span><br><span class="line">tectonic_license_path = &quot;ABSLUTE PATH&quot;</span><br><span class="line"></span><br><span class="line">// The number of master nodes to be created.</span><br><span class="line">// This applies only to cloud platforms.</span><br><span class="line">tectonic_master_count = &quot;1&quot;</span><br><span class="line"></span><br><span class="line">// (optional) Configures the network to be used in Tectonic. One of the following values can be used:</span><br><span class="line">//</span><br><span class="line">// - &quot;flannel&quot;: enables overlay networking only. This is implemented by flannel using VXLAN.</span><br><span class="line">//</span><br><span class="line">// - &quot;canal&quot;: [ALPHA] enables overlay networking including network policy. Overlay is implemented by flannel using VXLAN. Network policy is implemented by Calico.</span><br><span class="line">//</span><br><span class="line">// - &quot;calico&quot;: [ALPHA] enables BGP based networking. Routing and network policy is implemented by Calico. Note this has been tested on baremetal installations only.</span><br><span class="line">//</span><br><span class="line">// - &quot;none&quot;: disables the installation of any Pod level networking layer provided by Tectonic. By setting this value, users are expected to deploy their own solution to enable network connectivity for Pods and Services.</span><br><span class="line">// tectonic_networking = &quot;flannel&quot;</span><br><span class="line"></span><br><span class="line">// The path the pull secret file in JSON format.</span><br><span class="line">// This is known to be a &quot;Docker pull secret&quot; as produced by the docker login [1] command.</span><br><span class="line">// A sample JSON content is shown in [2].</span><br><span class="line">// You can download the pull secret from your Account overview page at [3].</span><br><span class="line">//</span><br><span class="line">// [1] https://docs.docker.com/engine/reference/commandline/login/</span><br><span class="line">//</span><br><span class="line">// [2] https://coreos.com/os/docs/latest/registry-authentication.html#manual-registry-auth-setup</span><br><span class="line">//</span><br><span class="line">// [3] https://account.coreos.com/overview</span><br><span class="line">tectonic_pull_secret_path = &quot;/home/core/tectonic-config/tectonic-pull-secret.conf&quot;</span><br><span class="line"></span><br><span class="line">// (optional) This declares the IP range to assign Kubernetes service cluster IPs in CIDR notation.</span><br><span class="line">// The maximum size of this IP range is /12</span><br><span class="line">// tectonic_service_cidr = &quot;10.3.0.0/16&quot;</span><br><span class="line"></span><br><span class="line">// Validity period of the self-signed certificates (in hours).</span><br><span class="line">// Default is 3 years.</span><br><span class="line">// This setting is ignored if user provided certificates are used.</span><br><span class="line">tectonic_tls_validity_period = &quot;26280&quot;</span><br><span class="line"></span><br><span class="line">// The number of worker nodes to be created.</span><br><span class="line">// This applies only to cloud platforms.</span><br><span class="line">tectonic_worker_count = &quot;3&quot;</span><br></pre></td></tr></table></figure>
+
+<p>需要处理的配置：<br>tectonic_admin_email<br>tectonic_admin_password<br>tectonic_do_token<br>tectonic_do_spaces_access_key_id<br>tectonic_do_spaces_secret_access_key<br>tectonic_do_ssh_keys<br>tectonic_base_domain<br>tectonic_cluster_name<br>tectonic_license_path<br>tectonic_pull_secret_path  </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/3128c36f/" data-title="在DigitalOcean上安装kubernetes cluster | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/fa93016d/" title="《刻意练习》读书笔记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  《刻意练习》读书笔记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/2e8d4abb/"  title="《腾讯产品方法》读书笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>《腾讯产品方法》读书笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%89%8D%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">提前准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%90%9E"><span class="toc-number">2.</span> <span class="toc-text">开搞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoreOS%E8%B4%A6%E5%8F%B7%E5%87%86%E5%A4%87"><span class="toc-number">2.1.</span> <span class="toc-text">CoreOS账号准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DigitalOcean-%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">DigitalOcean 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E8%A7%A3%E5%8E%8B-Tectonic-Installer"><span class="toc-number">2.3.</span> <span class="toc-text">下载并解压 Tectonic Installer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEterraform-tfvars%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">配置terraform.tfvars配置文件</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

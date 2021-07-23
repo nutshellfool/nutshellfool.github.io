@@ -1,0 +1,605 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Leetcode 中子集和问题及其解法 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Algorithm,Data structure,LeetCode,2sum,two sum,3sum,three sum,4 sum,four sum,subset sum problem">
+    
+    <meta name="description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。wik">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 中子集和问题及其解法">
+<meta property="og:url" content="https://blogs.lirui.me/posts/51926d91/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="问题本身（What）LeetCode 众多问题中有一类问题是 xSum 问题，例如：    Two Sum 3Sum 4Sum  这一类问题泛化后的问题是：给定一个数组，返回X个数组元素之和为给定目标数的元素列表。   为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。wik">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-01-21T02:03:10.000Z">
+<meta property="article:modified_time" content="2021-01-21T11:49:21.022Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/51926d91/" title="Leetcode 中子集和问题及其解法" itemprop="url">Leetcode 中子集和问题及其解法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-01-21T02:03:10.000Z" itemprop="datePublished"> 发表于 2019-01-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%9C%AC%E8%BA%AB%EF%BC%88What%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">问题本身（What）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%A7%A3%E5%86%B3%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98%EF%BC%8C%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E5%8F%88%E4%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%88Why%E3%80%81When%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%B1%82%E8%A7%A3%EF%BC%8C%E5%8F%8A%E6%B1%82%E8%A7%A3%E6%80%9D%E8%B7%AF%EF%BC%88How%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">如何求解，及求解思路（How）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3sum"><span class="toc-number">3.1.</span> <span class="toc-text">3sum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%A2%98%E7%9B%AE%E6%9C%AC%E8%BA%AB"><span class="toc-number">3.1.1.</span> <span class="toc-text">关于题目本身</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E5%8F%AF%E8%83%BD%E8%A7%A3"><span class="toc-number">3.1.2.</span> <span class="toc-text">所有可能解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2sum"><span class="toc-number">3.2.</span> <span class="toc-text">2sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4sum"><span class="toc-number">3.3.</span> <span class="toc-text">4sum</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="问题本身（What）"><a href="#问题本身（What）" class="headerlink" title="问题本身（What）"></a>问题本身（What）</h2><p>LeetCode 众多问题中有一类问题是 xSum 问题，例如：  </p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/two-sum/">Two Sum</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/3sum/">3Sum</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/4sum/">4Sum</a></li>
+</ol>
+<p>这一类问题泛化后的问题是：<br>给定一个数组，返回X个数组元素之和为给定目标数的元素列表。  </p>
+<h2 id="为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"><a href="#为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）" class="headerlink" title="为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）"></a>为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</h2><p>该问题是计算复杂度理论和密码学中一个重要问题， 特别的该问题是著名的N-NP问题中的NP完全问题。<br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Subset_sum_problem">wiki – Subset sum problem</a></p>
+<h2 id="如何求解，及求解思路（How）"><a href="#如何求解，及求解思路（How）" class="headerlink" title="如何求解，及求解思路（How）"></a>如何求解，及求解思路（How）</h2><h3 id="3sum"><a href="#3sum" class="headerlink" title="3sum"></a>3sum</h3><p>这里我们选择3Sum作为讲解例子：  </p>
+<h4 id="关于题目本身"><a href="#关于题目本身" class="headerlink" title="关于题目本身"></a>关于题目本身</h4><p>首先对于3Sum问题，题目本身有什么需要注意的点么？仔细想来可能会有以下这些：</p>
+<ol>
+<li>作为输入的参数 nums 数组是否有可能为空？</li>
+<li>作为输入的参数 nums 数组长度是否大于3？  </li>
+</ol>
+<p>如果以下两个问题的答案都是有可能，那么这两种边界条件下应该返回什么样的结果？ null还是空列表？  </p>
+<h4 id="所有可能解"><a href="#所有可能解" class="headerlink" title="所有可能解"></a>所有可能解</h4><p>其次， 所有可能的解法会有以下这些：  </p>
+<ul>
+<li>Brutal Force （backtrace）<br>直接想到的，也是直觉算法就是穷举所有可能的组合（俗称傻算），然后找出符合条件的元素；<br>这里需要注意的是需要做元素去除重复元素的处理。  </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">loop i: <span class="number">0</span> -&gt; length:</span><br><span class="line">    loop j: i + <span class="number">1</span> -&gt; length:</span><br><span class="line">        loop k: j + <span class="number">1</span> -&gt; length:</span><br><span class="line">            <span class="keyword">if</span> nums[i] + nums[j] + nums[k] == <span class="number">0</span> :</span><br><span class="line">                add_to_result_set</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对于这里的时间和空间复杂度也相对一目了然:<br>时间复杂度: $O(N^3)$<br>空间复杂度：$O(1)$</p>
+<ul>
+<li>基于BF的改进（使用动态数据结构优化一层循环）<br>显然，对于以上的$O(N^3)$复杂度的算法，算法效率并不高，那么如何提升效率呢？ 常见的提升代码执行效率的思想是用空间换时间，沿着这个思路继续想下去，我们发现可以使用 Map / Set 这样的动态数据结构来优化，用额外的空间来换取一层时间复杂度。 伪代码如下所示：  </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">loop element -&gt; nums:</span><br><span class="line">    Map.put(element)</span><br><span class="line"></span><br><span class="line">loop i -&gt; length:</span><br><span class="line">    loop j -&gt; length:</span><br><span class="line">            <span class="keyword">if</span> Map.exists(<span class="number">0</span> - (nums[i] + nums[j])) :</span><br><span class="line">                add_to_result_set</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在使用具体语言实现的时候需要注意的同样是如何去除重复的三元组组合，这里给出的一种解决思路是，首先将数组排序，然后在添加结果到结果集之前</p>
+<ol>
+<li>排除掉自己和自己组合（数组下标相同）的情况和</li>
+<li>数组中元素重复（数组下标不同但值相同）情况<br>具体实现可以参看我的Github实现： <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/main/java/me/lirui/algo/map/LeetCodeHashMapSolution.java#L155">3sum : threeSumWithMap</a></li>
+</ol>
+<p>对于这里的时间和空间复杂度也相对一目了然:<br>时间复杂度: $O(N^2)$<br>空间复杂度：$O(N)$</p>
+<ul>
+<li>基于第二种解法的进一步优化</li>
+</ul>
+<p>这里看似在时间效率上已经是最优了，但是还是使用了额外的存储空间，那么是否存在 时间复杂度: $O(N^2)$， 空间复杂度：$O(1)$ 的算法呢？<br>实际上是有的，因为数组是排好序的，受二分查找算法的启发，可以通过left，right指针来寻找符合条件的两个元素，具体的伪代码如下：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">loop i -&gt; length:</span><br><span class="line">    a = nums[i];</span><br><span class="line">    left = i + <span class="number">1</span>;</span><br><span class="line">    right = length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right&gt;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a + nums[left] + nums[right] &gt; <span class="number">0</span>) right--;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (a + nums[left] + nums[right] &lt; <span class="number">0</span>) left++;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            add_to_result_set</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在使用具体语言实现的时候需要注意的同样是如何去除重复的三元组组合,具体实现可以参看我的Github实现： <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/main/java/me/lirui/algo/map/LeetCodeHashMapSolution.java#L121">3sum : threeSum</a></p>
+<p>对于这里的时间和空间复杂度也相对一目了然:<br>时间复杂度: $O(N^2)$<br>空间复杂度：$O(1)$</p>
+<p>这样看来，第三种解法目前是在时间和空间复杂度的最优解。</p>
+<h3 id="2sum"><a href="#2sum" class="headerlink" title="2sum"></a>2sum</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  HashMap&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">  <span class="keyword">int</span> count = nums.length;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (map.get(target - nums[i]) != <span class="keyword">null</span> &amp;&amp; map.get(target - nums[i]) != i) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;i, map.get(target - nums[i])&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    map.put(nums[i], i);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4sum"><a href="#4sum" class="headerlink" title="4sum"></a>4sum</h3><p><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/e2d2b91aa99f5b278d31ae8752cd351a5adca73a/src/main/java/me/lirui/algo/map/LeetCodeHashMapSolution.java#L291">Github 4sum in brutal force way - fourSumInBrutalForceWay</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/e2d2b91aa99f5b278d31ae8752cd351a5adca73a/src/main/java/me/lirui/algo/map/LeetCodeHashMapSolution.java#L252">Github 4sum with map - fourSumWithMap</a><br><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/e2d2b91aa99f5b278d31ae8752cd351a5adca73a/src/main/java/me/lirui/algo/map/LeetCodeHashMapSolution.java#L216">Github 4sum with 2 pointers - fourSum</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/51926d91/" data-title="Leetcode 中子集和问题及其解法 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/3a46e0d2/" title="Redis 数据类型及对应操作命令">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Redis 数据类型及对应操作命令</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/fa93016d/"  title="《刻意练习》读书笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>《刻意练习》读书笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%9C%AC%E8%BA%AB%EF%BC%88What%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">问题本身（What）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%A7%A3%E5%86%B3%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98%EF%BC%8C%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E5%8F%88%E4%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%88Why%E3%80%81When%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">为什么要解决这类问题，这类问题要解决的实际问题又会是什么（Why、When）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%B1%82%E8%A7%A3%EF%BC%8C%E5%8F%8A%E6%B1%82%E8%A7%A3%E6%80%9D%E8%B7%AF%EF%BC%88How%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">如何求解，及求解思路（How）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3sum"><span class="toc-number">3.1.</span> <span class="toc-text">3sum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%A2%98%E7%9B%AE%E6%9C%AC%E8%BA%AB"><span class="toc-number">3.1.1.</span> <span class="toc-text">关于题目本身</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E5%8F%AF%E8%83%BD%E8%A7%A3"><span class="toc-number">3.1.2.</span> <span class="toc-text">所有可能解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2sum"><span class="toc-number">3.2.</span> <span class="toc-text">2sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4sum"><span class="toc-number">3.3.</span> <span class="toc-text">4sum</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

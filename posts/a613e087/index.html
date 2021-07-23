@@ -1,0 +1,665 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>系统设计 - 异步I/O模型及异步编程 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="I/O models,asynchronous programming,I/O 模型,异步编程,Spring Web MVC,Spring WebFlux,Reactive,CGI,FastCGI,WSGI,Servlet">
+    
+    <meta name="description" content="I&#x2F;O 模型通常输入操作的两个阶段：  等待数据准备好 从内核缓存中读取数据  对于网络（套接字）上的输入操作这两个阶段分别为：    等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区 将数据从内核缓冲区复制到应用进程缓冲区  实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统设计 - 异步I&#x2F;O模型及异步编程">
+<meta property="og:url" content="https://blogs.lirui.me/posts/a613e087/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="I&#x2F;O 模型通常输入操作的两个阶段：  等待数据准备好 从内核缓存中读取数据  对于网络（套接字）上的输入操作这两个阶段分别为：    等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区 将数据从内核缓冲区复制到应用进程缓冲区  实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.ai-byte.com/blockingIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/nonblockingIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/multiplexingIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/signalBasedIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/asynchronousIO_model.png">
+<meta property="og:image" content="https://image.ai-byte.com/comparison_of_the_IO_models.png">
+<meta property="article:published_time" content="2020-05-07T10:52:57.000Z">
+<meta property="article:modified_time" content="2020-05-08T13:13:54.315Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.ai-byte.com/blockingIO_model.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/a613e087/" title="系统设计 - 异步I/O模型及异步编程" itemprop="url">系统设计 - 异步I/O模型及异步编程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-07T10:52:57.000Z" itemprop="datePublished"> 发表于 2020-05-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">I&#x2F;O 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%A1%9EI-O%EF%BC%88blocking-I-O%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">阻塞I&#x2F;O（blocking I&#x2F;O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9EI-O%EF%BC%88Non-blocking-I-O%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">非阻塞I&#x2F;O（Non-blocking I&#x2F;O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O-%E5%A4%8D%E7%94%A8%EF%BC%88select-poll%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">I&#x2F;O 复用（select poll）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%A9%B1%E5%8A%A8%E7%9A%84I-O%EF%BC%88SIGIO%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">信号驱动的I&#x2F;O（SIGIO）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5I-O%EF%BC%88POSIX-%E7%9A%84aio-%E7%B3%BB%E5%88%97%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">异步I&#x2F;O（POSIX 的aio_系列函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E7%A7%8DI-O%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.6.</span> <span class="toc-text">五种I&#x2F;O模型的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E4%BE%8B%E5%AD%90%E6%9D%A5%E7%B1%BB%E6%AF%94%E8%BF%99%E4%B8%AAI-O%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.7.</span> <span class="toc-text">用生活中的例子来类比这个I&#x2F;O模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="toc-number">1.8.</span> <span class="toc-text">I&#x2F;O复用模型内部实现细节</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%9C%A8%E5%90%84%E4%B8%AA%E6%8A%80%E6%9C%AF%E7%94%9F%E6%80%81%E7%9A%84%E5%8F%91%E5%B1%95"><span class="toc-number">2.</span> <span class="toc-text">异步编程在各个技术生态的发展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-stack"><span class="toc-number">2.1.</span> <span class="toc-text">Java stack</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E5%AE%B9%E6%98%93%E6%90%9E%E6%B7%B7%E6%B7%86%E7%9A%84%E6%8A%80%E6%9C%AF"><span class="toc-number">2.1.1.</span> <span class="toc-text">几个容易搞混淆的技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E5%9C%A8JavaEE%E6%A0%87%E5%87%86%E7%9A%84%E6%BC%94%E8%BF%9B"><span class="toc-number">2.1.2.</span> <span class="toc-text">异步在JavaEE标准的演进</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Android%E7%94%9F%E6%80%81%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">2.1.3.</span> <span class="toc-text">在Android生态中的应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">2.2.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8D-CGI-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%96%E4%BB%AC%E4%B8%8Eservlet%E5%8F%88%E6%9C%89%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="toc-number">2.2.1.</span> <span class="toc-text">各种 CGI 是什么，他们与servlet又有什么关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go"><span class="toc-number">2.3.</span> <span class="toc-text">Go</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="I-O-模型"><a href="#I-O-模型" class="headerlink" title="I/O 模型"></a>I/O 模型</h2><p>通常输入操作的两个阶段：</p>
+<ol>
+<li>等待数据准备好</li>
+<li>从内核缓存中读取数据</li>
+</ol>
+<p>对于网络（套接字）上的输入操作这两个阶段分别为：  </p>
+<ol>
+<li>等待数据从网络到达，并将等待分组的数据（如果有的话）复制到内核中的缓冲区</li>
+<li>将数据从内核缓冲区复制到应用进程缓冲区</li>
+</ol>
+<p>实际上，第一个阶段在时间上的消耗远远要大于第二个阶段，所以操作系统历史演进的过程中也是抓主要矛盾，用各种手段解决第一阶段的时间消耗问题（事实上也就是下面5种I/O模型的前4种都是用这种思路解决问题）。</p>
+<p>以下的图片来自 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/4859464/">UNIX网络编程 卷1：套接字联网API</a></p>
+<h3 id="阻塞I-O（blocking-I-O）"><a href="#阻塞I-O（blocking-I-O）" class="headerlink" title="阻塞I/O（blocking I/O）"></a>阻塞I/O（blocking I/O）</h3><p><img src="https://image.ai-byte.com/blockingIO_model.png" alt="BlockingI/O Model"></p>
+<h3 id="非阻塞I-O（Non-blocking-I-O）"><a href="#非阻塞I-O（Non-blocking-I-O）" class="headerlink" title="非阻塞I/O（Non-blocking I/O）"></a>非阻塞I/O（Non-blocking I/O）</h3><p><img src="https://image.ai-byte.com/nonblockingIO_model.png" alt="NonBlockingI/O Model"></p>
+<h3 id="I-O-复用（select-poll）"><a href="#I-O-复用（select-poll）" class="headerlink" title="I/O 复用（select poll）"></a>I/O 复用（select poll）</h3><p><img src="https://image.ai-byte.com/multiplexingIO_model.png" alt="Multiplexing I/O Model"></p>
+<h3 id="信号驱动的I-O（SIGIO）"><a href="#信号驱动的I-O（SIGIO）" class="headerlink" title="信号驱动的I/O（SIGIO）"></a>信号驱动的I/O（SIGIO）</h3><p><img src="https://image.ai-byte.com/signalBasedIO_model.png" alt="SignalDriven I/O Model"></p>
+<h3 id="异步I-O（POSIX-的aio-系列函数）"><a href="#异步I-O（POSIX-的aio-系列函数）" class="headerlink" title="异步I/O（POSIX 的aio_系列函数）"></a>异步I/O（POSIX 的aio_系列函数）</h3><p><img src="https://image.ai-byte.com/asynchronousIO_model.png" alt="Asynchronous I/O Model"></p>
+<h3 id="五种I-O模型的对比"><a href="#五种I-O模型的对比" class="headerlink" title="五种I/O模型的对比"></a>五种I/O模型的对比</h3><p><img src="https://image.ai-byte.com/comparison_of_the_IO_models.png" alt="Comparison of the I/O Models"></p>
+<h3 id="用生活中的例子来类比这个I-O模型"><a href="#用生活中的例子来类比这个I-O模型" class="headerlink" title="用生活中的例子来类比这个I/O模型"></a>用生活中的例子来类比这个I/O模型</h3><p>举一个在餐厅点餐的例子，餐厅点餐会分为两个阶段：  </p>
+<ol>
+<li>排队等待点餐</li>
+<li>点餐、付款以及等餐</li>
+</ol>
+<p>对应的就是输入操作的两个阶段：</p>
+<ol>
+<li>等待数据准备好</li>
+<li>从内核缓存中读取数据</li>
+</ol>
+<p>那么这5种I/O模型对应的就是下面的点餐模式：  </p>
+<ul>
+<li><p>阻塞I/O<br>顾客排队依次等待点餐（等待的过程也不做其他的事情），点完餐以后就一直站在队列前等待，直到点的餐做好取走餐后才离开，然后接待下一个顾客。</p>
+</li>
+<li><p>非阻塞I/O<br>顾客排队等待的过程觉得时间太长，所以他先去做些其他事情过程中每隔一段时间看下队有没有排到自己，如果排到了就开始点餐，然后等到餐完成后取餐离开。</p>
+</li>
+<li><p>I/O 复用（select poll epoll）<br>这样每个人每隔一段时间过来看下队有没有排到自己，似乎还是很低效的，而事实上多数情况下都是组队来的，所以可以委托一个人专门在这里排队批量处理这一队人的排队问题（多路复用 multiplexing），轮训（select、poll）或者查看排队完成提示（epoll）来通知对应的人来点餐。</p>
+</li>
+<li><p>信号驱动的I/O（SIGIO）<br>大家发现这种排队的方式实在是太落后了，决定开发一套排队系统。顾客在排队系统上取了号（sigaction系统调用）之后就去做其他的事情，等到快排到自己的时候排队系统会通知（SIGIO）顾客过来点餐。</p>
+</li>
+<li><p>异步I/O<br>后来大家还是不满足于这种排队系统带来的便利，除了排队，在系统上支持点单和支付的业务支持（aio ），这样就做到了在线上搞定排队点餐支付的事情，系统在餐准备好后通知顾客来就餐（听起来是不是太方便了）。</p>
+</li>
+</ul>
+<h3 id="I-O复用模型内部实现细节"><a href="#I-O复用模型内部实现细节" class="headerlink" title="I/O复用模型内部实现细节"></a>I/O复用模型内部实现细节</h3><p>在C10k问题提出之前，互联网应用在单位时间处理的连接数还不够大，因此基于<code>select</code>和<code>poll</code>的I/O复用模型还是足够应付的，<br>从时间的顺序上来说是： <code>select</code>(1984) -&gt; <code>poll</code>(1997) -&gt; <code>epoll</code>(2002)  </p>
+<h2 id="异步编程在各个技术生态的发展"><a href="#异步编程在各个技术生态的发展" class="headerlink" title="异步编程在各个技术生态的发展"></a>异步编程在各个技术生态的发展</h2><h3 id="Java-stack"><a href="#Java-stack" class="headerlink" title="Java stack"></a>Java stack</h3><h4 id="几个容易搞混淆的技术"><a href="#几个容易搞混淆的技术" class="headerlink" title="几个容易搞混淆的技术"></a>几个容易搞混淆的技术</h4><ul>
+<li>Tomcat、Jetty、Netty、WebFlux<br>首先按照在Java生态中所处的层次分一下类：<br>应用容器： Tomcat、Jetty<br>网络编程框架： Netty<br>Spring web framework： Spring WebFlux, Spring Web MVC</li>
+</ul>
+<p>WebFlux 是Spring 框架中的web框架模块，支持以Reactive Stream的方式进行网络编程。<br>WebFlux = Non-Blocking I/O + 函数式编程<br>什么是Reactive？<br>从网络角度的Reactive的角度就是 IO 事件驱动的设计模式 + 非阻塞式的编程（NonBlocking back pressure）</p>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-framework-choice">Spring WebFlux framework choice</a></p>
+<h4 id="异步在JavaEE标准的演进"><a href="#异步在JavaEE标准的演进" class="headerlink" title="异步在JavaEE标准的演进"></a>异步在JavaEE标准的演进</h4><ul>
+<li>Servlet 3.0 之前版本： 仅支持同步处理请求，并且只支持Blocking IO</li>
+<li>Servlet 3.0 版本 ： 支持异步处理请求，但是只支持Blocking IO</li>
+<li>Servlet 3.1、4.0 版本 ： 支持异步处理请求，同时支持NoBlocking IO</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Java_servlet#History">Wikipedia - Java Servlet</a></p>
+<h4 id="在Android生态中的应用"><a href="#在Android生态中的应用" class="headerlink" title="在Android生态中的应用"></a>在Android生态中的应用</h4><p>我们都知道，在Android中有很重要的一块知识点是需要和事件以及消息打交道，这里就离不开事件循环，我们都知道任何的一个事件循环都是通过一个类似下面形式的循环实现的：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;;) &#123;</span><br><span class="line">  message = obtainMessage();</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  dispatchMessage(message);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当然Android中也不例外，从Looper的源代码我们就可以探知一二(为了方便查看主要逻辑，我将与本主题无关的代码以<code>\\ ......</code>略去)：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Run the message queue in this thread. Be sure to call</span></span><br><span class="line"><span class="comment">    * &#123;<span class="doctag">@link</span> #quit()&#125; to end the loop.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Looper me = myLooper();</span><br><span class="line">       <span class="keyword">if</span> (me == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;No Looper; Looper.prepare() wasn&#x27;t called on this thread.&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">final</span> MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// .....</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           Message msg = queue.next(); <span class="comment">// might block</span></span><br><span class="line">           <span class="keyword">if</span> (msg == <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">// No message indicates that the message queue is quitting.</span></span><br><span class="line">               <span class="keyword">return</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// ......</span></span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               msg.target.dispatchMessage(msg);</span><br><span class="line">               <span class="keyword">if</span> (observer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   observer.messageDispatched(token, msg);</span><br><span class="line">               &#125;</span><br><span class="line">               dispatchEnd = needEndTime ? SystemClock.uptimeMillis() : <span class="number">0</span>;</span><br><span class="line">           &#125; <span class="keyword">catch</span> (Exception exception) &#123;</span><br><span class="line">               <span class="keyword">if</span> (observer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   observer.dispatchingThrewException(token, msg, exception);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">throw</span> exception;</span><br><span class="line">           &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">               ThreadLocalWorkSource.restore(origWorkSource);</span><br><span class="line">               <span class="keyword">if</span> (traceTag != <span class="number">0</span>) &#123;</span><br><span class="line">                   Trace.traceEnd(traceTag);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">           msg.recycleUnchecked();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们注意到MessageQueue的对象queue在for循环体内有调用方法<code>next()</code>， 而且在代码注释中有提到<code>// might block</code>， 那么到底是怎样block住的呢， 我们需要看下<code>MessageQueue</code>中next方法的内部实现：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@UnsupportedAppUsage</span></span><br><span class="line"><span class="function">Message <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Return here if the message loop has already quit and been disposed.</span></span><br><span class="line">    <span class="comment">// This can happen if the application tries to restart a looper after quit</span></span><br><span class="line">    <span class="comment">// which is not supported.</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">long</span> ptr = mPtr;</span><br><span class="line">    <span class="keyword">if</span> (ptr == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">        nativePollOnce(ptr, nextPollTimeoutMillis);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">          <span class="comment">// ......</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>起关键作用的就是这个 <code>nativePollOnce</code>方法，到底这个native的方法做了什么使得这个for循环可以不占用CPU时钟block住呢？<br>我们通过在<a target="_blank" rel="noopener" href="https://cs.android.com/android">Android Code Search</a> 中查找<code>nativePollOnce</code>的jni定义找到了这样的定义<code>android / platform / frameworks / base / master / . / core / jni / android_os_MessageQueue.cpp</code>:  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG_TAG <span class="meta-string">&quot;MessageQueue-JNI&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;nativehelper/JNIHelp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android_runtime/AndroidRuntime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;utils/Looper.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;utils/Log.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;android_os_MessageQueue.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;core_jni_helpers.h&quot;</span></span></span><br><span class="line"><span class="keyword">namespace</span> android &#123;</span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    jfieldID mPtr;   <span class="comment">// native object attached to the DVM MessageQueue</span></span><br><span class="line">    jmethodID dispatchEvents;</span><br><span class="line">&#125; gMessageQueueClassInfo;</span><br><span class="line"><span class="comment">// Must be kept in sync with the constants in Looper.FileDescriptorCallback</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> CALLBACK_EVENT_INPUT = <span class="number">1</span> &lt;&lt; <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> CALLBACK_EVENT_OUTPUT = <span class="number">1</span> &lt;&lt; <span class="number">1</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> CALLBACK_EVENT_ERROR = <span class="number">1</span> &lt;&lt; <span class="number">2</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NativeMessageQueue</span> :</span> <span class="keyword">public</span> MessageQueue, <span class="keyword">public</span> LooperCallback &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">NativeMessageQueue</span>();</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">NativeMessageQueue</span>();</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">raiseException</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> <span class="keyword">char</span>* msg, jthrowable exceptionObj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pollOnce</span><span class="params">(JNIEnv* env, jobject obj, <span class="keyword">int</span> timeoutMillis)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">wake</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setFileDescriptorEvents</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> events)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">handleEvent</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> events, <span class="keyword">void</span>* data)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    JNIEnv* mPollEnv;</span><br><span class="line">    jobject mPollObj;</span><br><span class="line">    jthrowable mExceptionObj;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">NativeMessageQueue::<span class="built_in">NativeMessageQueue</span>() :</span><br><span class="line">        <span class="built_in">mPollEnv</span>(<span class="literal">NULL</span>), <span class="built_in">mPollObj</span>(<span class="literal">NULL</span>), <span class="built_in">mExceptionObj</span>(<span class="literal">NULL</span>) &#123;</span><br><span class="line">    mLooper = Looper::<span class="built_in">getForThread</span>();</span><br><span class="line">    <span class="keyword">if</span> (mLooper == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        mLooper = <span class="keyword">new</span> <span class="built_in">Looper</span>(<span class="literal">false</span>);</span><br><span class="line">        Looper::<span class="built_in">setForThread</span>(mLooper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">NativeMessageQueue::~<span class="built_in">NativeMessageQueue</span>() &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">NativeMessageQueue::pollOnce</span><span class="params">(JNIEnv* env, jobject pollObj, <span class="keyword">int</span> timeoutMillis)</span> </span>&#123;</span><br><span class="line">    mPollEnv = env;</span><br><span class="line">    mPollObj = pollObj;</span><br><span class="line">    mLooper-&gt;<span class="built_in">pollOnce</span>(timeoutMillis);</span><br><span class="line">    mPollObj = <span class="literal">NULL</span>;</span><br><span class="line">    mPollEnv = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (mExceptionObj) &#123;</span><br><span class="line">        env-&gt;<span class="built_in">Throw</span>(mExceptionObj);</span><br><span class="line">        env-&gt;<span class="built_in">DeleteLocalRef</span>(mExceptionObj);</span><br><span class="line">        mExceptionObj = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">NativeMessageQueue::wake</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mLooper-&gt;<span class="built_in">wake</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">android_os_MessageQueue_nativePollOnce</span><span class="params">(JNIEnv* env, jobject obj,</span></span></span><br><span class="line"><span class="params"><span class="function">        jlong ptr, jint timeoutMillis)</span> </span>&#123;</span><br><span class="line">    NativeMessageQueue* nativeMessageQueue = <span class="keyword">reinterpret_cast</span>&lt;NativeMessageQueue*&gt;(ptr);</span><br><span class="line">    nativeMessageQueue-&gt;<span class="built_in">pollOnce</span>(env, obj, timeoutMillis);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">android_os_MessageQueue_nativeWake</span><span class="params">(JNIEnv* env, jclass clazz, jlong ptr)</span> </span>&#123;</span><br><span class="line">    NativeMessageQueue* nativeMessageQueue = <span class="keyword">reinterpret_cast</span>&lt;NativeMessageQueue*&gt;(ptr);</span><br><span class="line">    nativeMessageQueue-&gt;<span class="built_in">wake</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> JNINativeMethod gMessageQueueMethods[] = &#123;</span><br><span class="line">    <span class="comment">/* name, signature, funcPtr */</span></span><br><span class="line">    &#123; <span class="string">&quot;nativeInit&quot;</span>, <span class="string">&quot;()J&quot;</span>, (<span class="keyword">void</span>*)android_os_MessageQueue_nativeInit &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;nativeDestroy&quot;</span>, <span class="string">&quot;(J)V&quot;</span>, (<span class="keyword">void</span>*)android_os_MessageQueue_nativeDestroy &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;nativePollOnce&quot;</span>, <span class="string">&quot;(JI)V&quot;</span>, (<span class="keyword">void</span>*)android_os_MessageQueue_nativePollOnce &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;nativeWake&quot;</span>, <span class="string">&quot;(J)V&quot;</span>, (<span class="keyword">void</span>*)android_os_MessageQueue_nativeWake &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;nativeIsPolling&quot;</span>, <span class="string">&quot;(J)Z&quot;</span>, (<span class="keyword">void</span>*)android_os_MessageQueue_nativeIsPolling &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;nativeSetFileDescriptorEvents&quot;</span>, <span class="string">&quot;(JII)V&quot;</span>,</span><br><span class="line">            (<span class="keyword">void</span>*)android_os_MessageQueue_nativeSetFileDescriptorEvents &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">register_android_os_MessageQueue</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="built_in">RegisterMethodsOrDie</span>(env, <span class="string">&quot;android/os/MessageQueue&quot;</span>, gMessageQueueMethods,</span><br><span class="line">                                   <span class="built_in">NELEM</span>(gMessageQueueMethods));</span><br><span class="line">    jclass clazz = <span class="built_in">FindClassOrDie</span>(env, <span class="string">&quot;android/os/MessageQueue&quot;</span>);</span><br><span class="line">    gMessageQueueClassInfo.mPtr = <span class="built_in">GetFieldIDOrDie</span>(env, clazz, <span class="string">&quot;mPtr&quot;</span>, <span class="string">&quot;J&quot;</span>);</span><br><span class="line">    gMessageQueueClassInfo.dispatchEvents = <span class="built_in">GetMethodIDOrDie</span>(env, clazz,</span><br><span class="line">            <span class="string">&quot;dispatchEvents&quot;</span>, <span class="string">&quot;(II)I&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="comment">// namespace android</span></span><br></pre></td></tr></table></figure>
+
+<p>完整代码参见 <a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/jni/android_os_MessageQueue.cpp;l=22?q=nativePollOnce&ss=android">https://cs.android.com | android_os_MessageQueue.cpp</a></p>
+<p>为了便于说明我将与本话题无关的代码使用<code>// ......</code>进行了处理，实际上这部分代码也只是JNI实现的Native方法注册部分，更多的实现细节还需要查看<code>&lt;utils/Looper.h&gt;</code>对应的实现 <a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:system/core/libutils/Looper.cpp">https://cs.android.com | Looper.cpp</a></p>
+<p>看到源代码中的第一行注释，我们好像终于知道了些内部细节：  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Copyright 2010 The Android Open Source Project</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// A looper implementation based on epoll().</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG_TAG <span class="meta-string">&quot;Looper&quot;</span></span></span><br><span class="line"><span class="comment">//#define LOG_NDEBUG 0</span></span><br><span class="line"><span class="comment">// Debugs poll and wake interactions.</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG_POLL_AND_WAKE 0</span></span><br><span class="line"><span class="comment">// Debugs callback registration and invocation.</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG_CALLBACKS 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;utils/Looper.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/eventfd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cinttypes&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>原来Android 的Looper内部是基于epoll这个IO模型实现的。<br>至于为什么<code>pollOnce</code>方法为什么能够等待下一个消息的到来而不让CPU空转，这里有一篇文章做了很好的解释 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/38818642/android-what-is-message-queue-native-poll-once-in-android">Stackoverflow - android - what is message queue native poll once in android?</a></p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><h4 id="各种-CGI-是什么，他们与servlet又有什么关系"><a href="#各种-CGI-是什么，他们与servlet又有什么关系" class="headerlink" title="各种 CGI 是什么，他们与servlet又有什么关系"></a>各种 CGI 是什么，他们与servlet又有什么关系</h4><p>CGI通俗的来理解就是web server 与服务器上处理请求的程序之间的统一接口标准<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Common_Gateway_Interface">Wikipedia - Common Gateway Interface</a>。  </p>
+<p>当然上面说的是一个统一接口集，到具体的实现上其实有很多种：  </p>
+<ul>
+<li><p>CGI - 基于PPC模式</p>
+</li>
+<li><p>FastCGI - 基于 Prefork 的PPC模式</p>
+</li>
+</ul>
+<p>后来Python在抛弃了语言的通用性基础上提出了</p>
+<ul>
+<li>WSGI - web server与Python语言实现的应用服务标准</li>
+</ul>
+<p>标准和协议的内容由<a target="_blank" rel="noopener" href="https://www.python.org/dev/peps/pep-3333/">PEP-3333</a>规定。</p>
+<p>当然随着Python提出自己的标准，其他语言也陆续提出类似的标准<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface#See_also">Wikipedia - WSGI - see also</a></p>
+<p>当然Java EE 也有规定自己的接口标准，这个标准在JavaEE一系列标准中叫servlet，当然servlet是基于线程建立的连接模型。</p>
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><p>Golang build-in runtime 包中提供netpoll的epoll实现：  </p>
+<p><a target="_blank" rel="noopener" href="https://golang.org/src/runtime/netpoll_epoll.go">golang.org - Source file src/runtime/netpoll_epoll.go</a></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://book.douban.com/subject/4859464/">UNIX网络编程 卷1：套接字联网API</a></p>
+<p><a target="_blank" rel="noopener" href="https://notes.shichao.io/unp/ch6/">Shichao’s Notes - Unix Network Programming</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.slideshare.net/e456/tyma-paulmultithreaded1">Thousands of Threads and Blocking I/O</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/39802643/java-async-in-servlet-3-0-vs-nio-in-servlet-3-1">Java servlet async</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html">Spring Framework - Web on Reactive Stack</a></p>
+<p><a target="_blank" rel="noopener" href="https://javaee.github.io/tutorial/servlets013.html#sthref109">Java EE - Servlet Nonblocking I/O sample</a></p>
+<p><a target="_blank" rel="noopener" href="https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/">Async IO on Linux: select, poll, and epoll</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/17355593/why-is-epoll-faster-than-select">Stackoverflow - Why is epoll faster than select?</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.programmersought.com/article/7961966857/">Three mechanisms for IO multiplexing Select, Poll, Epoll</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4d8568c0ef0c">简书 - nginx的epoll</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Epoll">Wikipedia - Epoll</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/System-Design/">System Design</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/a613e087/" data-title="系统设计 - 异步I/O模型及异步编程 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/4b0392f1/" title="系统设计 - 异步I/O模型及异步编程 Ⅱ - 从C10K问题到C10M问题">
+  <strong>上一篇：</strong><br/>
+  <span>
+  系统设计 - 异步I/O模型及异步编程 Ⅱ - 从C10K问题到C10M问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/40a135a6/"  title="编程语言学习地图">
+ <strong>下一篇：</strong><br/> 
+ <span>编程语言学习地图
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">I&#x2F;O 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%A1%9EI-O%EF%BC%88blocking-I-O%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">阻塞I&#x2F;O（blocking I&#x2F;O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9EI-O%EF%BC%88Non-blocking-I-O%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">非阻塞I&#x2F;O（Non-blocking I&#x2F;O）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O-%E5%A4%8D%E7%94%A8%EF%BC%88select-poll%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">I&#x2F;O 复用（select poll）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%A9%B1%E5%8A%A8%E7%9A%84I-O%EF%BC%88SIGIO%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">信号驱动的I&#x2F;O（SIGIO）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5I-O%EF%BC%88POSIX-%E7%9A%84aio-%E7%B3%BB%E5%88%97%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">异步I&#x2F;O（POSIX 的aio_系列函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E7%A7%8DI-O%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.6.</span> <span class="toc-text">五种I&#x2F;O模型的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E4%BE%8B%E5%AD%90%E6%9D%A5%E7%B1%BB%E6%AF%94%E8%BF%99%E4%B8%AAI-O%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.7.</span> <span class="toc-text">用生活中的例子来类比这个I&#x2F;O模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="toc-number">1.8.</span> <span class="toc-text">I&#x2F;O复用模型内部实现细节</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%9C%A8%E5%90%84%E4%B8%AA%E6%8A%80%E6%9C%AF%E7%94%9F%E6%80%81%E7%9A%84%E5%8F%91%E5%B1%95"><span class="toc-number">2.</span> <span class="toc-text">异步编程在各个技术生态的发展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-stack"><span class="toc-number">2.1.</span> <span class="toc-text">Java stack</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E5%AE%B9%E6%98%93%E6%90%9E%E6%B7%B7%E6%B7%86%E7%9A%84%E6%8A%80%E6%9C%AF"><span class="toc-number">2.1.1.</span> <span class="toc-text">几个容易搞混淆的技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E5%9C%A8JavaEE%E6%A0%87%E5%87%86%E7%9A%84%E6%BC%94%E8%BF%9B"><span class="toc-number">2.1.2.</span> <span class="toc-text">异步在JavaEE标准的演进</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Android%E7%94%9F%E6%80%81%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">2.1.3.</span> <span class="toc-text">在Android生态中的应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">2.2.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8D-CGI-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%96%E4%BB%AC%E4%B8%8Eservlet%E5%8F%88%E6%9C%89%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="toc-number">2.2.1.</span> <span class="toc-text">各种 CGI 是什么，他们与servlet又有什么关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go"><span class="toc-number">2.3.</span> <span class="toc-text">Go</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

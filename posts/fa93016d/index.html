@@ -1,0 +1,633 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《刻意练习》读书笔记 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="刻意练习,Deliberate practice">
+    
+    <meta name="description" content="最近读了一本书《刻意练习：如何从新手到大师》（PEAK:Secrets from the New Science of Expertise）书中的一些观点有很多认同点，所以几乎是一口气读下来的，读到最后一页的时候意犹未尽，所以决定写下点东西，为之后的思考留下些线索。   有目的的练习有目的的练习的四个特点 有定义明确的特定目标   定义明确的具体目标，可以有效地用于引导你的练习  是专注的   要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《刻意练习》读书笔记">
+<meta property="og:url" content="https://blogs.lirui.me/posts/fa93016d/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="最近读了一本书《刻意练习：如何从新手到大师》（PEAK:Secrets from the New Science of Expertise）书中的一些观点有很多认同点，所以几乎是一口气读下来的，读到最后一页的时候意犹未尽，所以决定写下点东西，为之后的思考留下些线索。   有目的的练习有目的的练习的四个特点 有定义明确的特定目标   定义明确的具体目标，可以有效地用于引导你的练习  是专注的   要">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-01-01T10:16:00.000Z">
+<meta property="article:modified_time" content="2020-02-10T10:45:39.269Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/fa93016d/" title="《刻意练习》读书笔记" itemprop="url">《刻意练习》读书笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-01-01T10:16:00.000Z" itemprop="datePublished"> 发表于 2019-01-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E7%9B%AE%E7%9A%84%E7%9A%84%E7%BB%83%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">有目的的练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E7%9B%AE%E7%9A%84%E7%9A%84%E7%BB%83%E4%B9%A0%E7%9A%84%E5%9B%9B%E4%B8%AA%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">有目的的练习的四个特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%93%B6%E9%A2%88%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">1.2.</span> <span class="toc-text">遇到瓶颈该怎么办</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%83%E7%90%86%E8%A1%A8%E5%BE%81"><span class="toc-number">2.</span> <span class="toc-text">心理表征</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%83%E7%90%86%E8%A1%A8%E5%BE%81%E7%9A%84%E7%9B%8A%E5%A4%84"><span class="toc-number">2.1.</span> <span class="toc-text">心理表征的益处</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0-Deliberate-practice"><span class="toc-number">3.</span> <span class="toc-text">刻意练习(Deliberate practice)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">刻意练习的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E5%8E%9F%E5%88%99"><span class="toc-number">3.2.</span> <span class="toc-text">如何运用刻意练习原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E7%94%9F%E6%B4%BB%E4%B8%AD%E8%BF%90%E7%94%A8%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E5%8E%9F%E5%88%99"><span class="toc-number">3.3.</span> <span class="toc-text">在生活中运用刻意练习原则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E6%89%BE%E4%BD%8D%E5%A5%BD%E5%AF%BC%E5%B8%88"><span class="toc-number">3.3.1.</span> <span class="toc-text">首先找位好导师</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%89%BE%E4%B8%80%E4%BD%8D%E5%A5%BD%E5%AF%BC%E5%B8%88"><span class="toc-number">3.3.1.1.</span> <span class="toc-text">如何找一位好导师</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%93%E6%B3%A8%E5%92%8C%E6%8A%95%E5%85%A5%E8%87%B3%E5%85%B3%E9%87%8D%E8%A6%81"><span class="toc-number">3.3.2.</span> <span class="toc-text">专注和投入至关重要</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8D%E4%B8%93%E6%B3%A8%EF%BC%8C%E7%BB%83%E4%B9%A0%E6%B2%A1%E6%95%88%E6%9E%9C"><span class="toc-number">3.3.2.1.</span> <span class="toc-text">不专注，练习没效果</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E7%9F%AD%E7%9A%84%E7%BB%83%E4%B9%A0%EF%BC%8C%E6%9B%B4%E5%A5%BD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B"><span class="toc-number">3.3.2.2.</span> <span class="toc-text">更短的练习，更好的注意力</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E5%AF%BC%E5%B8%88%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">3.3.3.</span> <span class="toc-text">没有导师怎么办</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E7%BB%83%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-number">3.3.3.1.</span> <span class="toc-text">自己设计练习方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E2%80%9C%E4%B8%89%E4%B8%AAF%E2%80%9D%E5%88%9B%E5%BB%BA%E6%9C%89%E6%95%88%E7%9A%84%E5%BF%83%E7%90%86%E8%A1%A8%E5%BE%81"><span class="toc-number">3.3.3.2.</span> <span class="toc-text">用“三个F”创建有效的心理表征</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%A8%E8%B6%8A%E5%81%9C%E6%BB%9E%E9%98%B6%E6%AE%B5"><span class="toc-number">3.3.4.</span> <span class="toc-text">跨越停滞阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A5%E6%96%B0%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8C%91%E6%88%98%E8%87%AA%E5%B7%B1"><span class="toc-number">3.3.4.1.</span> <span class="toc-text">以新的方式挑战自己</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%94%BB%E5%85%8B%E7%89%B9%E5%AE%9A%E7%9A%84%E5%BC%B1%E7%82%B9"><span class="toc-number">3.3.4.2.</span> <span class="toc-text">攻克特定的弱点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E5%8A%A8%E6%9C%BA"><span class="toc-number">3.3.5.</span> <span class="toc-text">保持动机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E5%8A%A8%E6%9C%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">3.3.5.1.</span> <span class="toc-text">保持动机的两个组成部分</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%B1%E5%8C%96%E5%81%9C%E4%B8%8B%E8%84%9A%E6%AD%A5%E7%9A%84%E7%90%86%E7%94%B1"><span class="toc-number">3.3.5.2.</span> <span class="toc-text">弱化停下脚步的理由</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A2%9E%E5%BC%BA%E7%BB%A7%E7%BB%AD%E5%89%8D%E8%A1%8C%E7%9A%84%E5%80%BE%E5%90%91"><span class="toc-number">3.3.5.3.</span> <span class="toc-text">增强继续前行的倾向</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B2%BE%E5%BF%83%E8%AE%BE%E7%BD%AE%E7%9B%AE%E6%A0%87"><span class="toc-number">3.3.5.4.</span> <span class="toc-text">精心设置目标</span></a></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>最近读了一本书《刻意练习：如何从新手到大师》（PEAK:Secrets from the New Science of Expertise）书中的一些观点有很多认同点，所以几乎是一口气读下来的，读到最后一页的时候意犹未尽，所以决定写下点东西，为之后的思考留下些线索。  </p>
+<h2 id="有目的的练习"><a href="#有目的的练习" class="headerlink" title="有目的的练习"></a>有目的的练习</h2><h3 id="有目的的练习的四个特点"><a href="#有目的的练习的四个特点" class="headerlink" title="有目的的练习的四个特点"></a>有目的的练习的四个特点</h3><ul>
+<li><p>有定义明确的特定目标</p>
+<p>  定义明确的具体目标，可以有效地用于引导你的练习</p>
+</li>
+<li><p>是专注的</p>
+<p>  要想取得进步，必须完全把注意力集中在你的任务上。</p>
+</li>
+<li><p>包含反馈</p>
+<p>  不论你在努力做什么事情，都需要反馈来准确辨别你在哪些方面还有不足，以及怎么会存在这些不足。</p>
+</li>
+<li><p>需要走出舒适区</p>
+<p>  对于任何类型的练习，这是一条基本的真理：如果你从来不迫使自己走出舒适区，便永远无法进步。</p>
+</li>
+</ul>
+<h3 id="遇到瓶颈该怎么办"><a href="#遇到瓶颈该怎么办" class="headerlink" title="遇到瓶颈该怎么办"></a>遇到瓶颈该怎么办</h3><ul>
+<li><p>试着做不同的事情，而非更难的事情</p>
+</li>
+<li><p>并非达到极限，而是动机不足</p>
+</li>
+</ul>
+<h2 id="心理表征"><a href="#心理表征" class="headerlink" title="心理表征"></a>心理表征</h2><p>心理表征是一种与我们大脑正在思考的某个物体、某个观点、某些信息或者其他任何事物相对应的心理结构，或具体或抽象。一个简单的例子是视觉形象。例如，一提到蒙娜丽莎，很多人马上便会在脑海中“看到”那幅著名油画的形象；那个形象就是蒙娜丽莎在他们脑海中的心理表征。</p>
+<blockquote>
+<p>理解与思考：心理表征可以理解为一种心理建立模型的产物，特别的对于某个特定领域，思维导图就是一种心理表征的输出产物。</p>
+</blockquote>
+<h3 id="心理表征的益处"><a href="#心理表征的益处" class="headerlink" title="心理表征的益处"></a>心理表征的益处</h3><ul>
+<li>心理表征有助于找出规律</li>
+<li>心理表征有助于解释信息</li>
+<li>心理表征有助于指定计划</li>
+<li>心理表征有助于高效学习</li>
+</ul>
+<h2 id="刻意练习-Deliberate-practice"><a href="#刻意练习-Deliberate-practice" class="headerlink" title="刻意练习(Deliberate practice)"></a>刻意练习(Deliberate practice)</h2><h3 id="刻意练习的特点"><a href="#刻意练习的特点" class="headerlink" title="刻意练习的特点"></a>刻意练习的特点</h3><ul>
+<li><p>刻意练习发展的技能，是其他人已经想出怎样提高的技能，也是已经拥有一整套行之有效的训练方法的技能。</p>
+</li>
+<li><p>刻意练习发生在人们的舒适区之外，而且要求学生持续不断地尝试那些刚好超出他当前能力范围的事物。</p>
+</li>
+<li><p>刻意练习包含得到良好定义的特定目标，通常还包括目标表现的某些方面；它并非指向某些模糊的总体改进。</p>
+</li>
+<li><p>刻意练习是有意而为的，也就是说，它需要人们完全的关注和有意识的行动。</p>
+</li>
+<li><p>刻意练习包含反馈，以及为应对那些反馈而进行调整的努力。</p>
+</li>
+<li><p>刻意练习既产生有效的心理表征，又依靠有效的心理表征。</p>
+</li>
+<li><p>刻意练习通过着重关注过去获取的技能的某些特定方面，致力于有针对性地提高那些方面，并且几乎总是包括构建或修改那些过去已经获取的技能；</p>
+</li>
+</ul>
+<h3 id="如何运用刻意练习原则"><a href="#如何运用刻意练习原则" class="headerlink" title="如何运用刻意练习原则"></a>如何运用刻意练习原则</h3><ul>
+<li>确定谁是杰出人物</li>
+</ul>
+<p>理想的情况是找到客观的、可复制的测量指标，以便前后一致地从普通从业者之中挑选出最优异的从业者。如果这一理想的状况不可能实现，那么尽可能做到接近理想。</p>
+<ul>
+<li>找出杰出人物和其他人的差别</li>
+<li>最佳方法是找到优秀导师</li>
+</ul>
+<h3 id="在生活中运用刻意练习原则"><a href="#在生活中运用刻意练习原则" class="headerlink" title="在生活中运用刻意练习原则"></a>在生活中运用刻意练习原则</h3><h4 id="首先找位好导师"><a href="#首先找位好导师" class="headerlink" title="首先找位好导师"></a>首先找位好导师</h4><h5 id="如何找一位好导师"><a href="#如何找一位好导师" class="headerlink" title="如何找一位好导师"></a>如何找一位好导师</h5><ul>
+<li><p>首先根据自己技能所处阶段选择导师，导师不一定是最优秀的人，但是应当在行业和领域有所成就。</p>
+</li>
+<li><p>好导师还应当在他所在行业或领域的教育中具有一些技能和经验。许多成就突出的人士并不能胜任导师的角色，因为他们不知道怎么来教别人。</p>
+</li>
+<li><p>当你自己改变了时，可能需要更换导师。</p>
+<p>如果你发现自己已经到了不再能快速进步，或者根本没有进步的地步，别害怕，去找一位新的导师。</p>
+</li>
+</ul>
+<h4 id="专注和投入至关重要"><a href="#专注和投入至关重要" class="headerlink" title="专注和投入至关重要"></a>专注和投入至关重要</h4><h5 id="不专注，练习没效果"><a href="#不专注，练习没效果" class="headerlink" title="不专注，练习没效果"></a>不专注，练习没效果</h5><h5 id="更短的练习，更好的注意力"><a href="#更短的练习，更好的注意力" class="headerlink" title="更短的练习，更好的注意力"></a>更短的练习，更好的注意力</h5><h4 id="没有导师怎么办"><a href="#没有导师怎么办" class="headerlink" title="没有导师怎么办"></a>没有导师怎么办</h4><h5 id="自己设计练习方法"><a href="#自己设计练习方法" class="headerlink" title="自己设计练习方法"></a>自己设计练习方法</h5><h5 id="用“三个F”创建有效的心理表征"><a href="#用“三个F”创建有效的心理表征" class="headerlink" title="用“三个F”创建有效的心理表征"></a>用“三个F”创建有效的心理表征</h5><p>为了在没有导师的时候有效地练习某种技能，牢牢记住以下三个F，将是有帮助的。这三个F，其实是以字母F开头三个单词，即：专注（focus）、反馈（feedback）以及纠正（fixit）。将技能分解成一些组成部分，以便反复地练习，并且有效地分析、确定你的不足之处，然后想出各种办法来解决它们。</p>
+<h4 id="跨越停滞阶段"><a href="#跨越停滞阶段" class="headerlink" title="跨越停滞阶段"></a>跨越停滞阶段</h4><h5 id="以新的方式挑战自己"><a href="#以新的方式挑战自己" class="headerlink" title="以新的方式挑战自己"></a>以新的方式挑战自己</h5><p>当你首先开始学习某些新东西时，发现自己进步神速，或者至少是稳步前进，这十分正常，当那样的进步停滞下来时，你自然会以为自己遇到了某种无情的限制。因此，你停步不前，最后就让自己停滞在那一水平。这是几乎任何一个领域或行业中的人们不再进步的主要原因。</p>
+<h5 id="攻克特定的弱点"><a href="#攻克特定的弱点" class="headerlink" title="攻克特定的弱点"></a>攻克特定的弱点</h5><p>首先，搞清楚到底是什么让你停滞不前。你犯了些什么错？什么时候犯的？逼着自己走出舒适区，看一看是什么拦住了你前进的路。<br>其次，设计一种练习方法，专门来改进那个特定的弱点。一旦你已经弄懂了问题是什么，你也许能够自己纠正，或者，可能得向一位经验丰富的教练或导师寻求建议。不论是哪种方法，在练习的时候要重点关注发生了什么；如果依然没有进步，那就需要再试试其他方法。</p>
+<h4 id="保持动机"><a href="#保持动机" class="headerlink" title="保持动机"></a>保持动机</h4><p>保持动机也许是每个投入到有目的训练或者刻意练习中的人最终要面对的最大问题。</p>
+<h5 id="保持动机的两个组成部分"><a href="#保持动机的两个组成部分" class="headerlink" title="保持动机的两个组成部分"></a>保持动机的两个组成部分</h5><ul>
+<li>继续前行的理由</li>
+<li>停下脚步的理由</li>
+</ul>
+<h5 id="弱化停下脚步的理由"><a href="#弱化停下脚步的理由" class="headerlink" title="弱化停下脚步的理由"></a>弱化停下脚步的理由</h5><h5 id="增强继续前行的倾向"><a href="#增强继续前行的倾向" class="headerlink" title="增强继续前行的倾向"></a>增强继续前行的倾向</h5><p>这种方法几乎可以在所有的领域或行业中使用：将对同一件事情感兴趣的所有人聚集起来，或者吸引他们加入一个现有的团体，并且将团体的同志情谊和共同的目标作为达到你自己目标的额外动机。</p>
+<h5 id="精心设置目标"><a href="#精心设置目标" class="headerlink" title="精心设置目标"></a>精心设置目标</h5><p>最好的建议是精心设置目标，以便你能持续不断地看到进步的实质性信号，尽管并不会总是出现重大的进步。将漫长的旅程分解成一系列可控的目标，并且每次只关注它们中的一个，甚至可以在每次达到一个目标时，给自己小小的奖励。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Reading-Notes/">Reading Notes</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/fa93016d/" data-title="《刻意练习》读书笔记 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/51926d91/" title="Leetcode 中子集和问题及其解法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Leetcode 中子集和问题及其解法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/3128c36f/"  title="在DigitalOcean上安装kubernetes cluster">
+ <strong>下一篇：</strong><br/> 
+ <span>在DigitalOcean上安装kubernetes cluster
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E7%9B%AE%E7%9A%84%E7%9A%84%E7%BB%83%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">有目的的练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E7%9B%AE%E7%9A%84%E7%9A%84%E7%BB%83%E4%B9%A0%E7%9A%84%E5%9B%9B%E4%B8%AA%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">有目的的练习的四个特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%93%B6%E9%A2%88%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">1.2.</span> <span class="toc-text">遇到瓶颈该怎么办</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%83%E7%90%86%E8%A1%A8%E5%BE%81"><span class="toc-number">2.</span> <span class="toc-text">心理表征</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%83%E7%90%86%E8%A1%A8%E5%BE%81%E7%9A%84%E7%9B%8A%E5%A4%84"><span class="toc-number">2.1.</span> <span class="toc-text">心理表征的益处</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0-Deliberate-practice"><span class="toc-number">3.</span> <span class="toc-text">刻意练习(Deliberate practice)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">刻意练习的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E5%8E%9F%E5%88%99"><span class="toc-number">3.2.</span> <span class="toc-text">如何运用刻意练习原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E7%94%9F%E6%B4%BB%E4%B8%AD%E8%BF%90%E7%94%A8%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E5%8E%9F%E5%88%99"><span class="toc-number">3.3.</span> <span class="toc-text">在生活中运用刻意练习原则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E6%89%BE%E4%BD%8D%E5%A5%BD%E5%AF%BC%E5%B8%88"><span class="toc-number">3.3.1.</span> <span class="toc-text">首先找位好导师</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%89%BE%E4%B8%80%E4%BD%8D%E5%A5%BD%E5%AF%BC%E5%B8%88"><span class="toc-number">3.3.1.1.</span> <span class="toc-text">如何找一位好导师</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%93%E6%B3%A8%E5%92%8C%E6%8A%95%E5%85%A5%E8%87%B3%E5%85%B3%E9%87%8D%E8%A6%81"><span class="toc-number">3.3.2.</span> <span class="toc-text">专注和投入至关重要</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8D%E4%B8%93%E6%B3%A8%EF%BC%8C%E7%BB%83%E4%B9%A0%E6%B2%A1%E6%95%88%E6%9E%9C"><span class="toc-number">3.3.2.1.</span> <span class="toc-text">不专注，练习没效果</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E7%9F%AD%E7%9A%84%E7%BB%83%E4%B9%A0%EF%BC%8C%E6%9B%B4%E5%A5%BD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B"><span class="toc-number">3.3.2.2.</span> <span class="toc-text">更短的练习，更好的注意力</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E5%AF%BC%E5%B8%88%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">3.3.3.</span> <span class="toc-text">没有导师怎么办</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E7%BB%83%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-number">3.3.3.1.</span> <span class="toc-text">自己设计练习方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E2%80%9C%E4%B8%89%E4%B8%AAF%E2%80%9D%E5%88%9B%E5%BB%BA%E6%9C%89%E6%95%88%E7%9A%84%E5%BF%83%E7%90%86%E8%A1%A8%E5%BE%81"><span class="toc-number">3.3.3.2.</span> <span class="toc-text">用“三个F”创建有效的心理表征</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%A8%E8%B6%8A%E5%81%9C%E6%BB%9E%E9%98%B6%E6%AE%B5"><span class="toc-number">3.3.4.</span> <span class="toc-text">跨越停滞阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A5%E6%96%B0%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8C%91%E6%88%98%E8%87%AA%E5%B7%B1"><span class="toc-number">3.3.4.1.</span> <span class="toc-text">以新的方式挑战自己</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%94%BB%E5%85%8B%E7%89%B9%E5%AE%9A%E7%9A%84%E5%BC%B1%E7%82%B9"><span class="toc-number">3.3.4.2.</span> <span class="toc-text">攻克特定的弱点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E5%8A%A8%E6%9C%BA"><span class="toc-number">3.3.5.</span> <span class="toc-text">保持动机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E5%8A%A8%E6%9C%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">3.3.5.1.</span> <span class="toc-text">保持动机的两个组成部分</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%B1%E5%8C%96%E5%81%9C%E4%B8%8B%E8%84%9A%E6%AD%A5%E7%9A%84%E7%90%86%E7%94%B1"><span class="toc-number">3.3.5.2.</span> <span class="toc-text">弱化停下脚步的理由</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A2%9E%E5%BC%BA%E7%BB%A7%E7%BB%AD%E5%89%8D%E8%A1%8C%E7%9A%84%E5%80%BE%E5%90%91"><span class="toc-number">3.3.5.3.</span> <span class="toc-text">增强继续前行的倾向</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B2%BE%E5%BF%83%E8%AE%BE%E7%BD%AE%E7%9B%AE%E6%A0%87"><span class="toc-number">3.3.5.4.</span> <span class="toc-text">精心设置目标</span></a></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

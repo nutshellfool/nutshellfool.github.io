@@ -1,0 +1,901 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>常用集合类数据结构使用小结 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Data structure,Collections,List,LinkedList,Queue,Stack,PriorityQueue,Set,TreeSet,HashSet,Map,HashMap,TreeMap,LinkedHashMap">
+    
+    <meta name="description" content="集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。 集合的分类列表列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。如， 按照可动态变长和不能动态变长分为：  array (Java) &#x2F; tuple (Python) ArrayList (Java) &#x2F; Li">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用集合类数据结构使用小结">
+<meta property="og:url" content="https://blogs.lirui.me/posts/3e55e448/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。 集合的分类列表列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。如， 按照可动态变长和不能动态变长分为：  array (Java) &#x2F; tuple (Python) ArrayList (Java) &#x2F; Li">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-05-22T10:31:32.000Z">
+<meta property="article:modified_time" content="2020-02-05T07:21:29.945Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/3e55e448/" title="常用集合类数据结构使用小结" itemprop="url">常用集合类数据结构使用小结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-22T10:31:32.000Z" itemprop="datePublished"> 发表于 2017-05-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">集合的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">列表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList"><span class="toc-number">1.1.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedList"><span class="toc-number">1.1.2.</span> <span class="toc-text">LinkedList</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">1.2.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.3.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">优先队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88set%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">集合（set）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hashset"><span class="toc-number">1.5.1.</span> <span class="toc-text">hashset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#treeset"><span class="toc-number">1.5.2.</span> <span class="toc-text">treeset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#linkedHashSet"><span class="toc-number">1.5.3.</span> <span class="toc-text">linkedHashSet</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E5%85%B8%EF%BC%88map%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">字典（map）</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>集合、容器应该是每个工程师打交道高频的几个包中的top3，尤其是在不同语言间进行切换时时长会把集合类用错，为了避免这种尴尬，想了想还是把不同语言下的集合对应关系罗列一下。</p>
+<h2 id="集合的分类"><a href="#集合的分类" class="headerlink" title="集合的分类"></a>集合的分类</h2><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>列表应该是使用频率很高的一部分，所以对这部分的集合分类标准也有很多。<br>如， 按照可动态变长和不能动态变长分为：</p>
+<ul>
+<li>array (Java) / tuple (Python)</li>
+<li>ArrayList (Java) / List (Python)</li>
+</ul>
+<p>还有一种分法是按照List使用特点区分：</p>
+<ul>
+<li>访问快，插入、删除慢 – ArrayList</li>
+<li>插入、删除快，  访问慢 – LinkedList</li>
+</ul>
+<h4 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h4><p>或者换一个角度说，使用场景是 <strong>访问操作多，而添加、删除的修改操作少</strong>。<br>具体来说：</p>
+<table>
+<thead>
+<tr>
+<th align="center">操作</th>
+<th align="center">复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">访问元素</td>
+<td align="center">$O(1)$</td>
+</tr>
+<tr>
+<td align="center">添加、删除元素</td>
+<td align="center">$O(n)$</td>
+</tr>
+</tbody></table>
+<p>具体的不同的语言有：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>ArrayList</td>
+<td>ArrayList<Node> list = new ArrayList<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>list</td>
+<td>list = []</td>
+</tr>
+</tbody></table>
+<h4 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h4><p>使用场景 <strong>添加、删除的修改操作多，而访问操作少</strong><br>具体来说：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>访问元素</td>
+<td>$O(n)$</td>
+</tr>
+<tr>
+<td>添加、删除元素</td>
+<td>$O(1)$</td>
+</tr>
+</tbody></table>
+<p>具体到不同的语言有：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>LinkedList</td>
+<td>LinkedList<Node> list = new LinkedList<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>deque</td>
+<td>import collections list = deque()</td>
+</tr>
+</tbody></table>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>众所周知的抽象数据结构，特点：后入先出（LIFO）<br>具体来说：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>push</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>pop</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>peek</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>isEmpty</td>
+<td>$O(1)$</td>
+</tr>
+</tbody></table>
+<p>具体到不同的语言有：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>Stack</td>
+<td>Stack<Node> list = new Stack<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>list</td>
+<td>list = []</td>
+</tr>
+<tr>
+<td>这里Python将list用做了栈，对应的：</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>push操作是使用<code>append()</code>方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pop操作是使用<code>pop()</code>方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peek可以使用 <code>return list[-1]</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isEmpty可以判断对象是否为None或者长度为0</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>与栈对立的抽象数据结构，特点： 先入先出（FIFO）<br>具体来说：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>poll</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>peek</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>isEmpty</td>
+<td>$O(1)$</td>
+</tr>
+</tbody></table>
+<p>具体到不同的语言有：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>LinkedList</td>
+<td>LinkedList<Node> list = new LinkedList<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>deque</td>
+<td>import collections list = deque()</td>
+</tr>
+</tbody></table>
+<p>这里Python将list用成了队列，特别的这里的list是双端队列deque，对应的操作是：<br>add –&gt; <code>list.append()</code><br>poll –&gt; <code>list.popleft()</code><br>peek –&gt; <code>list[1]</code><br>isEmpty可以判断对象是否为None或者长度为0</p>
+<h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>牛逼闪闪的集合类，按照估价函数自定义先出。<br>由于优先队列有多种实现方式，我们这里讨论最常见的堆实现。<br>具体来说：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add</td>
+<td>$O(log^n)$</td>
+</tr>
+<tr>
+<td>poll</td>
+<td>$O(log^n)$</td>
+</tr>
+<tr>
+<td>peek</td>
+<td>$O(1)$</td>
+</tr>
+</tbody></table>
+<p>具体到不同的语言有：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>PriorityQueue</td>
+<td>PriorityQueue<Node> pqueue = new PriorityQueue<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>PriorityQueue</td>
+<td>import collections pqueue = PriorityQueue()</td>
+</tr>
+</tbody></table>
+<p>Python下使用collections模块下的 PriorityQueue 来实现优先队列，当然也可以使用heapq来实现。<br>Python使用PriorityQueue来实现优先队列的话：<br>add –&gt; <code>pqueue.put()</code><br>poll –&gt; <code>pqueue.get()</code></p>
+<p>具体的实现<a href="https://blogs.lirui.me/posts/602ee0a8/#Java%E4%B8%8EPython%E4%B8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0">参见这里</a></p>
+<h3 id="集合（set）"><a href="#集合（set）" class="headerlink" title="集合（set）"></a>集合（set）</h3><p>众所周知的抽象数据结构，key型容器，原生set不允许重复的key。<br>按照操作的复杂度和是否需要保证顺序将set区分为</p>
+<h4 id="hashset"><a href="#hashset" class="headerlink" title="hashset"></a>hashset</h4><p>基本操作（查找、添加、删除元素）性能超群 $O(1)$<br>具体的的</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>contains</td>
+<td>$O(1)$</td>
+</tr>
+</tbody></table>
+<p>具体到不同的语言有：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>HashSet</td>
+<td>HashSet<Node> set = new HashSet<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>set</td>
+<td>set = set()</td>
+</tr>
+</tbody></table>
+<p>我去，性能牛逼完了，你会问：这么牛逼的set还要treeset干啥？<br>你这么说treeset会生气的，你让hashset按插入的顺序输出下试试？  </p>
+<p>是的， 如果要支持顺序的话还是要看treeset</p>
+<h4 id="treeset"><a href="#treeset" class="headerlink" title="treeset"></a>treeset</h4><p>虽然在性能上有所妥协，但是支持Order<br>具体说来，性能是这样的：  </p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add</td>
+<td>$O(log^n)$</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>$O(log^n)$</td>
+</tr>
+<tr>
+<td>contains</td>
+<td>$O(log^n)$</td>
+</tr>
+</tbody></table>
+<p>性能上从$O(1)$到$log^n$还是很大的退步的，有没有更好的选择呢？<br>其实有linkedHashSet</p>
+<h4 id="linkedHashSet"><a href="#linkedHashSet" class="headerlink" title="linkedHashSet"></a>linkedHashSet</h4><p>拥有$O(1)$的操作效率，而且支持顺序。</p>
+<p>具体到不同的语言有：  </p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>类、模块</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>linkedHashSet</td>
+<td>LinkedHashSet<Node> set = new LinkedHashSet<Node>();</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>OrderedDict</td>
+<td>import collections set = OrderedDict()</td>
+</tr>
+</tbody></table>
+<p>这里Python使用了K-V类型的Dict作为set的内部实现，其实想想，set就是一种特殊的Dict，去看看JDK的HashSet和LinkedHashSet就知道了。<br>附Sun JDK HashSet部分代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a new, empty set; the backing &lt;tt&gt;HashMap&lt;/tt&gt; instance has</span></span><br><span class="line"><span class="comment"> * default initial capacity (16) and load factor (0.75).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns &lt;tt&gt;true&lt;/tt&gt; if this set contains the specified element.</span></span><br><span class="line"><span class="comment"> * More formally, returns &lt;tt&gt;true&lt;/tt&gt; if and only if this set</span></span><br><span class="line"><span class="comment"> * contains an element &lt;tt&gt;e&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o element whose presence in this set is to be tested</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set contains the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.containsKey(o);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Adds the specified element to this set if it is not already present.</span></span><br><span class="line"><span class="comment"> * More formally, adds the specified element &lt;tt&gt;e&lt;/tt&gt; to this set if</span></span><br><span class="line"><span class="comment"> * this set contains no element &lt;tt&gt;e2&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(e==null&amp;nbsp;?&amp;nbsp;e2==null&amp;nbsp;:&amp;nbsp;e.equals(e2))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> * If this set already contains the element, the call leaves the set</span></span><br><span class="line"><span class="comment"> * unchanged and returns &lt;tt&gt;false&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be added to this set</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set did not already contain the specified</span></span><br><span class="line"><span class="comment"> * element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Removes the specified element from this set if it is present.</span></span><br><span class="line"><span class="comment"> * More formally, removes an element &lt;tt&gt;e&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;,</span></span><br><span class="line"><span class="comment"> * if this set contains such an element.  Returns &lt;tt&gt;true&lt;/tt&gt; if</span></span><br><span class="line"><span class="comment"> * this set contained the element (or equivalently, if this set</span></span><br><span class="line"><span class="comment"> * changed as a result of the call).  (This set will not contain the</span></span><br><span class="line"><span class="comment"> * element once the call returns.)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o object to be removed from this set, if present</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if the set contained the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.remove(o)==PRESENT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典（map）"><a href="#字典（map）" class="headerlink" title="字典（map）"></a>字典（map）</h3><p>Key-Value型容器，原生字典类型不支持重复的key。<br>因为map是set的更一般情况，所以自然地<br>类似Set，有下面这三种map：  </p>
+<ul>
+<li>HashMap</li>
+<li>TreeMap</li>
+<li>LinkedHashMap</li>
+</ul>
+<p>对应的操作性能参照set系列<br>Python下的对照可以这样参照：</p>
+<p>HashMap –&gt; dict (<code>&#123;&#39;key&#39;:&#39;value&#39;&#125;</code>)<br>TreeMap, LinkedHashMap –&gt; <code>OrderedDict()</code></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/3e55e448/" data-title="常用集合类数据结构使用小结 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/cac2d233/" title="Dockerfile 书写方法（cookbook）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Dockerfile 书写方法（cookbook）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/d8211bcf/"  title="也谈移动端（iOS、Android）内存管理">
+ <strong>下一篇：</strong><br/> 
+ <span>也谈移动端（iOS、Android）内存管理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">集合的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">列表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList"><span class="toc-number">1.1.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedList"><span class="toc-number">1.1.2.</span> <span class="toc-text">LinkedList</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">1.2.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.3.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">优先队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88set%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">集合（set）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hashset"><span class="toc-number">1.5.1.</span> <span class="toc-text">hashset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#treeset"><span class="toc-number">1.5.2.</span> <span class="toc-text">treeset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#linkedHashSet"><span class="toc-number">1.5.3.</span> <span class="toc-text">linkedHashSet</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E5%85%B8%EF%BC%88map%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">字典（map）</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

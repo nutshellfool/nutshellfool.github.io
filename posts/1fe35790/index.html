@@ -1,0 +1,630 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>CI/CD - Python Django 项目在 Jenkins 上的实践 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Jenkins docker,Python,Django,Django REST Framework,django-jenkins,CI/CD,飞书 Jenkins CI机器人">
+    
+    <meta name="description" content="准备工作Jenkins这里的Jenkins由于需要集成Python环境，安装Jenkins的方式有很多种，鉴于Devops和docker的流行，我选择在docker的安装方式。如果不考虑Python的特殊需求（如 Python3），可以直接使用Jenkins（注意不是docker官方镜像jenkins - Docker Official Images , docker 官方的镜像版本较老，不建议使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CI&#x2F;CD - Python Django 项目在 Jenkins 上的实践">
+<meta property="og:url" content="https://blogs.lirui.me/posts/1fe35790/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="准备工作Jenkins这里的Jenkins由于需要集成Python环境，安装Jenkins的方式有很多种，鉴于Devops和docker的流行，我选择在docker的安装方式。如果不考虑Python的特殊需求（如 Python3），可以直接使用Jenkins（注意不是docker官方镜像jenkins - Docker Official Images , docker 官方的镜像版本较老，不建议使">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-29T10:46:43.000Z">
+<meta property="article:modified_time" content="2020-11-15T11:35:58.046Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/1fe35790/" title="CI/CD - Python Django 项目在 Jenkins 上的实践" itemprop="url">CI/CD - Python Django 项目在 Jenkins 上的实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-12-29T10:46:43.000Z" itemprop="datePublished"> 发表于 2019-12-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jenkins"><span class="toc-number">1.1.</span> <span class="toc-text">Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Django-%E5%B7%A5%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">Django 工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Django-Jenkins%E6%8F%92%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">Django-Jenkins插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E9%9C%80%E8%A6%81%E5%85%B7%E5%A4%87%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">工程需要具备的条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Jenkins-%E8%AE%A9%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95Freestyle-%E6%B5%81%E7%A8%8B%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="toc-number">3.</span> <span class="toc-text">配置 Jenkins 让一个简单Freestyle 流程跑起来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-Jenkins-Freestyle%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">创建 Jenkins Freestyle工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Source-Code-Management"><span class="toc-number">3.2.</span> <span class="toc-text">配置 Source Code Management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-build-step"><span class="toc-number">3.3.</span> <span class="toc-text">配置 build step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Build-Triggers"><span class="toc-number">3.4.</span> <span class="toc-text">配置 Build Triggers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%A6%E4%B8%8A%E6%B7%BB%E8%8A%B1%E7%9A%84%E9%85%8D%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">锦上添花的配件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#POST-build-%E5%90%8E%E7%9A%84%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">POST build 后的通知插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%98%E5%8F%AF%E4%BB%A5%E5%81%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B"><span class="toc-number">5.</span> <span class="toc-text">还可以做的一些事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%9B%B4%E5%A4%9A%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">5.1.</span> <span class="toc-text">测试更多的部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0"><span class="toc-number">5.2.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Jekins-on-docker%EF%BC%882020%E5%B9%B49%E6%9C%8830%E6%97%A5%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">Jekins on docker（2020年9月30日）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85Jenkins"><span class="toc-number">5.2.1.1.</span> <span class="toc-text">使用docker安装Jenkins</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h3><p>这里的Jenkins由于需要集成Python环境，安装Jenkins的方式有很多种，鉴于Devops和docker的流行，我选择在docker的安装方式。<br>如果不考虑Python的特殊需求（如 Python3），可以直接使用Jenkins（注意不是docker官方镜像<a target="_blank" rel="noopener" href="https://hub.docker.com/_/jenkins">jenkins - Docker Official Images</a> , docker 官方的镜像版本较老，不建议使用）提供的docker镜像进行构建 <a target="_blank" rel="noopener" href="https://hub.docker.com/r/jenkins/jenkins">Jenkins - jenkins/jenkins</a>, 官方提供的镜像中Python的版本还是停留在2.x版本，所以如果你打算使用Python3构建你的系统的话，需要在这个镜像的基础上配置Python3的环境，常见的做法就是编写Dockerfile然后基于这个镜像进行构建。<br>以下是对应的Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> jenkins/jenkins:lts-alpine</span><br><span class="line"><span class="keyword">USER</span> root</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add --no-cache python3 &amp;&amp; \</span></span><br><span class="line"><span class="bash">    python3 -m ensurepip &amp;&amp; \</span></span><br><span class="line"><span class="bash">    pip3 install --no-cache --upgrade pip setuptools virtualenv &amp;&amp; \</span></span><br><span class="line"><span class="bash">    <span class="keyword">if</span> [ ! -e /usr/bin/pip ]; <span class="keyword">then</span> ln -s pip3 /usr/bin/pip ; <span class="keyword">fi</span> &amp;&amp; \</span></span><br><span class="line"><span class="bash">    <span class="keyword">if</span> [[ ! -e /usr/bin/python ]]; <span class="keyword">then</span> ln -sf /usr/bin/python3 /usr/bin/python; <span class="keyword">fi</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add pkgconf</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add build-base</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add python3-dev</span></span><br></pre></td></tr></table></figure>
+
+<p>也可直接在dockerhub上使用这个镜像 <a target="_blank" rel="noopener" href="https://hub.docker.com/r/aibyte/jenkins_python3">dockerhub - aibyte/jenkins_python3</a></p>
+<h3 id="Django-工程"><a href="#Django-工程" class="headerlink" title="Django 工程"></a>Django 工程</h3><p>该工程主要是用于提供HTTP REST 服务，后期会考虑整合合适的前端框架用于支持一个完整的fullstack project。<br>因此对与Django工程的组成考虑是使用 <code>Django</code> + <code>Django REST Framework</code>(DRF)<br>再考虑到Django工程与Jenkins之间的整合，将<code>django-jenkins</code>集成进工程</p>
+<h3 id="Django-Jenkins插件"><a href="#Django-Jenkins插件" class="headerlink" title="Django-Jenkins插件"></a>Django-Jenkins插件</h3><p>安装配置方法请参考下面的链接：  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/kmmbvnr/django-jenkins">Github - django-jenkins</a></li>
+<li><a target="_blank" rel="noopener" href="https://sites.google.com/site/kmmbvnr/home/django-jenkins-tutorial">django-jenkins-tutorial</a></li>
+</ul>
+<p>如果以上的配置完成，那么你就可以通过<code>python manage.py jenkins</code>执行单元测试以及其他静态代码检查（例如 pylint 和 pep8）</p>
+<h2 id="工程需要具备的条件"><a href="#工程需要具备的条件" class="headerlink" title="工程需要具备的条件"></a>工程需要具备的条件</h2><p>测试，测试还是测试。<br>作为TDD的理性拥护者，坚信没有测试的代码是不可信任的。<br>当然，单元测试也是分为不同层次进行实践的，越是靠近用户操作层的测试执行起来难度越大，变化的频度也会越大，所以良好的分层设计和可测架构的设计就很重要了。<br>从Django的架构模式来看，view 层其实是controller + service 的混合实现层， model层是比较传统的业务模型。<br>因此从测试的策略来看，一般单元测试会选择从model层开始。<br>以下是一个简单典型的model单元测试 testcase:  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.test <span class="keyword">import</span> TestCase</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> DistributedApplications</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DistributedApplicationModelTestCase</span>(<span class="params">TestCase</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span>(<span class="params">self</span>):</span></span><br><span class="line">        DistributedApplications.objects.create(name=<span class="string">&#x27;SE&#x27;</span>,</span><br><span class="line">                                               description=<span class="string">&#x27;English learning&#x27;</span>)</span><br><span class="line">        DistributedApplications.objects.create(name=<span class="string">&#x27;xp&#x27;</span>,</span><br><span class="line">                                               description=<span class="string">&#x27;Market inspect&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_distribution_application_creation</span>(<span class="params">self</span>):</span></span><br><span class="line">        _dist_app_se = DistributedApplications.objects.get(name=<span class="string">&#x27;SE&#x27;</span>)</span><br><span class="line">        _dist_app_xp = DistributedApplications.objects.get(name=<span class="string">&#x27;xp&#x27;</span>)</span><br><span class="line">        self.assertIsNotNone(_dist_app_se)</span><br><span class="line">        self.assertIsNotNone(_dist_app_xp)</span><br></pre></td></tr></table></figure>
+
+<p>注意： 这里继承的是<code>django.test</code> 模块下的 <code>TestCase</code> 类（特别是在测试数据库这一层的case场景时）， 而不是直接选择 <code>unittest</code>下的 <code>TestCase</code>的原因是：<br>unittest 的测试case 避免了执行事务和刷新db的开销，但是同时它也使得这些测试case在testsuite的执行行为不可预测。  </p>
+<p><a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/3.0/topics/testing/overview/#writing-tests">djangoproject - testing</a></p>
+<h2 id="配置-Jenkins-让一个简单Freestyle-流程跑起来"><a href="#配置-Jenkins-让一个简单Freestyle-流程跑起来" class="headerlink" title="配置 Jenkins 让一个简单Freestyle 流程跑起来"></a>配置 Jenkins 让一个简单Freestyle 流程跑起来</h2><h3 id="创建-Jenkins-Freestyle工程"><a href="#创建-Jenkins-Freestyle工程" class="headerlink" title="创建 Jenkins Freestyle工程"></a>创建 Jenkins Freestyle工程</h3><h3 id="配置-Source-Code-Management"><a href="#配置-Source-Code-Management" class="headerlink" title="配置 Source Code Management"></a>配置 Source Code Management</h3><p>这里我选择的是Github作为源代码的管理工具，可以选择使用ssh key的方式来与Github进行checkout源代码操作，详细的操作请参考 <a target="_blank" rel="noopener" href="https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh">Connecting to GitHub with SSH</a></p>
+<h3 id="配置-build-step"><a href="#配置-build-step" class="headerlink" title="配置 build step"></a>配置 build step</h3><p>选择 <code>Add build step</code> -&gt; <code>Execute shell</code></p>
+<p>在Command中填写：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/virtualenv --python=python3.6 env</span><br><span class="line"><span class="built_in">source</span> env/bin/activate</span><br><span class="line">env/bin/pip install -r requirements.txt</span><br><span class="line">env/bin/python manage.py makemigrations</span><br><span class="line">env/bin/python manage.py migrate</span><br><span class="line">env/bin/python manage.py jenkins</span><br></pre></td></tr></table></figure>
+
+<p>保存(Save)并应用(Apply)  </p>
+<p>到了这一步如果没有什么配置问题其实就可以触发一个在Jenkins上的构建了，可以在Job下点击<code>Build Now</code>然后查看构建结果。  </p>
+<h3 id="配置-Build-Triggers"><a href="#配置-Build-Triggers" class="headerlink" title="配置 Build Triggers"></a>配置 Build Triggers</h3><p>这里考虑两种构建：  </p>
+<ul>
+<li>Daily build</li>
+</ul>
+<p>这种构建是每天在固定的时间段执行的构建行为，主要是定期检查和维护项目可构建及健康度的一种构建行为。  </p>
+<p>这里我选择的构建配置是在每天凌晨1点进行，配置如下：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TZ=Asia/Shanghai</span><br><span class="line"><span class="comment"># This job needs to be run in the midnight 1:00, BJS time</span></span><br><span class="line">H 1 * * *</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Git commit build</li>
+</ul>
+<p>这种构建是在每次的Git push 后触发一次构建，是常见的构建策略。<br>为了实现这个构建配置，需要在对应的Github工程中配置 Webhook。<br>Github 配置位置：项目 settings -&gt; Webhooks<br>在填写payload URL时，如果你没有自定义Jenkins的Github webhook，那么这个配置会是<code>http://&lt;your-jenkins-domain&gt;/github-webhook/</code><br>当然，你也可以在你的Jenkins系统配置中查看，具体位置是：<br>Manage Jenkins -&gt; Configure System -&gt; Github -&gt; Advanced -&gt; Override Hook URL</p>
+<h2 id="锦上添花的配件"><a href="#锦上添花的配件" class="headerlink" title="锦上添花的配件"></a>锦上添花的配件</h2><h3 id="POST-build-后的通知插件"><a href="#POST-build-后的通知插件" class="headerlink" title="POST build 后的通知插件"></a>POST build 后的通知插件</h3><p>如果不想使用老套的邮件进行通知，完全可以使用类似 Slack <a target="_blank" rel="noopener" href="https://plugins.jenkins.io/slack/">Slack-Notification</a>, 和 lark <a target="_blank" rel="noopener" href="https://getfeishu.cn/hc/zh-cn/articles/360036211973">Jenkins CI机器人</a>的方式进行通知。</p>
+<h2 id="还可以做的一些事"><a href="#还可以做的一些事" class="headerlink" title="还可以做的一些事"></a>还可以做的一些事</h2><h3 id="测试更多的部分"><a href="#测试更多的部分" class="headerlink" title="测试更多的部分"></a>测试更多的部分</h3><ul>
+<li><p>Mocked Client 测试</p>
+<ul>
+<li>Response 测试</li>
+</ul>
+</li>
+<li><p>Headless browser 测试（selenium）</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/3.0/topics/testing/tools/">djangoproject - testing tools</a></p>
+<ul>
+<li>其他测试话题<ul>
+<li>测试多DB<a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/3.0/topics/testing/advanced/#tests-and-multiple-databases">djangoproject - tests-and-multiple-databases</a></li>
+<li>如何组织编写testrunner支持可复用组件的测试<a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/3.0/topics/testing/advanced/#using-the-django-test-runner-to-test-reusable-applications">djangoproject - Using the Django test runner to test reusable applications</a></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/3.0/topics/testing/advanced/">djangoproject - Advanced testing topics</a></p>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><h4 id="Jekins-on-docker（2020年9月30日）"><a href="#Jekins-on-docker（2020年9月30日）" class="headerlink" title="Jekins on docker（2020年9月30日）"></a>Jekins on docker（2020年9月30日）</h4><p>以上的Jenkins on docker的安装方式相对比较传统，配合Jenkins流水线（pipline）可以使用在docker中运行docker实现持续交付的CI/CD系统。  </p>
+<h5 id="使用docker安装Jenkins"><a href="#使用docker安装Jenkins" class="headerlink" title="使用docker安装Jenkins"></a>使用docker安装Jenkins</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo docker network create jenkins</span><br><span class="line">sudo docker volume create jenkins-docker-certs</span><br><span class="line">sudo docker volume create jenkins-data</span><br><span class="line"></span><br><span class="line">sudo docker container run --name jenkins-docker \</span><br><span class="line">--detach   --privileged \</span><br><span class="line">--network jenkins --network-alias docker  \</span><br><span class="line">--env DOCKER_TLS_CERTDIR=/certs   \</span><br><span class="line">--volume jenkins-docker-certs:/certs/client   \</span><br><span class="line">--volume jenkins-data:/var/jenkins_home   \</span><br><span class="line">--volume <span class="string">&quot;<span class="variable">$HOME</span>&quot;</span>:/home docker:dind</span><br><span class="line"></span><br><span class="line">sudo docker container run --name jenkins-ci \</span><br><span class="line">--detach  --network jenkins \</span><br><span class="line">--env DOCKER_HOST=tcp://docker:2376 \</span><br><span class="line">--env DOCKER_CERT_PATH=/certs/client \</span><br><span class="line">--env DOCKER_TLS_VERIFY=1  \</span><br><span class="line">--volume jenkins-data:/var/jenkins_home   \</span><br><span class="line">--volume jenkins-docker-certs:/certs/client:ro   \</span><br><span class="line">--volume <span class="string">&quot;<span class="variable">$HOME</span>&quot;</span>:/home  \</span><br><span class="line">--publish 8080:8080 jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+
+<p>详细说明参见 <a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker">官方文档</a></p>
+<p>使用pipeline 进行CI/CD 可以参考以下官方文档：  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/">Build a Java app with Maven</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/">Build a Python app with PyInstaller</a></li>
+</ul>
+<p>设置docker应用随系统重启后自动启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo docker update --restart unless-stopped jenkins-docker</span><br><span class="line">sudo docker update --restart unless-stopped jenkins-ci</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.edureka.co/community/49753/auto-build-job-jenkins-there-change-code-github-repository">How to auto build a job in jenkins if there is any change in code on Github repository?</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jenkinsci/github-plugin">Jenkins Github plugin</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/config/containers/start-containers-automatically/">Start containers automatically</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/1fe35790/" data-title="CI/CD - Python Django 项目在 Jenkins 上的实践 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/afc2fadd/" title="系统设计常见组件 - 并发锁、分布式锁与无锁编程">
+  <strong>上一篇：</strong><br/>
+  <span>
+  系统设计常见组件 - 并发锁、分布式锁与无锁编程</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/a2ce2dc3/"  title="在 macOS 上安装 kubernates 备忘录">
+ <strong>下一篇：</strong><br/> 
+ <span>在 macOS 上安装 kubernates 备忘录
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jenkins"><span class="toc-number">1.1.</span> <span class="toc-text">Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Django-%E5%B7%A5%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">Django 工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Django-Jenkins%E6%8F%92%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">Django-Jenkins插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E9%9C%80%E8%A6%81%E5%85%B7%E5%A4%87%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">工程需要具备的条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Jenkins-%E8%AE%A9%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95Freestyle-%E6%B5%81%E7%A8%8B%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="toc-number">3.</span> <span class="toc-text">配置 Jenkins 让一个简单Freestyle 流程跑起来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-Jenkins-Freestyle%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">创建 Jenkins Freestyle工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Source-Code-Management"><span class="toc-number">3.2.</span> <span class="toc-text">配置 Source Code Management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-build-step"><span class="toc-number">3.3.</span> <span class="toc-text">配置 build step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Build-Triggers"><span class="toc-number">3.4.</span> <span class="toc-text">配置 Build Triggers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%A6%E4%B8%8A%E6%B7%BB%E8%8A%B1%E7%9A%84%E9%85%8D%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">锦上添花的配件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#POST-build-%E5%90%8E%E7%9A%84%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">POST build 后的通知插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%98%E5%8F%AF%E4%BB%A5%E5%81%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B"><span class="toc-number">5.</span> <span class="toc-text">还可以做的一些事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%9B%B4%E5%A4%9A%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">5.1.</span> <span class="toc-text">测试更多的部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0"><span class="toc-number">5.2.</span> <span class="toc-text">更新</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Jekins-on-docker%EF%BC%882020%E5%B9%B49%E6%9C%8830%E6%97%A5%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">Jekins on docker（2020年9月30日）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85Jenkins"><span class="toc-number">5.2.1.1.</span> <span class="toc-text">使用docker安装Jenkins</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

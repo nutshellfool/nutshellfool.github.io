@@ -1,0 +1,696 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>动态规划（Dynamic Programming）问题及其求解 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Dynamic Programming,Fibonacci,Climbing Stairs,Coin Change,Triangle,Longest Increasing Subsequence,Maximum Product Subarray,Best Time to Buy and Sell Stock,Edit Distance,动态规划,斐波那契数列,爬楼梯问题,换硬币问题,最长递增子序列问题">
+    
+    <meta name="description" content="动态规划(Dynamic Programming 简称 DP)是一类优化问题的总称，单从名称上来看，其实这里的programming并不是程序编程的意思，至于为什么要叫这个名字，只能说是算法界的一个历史原因，详情请查看Why is dynamic programming called dynamic programming?。   什么样的问题适合用DP来解决DP的确是和一般算法和递归问题有特殊的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划（Dynamic Programming）问题及其求解">
+<meta property="og:url" content="https://blogs.lirui.me/posts/71b19194/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="动态规划(Dynamic Programming 简称 DP)是一类优化问题的总称，单从名称上来看，其实这里的programming并不是程序编程的意思，至于为什么要叫这个名字，只能说是算法界的一个历史原因，详情请查看Why is dynamic programming called dynamic programming?。   什么样的问题适合用DP来解决DP的确是和一般算法和递归问题有特殊的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-03T09:00:39.000Z">
+<meta property="article:modified_time" content="2020-05-04T02:46:45.588Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/71b19194/" title="动态规划（Dynamic Programming）问题及其求解" itemprop="url">动态规划（Dynamic Programming）问题及其求解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-04-03T09:00:39.000Z" itemprop="datePublished"> 发表于 2019-04-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E9%97%AE%E9%A2%98%E9%80%82%E5%90%88%E7%94%A8DP%E6%9D%A5%E8%A7%A3%E5%86%B3"><span class="toc-number">1.</span> <span class="toc-text">什么样的问题适合用DP来解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8DP%E6%9D%A5%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-number">2.</span> <span class="toc-text">使用DP来解决问题的特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DP%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83%E5%92%8C%E8%A7%A3%E5%86%B3%E7%9A%84%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">DP问题思考和解决的过程是怎样的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DP%E9%97%AE%E9%A2%98%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%A8%A1%E7%89%88%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text">DP问题的程序模版是怎样的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E9%80%82%E5%90%88DP%E7%9A%84%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">一些适合DP的经典问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fibonacci-%E6%95%B0%E5%88%97"><span class="toc-number">5.1.</span> <span class="toc-text">Fibonacci 数列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E6%A5%BC%E6%A2%AF%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">爬楼梯问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%A2%E7%A1%AC%E5%B8%81"><span class="toc-number">7.</span> <span class="toc-text">换硬币</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E5%BD%A2%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C"><span class="toc-number">8.</span> <span class="toc-text">三角形最小路径和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%98%E7%A7%AF%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%88%97"><span class="toc-number">9.</span> <span class="toc-text">乘积最大子序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98%EF%BC%88Longest-Increasing-Subsequence%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">最长递增子序列问题（Longest Increasing Subsequence）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%EF%BC%88Edit-Distance-Levinstein-Distance%EF%BC%89"><span class="toc-number">11.</span> <span class="toc-text">编辑距离（Edit Distance&#x2F;Levinstein Distance）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%B0%E8%82%A1%E7%A5%A8%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98"><span class="toc-number">12.</span> <span class="toc-text">买股票系列问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E4%B9%B0%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E9%97%AE%E9%A2%98"><span class="toc-number">12.1.</span> <span class="toc-text">最简单的买股票时机问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E4%B8%80%E8%82%A1%E7%A5%A8%E5%8F%AF%E4%BB%A5%E4%BA%A4%E6%98%93%E6%97%A0%E6%95%B0%E6%AC%A1%EF%BC%88%E4%B9%B0%E4%B9%8B%E5%89%8D%E9%9C%80%E8%A6%81%E5%B0%86%E4%B9%8B%E5%89%8D%E4%B9%B0%E8%BF%9B%E7%9A%84%E8%82%A1%E7%A5%A8%E5%8D%96%E5%87%BA%EF%BC%89"><span class="toc-number">12.2.</span> <span class="toc-text">同一股票可以交易无数次（买之前需要将之前买进的股票卖出）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E4%B8%A4%E6%AC%A1%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E6%8B%A5%E6%9C%89%E4%B8%A4%E5%8F%AA%E8%82%A1%E7%A5%A8"><span class="toc-number">12.3.</span> <span class="toc-text">交易两次，不能同时拥有两只股票</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93K%E7%AC%94%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E6%8B%A5%E6%9C%89%E4%B8%A4%E5%8F%AA%E8%82%A1%E7%A5%A8"><span class="toc-number">12.4.</span> <span class="toc-text">交易K笔，不能同时拥有两只股票</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E6%9C%89%E5%86%BB%E7%BB%93%E6%9C%9F"><span class="toc-number">12.5.</span> <span class="toc-text">交易有冻结期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E6%9C%89%E6%89%8B%E7%BB%AD%E8%B4%B9"><span class="toc-number">12.6.</span> <span class="toc-text">交易有手续费</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>动态规划(Dynamic Programming 简称 DP)是一类优化问题的总称，单从名称上来看，其实这里的programming并不是程序编程的意思，至于为什么要叫这个名字，只能说是算法界的一个历史原因，详情请查看<a target="_blank" rel="noopener" href="https://www.quora.com/Why-is-dynamic-programming-called-dynamic-programming">Why is dynamic programming called dynamic programming?</a>。  </p>
+<h2 id="什么样的问题适合用DP来解决"><a href="#什么样的问题适合用DP来解决" class="headerlink" title="什么样的问题适合用DP来解决"></a>什么样的问题适合用DP来解决</h2><p>DP的确是和一般算法和递归问题有特殊的特征，因此需要拿当前的问题和DP的问题解法套用。<br>解决DP问题的关键是定义合适的状态，如果定义正确的状态那么DP问题就解决了一半。</p>
+<h2 id="使用DP来解决问题的特征"><a href="#使用DP来解决问题的特征" class="headerlink" title="使用DP来解决问题的特征"></a>使用DP来解决问题的特征</h2><p>能使用DP解决的问题具备下面3个特征  </p>
+<ol>
+<li>最优子结构：如果最优解的所有子问题的解也是最优的，那么就称这个问题具有最优子结构。  </li>
+<li>无后效性：也就是后面的状态一旦确定就不会影响之前决策过的状态。  </li>
+<li>有重复子问题：分拆的子问题之间不独立。  </li>
+</ol>
+<p>更多详细内容参照<a target="_blank" rel="noopener" href="http://www.cnblogs.com/steven_oyj/archive/2010/05/22/1741374.html">这里</a>  </p>
+<h2 id="DP问题思考和解决的过程是怎样的"><a href="#DP问题思考和解决的过程是怎样的" class="headerlink" title="DP问题思考和解决的过程是怎样的"></a>DP问题思考和解决的过程是怎样的</h2><ol>
+<li>递推</li>
+<li>状态的定义</li>
+<li>最优子结构</li>
+<li>状态转移方程（DP方程）</li>
+</ol>
+<h2 id="DP问题的程序模版是怎样的"><a href="#DP问题的程序模版是怎样的" class="headerlink" title="DP问题的程序模版是怎样的"></a>DP问题的程序模版是怎样的</h2><p>为了描述方便这里用一维DP问题为例，二维、三维问题类似：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">solveDynamicProgrammingProblem</span><span class="params">(<span class="keyword">int</span> problemSize)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 定义状态，生成DP数组</span></span><br><span class="line">    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[problemSize];</span><br><span class="line">    <span class="comment">// 根据实际情况，初始化DP数组的初始值</span></span><br><span class="line">    dp[<span class="number">0</span>] = ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里k代表DP数组初始值后的第一个整数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; problemSize; i++) &#123;</span><br><span class="line">        dp[i] = _optimizedSubStructureFunction(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dp[problemSize];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好的，现在我们有了锤子，就可以找钉子了。  </p>
+<h2 id="一些适合DP的经典问题"><a href="#一些适合DP的经典问题" class="headerlink" title="一些适合DP的经典问题"></a>一些适合DP的经典问题</h2><ul>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/fibonacci-number/">Fibonacci Number</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/climbing-stairs/">Climbing Stairs</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/coin-change/">Coin Change</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/triangle/">Triangle</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-increasing-subsequence/">Longest Increasing Subsequence</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-product-subarray/">Maximum Product Subarray</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/">Best Time to Buy and Sell Stock</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">Best Time to Buy and Sell Stock II</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/">Best Time to Buy and Sell Stock III</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/">Best Time to Buy and Sell Stock IV</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/">Best Time to Buy and Sell Stock with Cooldown</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/">Best Time to Buy and Sell Stock with Transaction Fee</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://leetcode.com/problems/edit-distance/">Edit Distance</a></li>
+</ul>
+<h3 id="Fibonacci-数列"><a href="#Fibonacci-数列" class="headerlink" title="Fibonacci 数列"></a>Fibonacci 数列</h3><p>问题描述：<br><a target="_blank" rel="noopener" href="https://leetcode.com/problems/fibonacci-number/">原题传送门</a></p>
+<p>问题： 求Fibonacci数列的第n项值。<br>分析后知道由于Fibonacci数列定义的性质，我们有该问题是有递推的结构，并且状态转移方程其实就是数列的定义：$$f(n) = f(n - 1) + f(n - 2)$$</p>
+<p>下面我们就用DP的方式来解fibonacci数列问题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">3</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">long</span>[] fibArray = <span class="keyword">new</span> <span class="keyword">long</span>[n + <span class="number">1</span>];</span><br><span class="line">    fibArray[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    fibArray[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    fibArray[i] = fibArray[i - <span class="number">1</span>] + fibArray[i -<span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fibArray[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面做下复杂度分析：<br>首先是时间复杂度： DP的算法使用到了一个n-2的循环， 并且循环内部的计算结果使用了上面子问题的缓存，因此这个循环的复杂度是$O(n)$<br>其次是空间复杂度： DP的算法使用了额外的长度为n的数组因此空间复杂度为$O(n)$  </p>
+<p>这里使用了$O(n)$的额外空间，我们能否在空间上在寻找一个优化？答案是肯定的。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">long</span> first = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">long</span> second = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">long</span> third = first + second;</span><br><span class="line">    first = second;</span><br><span class="line">    second = third;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> second;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好吧， 我们现在有了时间复杂度：$O(n)$, 空间复杂度$O(1)$的算法实现，抛开动态规划这个前提，就这个问题本身来说还有其他更好的解决方案么？  答案是肯定的：  </p>
+<p>斐波那契数列其实在数学上是有一个通项公式的：<br>$$<br>f(n) = \frac{(\frac{1 + \sqrt{5}}{2})^{n} - (\frac{1 - \sqrt{5}}{2})^{n}}{\sqrt{5}}<br>$$<br>这里可以通过这个数学上的通项公式求出结果，至于算法复杂度，因为过程中使用了n次幂的数学计算，这个计算的时间复杂度会是$O(log^n)$的，所以整个的时间复杂度会是$O(log^n)$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">double</span> goldenRatio = (<span class="number">1</span> + Math.sqrt(<span class="number">5</span>)) / <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">double</span> otherRatio = (<span class="number">1</span> - Math.sqrt(<span class="number">5</span>)) / <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> Math.round((Math.pow(goldenRatio, n) - Math.pow(otherRatio, n)) / Math.sqrt(<span class="number">5</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似的问题会有简单的变种，比如爬楼梯问题</p>
+<h2 id="爬楼梯问题"><a href="#爬楼梯问题" class="headerlink" title="爬楼梯问题"></a>爬楼梯问题</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/climbing-stairs/">Climbing Stairs</a><br>这里的递推公式其实是一致的，$$f(n) = f(n - 1) + f(n - 2)$$<br>只是最开始的前3项数列值不同罢了，a[0] = 0, a[1] = 1, a[2] = 2, a[3] = 3 ……</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">double</span> goldenRatio = (<span class="number">1</span> + Math.sqrt(<span class="number">5</span>)) / <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">double</span> otherRatio = (<span class="number">1</span> - Math.sqrt(<span class="number">5</span>)) / <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> Math.round((Math.pow(goldenRatio, n + <span class="number">1</span>) - Math.pow(otherRatio, n + <span class="number">1</span>)) / Math.sqrt(<span class="number">5</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="换硬币"><a href="#换硬币" class="headerlink" title="换硬币"></a>换硬币</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/coin-change/">Coin Change</a><br>如果将目标数额换成台阶数，给定的硬币面额换成可以走的步数，那么这个问题就转化成了爬楼梯的问题。  </p>
+<p>这里我们简单验证下DP问题的特征，无后效性（当前选择的硬币方案不会对之前的选择有影响）、重复子问题（数额从 1 到 i的问题求解是同样的子问题），和最优子结构（一旦数额确定，那么换硬币最少个数也是确定的）。所以符合DP求解问题的特征。下面我们用DP来求解该问题：  </p>
+<p>状态定义： $dp[i]: 数额为i的最小硬币个数$<br>状态转移方程： $dp[i] = Min(dp[i - coins[j]]) + 1$<br>结果所在：$dp[amount]$<br>时间复杂度 $O(amount * coins.length)$</p>
+<p>对应代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (coins == <span class="keyword">null</span> || coins.length == <span class="number">0</span> || amount &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[amount + <span class="number">1</span>];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; amount + <span class="number">1</span>; i++) &#123;</span><br><span class="line">    dp[i] = amount + <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> coin : coins) &#123;</span><br><span class="line">      <span class="keyword">if</span> (coin &lt;= i) &#123;</span><br><span class="line">        dp[i] = Math.min(dp[i], dp[i - coin] + <span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dp[amount] &gt; amount ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三角形最小路径和"><a href="#三角形最小路径和" class="headerlink" title="三角形最小路径和"></a>三角形最小路径和</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/triangle/">原题传送门</a></p>
+<p>无后效性，和重复子问题是显而易见的， 对于数组的某一个点(i,j)到着一点的最小路径和也是确定的，所以最优子结构也是成立的，符合DP解决问题的特征。下面用DP来求解：  </p>
+<p>状态定义: $dp[i][j] : 从最下一层三角形到 i,j 点的最小路径和$。</p>
+<p>状态转移方程: $dp [i][j] = Min (dp[i + 1][j] , dp[i + 1][j + 1]) + array[i][j];$</p>
+<p>时间复杂度: $O(m \cdot n)$ 其中$m$,$n$代表三角形的高度和底长度</p>
+<p>对应代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; triangle)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> lineSize = triangle.size();</span><br><span class="line">  <span class="keyword">int</span> colMaxSize = triangle.get(lineSize - <span class="number">1</span>).size();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> [][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[lineSize][colMaxSize];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; colMaxSize; k++) &#123;</span><br><span class="line">    dp[lineSize - <span class="number">1</span>] [k] = triangle.get(lineSize - <span class="number">1</span>).get(k);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = lineSize - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">int</span> columnSize = triangle.get(i).size();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= columnSize - <span class="number">1</span>; j++) &#123;</span><br><span class="line">      dp[i][j] = Math.min(dp[i + <span class="number">1</span>][j], dp[i + <span class="number">1</span>][j + <span class="number">1</span>]) + triangle.get(i).get(j);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="乘积最大子序列"><a href="#乘积最大子序列" class="headerlink" title="乘积最大子序列"></a>乘积最大子序列</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-product-subarray/">原题传送门</a></p>
+<p>同样，无后效性、重复子问题是显然的，对于数组的第i个位置之前的子数组乘积最大子序列也是确定的，所以最优子结构也成立，符合DP解决问题特征。  </p>
+<p>状态定义： $dpPos[i]: 从数组下标0位置到i位置的乘积最大子序列值，dpNeg[i]从数组下标0位置到i位置的乘积负数最大子序列值$<br>状态转移方程:  </p>
+<p>$$<br>dpPos[i] = Max(dpPos[i - 1] \times nums[i], dpNeg[i - 1] \times nums[i], nums[i]) \<br>dpNeg[i] = Min(dpPos[i - 1] \times nums[i], dpNeg[i - 1] \times nums[i], nums[i])<br>$$</p>
+<p>时间复杂度: $O(n)$<br>对应代码实现：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span>[] dpPositive = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">  <span class="keyword">int</span>[] dpNegative = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">  dpNegative[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">  dpPositive[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">int</span> result = nums[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    dpPositive[i] =</span><br><span class="line">        Math.max(Math.max(dpPositive[i - <span class="number">1</span>] * nums[i], dpNegative[i - <span class="number">1</span>] * nums[i]), nums[i]);</span><br><span class="line">    dpNegative[i] =</span><br><span class="line">        Math.min(Math.min(dpPositive[i - <span class="number">1</span>] * nums[i], dpNegative[i - <span class="number">1</span>] * nums[i]), nums[i]);</span><br><span class="line">    result = Math.max(result, dpPositive[i]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最长递增子序列问题（Longest-Increasing-Subsequence）"><a href="#最长递增子序列问题（Longest-Increasing-Subsequence）" class="headerlink" title="最长递增子序列问题（Longest Increasing Subsequence）"></a>最长递增子序列问题（Longest Increasing Subsequence）</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-increasing-subsequence/#/description">原题传送门</a>  </p>
+<p>拿到题目首先审题，能想到的问题会是什么？空数组怎么办？数组内的元素会不会有相邻相等的情况？当然这些都是你需要和面试官沟通的内容。  </p>
+<p>无后效性、重复子问题是显而易见的，对于数组i位置之前的子数组的最大递增子序列也是确定的，所以最优子结构也成立，符合DP解决问题的特征。  </p>
+<p>状态定义：$dp[i] 从头到第i个元素（选中第i个元素）最长子序列的长度$<br>状态转移方程：<br>$$<br>dp[i] = Max{dp[j]} + 1 (j: 0-&gt; i -1 a[i] &lt; a[j])<br>$$<br>所求解的值：<br>$$<br>Max(dp[0], dp[1], dp[2] …dp[n])<br>$$</p>
+<p>时间复杂度： $O(n^2)$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> result = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">  <span class="keyword">int</span> length = nums.length;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    dp[i] = <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (nums[i] &gt; nums[j]) &#123;</span><br><span class="line">        dp[i] = Math.max(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    result = Math.max(result, dp[i]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本题还有一个follow up， 要求寻找时间复杂度为$O(nlog^n)$的算法， 这个算法虽然存在，但跳出了DP的解题范围， 所以暂时就留一个TODO 作为题目完整性的补充（之后再来填坑）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Algorithm with time complexity O(nlog^n)</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="编辑距离（Edit-Distance-Levinstein-Distance）"><a href="#编辑距离（Edit-Distance-Levinstein-Distance）" class="headerlink" title="编辑距离（Edit Distance/Levinstein Distance）"></a>编辑距离（Edit Distance/Levinstein Distance）</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/edit-distance/">Edit Distance</a><br>这里解决编辑距离问题有几种常见思路，比如以一个字符串为目标字符串，对另一个字符串采取BFS/DFS“编辑操作”，然后记录编辑深度，在字符相等的时候停止，在所有可能的编辑方案中找出最小编辑距离。<br>由于这里是动态规划的专题，所以下面的方案主要围绕如何使用DP来解决该问题</p>
+<p>首先是状态定义$minED(i, j)$表示word1的第i位之前的子字符串与word2的第j位之前子字符串的最小编辑距离<br>其中 $i = 0, 1 … len(word1); j = 0, 1…len(word2)$</p>
+<p>状态转移方程：  </p>
+<p>$$<br>minED(i,j) =<br>\begin{cases}<br>minED(i - 1, j - 1),  &amp; \text{word1[i - 1] = word2[j - 1]}\<br>1 + min(minED(i - 1, j), minED(i - 1, j - 1), minED(i - 1, j + 1)),  &amp; \text{word1[i - 1] != word2[j - 1]}<br>\end{cases}<br>$$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(String word1, String word2)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (word1 == <span class="keyword">null</span> &amp;&amp; word2 == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (word1 == <span class="keyword">null</span> &amp;&amp; word1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> word2.length();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span>[][] minEditDistance = <span class="keyword">new</span> <span class="keyword">int</span>[word1.length() + <span class="number">1</span>][word2.length() + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// minEditDistance (i, j) :</span></span><br><span class="line">  <span class="comment">// word1 pre i char edit change to word2 pre j sub-string minEditDistance</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; word1.length() + <span class="number">1</span>; i++) &#123;</span><br><span class="line">    minEditDistance[i][<span class="number">0</span>] = i;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; word2.length() + <span class="number">1</span>; j++) &#123;</span><br><span class="line">    minEditDistance[<span class="number">0</span>][j] = j;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; word1.length() + <span class="number">1</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; word2.length() + <span class="number">1</span>; j++) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (word1.charAt(i - <span class="number">1</span>) == word2.charAt(j - <span class="number">1</span>)) &#123;</span><br><span class="line">        minEditDistance[i][j] = minEditDistance[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        minEditDistance[i][j] = Math.min(minEditDistance[i - <span class="number">1</span>][j],</span><br><span class="line">            Math.min(minEditDistance[i][j - <span class="number">1</span>], minEditDistance[i - <span class="number">1</span>][j - <span class="number">1</span>])) + <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> minEditDistance[word1.length()][word2.length()];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minDistance</span>(<span class="params">self, word1, word2</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :type word1: str</span></span><br><span class="line"><span class="string">    :type word2: str</span></span><br><span class="line"><span class="string">    :rtype: int</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    _min_distance = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="built_in">len</span>(word2) + <span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="built_in">len</span>(word1) + <span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="built_in">len</span>(word1) + <span class="number">1</span>):</span><br><span class="line">        _min_distance[i][<span class="number">0</span>] = i</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="built_in">len</span>(word2) + <span class="number">1</span>):</span><br><span class="line">        _min_distance[<span class="number">0</span>][j] = j</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="built_in">len</span>(word1) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="built_in">len</span>(word2) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> word1[i - <span class="number">1</span>] == word2[j - <span class="number">1</span>]:</span><br><span class="line">                _min_distance[i][j] = _min_distance[i - <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                _min_distance[i][j] = <span class="number">1</span> + <span class="built_in">min</span>(_min_distance[i - <span class="number">1</span>][j], _min_distance[i][j - <span class="number">1</span>],</span><br><span class="line">                                              _min_distance[i - <span class="number">1</span>][j - <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _min_distance[<span class="built_in">len</span>(word1)][<span class="built_in">len</span>(word2)]</span><br></pre></td></tr></table></figure>
+
+<h2 id="买股票系列问题"><a href="#买股票系列问题" class="headerlink" title="买股票系列问题"></a>买股票系列问题</h2><h3 id="最简单的买股票时机问题"><a href="#最简单的买股票时机问题" class="headerlink" title="最简单的买股票时机问题"></a>最简单的买股票时机问题</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/">Best Time to Buy and Sell Stock</a><br>只允许交易一次（买入一次、卖出一次）的限制。  </p>
+<p>首先关于题目目前没有太多需要沟通的点，对于传入的参数做好必要的防御性编程就好。  </p>
+<p>首先看下所有可行解：  </p>
+<ul>
+<li>直觉算法（暴力法）</li>
+</ul>
+<p>解法1查找数组的最小值， 然后从这个最小值位置开始到数组结束为止找出这个子数组的最大值，然后将最大值减去最小值，两者的差值就是所求最大利润值。<br>时间复杂度： 两次遍历数组$O(n)$<br>空间复杂度： $O(1)$</p>
+<ul>
+<li>DP</li>
+</ul>
+<p>首先无后项性和重复子问题的特性是显而易见的， 对于最优子结构，第i天的最大利润值其实也是确定的，所以最优子结构也是成立的。 下面我们尝试使用动态规划的思路来解决这个问题。  </p>
+<p>状态定义： $mp(i) 表示第i天最大利润$<br>状态转移方程：<br>$$<br>  mp(i) =<br>\begin{cases}<br>mp(i - 1) - a[i],   &amp; \text{买股票} \<br>mp(i - 1) + a[i],   &amp; \text{卖股票}<br>\end{cases}<br>$$<br>到这里我们发现对于买卖股票的操作无法用现有的状态定义了，说明现有的状态定义可能是缺少了维度，因此我们DP的定义进入了第二个版本：  </p>
+<p>状态定义2.0<br>状态定义： $mp(i, j) j = 0,1; mp(i, 0) 表示第i天未持有股票，mp(i, 1) 表示第i天持有股票$<br>似乎这里的定义还是有问题的，就是忽略了只能交易一次的限制，添加一个是否交易过（或者交易次数）的维度是否就可以呢？  </p>
+<p>当然下面的题目中还有一个泛化的k次交易限制的问题，可以使用k次的问题（k=1）来求解该题。</p>
+<h3 id="同一股票可以交易无数次（买之前需要将之前买进的股票卖出）"><a href="#同一股票可以交易无数次（买之前需要将之前买进的股票卖出）" class="headerlink" title="同一股票可以交易无数次（买之前需要将之前买进的股票卖出）"></a>同一股票可以交易无数次（买之前需要将之前买进的股票卖出）</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">Best Time to Buy and Sell Stock II</a></p>
+<p>我们发现对上面的状态做简单的修改就可以适用本题<br>状态定义： $mp(i,j) j = 0,1; mp(i,0) 表示第i天未持有，mp(i,1) 表示第i天持有股票$<br>状态转移方程：<br>$$<br>mp(i,0) = Max<br>\begin{cases}<br>mp(i - 1,0),  &amp; \text{i-1天持有}\<br>mp(i - 1,1) + a[i],  &amp; \text{i-1天未持有，第i天买入}<br>\end{cases}<br>$$</p>
+<p>$$<br>mp(i,1) = Max<br>\begin{cases}<br>mp(i - 1, 1),  &amp; \text{i-1天未持有}\<br>mp(i - 1, 0) - a[i],  &amp; \text{i-1天持有， 第i天卖出}<br>\end{cases}<br>$$</p>
+<p>同时如果细心你会发现，这其实也是交易K次泛化问题的一种特殊条件(k=N//2)。</p>
+<h3 id="交易两次，不能同时拥有两只股票"><a href="#交易两次，不能同时拥有两只股票" class="headerlink" title="交易两次，不能同时拥有两只股票"></a>交易两次，不能同时拥有两只股票</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/">Best Time to Buy and Sell Stock III</a></p>
+<p>交易两次其实是下面泛化K次的特殊情况（k=2），所以可以考虑先解决下面的k次泛化问题。</p>
+<h3 id="交易K笔，不能同时拥有两只股票"><a href="#交易K笔，不能同时拥有两只股票" class="headerlink" title="交易K笔，不能同时拥有两只股票"></a>交易K笔，不能同时拥有两只股票</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/">Best Time to Buy and Sell Stock IV</a></p>
+<p>状态定义： $mp(i, j, k) 表示第i天最大利润 – j: 0 未持有股票 1 持有股票 – k：之前交易次数$<br>状态转移方程：<br>$$<br>  mp(i, 0, k) = Max<br>  \begin{cases}<br>  mp(i-1, 0, k),    &amp; \text{}\<br>  mp(i-i, 1, k-1) + a[i],  &amp; \text{}<br>  \end{cases}<br>$$</p>
+<p>$$<br>  mp(i, 1, k) = Max<br>  \begin{cases}<br>  m([i-1, 1, k),    &amp; \text{}\<br>  mp(i-1, 0, k-1) - a[i],  &amp; \text{}<br>  \end{cases}<br>$$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfitklimitedTransaction</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (prices == <span class="keyword">null</span> || prices.length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span>[][][] maxProfit = <span class="keyword">new</span> <span class="keyword">int</span>[prices.length][<span class="number">2</span>][k + <span class="number">1</span>];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; k + <span class="number">1</span>; l++) &#123;</span><br><span class="line">    maxProfit[<span class="number">0</span>][<span class="number">0</span>][l] = <span class="number">0</span>;</span><br><span class="line">    maxProfit[<span class="number">0</span>][<span class="number">1</span>][l] = -prices[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">1</span>; l &lt; k + <span class="number">1</span>; l++) &#123;</span><br><span class="line">      maxProfit[i][<span class="number">0</span>][l] = Math.max(maxProfit[i - <span class="number">1</span>][<span class="number">0</span>][l], maxProfit[i - <span class="number">1</span>][<span class="number">1</span>][l] + prices[i]);</span><br><span class="line">      maxProfit[i][<span class="number">1</span>][l] = Math</span><br><span class="line">          .max(maxProfit[i - <span class="number">1</span>][<span class="number">1</span>][l], maxProfit[i - <span class="number">1</span>][<span class="number">0</span>][l - <span class="number">1</span>] - prices[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> maxProfitResult = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; k + <span class="number">1</span>; l++) &#123;</span><br><span class="line">    maxProfitResult = Math.max(maxProfitResult, maxProfit[prices.length - <span class="number">1</span>][<span class="number">0</span>][l]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> maxProfitResult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_profit_klimited_transaction</span>(<span class="params">self, k, prices</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :type prices: List[int]</span></span><br><span class="line"><span class="string">    :rtype: int</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> prices:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    _MAX_TRANSACTION_NUM = k</span><br><span class="line"></span><br><span class="line">    _max_profit = [[[<span class="number">0</span> <span class="keyword">for</span> l <span class="keyword">in</span> xrange(_MAX_TRANSACTION_NUM + <span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">2</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="built_in">len</span>(prices))]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> xrange(_MAX_TRANSACTION_NUM + <span class="number">1</span>):</span><br><span class="line">        _max_profit[<span class="number">0</span>][<span class="number">0</span>][l] = <span class="number">0</span></span><br><span class="line">        _max_profit[<span class="number">0</span>][<span class="number">1</span>][l] = - prices[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="built_in">len</span>(prices)):</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> xrange(_MAX_TRANSACTION_NUM):</span><br><span class="line">            _max_profit[i][<span class="number">0</span>][l] = <span class="built_in">max</span>(_max_profit[i - <span class="number">1</span>][<span class="number">1</span>][l] + prices[i], _max_profit[i - <span class="number">1</span>][<span class="number">0</span>][l])</span><br><span class="line">            _max_profit[i][<span class="number">1</span>][l] = <span class="built_in">max</span>(_max_profit[i - <span class="number">1</span>][<span class="number">0</span>][l - <span class="number">1</span>] - prices[i], _max_profit[i - <span class="number">1</span>][<span class="number">1</span>][l])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(_max_profit[<span class="built_in">len</span>(prices) - <span class="number">1</span>][<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<p>到这里会发现，其实限制条件越多，用DP去解决问题所需要的维度就越多。</p>
+<h3 id="交易有冻结期"><a href="#交易有冻结期" class="headerlink" title="交易有冻结期"></a>交易有冻结期</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/">Best Time to Buy and Sell Stock with Cooldown</a></p>
+<p>拥有冻结期其实就是在没有交易次数限制的题目上扩展了一个状态“cooldown”，从而在状态定义和状态转移方程的时候需要做对应的调整：  </p>
+<p>状态定义：$mp(i, j) j = 0,1,2 ; mp(i, 0) 表示第i天未持有，mp(i, 1) 表示第i天持有股票, mp(i, 2)处于交易冻结状态$</p>
+<p>由于卖出股票后（即未持有股票状态）会转变为交易冻结状态，之后冻结状态会转变为未持有状态或者持有状态（这里建议画一个状态转移图，写状态转移方程的时候会更清晰些）。  </p>
+<p>状态转移方程：  </p>
+<p>$$<br>mp(i, 0) = Max<br>\begin{cases}<br>mp(i - 1, 0),  &amp; \text{i-1天持有}\<br>mp(i - 1, 1) + a[i],  &amp; \text{i-1天未持有，第i天买入}\<br>mp(i - 1, 2),   &amp;\text{i-1天处于冻结期，第i天未操作}<br>\end{cases}<br>$$</p>
+<p>$$<br>mp(i, 1) = Max<br>\begin{cases}<br>mp(i - 1, 1),  &amp; \text{i-1天未持有}\<br>mp(i - 1, 2) - a[i],  &amp; \text{i-1天处于， 第i天买入}<br>\end{cases}<br>$$</p>
+<p>$$<br>mp(i, 2) = mp(i - 1, 0)<br>$$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfitWithCooldown</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (prices == <span class="keyword">null</span> || prices.length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span>[][] maxProfit = <span class="keyword">new</span> <span class="keyword">int</span>[prices.length][<span class="number">3</span>];</span><br><span class="line">  <span class="comment">// maxProfit(i, j, k)</span></span><br><span class="line">  <span class="comment">//  i: 0, 1, ... prices.length</span></span><br><span class="line">  <span class="comment">//  j: 0, 1</span></span><br><span class="line">  <span class="comment">//  i means i-th day</span></span><br><span class="line">  <span class="comment">//  j means stock holding status, 0 Not holding, 1 holding, 2 Cool down</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</span><br><span class="line">    maxProfit[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    maxProfit[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>];</span><br><span class="line">    maxProfit[<span class="number">0</span>][<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">    maxProfit[i][<span class="number">0</span>] = Math.max(maxProfit[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i], Math.max(maxProfit[i - <span class="number">1</span>][<span class="number">0</span>], maxProfit[i - <span class="number">1</span>][<span class="number">2</span>]));</span><br><span class="line">    maxProfit[i][<span class="number">1</span>] = Math.max(maxProfit[i - <span class="number">1</span>][<span class="number">1</span>], maxProfit[i - <span class="number">1</span>][<span class="number">2</span>] - prices[i]);</span><br><span class="line">    maxProfit[i][<span class="number">2</span>] = maxProfit[i - <span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> maxProfitResult = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">3</span>; k++) &#123;</span><br><span class="line">    maxProfitResult = Math.max(maxProfitResult, maxProfit[prices.length - <span class="number">1</span>][k]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> maxProfitResult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxProfitWithCooldown</span>(<span class="params">self, prices</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :type prices: List[int]</span></span><br><span class="line"><span class="string">    :rtype: int</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> prices:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    _max_profit = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">3</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="built_in">len</span>(prices))]</span><br><span class="line"></span><br><span class="line">    _max_profit[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    _max_profit[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>]</span><br><span class="line">    _max_profit[<span class="number">0</span>][<span class="number">2</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="built_in">len</span>(prices)):</span><br><span class="line">        _max_profit[i][<span class="number">0</span>] = <span class="built_in">max</span>(_max_profit[i - <span class="number">1</span>][<span class="number">0</span>], _max_profit[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i], _max_profit[i - <span class="number">1</span>][<span class="number">2</span>])</span><br><span class="line">        _max_profit[i][<span class="number">1</span>] = <span class="built_in">max</span>(_max_profit[i - <span class="number">1</span>][<span class="number">1</span>], _max_profit[i - <span class="number">1</span>][<span class="number">2</span>] - prices[i])</span><br><span class="line">        _max_profit[i][<span class="number">2</span>] = _max_profit[i - <span class="number">1</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(_max_profit[<span class="built_in">len</span>(prices) - <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="交易有手续费"><a href="#交易有手续费" class="headerlink" title="交易有手续费"></a>交易有手续费</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/">Best Time to Buy and Sell Stock with Transaction Fee</a></p>
+<p>这里的交易有手续费实际上是基于在没有交易次数限制的题目上扩展了一个交易费用扣除的条件，只需要在买入或卖出时扣除即可（注意：不要在买入和卖出都扣除）  </p>
+<p>状态定义： $mp(i,j) j = 0,1; mp(i,0) 表示第i天未持有，mp(i,1) 表示第i天持有股票$<br>状态转移方程：<br>$$<br>mp(i,0) = Max<br>\begin{cases}<br>mp(i - 1,0),  &amp; \text{i-1天持有}\<br>mp(i - 1,1) + a[i] - fee,  &amp; \text{i-1天未持有，第i天买入}<br>\end{cases}<br>$$</p>
+<p>$$<br>mp(i,1) = Max<br>\begin{cases}<br>mp(i - 1, 1),  &amp; \text{i-1天未持有}\<br>mp(i - 1, 0) - a[i],  &amp; \text{i-1天持有， 第i天卖出}<br>\end{cases}<br>$$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfitWithTransactionFee</span><span class="params">(<span class="keyword">int</span>[] prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (prices == <span class="keyword">null</span> || prices.length == <span class="number">0</span> || fee &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span>[][] maxProfit = <span class="keyword">new</span> <span class="keyword">int</span>[prices.length][<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">  maxProfit[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  maxProfit[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">    maxProfit[i][<span class="number">0</span>] = Math.max(maxProfit[i - <span class="number">1</span>][<span class="number">0</span>], maxProfit[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i] - fee);</span><br><span class="line">    maxProfit[i][<span class="number">1</span>] = Math.max(maxProfit[i - <span class="number">1</span>][<span class="number">1</span>], maxProfit[i - <span class="number">1</span>][<span class="number">0</span>] - prices[i]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> maxProfit[prices.length - <span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxProfitWithTransactionFee</span>(<span class="params">self, prices, fee</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :type prices: List[int]</span></span><br><span class="line"><span class="string">    :type fee: int</span></span><br><span class="line"><span class="string">    :rtype: int</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> prices <span class="keyword">or</span> fee &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    _max_profit = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">2</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="built_in">len</span>(prices))]</span><br><span class="line">    _max_profit[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    _max_profit[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="built_in">len</span>(prices)):</span><br><span class="line">        _max_profit[i][<span class="number">0</span>] = <span class="built_in">max</span>(_max_profit[i - <span class="number">1</span>][<span class="number">0</span>], _max_profit[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i] - fee)</span><br><span class="line">        _max_profit[i][<span class="number">1</span>] = <span class="built_in">max</span>(_max_profit[i - <span class="number">1</span>][<span class="number">1</span>], _max_profit[i - <span class="number">1</span>][<span class="number">0</span>] - prices[i])</span><br><span class="line">    <span class="keyword">return</span> _max_profit[<span class="built_in">len</span>(prices) - <span class="number">1</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/71b19194/" data-title="动态规划（Dynamic Programming）问题及其求解 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/b5ccf5b8/" title="通过源码编译的方式安装nginx（CentOS 7）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  通过源码编译的方式安装nginx（CentOS 7）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/d5d76783/"  title="滑动窗口算法问题及其衍生问题">
+ <strong>下一篇：</strong><br/> 
+ <span>滑动窗口算法问题及其衍生问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E9%97%AE%E9%A2%98%E9%80%82%E5%90%88%E7%94%A8DP%E6%9D%A5%E8%A7%A3%E5%86%B3"><span class="toc-number">1.</span> <span class="toc-text">什么样的问题适合用DP来解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8DP%E6%9D%A5%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-number">2.</span> <span class="toc-text">使用DP来解决问题的特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DP%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83%E5%92%8C%E8%A7%A3%E5%86%B3%E7%9A%84%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">DP问题思考和解决的过程是怎样的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DP%E9%97%AE%E9%A2%98%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%A8%A1%E7%89%88%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text">DP问题的程序模版是怎样的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E9%80%82%E5%90%88DP%E7%9A%84%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">一些适合DP的经典问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fibonacci-%E6%95%B0%E5%88%97"><span class="toc-number">5.1.</span> <span class="toc-text">Fibonacci 数列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E6%A5%BC%E6%A2%AF%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">爬楼梯问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%A2%E7%A1%AC%E5%B8%81"><span class="toc-number">7.</span> <span class="toc-text">换硬币</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E5%BD%A2%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C"><span class="toc-number">8.</span> <span class="toc-text">三角形最小路径和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%98%E7%A7%AF%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%88%97"><span class="toc-number">9.</span> <span class="toc-text">乘积最大子序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98%EF%BC%88Longest-Increasing-Subsequence%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">最长递增子序列问题（Longest Increasing Subsequence）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%EF%BC%88Edit-Distance-Levinstein-Distance%EF%BC%89"><span class="toc-number">11.</span> <span class="toc-text">编辑距离（Edit Distance&#x2F;Levinstein Distance）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%B0%E8%82%A1%E7%A5%A8%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98"><span class="toc-number">12.</span> <span class="toc-text">买股票系列问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E4%B9%B0%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E9%97%AE%E9%A2%98"><span class="toc-number">12.1.</span> <span class="toc-text">最简单的买股票时机问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E4%B8%80%E8%82%A1%E7%A5%A8%E5%8F%AF%E4%BB%A5%E4%BA%A4%E6%98%93%E6%97%A0%E6%95%B0%E6%AC%A1%EF%BC%88%E4%B9%B0%E4%B9%8B%E5%89%8D%E9%9C%80%E8%A6%81%E5%B0%86%E4%B9%8B%E5%89%8D%E4%B9%B0%E8%BF%9B%E7%9A%84%E8%82%A1%E7%A5%A8%E5%8D%96%E5%87%BA%EF%BC%89"><span class="toc-number">12.2.</span> <span class="toc-text">同一股票可以交易无数次（买之前需要将之前买进的股票卖出）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E4%B8%A4%E6%AC%A1%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E6%8B%A5%E6%9C%89%E4%B8%A4%E5%8F%AA%E8%82%A1%E7%A5%A8"><span class="toc-number">12.3.</span> <span class="toc-text">交易两次，不能同时拥有两只股票</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93K%E7%AC%94%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E6%8B%A5%E6%9C%89%E4%B8%A4%E5%8F%AA%E8%82%A1%E7%A5%A8"><span class="toc-number">12.4.</span> <span class="toc-text">交易K笔，不能同时拥有两只股票</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E6%9C%89%E5%86%BB%E7%BB%93%E6%9C%9F"><span class="toc-number">12.5.</span> <span class="toc-text">交易有冻结期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E6%9C%89%E6%89%8B%E7%BB%AD%E8%B4%B9"><span class="toc-number">12.6.</span> <span class="toc-text">交易有手续费</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

@@ -1,0 +1,660 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>如何设计一个短网址服务 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="TinyURL,短网址,邀请码算法,10进制转62进制算法">
+    
+    <meta name="description" content="短网址问题短网址服务相信大家都用过，核心的功能就是将原始的长网址转化成长度更短的短网址，当我们访问这个短网址的时候最终会跳转到这个原始的长网址所指向的位置。那么我们今天的问题就是设计一个短网址服务（TinyURL） 如何设计看起来这个问题不需要太多的沟通，但实际上仔细想想会发现这样的需求描述离开始动手还是有一段距离。 下面我们开始着手从不确定和模糊的条件动手，一步步完成这个系统设计。 第一步：沟通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何设计一个短网址服务">
+<meta property="og:url" content="https://blogs.lirui.me/posts/63f58b56/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="短网址问题短网址服务相信大家都用过，核心的功能就是将原始的长网址转化成长度更短的短网址，当我们访问这个短网址的时候最终会跳转到这个原始的长网址所指向的位置。那么我们今天的问题就是设计一个短网址服务（TinyURL） 如何设计看起来这个问题不需要太多的沟通，但实际上仔细想想会发现这样的需求描述离开始动手还是有一段距离。 下面我们开始着手从不确定和模糊的条件动手，一步步完成这个系统设计。 第一步：沟通">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-V1.0.jpg">
+<meta property="og:image" content="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg">
+<meta property="article:published_time" content="2020-03-04T10:05:54.000Z">
+<meta property="article:modified_time" content="2020-03-08T14:22:06.065Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/63f58b56/" title="如何设计一个短网址服务" itemprop="url">如何设计一个短网址服务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2020-03-04T10:05:54.000Z" itemprop="datePublished"> 发表于 2020-03-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%AD%E7%BD%91%E5%9D%80%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">短网址问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">如何设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%B2%9F%E9%80%9A%E3%80%81%E6%BE%84%E6%B8%85%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">第一步：沟通、澄清问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%E4%BA%A7%E7%89%A9"><span class="toc-number">2.1.1.</span> <span class="toc-text">第一阶段产物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">用例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%BA%A6%E6%9D%9F"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">设计约束</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8A%BD%E8%B1%A1%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">第二步：抽象模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%E4%BA%A7%E7%89%A9"><span class="toc-number">2.2.1.</span> <span class="toc-text">第二阶段产物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E5%9B%BE"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">系统设计图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.</span> <span class="toc-text">第三步：关键组件设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5%E4%BA%A7%E7%89%A9"><span class="toc-number">2.3.1.</span> <span class="toc-text">第三阶段产物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A8%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">表结构设计</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">对外接口设计</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">关键组件核心算法设计</span></a></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="短网址问题"><a href="#短网址问题" class="headerlink" title="短网址问题"></a>短网址问题</h2><p>短网址服务相信大家都用过，核心的功能就是将原始的长网址转化成长度更短的短网址，当我们访问这个短网址的时候最终会跳转到这个原始的长网址所指向的位置。<br>那么我们今天的问题就是设计一个短网址服务（TinyURL）</p>
+<h2 id="如何设计"><a href="#如何设计" class="headerlink" title="如何设计"></a>如何设计</h2><p>看起来这个问题不需要太多的沟通，但实际上仔细想想会发现这样的需求描述离开始动手还是有一段距离。</p>
+<p>下面我们开始着手从不确定和模糊的条件动手，一步步完成这个系统设计。</p>
+<h3 id="第一步：沟通、澄清问题"><a href="#第一步：沟通、澄清问题" class="headerlink" title="第一步：沟通、澄清问题"></a>第一步：沟通、澄清问题</h3><p>先从功能需求开始：<br>功能的部分相对比较清晰，包括操作的两个阶段：  </p>
+<ol>
+<li>原始URL转化成 TinyURL</li>
+<li>TinyURL反向转化为原始URL</li>
+</ol>
+<p>其实作为一个完整的商业产品还会有其他的功能需求，比如：  </p>
+<ul>
+<li>运营数据统计</li>
+<li>定制化域名</li>
+<li>保留部分Path前缀<br>……</li>
+</ul>
+<p>限于篇幅、和简化问题的原因，我们本次的系统设计只涉及这个服务的最核心功能。</p>
+<p>其次从非功能的角度来看，有如下需求：  </p>
+<ol>
+<li>系统高性能 - 特别是TinyURL转换为原始URL的部分，这部分多数应用场景是用在最终用户端的，如果跳转时间、白屏时间较长的话可能会有不好的产品体验。</li>
+<li>系统高可用 - 还是希望该系统能够持续提供稳定服务。</li>
+</ol>
+<p>聊完了需求部分，我们来看下系统的规模和所需要支持环境的信息。</p>
+<p>我们假设给微博来设计一个这样的系统，与之匹配的会是这样的一些数据：<br>DAU： 1亿<br>日新增微博数：2亿<br>新增微博中带连接的比例： 40%<br>带链接新增微博中使用TinyURL的比例： 50%<br>系统读写比：9:1<br>系统API日访问数：20亿</p>
+<p>根据上面的基础数据可以简单推算下一些性能相关的数据：<br>API日访问数 20亿，那么平均到秒就是<br>$$QPS = 2000000000 / (24 * 60 * 60) \approx 20000$$<br>当然，这样的平均计算不太科学，毕竟产品的使用在时间上并不是均匀分布的，所以这里QPS的计算我们需要在这个平均值上乘以一个系数，来符合大多数时间的性能指标，这里假设系数为10是比较合理的，所以我们就有了系统的第一个目标性能指标：<br>$$QPS = 20w$$</p>
+<p>日产生数据量：<br>$$日产生TinyURL数量 = 2亿<em>0.4</em> 0.5 = 4kw $$<br>假设原始的URL平均长度为100Byte， TinyURL的平均长度为20Byte，再加上主键的长度int(11) 也就是 $11 * 4 = 44Byte$， 那么一条数据不考虑数据压缩的情况下，需要的存储空间会是 164Byte, 那么日产生的新增数据存储规模是 $4kw * 164Byte \approx 40*164 MByte \approx 7GByte$ 一年内数据存储规模会是 $7G * 360 \approx 2.8T$ 这样的一个单表量级尚未达到MySQL和Linux操作系统单文件大小限制（16TB - EXT4 on RHEL <a target="_blank" rel="noopener" href="https://access.redhat.com/solutions/1532">What are the file and file system size limitations for Red Hat Enterprise Linux?</a>）<br>所以，在这个维度上MySQL（Oracle）这样的关系型数据库是能够胜任的，只不过数据发展到必要的时期需要做一些数据库上的技术改造（Sharding or Partitioning）</p>
+<h4 id="第一阶段产物"><a href="#第一阶段产物" class="headerlink" title="第一阶段产物"></a>第一阶段产物</h4><h5 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h5><table>
+<thead>
+<tr>
+<th>需求类型</th>
+<th>需求描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能需求</td>
+<td>原始URL转化成 TinyURL</td>
+</tr>
+<tr>
+<td></td>
+<td>TinyURL反向转化为原始URL</td>
+</tr>
+<tr>
+<td>非功能需求</td>
+<td>高性能</td>
+</tr>
+<tr>
+<td></td>
+<td>高可用</td>
+</tr>
+</tbody></table>
+<h5 id="设计约束"><a href="#设计约束" class="headerlink" title="设计约束"></a>设计约束</h5><table>
+<thead>
+<tr>
+<th>设计约束</th>
+<th>指标</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QPS</td>
+<td>20w</td>
+</tr>
+<tr>
+<td>读写比</td>
+<td>9:1</td>
+</tr>
+<tr>
+<td>数据存储年增长规模</td>
+<td>2.8TB</td>
+</tr>
+</tbody></table>
+<h3 id="第二步：抽象模型"><a href="#第二步：抽象模型" class="headerlink" title="第二步：抽象模型"></a>第二步：抽象模型</h3><p>应用相对简单，在High-level的设计中系统架构上就简单将架构分为两层，应用层和数据持久层。当然，考虑到系统需要高可用的非功能性需求，直接的想法就是在应用实例上增加负载均衡，再考虑到读取操作的性能要求（并且考虑到读写比较高的实际条件），可以考虑在应用层与持久层之间添加cache，提升查询效率。<br>于是便有了以下的系统架构图：<br><img src="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg" alt="Abstract Design Diagram V0.2"></p>
+<p>其实这个设计依然存在着单点故障的风险，就是负载均衡部分本身，在综合了成本和改造难度等因素后依然决定消除这个单点故障，可行的方案是：多数据中心负载。<br>系统架构就演进成为下面的这样：<br><img src="https://image.ai-byte.com/twitter-abstract-design-V1.0.jpg" alt="Abstract Design Diagram V1.0"></p>
+<p>DNS的负载均衡我们可以选择高可用的解决方案；<br>key-Value的缓存我们可以考虑使用Redis 中的String数据结构；<br>数据库我们可以使用AP的No-SQL(Key-Value)数据库 Dynamo</p>
+<h4 id="第二阶段产物"><a href="#第二阶段产物" class="headerlink" title="第二阶段产物"></a>第二阶段产物</h4><p>考虑到新的技术栈的引入，以及系统复杂度的提高，最终还是决定实现第一个单数据中心的架构方案。<br>单数据中心方案中的持久层我们就可以使用MySQL这样关系型数据库，如果考虑有读压力的问题，可以使用Leader-follower结构的数据库结构。</p>
+<h5 id="系统设计图"><a href="#系统设计图" class="headerlink" title="系统设计图"></a>系统设计图</h5><p><img src="https://image.ai-byte.com/twitter-abstract-design-0.2.jpg" alt="Abstract Design Diagram V0.2"></p>
+<h3 id="第三步：关键组件设计"><a href="#第三步：关键组件设计" class="headerlink" title="第三步：关键组件设计"></a>第三步：关键组件设计</h3><h4 id="第三阶段产物"><a href="#第三阶段产物" class="headerlink" title="第三阶段产物"></a>第三阶段产物</h4><h5 id="表结构设计"><a href="#表结构设计" class="headerlink" title="表结构设计"></a>表结构设计</h5><p>核心功能表，t_url_mapping</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> t_url_mapping (</span><br><span class="line">    id <span class="type">INT</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    origin_url <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">    tiny_url <span class="type">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">) ENGINE <span class="operator">=</span> InnoDB</span><br></pre></td></tr></table></figure>
+
+<h5 id="对外接口设计"><a href="#对外接口设计" class="headerlink" title="对外接口设计"></a>对外接口设计</h5><ul>
+<li>原始URL转TinyURL<br>GET /tiny/<origin_url></li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;tiny_url&quot;</span>:<span class="string">&quot;https://a.cn/xxxxxx&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="关键组件核心算法设计"><a href="#关键组件核心算法设计" class="headerlink" title="关键组件核心算法设计"></a>关键组件核心算法设计</h5><p>问题Leetcode描述：<br><a target="_blank" rel="noopener" href="https://leetcode.com/problems/encode-and-decode-tinyurl/">Encode and Decode TinyURL</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Codec</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Encodes a URL to a shortened URL.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">encode</span><span class="params">(String longUrl)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Decodes a shortened URL to its original URL.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">decode</span><span class="params">(String shortUrl)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实核心的算法需要解决的问题是，选择一个高效的Hash算法，完成对原始URL和TinyURL的映射。  </p>
+<p>关于Hash算法的问题，有两个关键问题：  </p>
+<ol>
+<li>hash 函数的选择</li>
+<li>hash 冲突的处理</li>
+</ol>
+<p>这里有两种思路：<br>一种是使用现成的Hash函数，在使用现成算法的基础上处理Hash冲突，然后将这个10进制数转化为62位后，得到的字符就是缩短后的短网址。<br>另外一种思路是使用ID生成器，自己维护一个自增的ID生成器，给每个原始URL分配一个ID，然后这个ID经过62位转化后就会变成长度变短的短网址。</p>
+<p>我们先用第一个思路来实现：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Codec</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DECIMAL = <span class="number">62</span>;</span><br><span class="line">  <span class="keyword">private</span> HashMap&lt;String, String&gt; mTinyURLMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String HASH_CONFLICT_SUFFIX_STRING = <span class="string">&quot;[DUPLICATED]&quot;</span>;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TINY_URL_PREFIX = <span class="string">&quot;http://tinyurl.com/&quot;</span>;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">char</span>[] BASE62_CHAR_MAP = <span class="string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;</span></span><br><span class="line">      .toCharArray();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Encodes a URL to a shortened URL.</span></span><br><span class="line">  <span class="function">String <span class="title">encode</span><span class="params">(String longUrl)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (longUrl == <span class="keyword">null</span> || longUrl.length() == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> valid the longUrl is a well-formatted URL</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Here is a trick, to make sure hashCode positive,</span></span><br><span class="line">    <span class="comment">// use bitwise operation &quot;int &amp; 0xfffffff&quot; to sign off the &quot;sign bit&quot;</span></span><br><span class="line">    <span class="keyword">int</span> hashCode = longUrl.hashCode() &amp; <span class="number">0xfffffff</span>;</span><br><span class="line">    String base62String = hexDecimalTo62BaseDecimal(hashCode);</span><br><span class="line">    String mappedURL = mTinyURLMap.get(base62String);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mappedURL != <span class="keyword">null</span> &amp;&amp; mappedURL.length() &gt; <span class="number">0</span> &amp;&amp; !mappedURL.equals(longUrl)) &#123;</span><br><span class="line">      <span class="comment">// hash collision happens, deal this.</span></span><br><span class="line">      String newLongUrl = longUrl + HASH_CONFLICT_SUFFIX_STRING;</span><br><span class="line">      hashCode = newLongUrl.hashCode();</span><br><span class="line">      base62String = hexDecimalTo62BaseDecimal(hashCode);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mTinyURLMap.put(base62String, longUrl);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> TINY_URL_PREFIX + base62String;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Decodes a shortened URL to its original URL.</span></span><br><span class="line">  <span class="function">String <span class="title">decode</span><span class="params">(String shortUrl)</span> </span>&#123;</span><br><span class="line">    String base62String = shortUrl.replaceFirst(TINY_URL_PREFIX, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> mTinyURLMap.get(base62String);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">String <span class="title">hexDecimalTo62BaseDecimal</span><span class="params">(<span class="keyword">long</span> hexDecimal)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (hexDecimal &lt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;can not be negative number&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (hexDecimal != <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">int</span> mod = (<span class="keyword">int</span>) hexDecimal % DECIMAL;</span><br><span class="line">      sb.append(BASE62_CHAR_MAP[mod]);</span><br><span class="line">      hexDecimal = hexDecimal / DECIMAL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sb.reverse().toString();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有一个技术处理的小技巧：在使用JDK String 的hashcode时，hashcode可能会返回小于0的负数，在10进制转62进制的算法中我们是假定输入参数为正数，所以这里通过 一个位操作 消去整数的符号位。</p>
+<p>作为完整的解决方案，应当考虑对应的单元测试；<br>特别是10进制转62进制的转换方法，稍微延展一下就可以用在邀请码等常用业务场景。  </p>
+<p>测试部分可参考 <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmPlayground/blob/c3cf0391a9bbece1b003618a071d4336a22ed868/src/test/java/me/lirui/algo/design/tinyurl/CodecTest.java#L40">Github algorithmPlayground</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/System-Design/">System Design</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/63f58b56/" data-title="如何设计一个短网址服务 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/99c02a1d/" title="Pythonic 及相关高级语法特性">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Pythonic 及相关高级语法特性</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/a036b45b/"  title="从管理风格的角度看 TCP/IP">
+ <strong>下一篇：</strong><br/> 
+ <span>从管理风格的角度看 TCP/IP
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%AD%E7%BD%91%E5%9D%80%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">短网址问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">如何设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%B2%9F%E9%80%9A%E3%80%81%E6%BE%84%E6%B8%85%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">第一步：沟通、澄清问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%E4%BA%A7%E7%89%A9"><span class="toc-number">2.1.1.</span> <span class="toc-text">第一阶段产物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">用例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%BA%A6%E6%9D%9F"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">设计约束</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8A%BD%E8%B1%A1%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">第二步：抽象模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%E4%BA%A7%E7%89%A9"><span class="toc-number">2.2.1.</span> <span class="toc-text">第二阶段产物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E5%9B%BE"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">系统设计图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.</span> <span class="toc-text">第三步：关键组件设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5%E4%BA%A7%E7%89%A9"><span class="toc-number">2.3.1.</span> <span class="toc-text">第三阶段产物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A8%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">表结构设计</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">对外接口设计</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">关键组件核心算法设计</span></a></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

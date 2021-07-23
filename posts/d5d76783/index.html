@@ -1,0 +1,627 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>滑动窗口算法问题及其衍生问题 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Algorithm,Data structure,Heap,PriorityQueue,sliding window,滑动窗口,Kth Largest Element in an Array,Sliding Window Maximum,Kth Largest Element in a Stream,Sliding Window Median,Find Median from Data Stream,TCP sliding window,流量控制算法">
+    
+    <meta name="description" content="滑动窗口相关题目 Kth Largest Element in an Array Sliding Window Maximum Kth Largest Element in a Stream Sliding Window Median Find Median from Data Stream  这类问题在实际问题的应用场景首先声明，我并不赞同为了刷题而刷题的行为。但是这一大批题目中的确有比较好的，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="滑动窗口算法问题及其衍生问题">
+<meta property="og:url" content="https://blogs.lirui.me/posts/d5d76783/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="滑动窗口相关题目 Kth Largest Element in an Array Sliding Window Maximum Kth Largest Element in a Stream Sliding Window Median Find Median from Data Stream  这类问题在实际问题的应用场景首先声明，我并不赞同为了刷题而刷题的行为。但是这一大批题目中的确有比较好的，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-13T03:57:37.000Z">
+<meta property="article:modified_time" content="2020-02-05T08:10:12.714Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/d5d76783/" title="滑动窗口算法问题及其衍生问题" itemprop="url">滑动窗口算法问题及其衍生问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-13T03:57:37.000Z" itemprop="datePublished"> 发表于 2019-03-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">滑动窗口相关题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98%E5%9C%A8%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">这类问题在实际问题的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%B1%82%E8%A7%A3%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">如何求解这类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E6%9C%80%E5%A4%A7%E5%80%BC%E9%97%AE%E9%A2%98%EF%BC%8C%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A3%E9%A2%98%E5%A5%97%E8%B7%AF"><span class="toc-number">3.1.</span> <span class="toc-text">对于最大值问题，常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%AD%E9%9C%80%E8%A6%81%E6%B2%9F%E9%80%9A%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">3.1.1.</span> <span class="toc-text">题目中需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E8%A7%A3%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">3.1.2.</span> <span class="toc-text">可能的解法以及对应复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">3.1.4.</span> <span class="toc-text">测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HappyCase"><span class="toc-number">3.1.4.1.</span> <span class="toc-text">HappyCase</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BadCase"><span class="toc-number">3.1.4.2.</span> <span class="toc-text">BadCase</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E4%B8%AD%E4%BD%8D%E6%95%B0%E9%97%AE%E9%A2%98%EF%BC%8C-%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A3%E9%A2%98%E5%A5%97%E8%B7%AF"><span class="toc-number">3.2.</span> <span class="toc-text">对于中位数问题， 常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%9C%AC%E8%BA%AB%E9%9C%80%E8%A6%81%E6%B2%9F%E9%80%9A%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">3.2.1.</span> <span class="toc-text">题目本身需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E8%A7%A3%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">3.2.2.</span> <span class="toc-text">可能解及对应的复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8F%8A%E4%BC%98%E5%8C%96"><span class="toc-number">3.2.3.</span> <span class="toc-text">代码实现及优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">3.2.4.</span> <span class="toc-text">测试用例的部分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E9%97%AE%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text">引申问题</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="滑动窗口相关题目"><a href="#滑动窗口相关题目" class="headerlink" title="滑动窗口相关题目"></a>滑动窗口相关题目</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/kth-largest-element-in-an-array/">Kth Largest Element in an Array</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-maximum/">Sliding Window Maximum</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">Kth Largest Element in a Stream</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-median/">Sliding Window Median</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/find-median-from-data-stream/">Find Median from Data Stream</a></li>
+</ol>
+<h2 id="这类问题在实际问题的应用场景"><a href="#这类问题在实际问题的应用场景" class="headerlink" title="这类问题在实际问题的应用场景"></a>这类问题在实际问题的应用场景</h2><p>首先声明，我并不赞同为了刷题而刷题的行为。但是这一大批题目中的确有比较好的，特别是有些题目其实是现实实际问题的抽象，我认为将同一类的问题组合起来，由浅入深，逐步推进，进而寻找到解决一类问题的方法和思路，这样的题目还是刷得有价值的。<br>废话少说，首先说下滑动窗口在实际问题有哪些应用。<br>首先，最直接的应用就是网络协议中的TCP协议中传输数据的 TCP滑动窗口流控技术。<br>其次，既然在TCP流控会用到这样的技术，那么在应用层的流量控制其实也可以用到这样的技术（比如， 令牌桶算法）</p>
+<h2 id="如何求解这类问题"><a href="#如何求解这类问题" class="headerlink" title="如何求解这类问题"></a>如何求解这类问题</h2><ul>
+<li><p>对于静态的数据（数据和数据长度固定），常见的问题会是，对于一个滑动窗口（长度为k）求滑动窗口的最大、中位数、最小值的数组（对应题目 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-maximum/">Sliding Window Maximum</a> 、<a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-median/">Sliding Window Median</a> ）  </p>
+</li>
+<li><p>对应的，对于动态的数据，常见的问题会是：在数据流中，对于一个滑动窗口（长度为k）求滑动窗口的最大数和中位数数组。</p>
+</li>
+</ul>
+<h3 id="对于最大值问题，常见的解题套路"><a href="#对于最大值问题，常见的解题套路" class="headerlink" title="对于最大值问题，常见的解题套路"></a>对于最大值问题，常见的解题套路</h3><p>维护一个大顶堆，元素依次进入顶堆；<br>同时如果为了维护滑动窗口为k（如果有这样的条件和要求），对应的会有数组元素移除出顶堆（在这样的操作下，窗口就滑动起来了）；<br>只需要在对应的节点返回大顶堆的堆顶元素并添加到结果集中即可。  </p>
+<p>以问题 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-maximum/">Sliding Window Maximum</a> 为例实现上面的算法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] maxSlidingWindow(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="题目中需要沟通的部分"><a href="#题目中需要沟通的部分" class="headerlink" title="题目中需要沟通的部分"></a>题目中需要沟通的部分</h4><p>首先对于题目中定义的函数需要处理对应参数的边界条件检查，如果是在面试环节，这些边界条件需要和面试官进行沟通， 这里我们按照通常的处理手段来处理这些边界条件：  </p>
+<ul>
+<li>输入数组为null</li>
+<li>输入数组为empty({})</li>
+<li>k &lt; 0</li>
+<li>k &gt; length</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] maxSlidingWindow(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length) <span class="keyword">return</span> nums;</span><br><span class="line">  <span class="keyword">if</span> (k &lt; <span class="number">0</span> || k &gt; nums.length) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="可能的解法以及对应复杂度分析"><a href="#可能的解法以及对应复杂度分析" class="headerlink" title="可能的解法以及对应复杂度分析"></a>可能的解法以及对应复杂度分析</h4><p>其次对于上面的算法，对于时间复杂度， 输入的数组元素会被遍历有且仅有一次，遍历的过程里会有向大小为k的heap中插入和删除操作，根据时间复杂度的乘法法则，时间复杂度为 $O(nlog^k)$ , 空间复杂度上， 由于使用了额外的heap空间所以 空间复杂度为 $O(k)$, 以上是我们使用优先队列实现的复杂度分析;<br>对于这个问题其实还有其他的算法解决方案（如 维护一个双端队列 dequeue，依次让数组元素入队出队，从而返回符合条件的结果， dequeue 入队和出队的时间复杂度都为 $O(1)$ 整体来看这样的算法时间复杂度为 $O(n)$ 空间复杂度为 $O(k)$ ），限于主题的原因，这里就不实现这个算法了。  </p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] maxSlidingWindow(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length) <span class="keyword">return</span> nums;</span><br><span class="line">  <span class="keyword">if</span> (k &lt; <span class="number">0</span> || k &gt; nums.length) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> length = nums.length;</span><br><span class="line">  <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[length - k + <span class="number">1</span>];</span><br><span class="line">  PriorityQueue&lt;Integer&gt; maxHeap = <span class="keyword">new</span> PriorityQueue(k, Collections.&lt;Integer&gt;reverseOrder());</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">    maxHeap.offer(nums[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  result[<span class="number">0</span>] = maxHeap.peek();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; length; j++) &#123;</span><br><span class="line">      maxHeap.offer(nums[j]);</span><br><span class="line">      maxHeap.remove(nums[j - k]);</span><br><span class="line">      result[j - k + <span class="number">1</span>] = maxHeap.peek();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h4><p>再次，关于测试用例，可以按照happyCase和badCase分为两大类：</p>
+<h5 id="HappyCase"><a href="#HappyCase" class="headerlink" title="HappyCase"></a>HappyCase</h5><ul>
+<li>nums = {1,3,-1,-3,5,3,6,7} , k = 3</li>
+<li>nums = {1,3,-1,-3,5,3,6,7} , k = 1</li>
+<li>nums = {1,3,-1,-3,5,3,6,7} , k = 8</li>
+<li>nums = {1}, k = 1</li>
+</ul>
+<h5 id="BadCase"><a href="#BadCase" class="headerlink" title="BadCase"></a>BadCase</h5><ul>
+<li>nums = null, k = 0;</li>
+<li>nums = {}, k = 0;</li>
+<li>nums = null, k = -1;</li>
+<li>nums = {}, k = -1;</li>
+<li>nums = {1, 2, 3}, k = 4;</li>
+</ul>
+<p>对于这个问题我已经在我的Github工程中实现，并通过了单元测试工程测试：<br><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/30fe9409823f337dfe37ffba3dac273ece6da1d2/src/main/java/me/lirui/algo/heap/LeetCodePriorityQueueSolution.java#L75">算法实现：maxSlidingWindowHeap</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/30fe9409823f337dfe37ffba3dac273ece6da1d2/src/test/java/me/lirui/algo/heap/LeetCodePriorityQueueSolutionTest.java#L94">对应单元测试： maxSlidingWindow …</a></p>
+<h3 id="对于中位数问题，-常见的解题套路"><a href="#对于中位数问题，-常见的解题套路" class="headerlink" title="对于中位数问题， 常见的解题套路"></a>对于中位数问题， 常见的解题套路</h3><p>维护两个堆： 一个大顶堆，一个小顶堆；<br>这两个堆分别存储的是：  </p>
+<ol>
+<li>一个数组最小值到中位值（可能值）一段子数组</li>
+<li>有序数组后半部分的子数组</li>
+</ol>
+<p>那么如果滑动窗口长度是奇数，那么返回大顶堆的堆顶元素、 如果滑动窗口长度是偶数，那么返回大顶堆和小顶堆的平均值即可；</p>
+<p>这里实现过程中还需要注意的是为了维护滑动窗口固定长度的限制（如果有这样的条件和要求），需要控制元素的入堆和元素出堆的操作。</p>
+<p>以问题 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-median/">Sliding Window Median</a> 为例实现以上算法：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">double</span>[] medianSlidingWindow(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="题目本身需要沟通的部分"><a href="#题目本身需要沟通的部分" class="headerlink" title="题目本身需要沟通的部分"></a>题目本身需要沟通的部分</h4><p>这部分和max的问题类似， 省略。</p>
+<h4 id="可能解及对应的复杂度分析"><a href="#可能解及对应的复杂度分析" class="headerlink" title="可能解及对应的复杂度分析"></a>可能解及对应的复杂度分析</h4><p>正如上面的算法描述，该算法会对数组中的元素进行有且仅有一次的遍历， 过程中会涉及到至少一次入堆和一次出堆操作，以及常数次的堆平衡操作，因此根据乘法法则有该算法的时间复杂度为 $O(nlogk)$ , 空间复杂度为 $O(k)$ 虽然使用了两个堆，但是两个堆的大小之和为$k$。  </p>
+<h4 id="代码实现及优化"><a href="#代码实现及优化" class="headerlink" title="代码实现及优化"></a>代码实现及优化</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">double</span>[] medianSlidingWindow(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> nums;</span><br><span class="line">  <span class="keyword">if</span> (k &lt; <span class="number">0</span> || k &gt; nums.length) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> length = nums.length;</span><br><span class="line">  <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[length - k + <span class="number">1</span>];</span><br><span class="line">  PriorityQueue&lt;Integer&gt; minHeap = <span class="keyword">new</span> PriorityQueue();</span><br><span class="line">  PriorityQueue&lt;Integer&gt; maxHeap = <span class="keyword">new</span> PriorityQueue(<span class="number">100</span>, Collections.reverseOrder());</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">      <span class="comment">// enHeap</span></span><br><span class="line">      <span class="keyword">if</span> (maxHeap.size() == <span class="number">0</span> || nums[i] &lt;= maxHeap.peek()) &#123;</span><br><span class="line">          maxHeap.offer(nums[i]);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          minHeap.offer(nums[i]);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// rebalance</span></span><br><span class="line">      rebalance(maxHeap, minHeap);</span><br><span class="line">      <span class="comment">// remove element from heap</span></span><br><span class="line">      <span class="keyword">if</span> (i &gt;= k) &#123;</span><br><span class="line">          <span class="keyword">if</span> (nums[i - k] &lt;= maxHeap.peek()) &#123;</span><br><span class="line">              maxHeap.remove(nums[i - k]);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              minHeap.remove(nums[i - k]);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// rebalance</span></span><br><span class="line">      rebalance(maxHeap, minHeap);</span><br><span class="line">      <span class="comment">// output median</span></span><br><span class="line">      <span class="keyword">if</span> (i &gt;= k - <span class="number">1</span>) &#123;</span><br><span class="line">          result[i - k + <span class="number">1</span>] = (k % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">          ? (maxHeap.peek() + minHeap.peek()) / <span class="number">2.0</span></span><br><span class="line">          : maxheap.peek();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">rebalance</span><span class="params">(PriorityQueue&lt;Integer&gt; maxHeap, PriorityQueue&lt;Integer&gt; minHeap)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (maxHeap.size() &lt; minHeap.size()) maxHeap.offer(minHeap.pop());</span><br><span class="line">    <span class="keyword">while</span> (minHeap.size() &lt; maxHeap.size() - <span class="number">1</span>) minHeap.offer(maxHeap.pop());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看似好像这个问题就这样解决了，但其实这样的实现还是有问题的，在计算中位数的这部分代码中，暗藏一个边界条件，对于加法操作如果两个整数都比较大的情况，两个数的和可能会出现整数溢出，因此，这里需要特殊的技术处理，这里先买个关子，请仔细思考后进行实现。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/30fe9409823f337dfe37ffba3dac273ece6da1d2/src/main/java/me/lirui/algo/heap/LeetCodePriorityQueueSolution.java#L114">参考实现： medianSlidingWindow</a></p>
+<h4 id="测试用例的部分"><a href="#测试用例的部分" class="headerlink" title="测试用例的部分"></a>测试用例的部分</h4><p>这里测试用例与max相似，唯一不同的是对整数溢出情况的考虑：</p>
+<ul>
+<li>nums = {2147483647}; k = 2</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/30fe9409823f337dfe37ffba3dac273ece6da1d2/src/test/java/me/lirui/algo/heap/LeetCodePriorityQueueSolutionTest.java#L155">测试工程参考实现： medianSlidingWindow</a></p>
+<h3 id="引申问题"><a href="#引申问题" class="headerlink" title="引申问题"></a>引申问题</h3><p>既然可以使用大小顶堆实现中位数的算法， 如果改造下堆的平衡函数实现其实可以实现 90、99 分位数的滑动窗口。  </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/d5d76783/" data-title="滑动窗口算法问题及其衍生问题 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/71b19194/" title="动态规划（Dynamic Programming）问题及其求解">
+  <strong>上一篇：</strong><br/>
+  <span>
+  动态规划（Dynamic Programming）问题及其求解</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/3a46e0d2/"  title="Redis 数据类型及对应操作命令">
+ <strong>下一篇：</strong><br/> 
+ <span>Redis 数据类型及对应操作命令
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">滑动窗口相关题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98%E5%9C%A8%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">这类问题在实际问题的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%B1%82%E8%A7%A3%E8%BF%99%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">如何求解这类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E6%9C%80%E5%A4%A7%E5%80%BC%E9%97%AE%E9%A2%98%EF%BC%8C%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A3%E9%A2%98%E5%A5%97%E8%B7%AF"><span class="toc-number">3.1.</span> <span class="toc-text">对于最大值问题，常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%AD%E9%9C%80%E8%A6%81%E6%B2%9F%E9%80%9A%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">3.1.1.</span> <span class="toc-text">题目中需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E8%A7%A3%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">3.1.2.</span> <span class="toc-text">可能的解法以及对应复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">3.1.4.</span> <span class="toc-text">测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HappyCase"><span class="toc-number">3.1.4.1.</span> <span class="toc-text">HappyCase</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BadCase"><span class="toc-number">3.1.4.2.</span> <span class="toc-text">BadCase</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E4%B8%AD%E4%BD%8D%E6%95%B0%E9%97%AE%E9%A2%98%EF%BC%8C-%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A3%E9%A2%98%E5%A5%97%E8%B7%AF"><span class="toc-number">3.2.</span> <span class="toc-text">对于中位数问题， 常见的解题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%9C%AC%E8%BA%AB%E9%9C%80%E8%A6%81%E6%B2%9F%E9%80%9A%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">3.2.1.</span> <span class="toc-text">题目本身需要沟通的部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E8%A7%A3%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">3.2.2.</span> <span class="toc-text">可能解及对应的复杂度分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8F%8A%E4%BC%98%E5%8C%96"><span class="toc-number">3.2.3.</span> <span class="toc-text">代码实现及优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">3.2.4.</span> <span class="toc-text">测试用例的部分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E9%97%AE%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text">引申问题</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

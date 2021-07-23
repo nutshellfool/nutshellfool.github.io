@@ -1,0 +1,734 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Nginx必知必会使用方法备忘录 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="CentOS,Environment,Nginx">
+    
+    <meta name="description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l &#x2F;var&#x2F;www&#x2F;vhosts&#x2F;xxx.examp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx必知必会使用方法备忘录">
+<meta property="og:url" content="https://blogs.lirui.me/posts/524f9cc8/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l &#x2F;var&#x2F;www&#x2F;vhosts&#x2F;xxx.examp">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-16T03:17:01.000Z">
+<meta property="article:modified_time" content="2020-05-28T02:46:22.883Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/524f9cc8/" title="Nginx必知必会使用方法备忘录" itemprop="url">Nginx必知必会使用方法备忘录</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-12-16T03:17:01.000Z" itemprop="datePublished"> 发表于 2019-12-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">静态资源服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%9D%83%E9%99%90"><span class="toc-number">1.1.</span> <span class="toc-text">静态资源及相关权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E4%BC%A0%E8%BE%93%E5%8E%8B%E7%BC%A9"><span class="toc-number">1.2.</span> <span class="toc-text">静态资源传输压缩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">一些使用问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#413-Request-Entity-Too-Large"><span class="toc-number">2.1.1.</span> <span class="toc-text">413 Request Entity Too Large</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS-TSL"><span class="toc-number">3.</span> <span class="toc-text">HTTPS &#x2F; TSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8Centos7%E4%B8%8B%E4%BD%BF%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">在Centos7下使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.1.</span> <span class="toc-text">官方推荐方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96ACME%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">3.1.2.</span> <span class="toc-text">其他ACME客户端</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="静态资源服务器"><a href="#静态资源服务器" class="headerlink" title="静态资源服务器"></a>静态资源服务器</h2><h3 id="静态资源及相关权限"><a href="#静态资源及相关权限" class="headerlink" title="静态资源及相关权限"></a>静态资源及相关权限</h3><p>403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。<br>nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：</p>
+<ul>
+<li>文件夹及其各级父文件夹 <strong>可读 可执行</strong></li>
+<li>文件 <strong>可读</strong></li>
+</ul>
+<p>以下命令是检查文件夹相关权限的工具命令：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namei -l /var/www/vhosts/xxx.example.com/</span><br></pre></td></tr></table></figure>
+
+<p>下面命令是给静态资源文件夹下的静态文件设置统一的可读权限：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /var/www/vhosts/xxx.example.com/ -<span class="built_in">type</span> f -print0 | xargs -0 chmod a+r</span><br></pre></td></tr></table></figure>
+
+<p>可能会涉及到SELinux 相关的安全权限设置：<br>参考下面文档：<br><a target="_blank" rel="noopener" href="https://wiki.centos.org/HowTos/SELinux">SELinux官方wiki</a><br><a target="_blank" rel="noopener" href="https://www.nginx.com/blog/using-nginx-plus-with-selinux/">Using NGINX and NGINX Plus with SELinux
+</a></p>
+<p>可能会涉及设置防火墙，打开 http/https 等服务：<br>centOS 防火墙打开对http/https协议端口限制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --add-service=http --permanent</span><br><span class="line">sudo firewall-cmd --add-service=https --permanent</span><br><span class="line"></span><br><span class="line">sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p>查看防火墙支持协议：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+
+<h3 id="静态资源传输压缩"><a href="#静态资源传输压缩" class="headerlink" title="静态资源传输压缩"></a>静态资源传输压缩</h3><ul>
+<li>gzip相关指令</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gzip</td>
+<td>on / off</td>
+<td>打开或关闭 http 响应的gzip压缩</td>
+<td>gzip on</td>
+</tr>
+<tr>
+<td>gzip_min_length</td>
+<td>Digit</td>
+<td>gzip 最小压缩字节数，小于这个字节数的内容就不压缩了. 默认值20 bytes</td>
+<td>gzip_min_length 1000</td>
+</tr>
+<tr>
+<td>gzip_comp_level</td>
+<td></td>
+<td>gzip压缩级别</td>
+<td></td>
+</tr>
+<tr>
+<td>gzip_type</td>
+<td></td>
+<td>gzip 的支持的MIME类型</td>
+<td>gzip_types text/plain application/xml</td>
+</tr>
+</tbody></table>
+<ul>
+<li>location相关指令</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>autoindex</td>
+<td>on / off</td>
+<td>打开或关闭 静态资源预览</td>
+<td>autoindex on</td>
+</tr>
+<tr>
+<td>set</td>
+<td>limit_rate</td>
+<td>限速</td>
+<td>set 100k</td>
+</tr>
+</tbody></table>
+<p>官方文档链接：<a target="_blank" rel="noopener" href="https://docs.nginx.com/nginx/admin-guide/web-server/compression/">Compression and Decompression</a></p>
+<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><ul>
+<li>upstream</li>
+<li>http proxy module</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>proxy_set_header</td>
+<td></td>
+<td></td>
+<td><code>proxy_set_header Host $host;</code> <code>proxy_set_header X-Real-IP $remote_addr;</code></td>
+</tr>
+<tr>
+<td>proxy_pass</td>
+<td></td>
+<td></td>
+<td><code>proxy_pass http://localhost:8000;</code></td>
+</tr>
+<tr>
+<td>proxy_cache</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="一些使用问题"><a href="#一些使用问题" class="headerlink" title="一些使用问题"></a>一些使用问题</h3><h4 id="413-Request-Entity-Too-Large"><a href="#413-Request-Entity-Too-Large" class="headerlink" title="413 Request Entity Too Large"></a><code>413 Request Entity Too Large</code></h4><p>常常出现在向服务上传文件的场景提示，主要原因是请求body的大小超出设定值，需要检查反向代理和应用服务器的相关设置，反向代理Nginx的directive为：<br><code>client_max_body_size</code>  </p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax: <span class="attribute">client_max_body_size</span> size;</span><br><span class="line">Default: <span class="attribute">client_max_body_size</span> <span class="number">1m</span>;</span><br><span class="line">Context: http, server, location</span><br></pre></td></tr></table></figure>
+
+<p>默认值为1M，可以根据需要在对应的context设置合理的值即可。</p>
+<h2 id="HTTPS-TSL"><a href="#HTTPS-TSL" class="headerlink" title="HTTPS / TSL"></a>HTTPS / TSL</h2><p>支持HTTPS需要向CA机构申请证书，根据证书类型（DV、OV、EV）的不同和CA机构的情况会有免费和付费的证书选择，下文会对申请Let’s Encrypt免费DV证书进行说明。  </p>
+<h3 id="在Centos7下使用"><a href="#在Centos7下使用" class="headerlink" title="在Centos7下使用"></a>在Centos7下使用</h3><h4 id="官方推荐方式"><a href="#官方推荐方式" class="headerlink" title="官方推荐方式"></a>官方推荐方式</h4><ul>
+<li>安装certbot</li>
+</ul>
+<p><code>sudo yum install epel-release</code><br><code>sudo yum install certbot python2-certbot-nginx</code></p>
+<p><a target="_blank" rel="noopener" href="https://certbot.eff.org/lets-encrypt/centosrhel7-nginx">官方文档链接</a></p>
+<ul>
+<li>使用certbot配置证书</li>
+</ul>
+<p><code>certbot --nginx --nginx-root-path=/path/to/nginx/conf -d xxx.example.com</code></p>
+<ul>
+<li>设置定时任务自动更新证书有效期</li>
+</ul>
+<p><code>crontab -e</code><br><code>0 0,12 * * * python -c &#39;import random; import time; time.sleep(random.random() * 3600)&#39; &amp;&amp; certbot renew</code></p>
+<ul>
+<li><p>验证renew操作<br><code>certbot renew --dry-run</code></p>
+</li>
+<li><p>删除现有配置，重新生成证书</p>
+</li>
+</ul>
+<p><code>certbot revoke --cert-path /etc/letsencrypt/live/CERTNAME/cert.pem</code><br>然后将配置文件恢复回certbot修改之前的版本，重新重复上面的配置证书步骤即可</p>
+<h4 id="其他ACME客户端"><a href="#其他ACME客户端" class="headerlink" title="其他ACME客户端"></a>其他ACME客户端</h4><p>官方文档<a target="_blank" rel="noopener" href="https://letsencrypt.org/zh-cn/docs/client-options/">ACME 客户端</a><br>这里选择的是BASH实现的<a target="_blank" rel="noopener" href="https://github.com/Neilpang/acme.sh">acme.sh</a></p>
+<ul>
+<li>安装</li>
+</ul>
+<p>需要在root用户下安装，免去后续关于renew 权限的问题</p>
+<p><code>sudo su</code></p>
+<p><code>curl https://get.acme.sh | sh</code></p>
+<p>安装成功后关闭并重启当前命令行，使配置生效。</p>
+<ul>
+<li>申请证书</li>
+</ul>
+<p>当然申请证书之前需要有一个有完全访问权限的web server，以及正确域名指向、运行的http网站。  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue -d example.com \</span><br><span class="line"> -w /path/to/vhosts/root \</span><br><span class="line"> -d www.eample.com \</span><br><span class="line">--nginx /path/to/nginx/conf/sites-available/example.com.conf</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以使用DNS模式(以阿里云为例)进行</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh/wiki/dnsapi#11-use-aliyun-domain-api-to-automatically-issue-cert">acme - aliyun domain API</a></p>
+<ul>
+<li>配置安装证书</li>
+</ul>
+<p>首先修改对应站点的Nginx配置文件, 将HTTPS配置相关指令添加到server context下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">443</span> ssl http2;</span><br><span class="line">  <span class="attribute">ssl_certificate</span> /path/to/nginx/certs/example.com/example.com.cer;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /path/to/nginx/certs/example.com/example.com.key;</span><br><span class="line">  <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">  <span class="attribute">ssl_ciphers</span> HIGH:!aNULL:!MD5;</span><br><span class="line">  <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">10m</span>;</span><br><span class="line">  <span class="attribute">ssl_session_timeout</span> <span class="number">10m</span>;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体细节配置参考<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/configuring_https_servers.html">官方文档</a></p>
+<p>这里顺便推荐一个格式化Nginx配置文件的在线工具<a target="_blank" rel="noopener" href="https://nginxbeautifier.com/">nginx beautifier</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --install-cert -d example.com \</span><br><span class="line"> --cert-file /path/to/nginx/certs/example.com/example.com.cer \</span><br><span class="line"> --key-file /path/to/nginx/certs/example.com/example.com.key \</span><br><span class="line"> --fullchain-file /path/to/nginx/certs/example.com/fullchain.cer \</span><br><span class="line"> --reloadcmd <span class="string">&quot;systemctl reload nginx.service&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重定向HTTP到HTTPS</li>
+</ul>
+<p>由于这里值涉及到特定站点的跳转，所以只需要在站点内的Nginx配置文件中做修改即可，以下是修改内容的参考：  </p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> www.example.com example.com;</span><br><span class="line">  <span class="comment"># redirects both www and non-www to https</span></span><br><span class="line">  <span class="attribute">return</span> <span class="number">301</span> https://example.com$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试Nginx配置语法，重新加载新配置</li>
+</ul>
+<p><code>/path/to/nginx -t</code><br><code>/path/to/ngin -s reload</code></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/524f9cc8/" data-title="Nginx必知必会使用方法备忘录 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/1dfe7706/" title="Kafka docker安装及其使用">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Kafka docker安装及其使用</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/b84c17e2/"  title="研发效能实用贴士 - Vim篇">
+ <strong>下一篇：</strong><br/> 
+ <span>研发效能实用贴士 - Vim篇
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">静态资源服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%9D%83%E9%99%90"><span class="toc-number">1.1.</span> <span class="toc-text">静态资源及相关权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E4%BC%A0%E8%BE%93%E5%8E%8B%E7%BC%A9"><span class="toc-number">1.2.</span> <span class="toc-text">静态资源传输压缩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">一些使用问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#413-Request-Entity-Too-Large"><span class="toc-number">2.1.1.</span> <span class="toc-text">413 Request Entity Too Large</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS-TSL"><span class="toc-number">3.</span> <span class="toc-text">HTTPS &#x2F; TSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8Centos7%E4%B8%8B%E4%BD%BF%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">在Centos7下使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.1.</span> <span class="toc-text">官方推荐方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96ACME%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">3.1.2.</span> <span class="toc-text">其他ACME客户端</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

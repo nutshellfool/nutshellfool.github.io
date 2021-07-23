@@ -1,0 +1,580 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>研发效能实用贴士 - Git篇 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Git,Development">
+    
+    <meta name="description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &lt;file-name&gt; 进入git add patch 模式之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="研发效能实用贴士 - Git篇">
+<meta property="og:url" content="https://blogs.lirui.me/posts/5a7bdbff/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。   保持Git提交原子性的基本操作用工作区改动的一部分产生提交command line: git add -p &lt;file-name&gt; 进入git add patch 模式之">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-17T11:23:00.000Z">
+<meta property="article:modified_time" content="2020-02-18T08:23:08.775Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/5a7bdbff/" title="研发效能实用贴士 - Git篇" itemprop="url">研发效能实用贴士 - Git篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2019-12-17T11:23:00.000Z" itemprop="datePublished"> 发表于 2019-12-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81Git%E6%8F%90%E4%BA%A4%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">保持Git提交原子性的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%B7%A5%E4%BD%9C%E5%8C%BA%E6%94%B9%E5%8A%A8%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%E4%BA%A7%E7%94%9F%E6%8F%90%E4%BA%A4"><span class="toc-number">1.1.</span> <span class="toc-text">用工作区改动的一部分产生提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E5%BD%93%E5%89%8D%E6%8F%90%E4%BA%A4%E8%BF%9B%E8%A1%8C%E6%8B%86%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">对当前提交进行拆分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%BD%93%E5%89%8D%E6%8F%90%E4%BA%A4"><span class="toc-number">1.3.</span> <span class="toc-text">修改当前提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E5%A4%9A%E4%B8%AA%E6%8F%90%E4%BA%A4%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.4.</span> <span class="toc-text">交换多个提交的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%9D%9E%E5%BD%93%E5%89%8D%E6%8F%90%E4%BA%A4"><span class="toc-number">1.5.</span> <span class="toc-text">修改非当前提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit%E6%93%8D%E4%BD%9C%E7%9A%84%E5%90%8E%E6%82%94%E8%8D%AF"><span class="toc-number">2.</span> <span class="toc-text">Commit操作的后悔药</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%9A%E6%9C%AAadd-%E6%97%B6%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9"><span class="toc-number">2.1.</span> <span class="toc-text">尚未add 时撤销修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add%E5%90%8E%E5%B0%9A%E6%9C%AA-commit-%E6%97%B6%E6%92%A4%E9%94%80"><span class="toc-number">2.2.</span> <span class="toc-text">add后尚未 commit 时撤销</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#commit-%E5%90%8E%E5%B0%9A%E6%9C%AApush-%E6%97%B6%E5%9B%9E%E9%80%80%E7%89%88%E6%9C%AC"><span class="toc-number">2.3.</span> <span class="toc-text">commit 后尚未push 时回退版本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">参考链接</span></a></li></ol>
+		
+		</div>
+		
+		<p>Git 是我们日常开发中常用的代码版本管理工具， 在日常的开发中我们习惯了先Add，再commit然后再push到远程仓库的操作。<br>其实这些操作也是最基础的操作，下文会根据日常开发中的常见场景介绍Git的其他操作。  </p>
+<h2 id="保持Git提交原子性的基本操作"><a href="#保持Git提交原子性的基本操作" class="headerlink" title="保持Git提交原子性的基本操作"></a>保持Git提交原子性的基本操作</h2><h3 id="用工作区改动的一部分产生提交"><a href="#用工作区改动的一部分产生提交" class="headerlink" title="用工作区改动的一部分产生提交"></a>用工作区改动的一部分产生提交</h3><p>command line:</p>
+<p><code>git add -p &lt;file-name&gt;</code></p>
+<p>进入git add patch 模式之后，命令行会将文件中处于woring directory的修改拆分成多个逻辑代码块，<br>然后命令行会依次询问这些代码块是否要将这些改变加入到暂存区（staging area）, 这里只需选择 y or n即可，当然也可以通过 s 指令把代码块进一步拆分。<br>添加完成后，可以通过 git diff –cached 命令查看确定添加到暂存区代码。  </p>
+<h3 id="对当前提交进行拆分"><a href="#对当前提交进行拆分" class="headerlink" title="对当前提交进行拆分"></a>对当前提交进行拆分</h3><p>command line:<br><code>git branch temp</code><br><code>git reset HEAD^</code><br><code>git add -p &lt;file-name&gt;</code></p>
+<h3 id="修改当前提交"><a href="#修改当前提交" class="headerlink" title="修改当前提交"></a>修改当前提交</h3><p>command line:</p>
+<ul>
+<li><p>修改 Commit Message</p>
+<p><code>git commit --amend</code></p>
+</li>
+<li><p>修改文件内容</p>
+<p><code>git add</code>、<code>git rm</code><br><code>git commit --amend</code></p>
+</li>
+</ul>
+<h3 id="交换多个提交的先后顺序"><a href="#交换多个提交的先后顺序" class="headerlink" title="交换多个提交的先后顺序"></a>交换多个提交的先后顺序</h3><p>前提： commit在本地还没有push到remote upstream</p>
+<p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 pick 命令（用法: pick hash-value）交换两个提交，</p>
+<h3 id="修改非当前提交"><a href="#修改非当前提交" class="headerlink" title="修改非当前提交"></a>修改非当前提交</h3><p>command line:<br><code>git branch temp</code><br><code>git rebase -i origin/master</code> 然后在交互命令选择 edit 命令(用法: edit hash-value), 然后通过<code>git add</code> 和 <code>git rm</code> 命令对需要修改的文件进行操作，之后运行<code>git commit --amend</code> 进行提交<br><code>git rebase --continue</code> 完成 <code>git rebase -i</code>命令的后续操作。  </p>
+<h2 id="Commit操作的后悔药"><a href="#Commit操作的后悔药" class="headerlink" title="Commit操作的后悔药"></a>Commit操作的后悔药</h2><h3 id="尚未add-时撤销修改"><a href="#尚未add-时撤销修改" class="headerlink" title="尚未add 时撤销修改"></a>尚未add 时撤销修改</h3><p><code>git checkout -- file_name</code></p>
+<h3 id="add后尚未-commit-时撤销"><a href="#add后尚未-commit-时撤销" class="headerlink" title="add后尚未 commit 时撤销"></a>add后尚未 commit 时撤销</h3><p><code>git rm --cached</code></p>
+<h3 id="commit-后尚未push-时回退版本"><a href="#commit-后尚未push-时回退版本" class="headerlink" title="commit 后尚未push 时回退版本"></a>commit 后尚未push 时回退版本</h3><p><code>git reset --hard HEAD^</code></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解Git</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Efficiency/">Efficiency</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/5a7bdbff/" data-title="研发效能实用贴士 - Git篇 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/a2ce2dc3/" title="在 macOS 上安装 kubernates 备忘录">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在 macOS 上安装 kubernates 备忘录</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/1dfe7706/"  title="Kafka docker安装及其使用">
+ <strong>下一篇：</strong><br/> 
+ <span>Kafka docker安装及其使用
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81Git%E6%8F%90%E4%BA%A4%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">保持Git提交原子性的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%B7%A5%E4%BD%9C%E5%8C%BA%E6%94%B9%E5%8A%A8%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%E4%BA%A7%E7%94%9F%E6%8F%90%E4%BA%A4"><span class="toc-number">1.1.</span> <span class="toc-text">用工作区改动的一部分产生提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E5%BD%93%E5%89%8D%E6%8F%90%E4%BA%A4%E8%BF%9B%E8%A1%8C%E6%8B%86%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">对当前提交进行拆分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%BD%93%E5%89%8D%E6%8F%90%E4%BA%A4"><span class="toc-number">1.3.</span> <span class="toc-text">修改当前提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E5%A4%9A%E4%B8%AA%E6%8F%90%E4%BA%A4%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.4.</span> <span class="toc-text">交换多个提交的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%9D%9E%E5%BD%93%E5%89%8D%E6%8F%90%E4%BA%A4"><span class="toc-number">1.5.</span> <span class="toc-text">修改非当前提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit%E6%93%8D%E4%BD%9C%E7%9A%84%E5%90%8E%E6%82%94%E8%8D%AF"><span class="toc-number">2.</span> <span class="toc-text">Commit操作的后悔药</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%9A%E6%9C%AAadd-%E6%97%B6%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9"><span class="toc-number">2.1.</span> <span class="toc-text">尚未add 时撤销修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add%E5%90%8E%E5%B0%9A%E6%9C%AA-commit-%E6%97%B6%E6%92%A4%E9%94%80"><span class="toc-number">2.2.</span> <span class="toc-text">add后尚未 commit 时撤销</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#commit-%E5%90%8E%E5%B0%9A%E6%9C%AApush-%E6%97%B6%E5%9B%9E%E9%80%80%E7%89%88%E6%9C%AC"><span class="toc-number">2.3.</span> <span class="toc-text">commit 后尚未push 时回退版本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

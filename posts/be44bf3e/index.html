@@ -1,0 +1,659 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>链表设计及其相关算法问题 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="Algorithm,Data structure,Linked list,Linked List Cycle,Reverse Linked List,Merge Two Sorted Lists,Merge k Sorted Lists,环形链表,反转链表,合并两个有序链表,合并K个排序链表">
+    
+    <meta name="description" content="一说到Linked List你会想到什么？ArrayList? 看来你是个Java粉。其实Linked List 并非完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。   链表的分类按照节点的指针方向这个维度我们将链表划分为：  单向列表 双向列表  由单向列表作简单的改进我们就得到了树这个数据结构，当然作更多改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链表设计及其相关算法问题">
+<meta property="og:url" content="https://blogs.lirui.me/posts/be44bf3e/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="一说到Linked List你会想到什么？ArrayList? 看来你是个Java粉。其实Linked List 并非完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。   链表的分类按照节点的指针方向这个维度我们将链表划分为：  单向列表 双向列表  由单向列表作简单的改进我们就得到了树这个数据结构，当然作更多改">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-21T02:03:10.000Z">
+<meta property="article:modified_time" content="2020-02-05T07:46:01.877Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/be44bf3e/" title="链表设计及其相关算法问题" itemprop="url">链表设计及其相关算法问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-21T02:03:10.000Z" itemprop="datePublished"> 发表于 2017-03-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">链表的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">链表的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%9F%BA%E7%A1%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">链表基础元素的定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E9%93%BE%E8%A1%A8%E6%93%8D%E4%BD%9C%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">一些链表操作的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="toc-number">3.1.</span> <span class="toc-text">判断链表是否有环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E8%BD%ACLinkedlist"><span class="toc-number">3.2.</span> <span class="toc-text">反转Linkedlist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%B7%B2%E6%8E%92%E5%A5%BD%E5%BA%8F%E7%9A%84%E5%88%97%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">合并两个已排好序的列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6k%E4%B8%AA%E5%B7%B2%E6%8E%92%E5%BA%8F%E7%9A%84%E5%88%97%E8%A1%A8"><span class="toc-number">3.4.</span> <span class="toc-text">合并k个已排序的列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">关于单元测试案例</span></a></li></ol>
+		
+		</div>
+		
+		<p>一说到Linked List你会想到什么？<br>ArrayList? 看来你是个Java粉。<br>其实Linked List 并非完全是Java集合包下的LinkedList类，而是一种很基础的数据结构，很多数据结构和算法都由它演化而来，在很多地方我们称它为链表。  </p>
+<h2 id="链表的分类"><a href="#链表的分类" class="headerlink" title="链表的分类"></a>链表的分类</h2><p>按照节点的指针方向这个维度我们将链表划分为：</p>
+<ul>
+<li>单向列表</li>
+<li>双向列表</li>
+</ul>
+<p>由单向列表作简单的改进我们就得到了树这个数据结构，当然作更多改进和约束我们就得到各种性质的树，如果这样的“树”还有回环（当然如果有回环那就不是树的定义了）那就构成了有向图。<br>由双向列表可以构建目前很受热捧的skiplist(译作：跳表) 数据结构，这种数据结构有很大的希望会取代Red-Black tree（译作：红黑树）成为新的Hashmap的内部实现，它具有Red-Black tree 的各种操作的效率的同时还在rebalance的操作效率上要高于 Red-Black tree。</p>
+<h2 id="链表的操作"><a href="#链表的操作" class="headerlink" title="链表的操作"></a>链表的操作</h2><p>相信看过我文章的同学就会知道这时候是祭出代码的时候了。<br>其实在动手写代码前做好一些准备工作是更为重要的，因为这个数据结构是一个比较通用的框架类，关于这个类的分析和设计其实已经比较成熟，所以这里就偷懒直接使用现成结论就好。<br>由于篇幅的原因下文仅以单向列表为例程作解说，双向列表的实现会在github工程中公布。</p>
+<h3 id="链表基础元素的定义"><a href="#链表基础元素的定义" class="headerlink" title="链表基础元素的定义"></a>链表基础元素的定义</h3><p>节点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleLinkedNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">private</span> SingleLinkedNode next;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SingleLinkedNode</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SingleLinkedNode</span><span class="params">(<span class="keyword">int</span> value, SingleLinkedNode next)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SingleLinkedNode <span class="title">getNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNext</span><span class="params">(SingleLinkedNode next)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>链表类定义：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleLinkedList</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>  SingleLinkedNode mHeadNode;</span><br><span class="line">  <span class="keyword">private</span>  <span class="keyword">int</span>    mSize;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SingleLinkedList</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> SingleLinkedNode <span class="title">getHeadNode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> mHeadNode;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> mSize;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.mHeadNode = <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个头节点(headNode)是链表访问的入口，也是链表的一个重要属性。<br>下面就需要考虑链表的一些通用操作了，首先想到的就是 <em>增</em> <em>查</em> <em>删</em><br>好我们分别来实现它们：<br>添加:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  Append the node to the tail of the link</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">appendNodeToTail</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mHeadNode == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.mHeadNode = <span class="keyword">new</span> SingleLinkedNode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SingleLinkedNode n = <span class="keyword">this</span>.mHeadNode;</span><br><span class="line">    SingleLinkedNode node = <span class="keyword">new</span> SingleLinkedNode();</span><br><span class="line">    node.setValue(value);</span><br><span class="line">    <span class="keyword">while</span> (n.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        n = n.getNext();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    n.setNext(node);</span><br><span class="line">    mSize ++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查找：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  Search for the node with the specific value</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SingleLinkedNode <span class="title">searchNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    SingleLinkedNode n = <span class="keyword">this</span>.mHeadNode;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (n.getNext() != <span class="keyword">null</span> &amp;&amp; n.getNext().getValue() != value) &#123;</span><br><span class="line">        n = n.getNext();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>  n.getNext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>删除：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  Delete the node from the list</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    SingleLinkedNode n = <span class="keyword">this</span>.mHeadNode;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (n.getNext() != <span class="keyword">null</span> &amp;&amp; n.getNext().getValue() != value) &#123;</span><br><span class="line">        n = n.getNext();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n.getNext() != <span class="keyword">null</span> &amp;&amp; n.getNext().getValue() == value)&#123;</span><br><span class="line">        mSize --;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    n.setNext(n.getNext() != <span class="keyword">null</span> ? n.getNext().getNext() : <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然还有必不可少的部分就是测试工程部分：<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/linkedlist/SingleLinkedListTest.java">github测试工程链接</a></p>
+<p>如果你认为链表操作就这么简单，那就差的太远了，以上的这些操作应当都是需要很快写出，并且bug-free的， 对，bug-free，就是一气呵成，没有bug的意思。<br>下面说几个跟链表相关，需要些技巧才能搞定的题目。</p>
+<h2 id="一些链表操作的技巧"><a href="#一些链表操作的技巧" class="headerlink" title="一些链表操作的技巧"></a>一些链表操作的技巧</h2><h3 id="判断链表是否有环"><a href="#判断链表是否有环" class="headerlink" title="判断链表是否有环"></a>判断链表是否有环</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/linked-list-cycle/#/description">原题传送门</a></p>
+<blockquote>
+<p>Given a linked list, determine if it has a cycle in it.<br>Follow up:<br>Can you solve it without using extra space?</p>
+</blockquote>
+<p>好，拿到题目首先要做什么？<br><em>审题</em><br>有人会说，就这一句话的题目会有什么可以审的？恰恰是因为就一句话才会有大坑。<br>首先只是说给到一个Linked list，这时候你的本能反应应当是：是单向的还是双向的？  对于这道题来说隐喻是单向的。  </p>
+<p>题目审完了，我们下一步该做什么？<br><em>列出可能的所有解决方案</em><br>在不考虑不使用辅助空间的限制的情况下，  </p>
+<ul>
+<li>首先想到的是判断重复的问题应当使用判断重复的数据结构来解决问题，</li>
+<li>其次就是需要使用到一个小技巧来判断<br>相信使用判断重复的数据结构的方法大家都已经想到该怎么做了，所以这部分我们直接贴代码；<br>下面来讲解下小技巧解决问题的思路：<br>是否有环会影响到什么？如果是有环的，那么遍历一圈后还是会回到之前遍历过的节点，而如果列表没有环，那么永远都不会出现相遇的情况。<br>想一想这种特点在我们日常生活的什么东西很像？<br>钟表的分针，秒针的转动，因为时针、秒针的角速度不同所以在围绕一个圆圈转动的时候就一定会相遇，所以受到这个启发就会有下面这种解法：  </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Judge the LinkedList has cycle (no auxiliary space version)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    SingleLinkedNode normal = mHeadNode;</span><br><span class="line">    SingleLinkedNode fast = mHeadNode;</span><br><span class="line">    <span class="keyword">while</span>(normal.getNext() != <span class="keyword">null</span> &amp;&amp; fast.getNext() != <span class="keyword">null</span> &amp;&amp; fast.getNext().getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        normal = normal.getNext();</span><br><span class="line">        fast = fast.getNext().getNext();</span><br><span class="line">        <span class="keyword">if</span> (normal == fast) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面是不需要额外存储空间的解决方案，下面我们看看使用额外空间的解法是怎样的？  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Judge the LinkedList has cycle (auxiliary space version)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mHeadNode == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    HashMap&lt;SingleLinkedNode, SingleLinkedNode&gt; tempMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">    SingleLinkedNode p = mHeadNode;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (p.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (tempMap.get(p) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            tempMap.put(p,p);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tempMap.remove(p);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            Actually this code have the same effect with above 5 lines code.</span></span><br><span class="line"><span class="comment">//            SingleLinkedNode value = tempMap.get(p) == null ? tempMap.put(p,p) : tempMap.remove(p);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (tempMap.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        p = p.getNext();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>两种方案都已经写出来了，下面要做什么？<br><em>复杂度分析</em><br>对于未使用额外辅助方案的算法，实际上是使用了两个速率不同的指针来做的遍历访问，所以时间复杂度为$O(n)$, 空间复杂度上没有使用额外的空间。<br>对于使用 HashMap 作为辅助空间的算法，由于HashMap的 get() put() remove() size() 函数的时间复杂度都是常数级的，所以这段算法的时间复杂度为$O(n)$, 空间复杂度上使用了长度为n的额外空间所以为$O(n)$<br>根据以上的分析我们不难选择未使用额外存储的快慢指针方法更优。</p>
+<p>复杂度分析过后我们需要作的就是<br><em>测试</em><br>这里的case也没有太多要说明的， happy case, other case 具体的case参照测试工程<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/me/lirui/algo/linkedlist/SingleLinkedListTest.java">github测试工程</a></p>
+<h3 id="反转Linkedlist"><a href="#反转Linkedlist" class="headerlink" title="反转Linkedlist"></a>反转Linkedlist</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/reverse-linked-list/#/description">原题传送门</a></p>
+<blockquote>
+<p>Reverse a singly linked list</p>
+</blockquote>
+<p>审题，这里需要注意下为空的情况。<br>可能的解法会有哪些？<br>这道题其实会有两种直觉算法：  </p>
+<ol>
+<li>递归<br>复杂度分析：<br>时间复杂度：由于需要遍历所有节点，所以为$O(n)$<br>空间复杂度：没有使用额外空间</li>
+<li>循环<br>复杂度分析：<br>时间复杂度： 同递归实现相同 $O(n)$<br>空间复杂度： 没有使用额外空间</li>
+</ol>
+<p>那么我们来分别实现这两个版本：<br>递归版本：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">    ListNode next = head.next;</span><br><span class="line">    ListNode newHeadNode = reverseList(next);</span><br><span class="line">    next.next = head;</span><br><span class="line">    head.next = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> newHeadNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>循环版本：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        ListNode pivot = head;</span><br><span class="line">        ListNode frontier = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (pivot != <span class="keyword">null</span> &amp;&amp; pivot.next != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            frontier = pivot.next;</span><br><span class="line">            pivot.next = pivot.next.next;</span><br><span class="line">            frontier.next = head;</span><br><span class="line">            head = frontier;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="合并两个已排好序的列表"><a href="#合并两个已排好序的列表" class="headerlink" title="合并两个已排好序的列表"></a>合并两个已排好序的列表</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/merge-two-sorted-lists/">原题传送门</a></p>
+<blockquote>
+<p>Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.</p>
+</blockquote>
+<p>首先审题，这道题陷阱应该不多，比如考虑这两个list为空的情况应该怎样处理，都为空，其中一个为空？  </p>
+<p>可能的解法会有那些？<br>直接想到的会有两个  </p>
+<ol>
+<li><p>直觉算法， 创建一个新的列表，然后不断从两个列表内找出最小值，然后顺序加入新列表。</p>
+<p> 复杂度分析：<br> 时间复杂度：需要遍历两个列表的所有元素，有且仅有一次，因此为$O(n)$<br> 空间复杂度：需要额外的空间存储新的列表，因此为$O(n)$</p>
+</li>
+<li><p>递归算法，我们来分析下上面算法的过程会发现，其实存在递归的特性，只需要找出列表的头节点最小节点，然后将最小节点的next指向下一层的两个列表就可以。  </p>
+<p> 复杂度分析：<br> 时间复杂度：和上面的算法一样，同样需要遍历所有元素，所以时间复杂度为$O(n)$<br> 空间复杂度：不需要额外的空间存储</p>
+</li>
+</ol>
+<p>显然后面的递归算法更优，那么就按照上面的分析实现：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</span><br><span class="line">        ListNode resultNode = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2);</span><br><span class="line">            resultNode = l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l1, l2.next);</span><br><span class="line">            resultNode = l2;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resultNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于这个问题相对简单些，所以一气呵成。<br>bug free，代码优化空间有倒是有，但是会影响可读性，所以暂且认为这就是最后的答案吧。<br>写完以后想想似乎这个问题还有一个解答，因为一般来说，有了递归的版本就会有个对应的循环的版本，那么好，我们来实现这个循环版本。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</span><br><span class="line">        ListNode head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode node = head;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">                node.next = l1;</span><br><span class="line">                l1 = l1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                node.next = l2;</span><br><span class="line">                l2 = l2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            node = node.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        node.next = l1 != <span class="keyword">null</span> ? l1 : l2;</span><br><span class="line">        <span class="keyword">return</span> head.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为上面的这种非递归的实现方式相比于递归的方式会少占用栈空间，所以从效率的角度来看是最优的，但是与递归的实现相比，递归的代码可读性更好，所以在效率要求并不高的场景下我更推荐使用递归的实现，如果对栈空间有资源限制那就使用非递归的版本。<br>之所以拿这个问题出来的原因是，这个问题有很多使用场景，以及它的变形形式的问题有很大的应用空间。<br>合并两个排序列表的直接使用场景是什么？  对！归并排序，在对两个子序列排序后就可以用到这个。<br>稍微变形下就可以引出下一个更具有通用意义的问题：  </p>
+<h3 id="合并k个已排序的列表"><a href="#合并k个已排序的列表" class="headerlink" title="合并k个已排序的列表"></a>合并k个已排序的列表</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/merge-k-sorted-lists/#/description">原题传送门</a>  </p>
+<blockquote>
+<p>Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.</p>
+</blockquote>
+<p>和合并两个排序列表的问题相似，我们还是要审题，然而这个问题的坑并不是那么多，这个环节就暂且略过。<br>好，我们来看会有那些可能的算法。<br>首先，直觉算法就是：开辟一个新的空间用来存储合并后的列表，然后递归的去寻找这k个列表的最小的值然后将对应的节点添加到新的列表里。  </p>
+<p>  复杂度分析：<br>    时间复杂度： 就如merge两个列表的问题一样，算法需要遍历所有列表元素，所以复杂度为$O(n)$<br>    空间复杂度： 使用到了额外的空间，复杂度为$O(n)$</p>
+<p>其次，考虑到k个的问题一般都会有递归的算法，仔细分析后我们惊喜地发现的确可以这样来做，思路就是将数组一分为二，然后对这两个子数组分别进行merge，最后得到两个merge过的数组，然后将这两个merge就可以。</p>
+<p>  复杂度分析：<br>    时间复杂度： 该算法将问题划分为两个子问题，然后再加上一个$O(n)$复杂度的子问题，使用master theorem 我们知道这个问题的时间复杂度是$O(nlogn)$<br>    空间复杂度： 未使用额外空间<br>分析过后，后一种的方案目前最优，所以我们来实现这个算法。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeKLists</span><span class="params">(ListNode[] lists)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lists == <span class="keyword">null</span> || lists.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (lists.length == <span class="number">1</span>) <span class="keyword">return</span> lists[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> len = lists.length;</span><br><span class="line">        <span class="keyword">int</span> mid = len / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        ListNode leftNode = mergeKLists(Arrays.copyOfRange(lists, <span class="number">0</span>, mid));</span><br><span class="line">        ListNode rightNode = mergeKLists(Arrays.copyOfRange(lists, mid, len));</span><br><span class="line">        <span class="keyword">return</span> _merge2List(leftNode, rightNode);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ListNode <span class="title">_merge2List</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</span><br><span class="line"></span><br><span class="line">        ListNode result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">            l1.next = _merge2List(l1.next, l2);</span><br><span class="line">            result = l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = _merge2List(l1, l2.next);</span><br><span class="line">            result = l2;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的merge2list实现是递归的实现，如果碰到栈溢出问题的话可以使用循环的实现，如下所示：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> ListNode <span class="title">_merge2List</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</span><br><span class="line">    <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</span><br><span class="line"></span><br><span class="line">    ListNode head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    ListNode node = head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">            node.next = l1;</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            node.next = l2;</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.next = l1 != <span class="keyword">null</span> ? l1 : l2;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码是否还有优化的空间呢？ 在我看来已经可以了，再优化可能会影响可读性，因此到这个阶段就可以了。  </p>
+<h2 id="关于单元测试案例"><a href="#关于单元测试案例" class="headerlink" title="关于单元测试案例"></a>关于单元测试案例</h2><p>对于链表的测试其实根据具体情况的不同边界条件和对应业务测试会有所不同，总的来说对于链表的测试我会从以下这几个用例考虑：  </p>
+<ol>
+<li>链表是空节点 <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/java/me/lirui/algo/linkedlist/SingleLinkedListNoNodeTest.java">SingleLinkedListNoNodeTest github link</a></li>
+<li>链表含有一个节点 <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/java/me/lirui/algo/linkedlist/SingleLinkedListOneNodeTest.java">SingleLinkedListOneNodeTest github link</a></li>
+<li>链表含有两个及以上节点 <a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/java/me/lirui/algo/linkedlist/SingleLinkedListTest.java">SingleLinkedListTest github link</a></li>
+</ol>
+<p>特别的对于合并链表的问题会有特别的测试用例<a target="_blank" rel="noopener" href="https://github.com/nutshellfool/algorithmShare/blob/master/src/test/java/me/lirui/algo/linkedlist/SingleLinkedListTwoListTest.java">SingleLinkedListTwoListTes github link</a></p>
+<p>EOF</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/be44bf3e/" data-title="链表设计及其相关算法问题 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/94519b49/" title="配置markdown写作环境">
+  <strong>上一篇：</strong><br/>
+  <span>
+  配置markdown写作环境</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/937b6c8a/"  title="树的一些算法问题">
+ <strong>下一篇：</strong><br/> 
+ <span>树的一些算法问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">链表的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">链表的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%9F%BA%E7%A1%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">链表基础元素的定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E9%93%BE%E8%A1%A8%E6%93%8D%E4%BD%9C%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">一些链表操作的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="toc-number">3.1.</span> <span class="toc-text">判断链表是否有环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E8%BD%ACLinkedlist"><span class="toc-number">3.2.</span> <span class="toc-text">反转Linkedlist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%B7%B2%E6%8E%92%E5%A5%BD%E5%BA%8F%E7%9A%84%E5%88%97%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">合并两个已排好序的列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6k%E4%B8%AA%E5%B7%B2%E6%8E%92%E5%BA%8F%E7%9A%84%E5%88%97%E8%A1%A8"><span class="toc-number">3.4.</span> <span class="toc-text">合并k个已排序的列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">关于单元测试案例</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+

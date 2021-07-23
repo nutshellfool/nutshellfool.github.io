@@ -1,0 +1,615 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>部署一个标准Python（Flask）应用的备忘录 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="deployment flask application,Python,virtualenv,gunicorn,supervisord">
+    
+    <meta name="description" content="使用到的工具链：  virtualenv gunicorn supervisord  创建隔离独立的Python运行环境 使用virtualenv创建独立的应用环境virtualenv myProjectName如果想指定Python的版本virtualenv -p &#x2F;path&#x2F;to&#x2F;python myProjectName  修改requirements.txt 文件，添加gunicorn和su">
+<meta property="og:type" content="article">
+<meta property="og:title" content="部署一个标准Python（Flask）应用的备忘录">
+<meta property="og:url" content="https://blogs.lirui.me/posts/2e474ec1/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="使用到的工具链：  virtualenv gunicorn supervisord  创建隔离独立的Python运行环境 使用virtualenv创建独立的应用环境virtualenv myProjectName如果想指定Python的版本virtualenv -p &#x2F;path&#x2F;to&#x2F;python myProjectName  修改requirements.txt 文件，添加gunicorn和su">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-31T11:03:12.000Z">
+<meta property="article:modified_time" content="2020-05-03T08:29:18.883Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/2e474ec1/" title="部署一个标准Python（Flask）应用的备忘录" itemprop="url">部署一个标准Python（Flask）应用的备忘录</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-31T11:03:12.000Z" itemprop="datePublished"> 发表于 2017-10-31</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%9A%94%E7%A6%BB%E7%8B%AC%E7%AB%8B%E7%9A%84Python%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">创建隔离独立的Python运行环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%AE%BF%E9%97%AEPython-App%E7%9A%84%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">配置多进程访问Python App的环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">配置守护进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#supervisor"><span class="toc-number">3.1.</span> <span class="toc-text">supervisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86supervisord%E8%AE%BE%E7%BD%AE%E4%B8%BA%E7%B3%BB%E7%BB%9F%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">将supervisord设置为系统开机自动启动进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E9%87%8D%E5%90%AF"><span class="toc-number">3.3.</span> <span class="toc-text">进程服务重启</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>使用到的工具链：</p>
+<ul>
+<li>virtualenv</li>
+<li>gunicorn</li>
+<li>supervisord</li>
+</ul>
+<h2 id="创建隔离独立的Python运行环境"><a href="#创建隔离独立的Python运行环境" class="headerlink" title="创建隔离独立的Python运行环境"></a>创建隔离独立的Python运行环境</h2><ol>
+<li><p>使用virtualenv创建独立的应用环境<br><code>virtualenv myProjectName</code><br>如果想指定Python的版本<br><code>virtualenv -p /path/to/python myProjectName</code></p>
+</li>
+<li><p>修改requirements.txt 文件，添加gunicorn和supervisor的安装<br> 例如:  </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line"></span><br><span class="line">supervisor==3.3.3</span><br><span class="line">gunicorn==19.7.1</span><br></pre></td></tr></table></figure></li>
+<li><p>安装依赖包<br> <code>pip install -r requirements.txt</code></p>
+</li>
+</ol>
+<h2 id="配置多进程访问Python-App的环境"><a href="#配置多进程访问Python-App的环境" class="headerlink" title="配置多进程访问Python App的环境"></a>配置多进程访问Python App的环境</h2><p>创建gunicorn配置文件：<br><code>vim gunicorn_config.py</code></p>
+<p>文件模版：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Server socket</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   bind - The socket to bind.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A string of the form: &#x27;HOST&#x27;, &#x27;HOST:PORT&#x27;, &#x27;unix:PATH&#x27;.</span></span><br><span class="line"><span class="comment">#       An IP is a valid HOST.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   backlog - The number of pending connections. This refers</span></span><br><span class="line"><span class="comment">#       to the number of clients that can be waiting to be</span></span><br><span class="line"><span class="comment">#       served. Exceeding this number results in the client</span></span><br><span class="line"><span class="comment">#       getting an error when attempting to connect. It should</span></span><br><span class="line"><span class="comment">#       only affect servers under significant load.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       Must be a positive integer. Generally set in the 64-2048</span></span><br><span class="line"><span class="comment">#       range.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">bind = <span class="string">&#x27;127.0.0.1:8000&#x27;</span></span><br><span class="line">backlog = <span class="number">2048</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Worker processes</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   workers - The number of worker processes that this server</span></span><br><span class="line"><span class="comment">#       should keep alive for handling requests.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A positive integer generally in the 2-4 x $(NUM_CORES)</span></span><br><span class="line"><span class="comment">#       range. You&#x27;ll want to vary this a bit to find the best</span></span><br><span class="line"><span class="comment">#       for your particular application&#x27;s work load.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   worker_class - The type of workers to use. The default</span></span><br><span class="line"><span class="comment">#       sync class should handle most &#x27;normal&#x27; types of work</span></span><br><span class="line"><span class="comment">#       loads. You&#x27;ll want to read</span></span><br><span class="line"><span class="comment">#       http://docs.gunicorn.org/en/latest/design.html#choosing-a-worker-type</span></span><br><span class="line"><span class="comment">#       for information on when you might want to choose one</span></span><br><span class="line"><span class="comment">#       of the other worker classes.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A string referring to a Python path to a subclass of</span></span><br><span class="line"><span class="comment">#       gunicorn.workers.base.Worker. The default provided values</span></span><br><span class="line"><span class="comment">#       can be seen at</span></span><br><span class="line"><span class="comment">#       http://docs.gunicorn.org/en/latest/settings.html#worker-class</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   worker_connections - For the eventlet and gevent worker classes</span></span><br><span class="line"><span class="comment">#       this limits the maximum number of simultaneous clients that</span></span><br><span class="line"><span class="comment">#       a single process can handle.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A positive integer generally set to around 1000.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   timeout - If a worker does not notify the master process in this</span></span><br><span class="line"><span class="comment">#       number of seconds it is killed and a new worker is spawned</span></span><br><span class="line"><span class="comment">#       to replace it.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       Generally set to thirty seconds. Only set this noticeably</span></span><br><span class="line"><span class="comment">#       higher if you&#x27;re sure of the repercussions for sync workers.</span></span><br><span class="line"><span class="comment">#       For the non sync workers it just means that the worker</span></span><br><span class="line"><span class="comment">#       process is still communicating and is not tied to the length</span></span><br><span class="line"><span class="comment">#       of time required to handle a single request.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   keepalive - The number of seconds to wait for the next request</span></span><br><span class="line"><span class="comment">#       on a Keep-Alive HTTP connection.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A positive integer. Generally set in the 1-5 seconds range.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">workers = <span class="number">1</span></span><br><span class="line"><span class="comment"># worker_class = &#x27;sync&#x27;</span></span><br><span class="line"><span class="comment"># worker_connections = 1000</span></span><br><span class="line"><span class="comment"># timeout = 30</span></span><br><span class="line"><span class="comment"># keepalive = 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   spew - Install a trace function that spews every line of Python</span></span><br><span class="line"><span class="comment">#       that is executed when running the server. This is the</span></span><br><span class="line"><span class="comment">#       nuclear option.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       True or False</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">spew = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Server mechanics</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   daemon - Detach the main Gunicorn process from the controlling</span></span><br><span class="line"><span class="comment">#       terminal with a standard fork/fork sequence.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       True or False</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   pidfile - The path to a pid file to write</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A path string or None to not write a pid file.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   user - Switch worker processes to run as this user.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A valid user id (as an integer) or the name of a user that</span></span><br><span class="line"><span class="comment">#       can be retrieved with a call to pwd.getpwnam(value) or None</span></span><br><span class="line"><span class="comment">#       to not change the worker process user.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   group - Switch worker process to run as this group.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A valid group id (as an integer) or the name of a user that</span></span><br><span class="line"><span class="comment">#       can be retrieved with a call to pwd.getgrnam(value) or None</span></span><br><span class="line"><span class="comment">#       to change the worker processes group.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   umask - A mask for file permissions written by Gunicorn. Note that</span></span><br><span class="line"><span class="comment">#       this affects unix socket permissions.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A valid value for the os.umask(mode) call or a string</span></span><br><span class="line"><span class="comment">#       compatible with int(value, 0) (0 means Python guesses</span></span><br><span class="line"><span class="comment">#       the base, so values like &quot;0&quot;, &quot;0xFF&quot;, &quot;0022&quot; are valid</span></span><br><span class="line"><span class="comment">#       for decimal, hex, and octal representations)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   tmp_upload_dir - A directory to store temporary request data when</span></span><br><span class="line"><span class="comment">#       requests are read. This will most likely be disappearing soon.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A path to a directory where the process owner can write. Or</span></span><br><span class="line"><span class="comment">#       None to signal that Python should choose one on its own.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">daemon = <span class="literal">False</span></span><br><span class="line">pidfile = <span class="literal">None</span></span><br><span class="line">umask = <span class="number">0</span></span><br><span class="line">user = <span class="literal">None</span></span><br><span class="line">group = <span class="literal">None</span></span><br><span class="line">tmp_upload_dir = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   Logging</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   logfile - The path to a log file to write to.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A path string. &quot;-&quot; means log to stdout.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   loglevel - The granularity of log output</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A string of &quot;debug&quot;, &quot;info&quot;, &quot;warning&quot;, &quot;error&quot;, &quot;critical&quot;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">errorlog = <span class="string">&#x27;/tmp/demo_error.log&#x27;</span></span><br><span class="line">loglevel = <span class="string">&#x27;info&#x27;</span></span><br><span class="line">accesslog = <span class="string">&#x27;/tmp/demo_access.log&#x27;</span></span><br><span class="line">access_log_format = <span class="string">&#x27;%(h)s %(l)s %(u)s %(t)s &quot;%(r)s&quot; %(s)s %(b)s &quot;%(f)s&quot; &quot;%(a)s&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Process naming</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   proc_name - A base to use with setproctitle to change the way</span></span><br><span class="line"><span class="comment">#       that Gunicorn processes are reported in the system process</span></span><br><span class="line"><span class="comment">#       table. This affects things like &#x27;ps&#x27; and &#x27;top&#x27;. If you&#x27;re</span></span><br><span class="line"><span class="comment">#       going to be running more than one instance of Gunicorn you&#x27;ll</span></span><br><span class="line"><span class="comment">#       probably want to set a name to tell them apart. This requires</span></span><br><span class="line"><span class="comment">#       that you install the setproctitle module.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A string or None to choose a default of something like &#x27;gunicorn&#x27;.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line">proc_name = <span class="string">&#x27;demoServer&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Server hooks</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   post_fork - Called just after a worker has been forked.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A callable that takes a server and worker instance</span></span><br><span class="line"><span class="comment">#       as arguments.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   pre_fork - Called just prior to forking the worker subprocess.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A callable that accepts the same arguments as after_fork</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   pre_exec - Called just prior to forking off a secondary</span></span><br><span class="line"><span class="comment">#       master process during things like config reloading.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       A callable that takes a server instance as the sole argument.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post_fork</span>(<span class="params">server, worker</span>):</span></span><br><span class="line">    server.log.info(<span class="string">&quot;Worker spawned (pid: %s)&quot;</span>, worker.pid)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pre_fork</span>(<span class="params">server, worker</span>):</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pre_exec</span>(<span class="params">server</span>):</span></span><br><span class="line">    server.log.info(<span class="string">&quot;Forked child, re-executing.&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">when_ready</span>(<span class="params">server</span>):</span></span><br><span class="line">    server.log.info(<span class="string">&quot;Server is ready. Spawning workers&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker_int</span>(<span class="params">worker</span>):</span></span><br><span class="line">    worker.log.info(<span class="string">&quot;worker received INT or QUIT signal&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">## get traceback info</span></span><br><span class="line">    <span class="keyword">import</span> threading, sys, traceback</span><br><span class="line">    id2name = <span class="built_in">dict</span>([(th.ident, th.name) <span class="keyword">for</span> th <span class="keyword">in</span> threading.<span class="built_in">enumerate</span>()])</span><br><span class="line">    code = []</span><br><span class="line">    <span class="keyword">for</span> threadId, stack <span class="keyword">in</span> sys._current_frames().items():</span><br><span class="line">        code.append(<span class="string">&quot;\n# Thread: %s(%d)&quot;</span> % (id2name.get(threadId,<span class="string">&quot;&quot;</span>),</span><br><span class="line">            threadId))</span><br><span class="line">        <span class="keyword">for</span> filename, lineno, name, line <span class="keyword">in</span> traceback.extract_stack(stack):</span><br><span class="line">            code.append(<span class="string">&#x27;File: &quot;%s&quot;, line %d, in %s&#x27;</span> % (filename,</span><br><span class="line">                lineno, name))</span><br><span class="line">            <span class="keyword">if</span> line:</span><br><span class="line">                code.append(<span class="string">&quot;  %s&quot;</span> % (line.strip()))</span><br><span class="line">    worker.log.debug(<span class="string">&quot;\n&quot;</span>.join(code))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker_abort</span>(<span class="params">worker</span>):</span></span><br><span class="line">    worker.log.info(<span class="string">&quot;worker received SIGABRT signal&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果到这一步不需要守护进程，就只需要在配置文件中将<code>daemon=False</code> 改为<code>daemon=True</code><br>然后通过启动gunicorn的命令将应用启动<br><code>gunicorn myProjectMainModual:app -c /path/to/myProjectName/gunicorn_config.py</code><br>此时应用就已经启动起来了（如果不需要守护进程的情况下）</p>
+<h2 id="配置守护进程"><a href="#配置守护进程" class="headerlink" title="配置守护进程"></a>配置守护进程</h2><p>在CentOS7环境下使用supervisor <a target="_blank" rel="noopener" href="http://supervisord.org/">Supervisor: A Process Control System</a> 做为gunicorn的守护进程， 以下是如何在CentOS7环境下安装和配置supervisor的过程。  </p>
+<h3 id="supervisor"><a href="#supervisor" class="headerlink" title="supervisor"></a>supervisor</h3><ul>
+<li><p>安装supervisor</p>
+<ol>
+<li>切换用户到<code>root</code>用户：<code>sudo su -</code></li>
+<li>使用<code>pip install</code>安装supervisor <code>pip install supervisor</code></li>
+<li>创建<code>supervisord</code>配置文件 <code>echo_supervisord_conf &gt; /etc/supervisord.conf</code></li>
+</ol>
+</li>
+<li><p>配置supervisor</p>
+<ol>
+<li>切换回需要运行supervisord的系统用户<code>exit</code></li>
+<li>编辑<code>/etc/supervisord.conf</code>配置文件，添加<code>program</code> 节点<br>配置文件模版：</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[program:demo]</span><br><span class="line">command=/usr/local/bin/gunicorn myProjectMainModual:app -c /path/to/myProjectName/gunicorn_config.py</span><br><span class="line">directory=/path/to/myProjectName</span><br><span class="line">user=&lt;user_name&gt;</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">redirect_stderr=true</span><br></pre></td></tr></table></figure></li>
+<li><p>启动supervisord</p>
+</li>
+</ul>
+<p><code>supervisord -c /etc/supervisord.conf</code></p>
+<ul>
+<li>启动supervisorctl 控制配置<br>事实上如果是第一次启动，上面启动supervisord的过程就已经将新加载的<code>program</code>节点加载进来了，后续如果想再添加和加载<code>program</code>节点可以通过<code>supervisorctl</code>进行。<br>配置好之后通过supervisorctl命令将刚才配置好的需要被守护的程序加载到supervisord中:<br><code>supervisorctl -c /etc/supervisord.conf</code><br>以下以之上配置的<code>demo</code>程序为例<br>在supervisorctl的命令行中<code>supervisor&gt;</code>输入：<br><code>supervisor&gt; reread</code><br><code>supervisor&gt; add demo</code><br>没有提示任何错误后，这个程序就完成了守护进程的配置工作。<br>更多supervisorctl指令请参照官方文档<a target="_blank" rel="noopener" href="http://supervisord.org/running.html#supervisorctl-command-line-options">supervisorctl Command-Line Options</a></li>
+</ul>
+<h3 id="将supervisord设置为系统开机自动启动进程"><a href="#将supervisord设置为系统开机自动启动进程" class="headerlink" title="将supervisord设置为系统开机自动启动进程"></a>将supervisord设置为系统开机自动启动进程</h3><ul>
+<li><p>创建systemd开机自动脚本</p>
+<ol>
+<li>创建文件<br><code>sudo vim /etc/systemd/system/supervisord.service</code></li>
+<li>按照以下配置文件模版进行编辑<br><a target="_blank" rel="noopener" href="http://supervisord.org/running.html#running-supervisord-automatically-on-startup">Running supervisord automatically on startup</a></li>
+</ol>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># supervisord service for systemd (CentOS 7.0+)</span></span><br><span class="line"><span class="comment"># by ET-CS (https://github.com/ET-CS)</span></span><br><span class="line"><span class="comment"># https://github.com/Supervisor/initscripts/blob/master/centos-systemd-etcs</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=Supervisor daemon</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/usr/bin/supervisord</span><br><span class="line">ExecStop=/usr/bin/supervisorctl <span class="variable">$OPTIONS</span> shutdown</span><br><span class="line">ExecReload=/usr/bin/supervisorctl <span class="variable">$OPTIONS</span> reload</span><br><span class="line">KillMode=process</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=42s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure></li>
+<li><p>启动服务<br><code>sudo systemctl start supervisord</code></p>
+</li>
+<li><p>查看服务<br><code>sudo systemctl status supervisord</code></p>
+</li>
+<li><p>设置服务为系统开机自动启动<br><code>sudo systemctl enable supervisord</code></p>
+</li>
+</ul>
+<h3 id="进程服务重启"><a href="#进程服务重启" class="headerlink" title="进程服务重启"></a>进程服务重启</h3><p>通过以上配置就形成了 <code>systemd</code> -&gt; <code>supervisord</code> -&gt; <code>gunicorn</code> -&gt; <code>Python Application(Flask)</code>的守护调用关系。<br>由于<code>supervisord</code>在这里扮演的是守护进程角色，所以WSGI Python 应用进程的意外退出将有<code>supervisord</code>负责重启和守护；<br>但是由于<code>supervisord</code>本身也是一个系统进程，只是这个进程身份稍微比较特殊而已，也就是说这个进程也是存在意外退出的风险，遇到这样upstream服务不可用的状态可以用<code>sudo systemctl status supervisord</code>来查看服务状态，如果确定是服务进程意外退出可以使用<code>sudo systemctl restart supervisord</code>重启服务。  </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/2e474ec1/" data-title="部署一个标准Python（Flask）应用的备忘录 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/posts/47728c0b/" title="向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现">
+  <strong>上一篇：</strong><br/>
+  <span>
+  向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/posts/cac2d233/"  title="Dockerfile 书写方法（cookbook）">
+ <strong>下一篇：</strong><br/> 
+ <span>Dockerfile 书写方法（cookbook）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%9A%94%E7%A6%BB%E7%8B%AC%E7%AB%8B%E7%9A%84Python%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">创建隔离独立的Python运行环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%AE%BF%E9%97%AEPython-App%E7%9A%84%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">配置多进程访问Python App的环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">配置守护进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#supervisor"><span class="toc-number">3.1.</span> <span class="toc-text">supervisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86supervisord%E8%AE%BE%E7%BD%AE%E4%B8%BA%E7%B3%BB%E7%BB%9F%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">将supervisord设置为系统开机自动启动进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E9%87%8D%E5%90%AF"><span class="toc-number">3.3.</span> <span class="toc-text">进程服务重启</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2021
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+
