@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>部署Kubernetes 集群手册 - （非高可用-kubeadm版） | CombinatorX</title>
+    <title>Jira模版 - 用户故事（User story）/ 任务（Task）/ 缺陷（Bug） | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
 
-    <meta name="keywords" content="kubernates,kubeadm,Helm,ubuntu 18.04">
+    <meta name="keywords" content="Jira template,Jira 模版,项目管理">
     
-    <meta name="description" content="安装前的检查   检查项 检查细节 结果    主机 一台兼容的 Linux 主机。Kubernetes 项目为基于 Debian 和 Red Hat 的 Linux 发行版以及一些不提供包管理器的发行版提供通用的指令    硬件 - 内存 每台机器 2 GB 或更多的 RAM    硬件 - CPU 2 CPU 核或更多    网络 集群中的所有机器的网络彼此均能相互连接(公网和内网都可以)">
+    <meta name="description" content="模版用户故事（User story）模版 老版本  123456789101112131415161718192021222324252627282930313233343536373839h3. (on) 概述**作为** xx（角色） **我希望** 实现xx特性**已满足** xx需求 h3. (*) 验收条件 &amp;#123;panel:title&#x3D;验收条件1|borderStyle&#x3D;dash">
 <meta property="og:type" content="article">
-<meta property="og:title" content="部署Kubernetes 集群手册 - （非高可用-kubeadm版）">
+<meta property="og:title" content="Jira模版 - 用户故事（User story）&#x2F; 任务（Task）&#x2F; 缺陷（Bug）">
 <meta property="og:url" content="https://blogs.lirui.me/posts/undefined/index.html">
 <meta property="og:site_name" content="CombinatorX">
-<meta property="og:description" content="安装前的检查   检查项 检查细节 结果    主机 一台兼容的 Linux 主机。Kubernetes 项目为基于 Debian 和 Red Hat 的 Linux 发行版以及一些不提供包管理器的发行版提供通用的指令    硬件 - 内存 每台机器 2 GB 或更多的 RAM    硬件 - CPU 2 CPU 核或更多    网络 集群中的所有机器的网络彼此均能相互连接(公网和内网都可以)">
+<meta property="og:description" content="模版用户故事（User story）模版 老版本  123456789101112131415161718192021222324252627282930313233343536373839h3. (on) 概述**作为** xx（角色） **我希望** 实现xx特性**已满足** xx需求 h3. (*) 验收条件 &amp;#123;panel:title&#x3D;验收条件1|borderStyle&#x3D;dash">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-09-02T09:54:58.000Z">
-<meta property="article:modified_time" content="2021-09-02T10:24:33.564Z">
+<meta property="article:published_time" content="2020-02-08T06:28:05.000Z">
+<meta property="article:modified_time" content="2022-02-08T03:24:28.945Z">
 <meta property="article:author" content="李瑞">
 <meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
 <meta name="twitter:card" content="summary">
@@ -89,14 +89,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/undefined/" title="部署Kubernetes 集群手册 - （非高可用-kubeadm版）" itemprop="url">部署Kubernetes 集群手册 - （非高可用-kubeadm版）</a>
+      <a href="/posts/undefined/" title="Jira模版 - 用户故事（User story）/ 任务（Task）/ 缺陷（Bug）" itemprop="url">Jira模版 - 用户故事（User story）/ 任务（Task）/ 缺陷（Bug）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2021-09-02T09:54:58.000Z" itemprop="datePublished"> 发表于 2021-09-02</time>
+    <time datetime="2020-02-08T06:28:05.000Z" itemprop="datePublished"> 发表于 2020-02-08</time>
     
   </p>
 </header>
@@ -105,136 +105,46 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%89%8D%E7%9A%84%E6%A3%80%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">安装前的检查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%85%E8%A6%81%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">必要的安装和配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEControl-plane-%EF%BC%88master%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">配置Control-plane （master节点）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEworker%E8%8A%82%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">配置worker节点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kubeadm-join-master%E8%8A%82%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">kubeadm join master节点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Helm%E5%8F%8Aingress-nginx"><span class="toc-number">4.</span> <span class="toc-text">安装Helm及ingress-nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E9%94%99"><span class="toc-number">5.</span> <span class="toc-text">排错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0-coredns-%E7%BB%84%E4%BB%B6%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">遇到 coredns 组件镜像下载问题怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#helm-%E5%AE%89%E8%A3%85ingress-nginx-%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">5.2.</span> <span class="toc-text">helm 安装ingress-nginx 失败怎么办？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%8D%87%E6%95%88%E7%8E%87%E7%9A%84%E4%B8%80%E4%BA%9Bshell%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">提升效率的一些shell配置</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E7%89%88"><span class="toc-number">1.</span> <span class="toc-text">模版</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%EF%BC%88User-story%EF%BC%89%E6%A8%A1%E7%89%88"><span class="toc-number">1.1.</span> <span class="toc-text">用户故事（User story）模版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%EF%BC%88Task%EF%BC%89%E6%A8%A1%E7%89%88"><span class="toc-number">1.2.</span> <span class="toc-text">任务（Task）模版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%EF%BC%88Bug%EF%BC%89%E6%A8%A1%E7%89%88"><span class="toc-number">1.3.</span> <span class="toc-text">缺陷（Bug）模版</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="安装前的检查"><a href="#安装前的检查" class="headerlink" title="安装前的检查"></a>安装前的检查</h2><table>
-<thead>
-<tr>
-<th>检查项</th>
-<th>检查细节</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>主机</td>
-<td>一台兼容的 Linux 主机。Kubernetes 项目为基于 Debian 和 Red Hat 的 Linux 发行版以及一些不提供包管理器的发行版提供通用的指令</td>
-<td></td>
-</tr>
-<tr>
-<td>硬件 - 内存</td>
-<td>每台机器 2 GB 或更多的 RAM</td>
-<td></td>
-</tr>
-<tr>
-<td>硬件 - CPU</td>
-<td>2 CPU 核或更多</td>
-<td></td>
-</tr>
-<tr>
-<td>网络</td>
-<td>集群中的所有机器的网络彼此均能相互连接(公网和内网都可以)</td>
-<td></td>
-</tr>
-<tr>
-<td>配置 - 主机名</td>
-<td>节点之中不可以有重复的主机名、MAC 地址或 product_uuid</td>
-<td></td>
-</tr>
-<tr>
-<td>配置 - 开放端口</td>
-<td>master: 6443, 2379-2380, 10250, 10251, 10252  worker:10250, 30000-32767</td>
-<td></td>
-</tr>
-<tr>
-<td>配置 - 禁用swap</td>
-<td>禁用swap</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="必要的安装和配置"><a href="#必要的安装和配置" class="headerlink" title="必要的安装和配置"></a>必要的安装和配置</h3><ul>
-<li>确保<code>br_netfilter</code>模块被加载</li>
+		<h2 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h2><h3 id="用户故事（User-story）模版"><a href="#用户故事（User-story）模版" class="headerlink" title="用户故事（User story）模版"></a>用户故事（User story）模版</h3><ul>
+<li>老版本</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo modprobe br_netfilter</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/k8s.conf</span><br><span class="line">br_netfilter</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl --system</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">h3. (on) 概述</span><br><span class="line">**作为** xx（角色） </span><br><span class="line">**我希望** 实现xx特性</span><br><span class="line">**已满足** xx需求</span><br><span class="line"> </span><br><span class="line">h3. (*) 验收条件 </span><br><span class="line">&#123;panel:title=验收条件1|borderStyle=dashed|borderColor=#17202a|titleBGColor=#808b96|bgColor=#fbfcfc&#125;</span><br><span class="line">**前提条件** ：</span><br><span class="line">**动作** ：</span><br><span class="line">**预期结果** ：</span><br><span class="line">&#123;panel&#125;</span><br><span class="line"></span><br><span class="line">&#123;panel:title=验收条件2|borderStyle=dashed|borderColor=#17202a|titleBGColor=#808b96|bgColor=#fbfcfc&#125;</span><br><span class="line">**前提条件** ：</span><br><span class="line">**动作** ：</span><br><span class="line">**预期结果** ：</span><br><span class="line">&#123;panel&#125;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">h3. 产品设计</span><br><span class="line"> </span><br><span class="line">h4. 产品设计文档</span><br><span class="line">[PRD 文档链接|http://linkhere.com]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">h4. UI/UE设计文档</span><br><span class="line">[UI/UE 设计文档|http://linkhere.com]</span><br><span class="line"></span><br><span class="line">h3. 技术方案 </span><br><span class="line"></span><br><span class="line">API 设计文档；[API 设计文档|http://linkhere.com]</span><br><span class="line">系统架构设计文档；[架构设计文档|http://linkhere.com]</span><br><span class="line"></span><br><span class="line">h3. 其他</span><br><span class="line">其他</span><br><span class="line"> </span><br><span class="line">h3. (flag) ToDo</span><br><span class="line">(-) @ 与业务方确认xxx可行性</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>禁用swap</li>
+<li>Markdown</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sed -i &#x27;/ swap / s/^/#/&#x27; /etc/fstab</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">### :green book: 概述</span></span><br><span class="line"><span class="strong">**作为**</span> xx（角色） </span><br><span class="line"><span class="strong">**我希望**</span> 实现xx特性</span><br><span class="line"><span class="strong">**已满足**</span> xx需求</span><br><span class="line"> </span><br><span class="line"><span class="section">### :clipboard: 验收条件</span></span><br><span class="line">/info panel</span><br><span class="line"><span class="section">#### 验收条件1</span></span><br><span class="line"><span class="strong">**前提条件**</span> ：</span><br><span class="line"><span class="strong">**动作**</span> ：</span><br><span class="line"><span class="strong">**预期结果**</span> ：</span><br><span class="line"></span><br><span class="line">/info panel</span><br><span class="line"><span class="section">#### 验收条件2</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**前提条件**</span> ：</span><br><span class="line"><span class="strong">**动作**</span> ：</span><br><span class="line"><span class="strong">**预期结果**</span> ：</span><br><span class="line"> </span><br><span class="line"><span class="section">### :paintbrush: 产品设计</span></span><br><span class="line"> </span><br><span class="line"><span class="section">### 产品设计文档链接</span></span><br><span class="line">[<span class="string">PRD 文档链接</span>](<span class="link">http://linkhere.com</span>)</span><br><span class="line">[<span class="string">UI/UE 设计文档</span>](<span class="link">http://linkhere.com</span>)</span><br><span class="line"> </span><br><span class="line"><span class="section">### :floppy<span class="emphasis">_disk: 技术方案</span></span></span><br><span class="line"><span class="emphasis"><span class="section">#### 技术方案链接</span></span></span><br><span class="line"><span class="emphasis"><span class="section"></span></span></span><br><span class="line"><span class="emphasis"><span class="section">API 设计文档；</span></span></span><br><span class="line"><span class="emphasis"><span class="section">系统架构设计文档；</span></span></span><br><span class="line"><span class="emphasis"><span class="section"></span></span></span><br><span class="line"><span class="emphasis"><span class="section">### 其他信息</span></span></span><br><span class="line"><span class="emphasis"><span class="section">其他</span></span></span><br><span class="line"><span class="emphasis"><span class="section"> </span></span></span><br><span class="line"><span class="emphasis"><span class="section">### :flag on: ToDo</span></span></span><br><span class="line"><span class="emphasis"><span class="section">(-) @ 与业务方确认xxx可行性</span></span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapoff -a  </span><br></pre></td></tr></table></figure>
+<h3 id="任务（Task）模版"><a href="#任务（Task）模版" class="headerlink" title="任务（Task）模版"></a>任务（Task）模版</h3><ul>
+<li>老版本</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">h3. 需要做什么？</span><br><span class="line"> </span><br><span class="line">h3. 为什么要做这件事？</span><br><span class="line"> </span><br><span class="line">h3. 验收条件</span><br><span class="line"> </span><br><span class="line">&#123;panel&#125;</span><br><span class="line">**前提条件** ：</span><br><span class="line">**动作** ：</span><br><span class="line">**预期结果** ：</span><br><span class="line">&#123;panel&#125;</span><br><span class="line"> </span><br><span class="line">h3. 其他信息 </span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><p>安装容器运行时<br>docker:<br><code>sudo apt-get install docker.io</code><br><code>sudo systemctl enable docker</code><br><code>sudo systemctl start docker</code>  </p>
-</li>
-<li><p>安装<code>kubeadm</code>, <code>kubelet</code>, <code>kubectl</code></p>
-</li>
+<li>Markdown</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update &amp;&amp; apt-get install -y apt-transport-https</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">### 需要做什么？</span></span><br><span class="line"> </span><br><span class="line"><span class="section">### 为什么要做这件事？</span></span><br><span class="line"> </span><br><span class="line"><span class="section">### 验收条件</span></span><br><span class="line"> </span><br><span class="line">&#123;panel&#125;</span><br><span class="line"><span class="strong">**前提条件**</span> ：</span><br><span class="line"><span class="strong">**动作**</span> ：</span><br><span class="line"><span class="strong">**预期结果**</span> ：</span><br><span class="line">&#123;panel&#125;</span><br><span class="line"> </span><br><span class="line"><span class="section">### 其他信息 </span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add -</span><br><span class="line">cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list</span><br><span class="line">deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y kubelet kubeadm kubectl</span><br></pre></td></tr></table></figure>
+<h3 id="缺陷（Bug）模版"><a href="#缺陷（Bug）模版" class="headerlink" title="缺陷（Bug）模版"></a>缺陷（Bug）模版</h3><ul>
+<li>老版本</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">h3. 环境</span><br><span class="line">* 设备型号:</span><br><span class="line">* 操作系统版本:</span><br><span class="line">* 系统版本:</span><br><span class="line">* 浏览器版本：</span><br><span class="line">* 环境: 生产（prod）/预发布（stg）/ 测试（test）</span><br><span class="line">* 账户:</span><br><span class="line"> </span><br><span class="line">h3. 前提条件</span><br><span class="line">*</span><br><span class="line"> </span><br><span class="line">h3. 复现步骤</span><br><span class="line">*</span><br><span class="line"> </span><br><span class="line">h3. 当前行为</span><br><span class="line">*</span><br><span class="line"> </span><br><span class="line">h3. 预期行为</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>配置docker CGroup driver 与 kubelet CGroup driver 一致： <code>systemd</code></li>
+<li>markdown</li>
 </ul>
-<p>创建或者编辑 <code>/etc/docker/daemon.json</code> docker daemon 配置文件：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;exec-opts&quot;</span>: [<span class="string">&quot;native.cgroupdriver=systemd&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后重启 docker:  </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="配置Control-plane-（master节点）"><a href="#配置Control-plane-（master节点）" class="headerlink" title="配置Control-plane （master节点）"></a>配置Control-plane （master节点）</h2><ul>
-<li>kubeadm init</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --image-repository registry.aliyuncs.com/google_containers --ignore-preflight-errors=all</span><br></pre></td></tr></table></figure>
-
-<p>一切正常后会有一段说明worker节点Join master节点的命令，请将其保存下来，后续在worker节点部署步骤上需要使用（以下为示例）：  </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Your Kubernetes control-plane has initialized successfully!</span><br><span class="line"></span><br><span class="line">To start using your cluster, you need to run the following as a regular user:</span><br><span class="line"></span><br><span class="line">  mkdir -p $HOME/.kube</span><br><span class="line">  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">  sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br><span class="line"></span><br><span class="line">Alternatively, if you are the root user, you can run:</span><br><span class="line"></span><br><span class="line">  export KUBECONFIG=/etc/kubernetes/admin.conf</span><br><span class="line"></span><br><span class="line">You should now deploy a pod network to the cluster.</span><br><span class="line">Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">Then you can join any number of worker nodes by running the following on each as root:</span><br><span class="line"></span><br><span class="line">kubeadm join 192.168.30.1:6443 --token xxxxxxxxx.xxxxxxxxxxx \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置kubectl</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $HOME/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME/.kube/confi</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>安装<code>flannel</code></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置worker节点"><a href="#配置worker节点" class="headerlink" title="配置worker节点"></a>配置worker节点</h2><h3 id="kubeadm-join-master节点"><a href="#kubeadm-join-master节点" class="headerlink" title="kubeadm join master节点"></a><code>kubeadm join</code> master节点</h3><p>将上一步骤中master节点<code>kubeadm join</code>命令在worker节点上执行。  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubeadm join 192.168.30.1:6443 --token xxxxxxxxx.xxxxxxxxxxx \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装Helm及ingress-nginx"><a href="#安装Helm及ingress-nginx" class="headerlink" title="安装Helm及ingress-nginx"></a>安装<code>Helm</code>及<code>ingress-nginx</code></h2><ul>
-<li>install <a target="_blank" rel="noopener" href="https://v3.helm.sh/docs/intro/install/#from-apt-debianubuntu">Helm</a></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get install apt-transport-https --yes</span><br><span class="line">echo &quot;deb https://baltocdn.com/helm/stable/debian/ all main&quot; | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install helm</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://kubernetes.github.io/ingress-nginx/deploy/#using-helm">ingress-nginx</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx</span><br><span class="line">helm repo update</span><br><span class="line"></span><br><span class="line">helm install ingress-nginx ingress-nginx/ingress-nginx</span><br></pre></td></tr></table></figure>
-
-<h2 id="排错"><a href="#排错" class="headerlink" title="排错"></a>排错</h2><h3 id="遇到-coredns-组件镜像下载问题怎么办？"><a href="#遇到-coredns-组件镜像下载问题怎么办？" class="headerlink" title="遇到 coredns 组件镜像下载问题怎么办？"></a>遇到 coredns 组件镜像下载问题怎么办？</h3><p>阿里云镜像<code>registry.aliyuncs.com/google_containers/coredns:v1.8.4</code> 这个镜像tag目前无法获取，可以考虑使用 <code>kubectl edit deployment.apps/coredns -n kube-system</code> 或者 <code>kubectl set image</code> 命令替换image为<code>coredns/coredns:1.8.4</code></p>
-<h3 id="helm-安装ingress-nginx-失败怎么办？"><a href="#helm-安装ingress-nginx-失败怎么办？" class="headerlink" title="helm 安装ingress-nginx 失败怎么办？"></a><code>helm</code> 安装ingress-nginx 失败怎么办？</h3><p>考虑使用官网 baremetal 方式安装，鉴于有些镜像在国内无法访问可以用部分个人维护的国内镜像替换：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuewenlong/p/15218379.html">kubernetes 安装 ingress controller</a></p>
-<h2 id="提升效率的一些shell配置"><a href="#提升效率的一些shell配置" class="headerlink" title="提升效率的一些shell配置"></a>提升效率的一些shell配置</h2><p>如果使用的是bash：<br><code>sudo vim /etc/bash.bashrc</code><br>添加下面的配置到文件末尾：  </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">source &lt;(kubectl completion bash)</span><br><span class="line">alias k=kubectl</span><br><span class="line">complete -F __start_kubectl k</span><br><span class="line">alias kns=&quot;kubectl config set-context --current --namespace&quot;</span><br></pre></td></tr></table></figure>
-  
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">### 环境</span></span><br><span class="line"><span class="bullet">*</span> 设备型号:</span><br><span class="line"><span class="bullet">*</span> 操作系统版本:</span><br><span class="line"><span class="bullet">*</span> 系统版本:</span><br><span class="line"><span class="bullet">*</span> 浏览器版本：</span><br><span class="line"><span class="bullet">*</span> 环境: 生产（prod）/预发布（stg）/ 测试（test）</span><br><span class="line"><span class="bullet">*</span> 账户:</span><br><span class="line"> </span><br><span class="line"><span class="section">### 前提条件</span></span><br><span class="line"><span class="bullet">*</span></span><br><span class="line"> </span><br><span class="line"><span class="section">### 复现步骤</span></span><br><span class="line"><span class="bullet">*</span></span><br><span class="line"> </span><br><span class="line"><span class="section">### 当前行为</span></span><br><span class="line"><span class="bullet">*</span></span><br><span class="line"> </span><br><span class="line"><span class="section">### 预期行为</span></span><br><span class="line"><span class="bullet">*</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Operations/">Operations</a>
+  <a class="article-category-link" href="/categories/Management/">Management</a>
 </div>
 
 
@@ -244,7 +154,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/undefined/" data-title="部署Kubernetes 集群手册 - （非高可用-kubeadm版） | CombinatorX" data-tsina="" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/undefined/" data-title="Jira模版 - 用户故事（User story）/ 任务（Task）/ 缺陷（Bug） | CombinatorX" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -257,11 +167,19 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/posts/b637e0c8/" title="如何设计一个精简版的微博（或者Twitter）？">
+  <strong>上一篇：</strong><br/>
+  <span>
+  如何设计一个精简版的微博（或者Twitter）？</span>
+</a>
+</div>
+
 
 <div class="next">
-<a href="/posts/484ff7c2/"  title="kubernetes 架构">
+<a href="/posts/8e8be6ee/"  title="LaTeX简明教程">
  <strong>下一篇：</strong><br/> 
- <span>kubernetes 架构
+ <span>LaTeX简明教程
 </span>
 </a>
 </div>
@@ -282,7 +200,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%89%8D%E7%9A%84%E6%A3%80%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">安装前的检查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%85%E8%A6%81%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">必要的安装和配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEControl-plane-%EF%BC%88master%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">配置Control-plane （master节点）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEworker%E8%8A%82%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">配置worker节点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kubeadm-join-master%E8%8A%82%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">kubeadm join master节点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Helm%E5%8F%8Aingress-nginx"><span class="toc-number">4.</span> <span class="toc-text">安装Helm及ingress-nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E9%94%99"><span class="toc-number">5.</span> <span class="toc-text">排错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0-coredns-%E7%BB%84%E4%BB%B6%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">遇到 coredns 组件镜像下载问题怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#helm-%E5%AE%89%E8%A3%85ingress-nginx-%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">5.2.</span> <span class="toc-text">helm 安装ingress-nginx 失败怎么办？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%8D%87%E6%95%88%E7%8E%87%E7%9A%84%E4%B8%80%E4%BA%9Bshell%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">提升效率的一些shell配置</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E7%89%88"><span class="toc-number">1.</span> <span class="toc-text">模版</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%EF%BC%88User-story%EF%BC%89%E6%A8%A1%E7%89%88"><span class="toc-number">1.1.</span> <span class="toc-text">用户故事（User story）模版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%EF%BC%88Task%EF%BC%89%E6%A8%A1%E7%89%88"><span class="toc-number">1.2.</span> <span class="toc-text">任务（Task）模版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%EF%BC%88Bug%EF%BC%89%E6%A8%A1%E7%89%88"><span class="toc-number">1.3.</span> <span class="toc-text">缺陷（Bug）模版</span></a></li></ol></li></ol>
  
   </div>
 
@@ -313,6 +231,10 @@
 		
 		  
 			<li><a href="/categories/Network/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
 		  
 		
 		  
@@ -399,7 +321,7 @@
 
 		<p class="copyright">
 		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
-		© 2021
+		© 2022
 		
 		<a href="/about" target="_blank" title="李瑞">李瑞</a>
 		
