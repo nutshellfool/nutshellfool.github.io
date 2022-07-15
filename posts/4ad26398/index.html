@@ -1,0 +1,610 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《函数式编程思维》书摘 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+
+    <meta name="keywords" content="函数式编程,functional programming">
+    
+    <meta name="description" content="函数式编程的基本函数筛选（Filter） scala    filter()   123val numbers &#x3D; List.range(1, 11)numbers filter (x &#x3D;&gt; x % 3 &#x3D;&#x3D; 0)&#x2F;&#x2F; List (3, 6, 9)    123val numbers &#x3D; list.range(1, 11)numbers filter (_ % 3 &#x3D;&#x3D; 0)&#x2F;&#x2F; List">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《函数式编程思维》书摘">
+<meta property="og:url" content="https://blogs.lirui.me/posts/4ad26398/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="函数式编程的基本函数筛选（Filter） scala    filter()   123val numbers &#x3D; List.range(1, 11)numbers filter (x &#x3D;&gt; x % 3 &#x3D;&#x3D; 0)&#x2F;&#x2F; List (3, 6, 9)    123val numbers &#x3D; list.range(1, 11)numbers filter (_ % 3 &#x3D;&#x3D; 0)&#x2F;&#x2F; List">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-15T08:47:57.000Z">
+<meta property="article:modified_time" content="2022-07-15T08:58:25.683Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/4ad26398/" title="《函数式编程思维》书摘" itemprop="url">《函数式编程思维》书摘</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2022-07-15T08:47:57.000Z" itemprop="datePublished"> 发表于 2022-07-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">函数式编程的基本函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%9B%E9%80%89%EF%BC%88Filter%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">筛选（Filter）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%EF%BC%88map%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">映射（map）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%98%E5%8F%A0-%E5%8C%96%E7%BA%A6%EF%BC%88reduce%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">折叠&#x2F;化约（reduce）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%A3%E6%9D%83%E8%AE%A9%E6%B8%A1"><span class="toc-number">2.</span> <span class="toc-text">责权让渡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E8%AE%A9%E4%BD%8D%E4%BA%8E%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">迭代让位于高阶函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%EF%BC%88closure%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">闭包（closure）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%AF%E9%87%8C%E5%8C%96%EF%BC%88currying%EF%BC%89%E5%92%8C%E5%87%BD%E6%95%B0%E7%9A%84%E9%83%A8%E5%88%86%E6%96%BD%E7%94%A8%EF%BC%88partial-application%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">柯里化（currying）和函数的部分施用（partial application）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92"><span class="toc-number">2.4.</span> <span class="toc-text">递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream%E5%92%8C%E4%BD%9C%E4%B8%9A%E9%A1%BA%E5%BA%8F%E9%87%8D%E6%8E%92"><span class="toc-number">2.5.</span> <span class="toc-text">Stream和作业顺序重排</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E8%AF%AD%E8%A8%80%E5%B8%B8%E8%A7%81%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">函数式语言常见特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%EF%BC%88memoization%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">记忆（memoization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%83%B0%E6%80%A7%E6%B1%82%E5%80%BC%EF%BC%88laziness%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">惰性求值（laziness）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E5%8C%96%E7%9A%84%E8%AF%AD%E8%A8%80"><span class="toc-number">4.</span> <span class="toc-text">演化的语言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%91%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%90%AD%E9%85%8D%E5%A4%A7%E9%87%8F%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">4.1.</span> <span class="toc-text">少量的数据结构搭配大量的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">函数式的数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">4.2.1.</span> <span class="toc-text">函数式的异常处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Either%E7%B1%BB"><span class="toc-number">4.2.2.</span> <span class="toc-text">Either类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Option%E7%B1%BB"><span class="toc-number">4.2.3.</span> <span class="toc-text">Option类</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E4%B8%8E%E9%87%8D%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text">模式与重用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95%EF%BC%88Template-Method%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.1.</span> <span class="toc-text">模版方法（Template Method）模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%EF%BC%88Strategy-Method%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">策略（Strategy Method）模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%AB%E5%85%83%EF%BC%88Flyweight%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.3.</span> <span class="toc-text">享元（Flyweight）模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%EF%BC%88Factory%EF%BC%89%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%9F%AF%E9%87%8C%E5%8C%96"><span class="toc-number">5.4.</span> <span class="toc-text">工厂（Factory）模式和柯里化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E5%AE%9E%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">现实应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java8"><span class="toc-number">6.1.</span> <span class="toc-text">Java8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD"><span class="toc-number">6.2.</span> <span class="toc-text">函数式的基础设施</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">6.2.1.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Web%E6%A1%86%E6%9E%B6"><span class="toc-number">6.2.2.</span> <span class="toc-text">Web框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">6.2.3.</span> <span class="toc-text">数据库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E8%8C%83%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">多语言与多范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="函数式编程的基本函数"><a href="#函数式编程的基本函数" class="headerlink" title="函数式编程的基本函数"></a>函数式编程的基本函数</h2><h3 id="筛选（Filter）"><a href="#筛选（Filter）" class="headerlink" title="筛选（Filter）"></a>筛选（Filter）</h3><ul>
+<li><p>scala</p>
+<p>   <code>filter()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = <span class="type">List</span>.range(<span class="number">1</span>, <span class="number">11</span>)</span><br><span class="line">numbers filter (x =&gt; x % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line"><span class="comment">// List (3, 6, 9)</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = list.range(<span class="number">1</span>, <span class="number">11</span>)</span><br><span class="line">numbers filter (_ % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line"><span class="comment">// List (3, 6, 9)</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>partition()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">numbers partition (_ % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line"><span class="comment">// (List(3, 6, 9), List(1, 2, 4, 5, 7, 8, 10))</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>  <code>find()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numbers find (_ % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line"><span class="comment">// Some(3)</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>takeWhile()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">-4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>) takeWhile (_ &gt; <span class="number">0</span>)</span><br><span class="line"><span class="comment">// List(1, 2, 3)</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>dropWhile()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">-4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>) dropWhile (_ &gt; <span class="number">0</span>)</span><br><span class="line"><span class="comment">// List(5, 6, 7)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="映射（map）"><a href="#映射（map）" class="headerlink" title="映射（map）"></a>映射（map）</h3><ul>
+<li><p>scala</p>
+<p>  <code>map()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) map (_ + <span class="number">1</span>)</span><br><span class="line"><span class="comment">// List(2, 3, 4)</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>flatMap()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="type">List</span>(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)) flatMap(_.toList)</span><br><span class="line"><span class="comment">// List(1, 2, 3, 4, 5, 6)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="折叠-化约（reduce）"><a href="#折叠-化约（reduce）" class="headerlink" title="折叠/化约（reduce）"></a>折叠/化约（reduce）</h3><ul>
+<li><p>scala</p>
+<p>  <code>reduceLeft()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>.range(<span class="number">1</span>, <span class="number">10</span>).reduceLeft(<span class="number">0</span>)(_ + _)</span><br><span class="line"><span class="comment">// 45</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>reduceRight()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>.range(<span class="number">1</span> ,<span class="number">10</span>).reduceRight(_ - _)</span><br><span class="line"><span class="comment">// 8 - 9 = -1</span></span><br><span class="line"><span class="comment">// 7 - (-1) = 8</span></span><br><span class="line"><span class="comment">// 6 - 8 = -2</span></span><br><span class="line"><span class="comment">// 5 - (-2) = 7</span></span><br><span class="line"><span class="comment">// 4 - 7 = -3</span></span><br><span class="line"><span class="comment">// 3 - (-3) = 6</span></span><br><span class="line"><span class="comment">// 2 - 6 = -4</span></span><br><span class="line"><span class="comment">// 1 - (-4) = 5</span></span><br><span class="line"><span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>foldLeft()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>.range(<span class="number">1</span>, <span class="number">10</span>).foldLeft(<span class="number">0</span>)(_ + _)</span><br><span class="line"><span class="comment">// 45</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0</span> /: <span class="type">List</span>.range(<span class="number">1</span>, <span class="number">10</span>)) ( _ + _)</span><br><span class="line"><span class="comment">// 45</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>foldRight()</code></p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="type">List</span>.range(<span class="number">1</span>, <span class="number">10</span>) :\ <span class="number">0</span>)(_ - _)</span><br><span class="line"><span class="comment">// 5</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="责权让渡"><a href="#责权让渡" class="headerlink" title="责权让渡"></a>责权让渡</h2><h3 id="迭代让位于高阶函数"><a href="#迭代让位于高阶函数" class="headerlink" title="迭代让位于高阶函数"></a>迭代让位于高阶函数</h3><p>用map等函数替换了迭代。这笔“交易”的得失很清楚：如果能够用高阶函数把希望执行的操作表达出来，语言将会把操作安排得更高效，甚至只要增加一行par修饰，就能够让操作并行化。</p>
+<h3 id="闭包（closure）"><a href="#闭包（closure）" class="headerlink" title="闭包（closure）"></a>闭包（closure）</h3><p>谓闭包，实际上是一种特殊的函数，它在暗地里绑定了函数内部引用的所有变量。换句话说，这种函数（或方法）把它引用的所有东西都放在一个上下文里“包”了起来。<br>这样说并不等于开发者应该抛开所有的责任，不去理解低层次抽象的来龙去脉。在很多情况下，我们使用一个抽象，比如Stream的时候，必须清楚可能产生的连带后果。很多开发者都没认识到，即使有了Java8的StreamAPI，他们仍然需要理解Fork/Join库的细节才能写出高性能的代码。当你掌握了背后的原理，才能把力量用在最正确的地方。</p>
+<h3 id="柯里化（currying）和函数的部分施用（partial-application）"><a href="#柯里化（currying）和函数的部分施用（partial-application）" class="headerlink" title="柯里化（currying）和函数的部分施用（partial application）"></a>柯里化（currying）和函数的部分施用（partial application）</h3><p>柯里化指的是从一个多参数函数变成一连串单参数函数的变换。</p>
+<p>部分施用指通过提前代入一部分参数值，使一个多参数函数得以省略部分参数，从而转化为一个参数数目较少的函数。</p>
+<p>柯里化和部分施用都是在我们提供部分参数值之后，产出可以凭余下参数实施调用的一个函数。不同的地方在于，函数柯里化的结果是返回链条中的下一个函数，而部分施用是把参数的取值绑定到用户在操作中提供的具体值上，因而产生一个“元数”（参数的数目）较少的函数。</p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>递归是以一种带点计算机科学味道的方式来对一组事物进行迭代，让事物的集合反复对自身调用同样的方法，使集合随着每次迭代不断缩小，同时要始终小心地保证退出条件的有效性。很多时候，我们的问题核心就是对一个不断变短的列表反复地做同一件事，把递归用在这样的场合，写出来的代码就容易理解。</p>
+<h3 id="Stream和作业顺序重排"><a href="#Stream和作业顺序重排" class="headerlink" title="Stream和作业顺序重排"></a>Stream和作业顺序重排</h3><p>从命令式风格转变为函数式风格还有一个潜在的好处，那就是运行时有能力在涉及效率的问题上替我们做决定。</p>
+<p>在使用Java平台上的各种函数式方案的时候，我们必须保证传给filter()等函数的lambda块不存在副作用，否则可能导致无法预料的结果。允许运行时发挥其优化能力的做法，再次印证了我们关于交出控制权的观点：放弃对繁琐细节的掌控，关注问题域，而非关注问题域的实现。</p>
+<h2 id="函数式语言常见特性"><a href="#函数式语言常见特性" class="headerlink" title="函数式语言常见特性"></a>函数式语言常见特性</h2><h3 id="记忆（memoization）"><a href="#记忆（memoization）" class="headerlink" title="记忆（memoization）"></a>记忆（memoization）</h3><p>指的是在函数级别上对需要多次使用的值进行缓存的机制。<br>只有纯（pure）函数才可以适用缓存技术。纯函数是没有副作用的函数：它不引用其他值可变的类字段，除返回值之外不设置其他的变量，其结果完全由输入参数决定。</p>
+<h3 id="惰性求值（laziness）"><a href="#惰性求值（laziness）" class="headerlink" title="惰性求值（laziness）"></a>惰性求值（laziness）</h3><p>缓求值（lazyevaluation）是函数式编程语言常见的一种特性，指尽可能地推迟求解表达式。缓求值的集合不会预先算好所有的元素，而是在用到的时候才落实下来，这样做有几个好处。第一，昂贵的运算只有到了绝对必要的时候才执行。第二，我们可以建立无限大的集合，只要一直接到请求，就一直送出元素。第三，按缓求值的方式来使用映射、筛选等函数式概念，可以产生更高效的代码。Java8以前的Java语言本身不支持缓求值，但平台上有一些框架和后继语言提供了这样的支持。</p>
+<h2 id="演化的语言"><a href="#演化的语言" class="headerlink" title="演化的语言"></a>演化的语言</h2><p>函数式编程语言和面向对象语言对待代码重用的方式不一样。面向对象语言喜欢大量地建立有很多操作的各种数据结构，函数式语言也有很多的操作，但对应的数据结构却很少。面向对象语言鼓励我们建立专门针对某个类的方法，我们从类的关系中发现重复出现的模式并加以重用。函数式语言的重用表现在函数的通用性上，它们鼓励在数据结构上使用各种共通的变换，并通过高阶函数来调整操作以满足具体事项的要求。</p>
+<h3 id="少量的数据结构搭配大量的操作"><a href="#少量的数据结构搭配大量的操作" class="headerlink" title="少量的数据结构搭配大量的操作"></a>少量的数据结构搭配大量的操作</h3><h3 id="函数式的数据结构"><a href="#函数式的数据结构" class="headerlink" title="函数式的数据结构"></a>函数式的数据结构</h3><h4 id="函数式的异常处理"><a href="#函数式的异常处理" class="headerlink" title="函数式的异常处理"></a>函数式的异常处理</h4><h4 id="Either类"><a href="#Either类" class="headerlink" title="Either类"></a>Either类</h4><p>有了Either类，以在确保类型安全的前提下，视情况返回异常或者有效结果（但不会同时返回两者）。按照函数式编程的传统习惯，异常（如果有的话）置于Either类的左值上，正常结果则放在右值。</p>
+<h4 id="Option类"><a href="#Option类" class="headerlink" title="Option类"></a>Option类</h4><p>Option类表述了异常处理中较为简化的一种场景，它的取值要么是none，表示不存在有效值，要么是some，表示成功返回</p>
+<h2 id="模式与重用"><a href="#模式与重用" class="headerlink" title="模式与重用"></a>模式与重用</h2><h3 id="模版方法（Template-Method）模式"><a href="#模版方法（Template-Method）模式" class="headerlink" title="模版方法（Template Method）模式"></a>模版方法（Template Method）模式</h3><h3 id="策略（Strategy-Method）模式"><a href="#策略（Strategy-Method）模式" class="headerlink" title="策略（Strategy Method）模式"></a>策略（Strategy Method）模式</h3><h3 id="享元（Flyweight）模式"><a href="#享元（Flyweight）模式" class="headerlink" title="享元（Flyweight）模式"></a>享元（Flyweight）模式</h3><h3 id="工厂（Factory）模式和柯里化"><a href="#工厂（Factory）模式和柯里化" class="headerlink" title="工厂（Factory）模式和柯里化"></a>工厂（Factory）模式和柯里化</h3><h2 id="现实应用"><a href="#现实应用" class="headerlink" title="现实应用"></a>现实应用</h2><h3 id="Java8"><a href="#Java8" class="headerlink" title="Java8"></a>Java8</h3><h3 id="函数式的基础设施"><a href="#函数式的基础设施" class="headerlink" title="函数式的基础设施"></a>函数式的基础设施</h3><h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><h4 id="Web框架"><a href="#Web框架" class="headerlink" title="Web框架"></a>Web框架</h4><h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><h2 id="多语言与多范式"><a href="#多语言与多范式" class="headerlink" title="多语言与多范式"></a>多语言与多范式</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26587213/">函数式编程思维</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Reading-Notes/">Reading Notes</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/4ad26398/" data-title="《函数式编程思维》书摘 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/posts/630167b3/"  title="Git 技术内幕及团队协作">
+ <strong>下一篇：</strong><br/> 
+ <span>Git 技术内幕及团队协作
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">函数式编程的基本函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%9B%E9%80%89%EF%BC%88Filter%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">筛选（Filter）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%EF%BC%88map%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">映射（map）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%98%E5%8F%A0-%E5%8C%96%E7%BA%A6%EF%BC%88reduce%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">折叠&#x2F;化约（reduce）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%A3%E6%9D%83%E8%AE%A9%E6%B8%A1"><span class="toc-number">2.</span> <span class="toc-text">责权让渡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E8%AE%A9%E4%BD%8D%E4%BA%8E%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">迭代让位于高阶函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%EF%BC%88closure%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">闭包（closure）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%AF%E9%87%8C%E5%8C%96%EF%BC%88currying%EF%BC%89%E5%92%8C%E5%87%BD%E6%95%B0%E7%9A%84%E9%83%A8%E5%88%86%E6%96%BD%E7%94%A8%EF%BC%88partial-application%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">柯里化（currying）和函数的部分施用（partial application）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92"><span class="toc-number">2.4.</span> <span class="toc-text">递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream%E5%92%8C%E4%BD%9C%E4%B8%9A%E9%A1%BA%E5%BA%8F%E9%87%8D%E6%8E%92"><span class="toc-number">2.5.</span> <span class="toc-text">Stream和作业顺序重排</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E8%AF%AD%E8%A8%80%E5%B8%B8%E8%A7%81%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">函数式语言常见特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%EF%BC%88memoization%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">记忆（memoization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%83%B0%E6%80%A7%E6%B1%82%E5%80%BC%EF%BC%88laziness%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">惰性求值（laziness）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E5%8C%96%E7%9A%84%E8%AF%AD%E8%A8%80"><span class="toc-number">4.</span> <span class="toc-text">演化的语言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%91%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%90%AD%E9%85%8D%E5%A4%A7%E9%87%8F%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">4.1.</span> <span class="toc-text">少量的数据结构搭配大量的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">函数式的数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">4.2.1.</span> <span class="toc-text">函数式的异常处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Either%E7%B1%BB"><span class="toc-number">4.2.2.</span> <span class="toc-text">Either类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Option%E7%B1%BB"><span class="toc-number">4.2.3.</span> <span class="toc-text">Option类</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E4%B8%8E%E9%87%8D%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text">模式与重用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95%EF%BC%88Template-Method%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.1.</span> <span class="toc-text">模版方法（Template Method）模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%EF%BC%88Strategy-Method%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">策略（Strategy Method）模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%AB%E5%85%83%EF%BC%88Flyweight%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.3.</span> <span class="toc-text">享元（Flyweight）模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%EF%BC%88Factory%EF%BC%89%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%9F%AF%E9%87%8C%E5%8C%96"><span class="toc-number">5.4.</span> <span class="toc-text">工厂（Factory）模式和柯里化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E5%AE%9E%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">现实应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java8"><span class="toc-number">6.1.</span> <span class="toc-text">Java8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD"><span class="toc-number">6.2.</span> <span class="toc-text">函数式的基础设施</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">6.2.1.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Web%E6%A1%86%E6%9E%B6"><span class="toc-number">6.2.2.</span> <span class="toc-text">Web框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">6.2.3.</span> <span class="toc-text">数据库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E8%8C%83%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">多语言与多范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2022
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+
