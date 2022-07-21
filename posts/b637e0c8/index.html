@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="系统设计,高可用系统设计,System Design,NewsFeed Design,High Available Design">
     
-    <meta name="description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
+      <meta name="description" content="问题描述设计一个精简版微博，具有发布微博、关注用户和收藏微博的功能。 进一步沟通和细化需求对于以上的描述，距离可以动手的程度还有些距离，以上的描述还是有很多维度的信息需要具像化。我们需要从下面这些维度进行沟通和细化：    用例 用户量 主要操作及频度 RPS、QPS及TPS 读写比 数据规模（如果有的化）  用例首先，从之前的描述来看用例是相对比较清楚的：   核心功能用例 发布微博 关注用户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何设计一个精简版的微博（或者Twitter）？">
 <meta property="og:url" content="https://blogs.lirui.me/posts/b637e0c8/index.html">
@@ -41,11 +41,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -764,7 +776,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -774,6 +786,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

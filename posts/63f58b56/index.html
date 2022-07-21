@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="TinyURL,短网址,邀请码算法,10进制转62进制算法">
     
-    <meta name="description" content="短网址问题短网址服务相信大家都用过，核心的功能就是将原始的长网址转化成长度更短的短网址，当我们访问这个短网址的时候最终会跳转到这个原始的长网址所指向的位置。那么我们今天的问题就是设计一个短网址服务（TinyURL） 如何设计看起来这个问题不需要太多的沟通，但实际上仔细想想会发现这样的需求描述离开始动手还是有一段距离。 下面我们开始着手从不确定和模糊的条件动手，一步步完成这个系统设计。 第一步：沟通">
+      <meta name="description" content="短网址问题短网址服务相信大家都用过，核心的功能就是将原始的长网址转化成长度更短的短网址，当我们访问这个短网址的时候最终会跳转到这个原始的长网址所指向的位置。那么我们今天的问题就是设计一个短网址服务（TinyURL） 如何设计看起来这个问题不需要太多的沟通，但实际上仔细想想会发现这样的需求描述离开始动手还是有一段距离。 下面我们开始着手从不确定和模糊的条件动手，一步步完成这个系统设计。 第一步：沟通">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何设计一个短网址服务">
 <meta property="og:url" content="https://blogs.lirui.me/posts/63f58b56/index.html">
@@ -41,11 +41,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -581,7 +593,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -591,6 +603,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

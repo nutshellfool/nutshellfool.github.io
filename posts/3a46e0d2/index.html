@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Redis,data type,command">
     
-    <meta name="description" content="数据结构String单个元素的设置和查询SETSET &lt;key&gt; &lt;value&gt; &lt;option&gt; 这里的option 有：  nx  只有key不存在的时候才更新value  xx  只有key存在的时候才会更新value  ex  设置过期时间（时间单位秒）  px  设置过期时间（时间单位毫秒） GET根据 key 获取 value GET &lt;key">
+      <meta name="description" content="数据结构String单个元素的设置和查询SETSET &lt;key&gt; &lt;value&gt; &lt;option&gt; 这里的option 有：  nx  只有key不存在的时候才更新value  xx  只有key存在的时候才会更新value  ex  设置过期时间（时间单位秒）  px  设置过期时间（时间单位毫秒） GET根据 key 获取 value GET &lt;key">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis 数据类型及对应操作命令">
 <meta property="og:url" content="https://blogs.lirui.me/posts/3a46e0d2/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -598,7 +610,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -608,6 +620,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

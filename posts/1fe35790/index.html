@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Jenkins docker,Python,Django,Django REST Framework,django-jenkins,CI/CD,飞书 Jenkins CI机器人">
     
-    <meta name="description" content="准备工作Jenkins这里的Jenkins由于需要集成Python环境，安装Jenkins的方式有很多种，鉴于Devops和docker的流行，我选择在docker的安装方式。如果不考虑Python的特殊需求（如 Python3），可以直接使用Jenkins（注意不是docker官方镜像jenkins - Docker Official Images , docker 官方的镜像版本较老，不建议使">
+      <meta name="description" content="准备工作Jenkins这里的Jenkins由于需要集成Python环境，安装Jenkins的方式有很多种，鉴于Devops和docker的流行，我选择在docker的安装方式。如果不考虑Python的特殊需求（如 Python3），可以直接使用Jenkins（注意不是docker官方镜像jenkins - Docker Official Images , docker 官方的镜像版本较老，不建议使">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CI&#x2F;CD - Python Django 项目在 Jenkins 上的实践">
 <meta property="og:url" content="https://blogs.lirui.me/posts/1fe35790/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -551,7 +563,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -561,6 +573,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Docker,Dockerfile">
     
-    <meta name="description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。   简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。    首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
+      <meta name="description" content="Dockerfile是docker构建镜像的推荐方式，Dockerfile使用基本的基于DSL语法的指令构建Docker镜像，之后使用docker build命令基于该Dockerfile中的指令构建一个新的镜像。   简单的Dockerfile例子下面的例子是创建一个nginx为反向代理的web服务器的docker容器。    首先创建一个构建环境（文件目录），用来存放Dockerfile等其他">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dockerfile 书写方法（cookbook）">
 <meta property="og:url" content="https://blogs.lirui.me/posts/cac2d233/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -552,7 +564,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -562,6 +574,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

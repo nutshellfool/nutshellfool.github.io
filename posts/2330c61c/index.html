@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Wireshark,Silly Window Syndrome,Delayed ACK,Nagle Algorithm,retransmission,fast retransmission,愚笨窗口综合症,延迟确认,超时重传,快速重传">
     
-    <meta name="description" content="还是从TCP&#x2F;IP协议说起首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。   下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。 常见的网络问题小包问题也叫愚笨窗口综合症（Silly Window Syndrome）常常会有这样">
+      <meta name="description" content="还是从TCP&#x2F;IP协议说起首先这篇文章并不是一篇完全的科普文章，所以这里并不打算回顾协议原理的部分（三次握手、四次挥手的协议细节就不打算啰嗦了）和协议的历史沿革（明明TCP和IP属于不同的网络层- 传输层和网络层又为什么放在一起讲？）。   下面的部分会从常见的几个网络问题开始，逐步根据现象找本质。 常见的网络问题小包问题也叫愚笨窗口综合症（Silly Window Syndrome）常常会有这样">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Wireshark研究网络协议 - TCP&#x2F;IP 协议问题">
 <meta property="og:url" content="https://blogs.lirui.me/posts/2330c61c/index.html">
@@ -41,11 +41,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -696,7 +708,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -706,6 +718,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

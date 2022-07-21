@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Mixin,Python,Django,Java8 default method">
     
-    <meta name="description" content="mixin到底解决的是什么问题一个词来概括的话就是减少重复自己的代码（违反DRY设计原则） 可选的解决方案 继承 组合 + 依赖注入 泛化  mixins 又是什么一种通过在抽象类中实现共有实现的设计方法。你会说既然是抽象类，内部怎么会有实现呢？ 抽象方法中方法不都是抽象的么？事实上这是 Java 程序员常见的疑问，即使是在 Java 中 Java8的一些抽象类中也使用了这样的设计（例如 List">
+      <meta name="description" content="mixin到底解决的是什么问题一个词来概括的话就是减少重复自己的代码（违反DRY设计原则） 可选的解决方案 继承 组合 + 依赖注入 泛化  mixins 又是什么一种通过在抽象类中实现共有实现的设计方法。你会说既然是抽象类，内部怎么会有实现呢？ 抽象方法中方法不都是抽象的么？事实上这是 Java 程序员常见的疑问，即使是在 Java 中 Java8的一些抽象类中也使用了这样的设计（例如 List">
 <meta property="og:type" content="article">
 <meta property="og:title" content="混入（mixin）在实际编程语言中的应用">
 <meta property="og:url" content="https://blogs.lirui.me/posts/51df7fb6/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -510,7 +522,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -520,6 +532,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

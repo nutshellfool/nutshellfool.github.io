@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="kubernetes,k8s,kubernetes architecture,kubernetes 架构,kube-controller-manager,control loop">
     
-    <meta name="description" content="架构图  构成控制平面（control plane）又称Master节点，kubernetes控制核心。 内部组件构成 kube-apiserverkubernetes 集群API 服务，所有与kubernetes集群交互都需要通过API进行操作，API服务器会对请求进行校验，请求有效就进行处理。访问API的方式有 （1. REST API调用 2. kubectl 命令行 3. 其他命令行工具，">
+      <meta name="description" content="架构图  构成控制平面（control plane）又称Master节点，kubernetes控制核心。 内部组件构成 kube-apiserverkubernetes 集群API 服务，所有与kubernetes集群交互都需要通过API进行操作，API服务器会对请求进行校验，请求有效就进行处理。访问API的方式有 （1. REST API调用 2. kubectl 命令行 3. 其他命令行工具，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kubernetes 架构">
 <meta property="og:url" content="https://blogs.lirui.me/posts/484ff7c2/index.html">
@@ -40,11 +40,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -545,7 +557,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -555,6 +567,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

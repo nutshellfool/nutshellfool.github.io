@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="distributed lock,optimistic lock,pessimistic lock,redlock,cas,乐观锁,悲观锁,分布式锁">
     
-    <meta name="description" content="常见的锁分类类型并发锁乐观锁乐观锁是指实现方在并发产生的竞争条件还是乐观的，只是在发现数据被改变的时候才放弃修改。常见的实现模式是结合数据库进行。具体的实现方式是：前提条件：  在需要做乐观锁并发控制的表定义上添加修改版本号version字段的定义 DB的事务隔离级别为RR   在修改临界区资源之前先查询该资源（临界区资源数值、version 字段数值） 根据之前查询到的version并做更新条件">
+      <meta name="description" content="常见的锁分类类型并发锁乐观锁乐观锁是指实现方在并发产生的竞争条件还是乐观的，只是在发现数据被改变的时候才放弃修改。常见的实现模式是结合数据库进行。具体的实现方式是：前提条件：  在需要做乐观锁并发控制的表定义上添加修改版本号version字段的定义 DB的事务隔离级别为RR   在修改临界区资源之前先查询该资源（临界区资源数值、version 字段数值） 根据之前查询到的version并做更新条件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="系统设计常见组件 - 并发锁、分布式锁与无锁编程">
 <meta property="og:url" content="https://blogs.lirui.me/posts/afc2fadd/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -549,7 +561,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -559,6 +571,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

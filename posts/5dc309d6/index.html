@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="kubernates,kubeadm,Helm,ubuntu 18.04">
     
-    <meta name="description" content="安装前的检查   检查项 检查细节 结果    主机 一台兼容的 Linux 主机。Kubernetes 项目为基于 Debian 和 Red Hat 的 Linux 发行版以及一些不提供包管理器的发行版提供通用的指令    硬件 - 内存 每台机器 2 GB 或更多的 RAM    硬件 - CPU 2 CPU 核或更多    网络 集群中的所有机器的网络彼此均能相互连接(公网和内网都可以)">
+      <meta name="description" content="安装前的检查   检查项 检查细节 结果    主机 一台兼容的 Linux 主机。Kubernetes 项目为基于 Debian 和 Red Hat 的 Linux 发行版以及一些不提供包管理器的发行版提供通用的指令    硬件 - 内存 每台机器 2 GB 或更多的 RAM    硬件 - CPU 2 CPU 核或更多    网络 集群中的所有机器的网络彼此均能相互连接(公网和内网都可以)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="部署Kubernetes 集群手册 - （非高可用-kubeadm版）">
 <meta property="og:url" content="https://blogs.lirui.me/posts/5dc309d6/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -598,7 +610,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -608,6 +620,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

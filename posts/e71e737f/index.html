@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Algorithm,Data structure,Breadth First Search,Depth First Search,Heuristic Search,搜索算法,深度优先搜索,广度优先搜索,启发式搜索">
     
-    <meta name="description" content="按照教科书的顺序来说，搜索相关的问题应该放在图的章节。但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？   DFS的典型实现一般来说，在以">
+      <meta name="description" content="按照教科书的顺序来说，搜索相关的问题应该放在图的章节。但实际上这部分内容在树的遍历已经涉及，只是DFS和BFS是更通用的情况。首先不管是inorder、preorder还是postorder traversal，都是一种DFS，只是在图的一种特殊形式二叉搜索树上的一种特殊表现。讲了这么多，那么DFS的形式到底应该是什么样的呢？或者说具体到代码上又是怎样体现的呢？   DFS的典型实现一般来说，在以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度优先搜索（DFS：Depth First Search）、广度优先搜索（BFS： Breadth First Search）与启发式搜索（Heuristic Search）">
 <meta property="og:url" content="https://blogs.lirui.me/posts/e71e737f/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -502,7 +514,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -512,6 +524,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

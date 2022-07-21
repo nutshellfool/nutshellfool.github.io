@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="机器学习,Machine learning,TensorFlow,forword propagation neuron network">
     
-    <meta name="description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如： weights &#x3D; tf.Variable(tf.random_normal([2,3], stddev&#x3D;2)) 上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
+      <meta name="description" content="神经网络参数与TensorFlow变量在TensorFlow中使用 tf.Variable() 变量声明函数进行变量声明。常见的使用方式是声明变量的同时进行变量初始化。如： weights &#x3D; tf.Variable(tf.random_normal([2,3], stddev&#x3D;2)) 上面的例子会产生 $ 2 \times 3$的矩阵，矩阵内的元素是均值为0，标准差为2的随机数。扩展下：如果想生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="向前传播神经网络算法 (forward propagation neuron network) TensorFlow实现">
 <meta property="og:url" content="https://blogs.lirui.me/posts/47728c0b/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -554,7 +566,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -564,6 +576,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

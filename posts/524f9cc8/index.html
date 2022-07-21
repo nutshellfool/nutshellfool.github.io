@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="CentOS,Environment,Nginx">
     
-    <meta name="description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l &#x2F;var&#x2F;www&#x2F;vhosts&#x2F;xxx.examp">
+      <meta name="description" content="静态资源服务器静态资源及相关权限403 Forbidden应该是在配置nginx静态资源服务器中常见的错误了，这种错误最主要的原因就是文件的权限没有设置正确。nginx在为一个静态资源文件设置静态资源访问时需要的访问权限要求是：  文件夹及其各级父文件夹 可读 可执行 文件 可读  以下命令是检查文件夹相关权限的工具命令：   1namei -l &#x2F;var&#x2F;www&#x2F;vhosts&#x2F;xxx.examp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx必知必会使用方法备忘录">
 <meta property="og:url" content="https://blogs.lirui.me/posts/524f9cc8/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -655,7 +667,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -665,6 +677,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

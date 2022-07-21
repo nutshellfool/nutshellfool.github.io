@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="Database Scalability,MySQL Replication,MySQL partition,MySQL sharding,数据库伸缩,关系型数据库分片,数据库分库分表">
     
-    <meta name="description" content="数据库类型关系型数据库 SQL以MySQL，Oracle和Postgrad为代表的关系型数据库在关系型数据存储领域已经是称霸多年，也是主流的业务系统中的首选数据库选型。 非关系型数据库 No-SQL随着行业的发展，大家逐渐意识到类似“用户行为”这样细粒度的数据在数字化商业领域的价值，从而带来了数据的大爆发，整个行业也一夜之间进入大数据时代。大数据时代数据存储的需求趋向于易伸缩、性能好的数据库存储解">
+      <meta name="description" content="数据库类型关系型数据库 SQL以MySQL，Oracle和Postgrad为代表的关系型数据库在关系型数据存储领域已经是称霸多年，也是主流的业务系统中的首选数据库选型。 非关系型数据库 No-SQL随着行业的发展，大家逐渐意识到类似“用户行为”这样细粒度的数据在数字化商业领域的价值，从而带来了数据的大爆发，整个行业也一夜之间进入大数据时代。大数据时代数据存储的需求趋向于易伸缩、性能好的数据库存储解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="系统设计基础组件 - 数据库伸缩">
 <meta property="og:url" content="https://blogs.lirui.me/posts/449cfdc4/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -605,7 +617,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -615,6 +627,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

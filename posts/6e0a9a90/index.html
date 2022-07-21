@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="System design,系统设计常用数据">
     
-    <meta name="description" content="当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。   一些数字   操作 时间(nano sec)    L1 cache reference">
+      <meta name="description" content="当系统设计师拿到需求，开始做系统设计，评估系统的负载、吞吐能力的时候，是需要有个大致的估算过程的。有经验的系统设计师会根据以往的经验，估算出一个范围。但这个数字真的只是拍脑袋得到的么？当然不是，其实每个操作都是有一个数值，拿到这些数值，分析、分解现有业务的操作就可以估算出这个系统需要设计的负载和吞吐能力。   一些数字   操作 时间(nano sec)    L1 cache reference">
 <meta property="og:type" content="article">
 <meta property="og:title" content="系统设计估算方法以及必知的那些数据">
 <meta property="og:url" content="https://blogs.lirui.me/posts/6e0a9a90/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -546,7 +558,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -556,6 +568,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

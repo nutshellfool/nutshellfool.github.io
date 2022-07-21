@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="deployment flask application,Python,virtualenv,gunicorn,supervisord">
     
-    <meta name="description" content="使用到的工具链：  virtualenv gunicorn supervisord  创建隔离独立的Python运行环境 使用virtualenv创建独立的应用环境virtualenv myProjectName如果想指定Python的版本virtualenv -p &#x2F;path&#x2F;to&#x2F;python myProjectName  修改requirements.txt 文件，添加gunicorn和su">
+      <meta name="description" content="使用到的工具链：  virtualenv gunicorn supervisord  创建隔离独立的Python运行环境 使用virtualenv创建独立的应用环境virtualenv myProjectName如果想指定Python的版本virtualenv -p &#x2F;path&#x2F;to&#x2F;python myProjectName  修改requirements.txt 文件，添加gunicorn和su">
 <meta property="og:type" content="article">
 <meta property="og:title" content="部署一个标准Python（Flask）应用的备忘录">
 <meta property="og:url" content="https://blogs.lirui.me/posts/2e474ec1/index.html">
@@ -37,11 +37,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -536,7 +548,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -546,6 +558,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>

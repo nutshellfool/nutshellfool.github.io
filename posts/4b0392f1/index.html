@@ -9,10 +9,10 @@
     
     <meta name="author" content="李瑞">
     
-
+    
     <meta name="keywords" content="C10K,C10M,epoll,event-driven">
     
-    <meta name="description" content="推动互联网发展的技术挑战C10k问题互联网在20年前还并不像现在这样有大规模的应用，在当时还没有现在的分布式、微服务这样的系统设计；大家的注意力还都放在如何提升单台服务器性能，如何榨干硬件的最后价值上，当然这背后的推动力其实也是成本的考量；在1999年 Dan Kegel 提出了 C10k问题：简单来说就是在当时1200美元能够购买的单机硬件成本配置下（具体配置见下表）如何使得单机能够同时处理10">
+      <meta name="description" content="推动互联网发展的技术挑战C10k问题互联网在20年前还并不像现在这样有大规模的应用，在当时还没有现在的分布式、微服务这样的系统设计；大家的注意力还都放在如何提升单台服务器性能，如何榨干硬件的最后价值上，当然这背后的推动力其实也是成本的考量；在1999年 Dan Kegel 提出了 C10k问题：简单来说就是在当时1200美元能够购买的单机硬件成本配置下（具体配置见下表）如何使得单机能够同时处理10">
 <meta property="og:type" content="article">
 <meta property="og:title" content="系统设计 - 异步I&#x2F;O模型及异步编程 Ⅱ - 从C10K问题到C10M问题">
 <meta property="og:url" content="https://blogs.lirui.me/posts/4b0392f1/index.html">
@@ -39,11 +39,23 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    
+      
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/%02.css">
 <link rel="stylesheet" href="/.css">
 
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
     
 <meta name="generator" content="Hexo 5.4.0"></head>
 
@@ -583,7 +595,7 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
-
+<!-- 
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -593,6 +605,7 @@ ga('create', 'UA-96909480-1', 'blogs.lirui.me');
 ga('send', 'pageview');
 </script>
 
+ -->
 
 
 <script>
