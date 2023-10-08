@@ -4,29 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>五边飞行与网络拥塞控制 | CombinatorX</title>
+    <title>CKS 2023年9月 考试小贴士 | CombinatorX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="李瑞">
     
     
-    <meta name="keywords" content="Algorithm,Airfield Traffic Pattern">
+    <meta name="keywords" content="kubernetes,k8s,CKS">
     
-      <meta name="description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
+      <meta name="description" content="关于考试本身这里就不再赘述CKS本身是什么，好处是什么，以及官方提供文档和材料的内容了。以下假设您是已经备考一段时间，准备预约考试或者已经预约考试的考生。   需要准备到什么样程度课程及练习推荐第一顺位众所周知，CKS 考试的准备首选kim 在udemy的课程 Kubernetes CKS 2023 Complete Course - Theory - Practice, 上手练习使用 kille">
 <meta property="og:type" content="article">
-<meta property="og:title" content="五边飞行与网络拥塞控制">
-<meta property="og:url" content="https://blogs.lirui.me/posts/9d999a37/index.html">
+<meta property="og:title" content="CKS 2023年9月 考试小贴士">
+<meta property="og:url" content="https://blogs.lirui.me/posts/b3656056/index.html">
 <meta property="og:site_name" content="CombinatorX">
-<meta property="og:description" content="五边飞行飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？哈哈， 笑而不语。想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。具体的说，这五个阶段是：    Upwin">
+<meta property="og:description" content="关于考试本身这里就不再赘述CKS本身是什么，好处是什么，以及官方提供文档和材料的内容了。以下假设您是已经备考一段时间，准备预约考试或者已经预约考试的考生。   需要准备到什么样程度课程及练习推荐第一顺位众所周知，CKS 考试的准备首选kim 在udemy的课程 Kubernetes CKS 2023 Complete Course - Theory - Practice, 上手练习使用 kille">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
-<meta property="og:image" content="https://image.ai-byte.com/tcp.fr_.jpg">
-<meta property="article:published_time" content="2017-04-30T09:47:22.000Z">
-<meta property="article:modified_time" content="2020-03-17T05:56:07.090Z">
+<meta property="article:published_time" content="2023-10-08T03:25:44.000Z">
+<meta property="article:modified_time" content="2023-10-08T03:25:44.919Z">
 <meta property="article:author" content="李瑞">
 <meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
@@ -104,14 +101,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/9d999a37/" title="五边飞行与网络拥塞控制" itemprop="url">五边飞行与网络拥塞控制</a>
+      <a href="/posts/b3656056/" title="CKS 2023年9月 考试小贴士" itemprop="url">CKS 2023年9月 考试小贴士</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-30T09:47:22.000Z" itemprop="datePublished"> 发表于 2017-04-30</time>
+    <time datetime="2023-10-08T03:25:44.000Z" itemprop="datePublished"> 发表于 2023-10-08</time>
     
   </p>
 </header>
@@ -120,60 +117,37 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E8%BE%B9%E9%A3%9E%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">五边飞行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%EF%BC%8C%E6%85%A2%E5%90%AF%E5%8A%A8"><span class="toc-number">2.</span> <span class="toc-text">TCP拥塞控制，慢启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E4%B8%8E%E7%A0%94%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="toc-number">3.</span> <span class="toc-text">产品经理与研发工程师</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%80%83%E8%AF%95%E6%9C%AC%E8%BA%AB"><span class="toc-number">1.</span> <span class="toc-text">关于考试本身</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E5%88%B0%E4%BB%80%E4%B9%88%E6%A0%B7%E7%A8%8B%E5%BA%A6"><span class="toc-number">2.</span> <span class="toc-text">需要准备到什么样程度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BE%E7%A8%8B%E5%8F%8A%E7%BB%83%E4%B9%A0"><span class="toc-number">2.1.</span> <span class="toc-text">课程及练习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%AC%AC%E4%B8%80%E9%A1%BA%E4%BD%8D"><span class="toc-number">2.1.1.</span> <span class="toc-text">推荐第一顺位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E6%8E%A8%E8%8D%90"><span class="toc-number">2.1.2.</span> <span class="toc-text">补充推荐</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%BE%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E7%8A%B6%E6%80%81%E5%B0%B1%E5%8F%AF%E4%BB%A5%E9%A2%84%E7%BA%A6%E8%80%83%E8%AF%95%E4%BA%86"><span class="toc-number">2.2.</span> <span class="toc-text">达成什么样的状态就可以预约考试了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E5%8A%A0%E8%80%83%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">参加考试前的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E5%BC%BA%E8%B0%83%E7%9A%84"><span class="toc-number">3.1.</span> <span class="toc-text">需要强调的</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="五边飞行"><a href="#五边飞行" class="headerlink" title="五边飞行"></a>五边飞行</h2><p>飞机的五边飞行和TCP网络的拥塞控制协议有什么关系？<br>哈哈， 笑而不语。<br>想必这里很多人和我一样并不是专业的飞行人士，所以在开始上面的话题前，先科普下什么是五边飞行：<br>五边飞行（Airfield Traffic Pattern）是飞行员训练的基础课程，主要形式就是绕机场飞行，因为整个飞行轨迹是一个四边形、而又将这四边形划分为五个阶段，所以被称为五边飞行。<br>具体的说，这五个阶段是：  </p>
-<ol>
-<li>Upwind(landing) / Departure(take off)</li>
-<li>Crosswind</li>
-<li>Downwind</li>
-<li>Base</li>
-<li>Final</li>
+		<h2 id="关于考试本身"><a href="#关于考试本身" class="headerlink" title="关于考试本身"></a>关于考试本身</h2><p>这里就不再赘述CKS本身是什么，好处是什么，以及官方提供文档和材料的内容了。<br>以下假设您是已经备考一段时间，准备预约考试或者已经预约考试的考生。  </p>
+<h2 id="需要准备到什么样程度"><a href="#需要准备到什么样程度" class="headerlink" title="需要准备到什么样程度"></a>需要准备到什么样程度</h2><h3 id="课程及练习"><a href="#课程及练习" class="headerlink" title="课程及练习"></a>课程及练习</h3><h4 id="推荐第一顺位"><a href="#推荐第一顺位" class="headerlink" title="推荐第一顺位"></a>推荐第一顺位</h4><p>众所周知，CKS 考试的准备首选kim 在udemy的课程 <a target="_blank" rel="noopener" href="https://www.udemy.com/share/103O5A3@QOwHipRmR_joPBK8eV0byokoz9X7Fa-LtPvlMN4pyQUQv9Z8yIrgAHvD0RU9SWskAA==/">Kubernetes CKS 2023 Complete Course - Theory - Practice</a>, 上手练习使用 <a target="_blank" rel="noopener" href="https://killercoda.com/killer-shell-cks">killercoda</a>也是足够的。  </p>
+<h4 id="补充推荐"><a href="#补充推荐" class="headerlink" title="补充推荐"></a>补充推荐</h4><p>之前看到一些文章会推荐 <a target="_blank" rel="noopener" href="https://kodekloud.com/courses/certified-kubernetes-security-specialist-cks/">kodekloud</a> 的课程及练习，准备阶段为了增加模拟考试的练习，订阅过该课程，课程内容上来看相较 kim 的课程来说偏简单，而且模拟考试的内容也偏简单（不仅仅是相比较killer.sh， 相比真实考试难度也是如此）。</p>
+<h3 id="达成什么样的状态就可以预约考试了"><a href="#达成什么样的状态就可以预约考试了" class="headerlink" title="达成什么样的状态就可以预约考试了"></a>达成什么样的状态就可以预约考试了</h3><ol>
+<li>对于killerCoda 的模拟场景可以在不看提示的情况下一次做对，并且能够对重点的配置操作题在不需要太多时间审题的情况下完成。  </li>
+<li>killer.sh 在没有答案提示的情况下达到50+分</li>
 </ol>
-<p>更多细节查看<a target="_blank" rel="noopener" href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook/media/09_afh_ch7.pdf">这里</a></p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Traffic_patterns_depicted_in_FAA-H-8083-25.jpg" alt="五边飞行"></p>
-<p>你会问，不就是降落么？直接降不就行了么，费这些事干嘛？<br>飞机又不是汽车，碰到某个路段堵塞，汽车减速停下来就行了，飞机行么？更何况，你开车侧方位停车还要倒车然后回两把轮呢。  </p>
-<h2 id="TCP拥塞控制，慢启动"><a href="#TCP拥塞控制，慢启动" class="headerlink" title="TCP拥塞控制，慢启动"></a>TCP拥塞控制，慢启动</h2><p>我们看这整个过程，其实都是在为降落的充分准备做铺垫，为紧缺的资源-机场跑道创造一个有序、安全的降落起飞环境。哎，等等。从这个角度来看这与TCP网络协议中的拥塞控制算法何其相似，特别是慢启动（slow start）整个算法的考虑角度都是一样的。<br>因为网络传输中传输通道的大小是一定的，因此带宽就类似飞行中的机场跑道是紧缺资源，换句话说就需要通过一种机制保护起来，这里慢启动算法就起到了这个作用：<br>TCP在建立连接后，到了开始发送数据的阶段时，如果一次性发送了大量的数据包过去，必然会造成网络的拥塞，因此就需要根据网络情况逐步增加每次传送的数据包。具体说来是这样的：  </p>
-<table>
-<thead>
-<tr>
-<th align="center">RTT（Round Trip Time）轮次</th>
-<th align="center">传送数据包（单位：MSS）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">0</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">1*2 = 2</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">2*2 = 4</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">4*2 = 8</td>
-</tr>
-<tr>
-<td align="center">..</td>
-<td align="center">..</td>
-</tr>
-</tbody></table>
-<p>下图中第一段ssthresh（Slow Start threshhold ）之前的部分就是慢启动算法的过程。</p>
-<p><img src="https://image.ai-byte.com/tcp.fr_.jpg" alt="TCP 慢启动算法"></p>
-<p>图片来源酷壳 <a target="_blank" rel="noopener" href="https://coolshell.cn/articles/11609.html">TCP 的那些事儿（下）</a></p>
-<p>依次类推，如果带宽值为m的话，经过 $log_2^m$ 次RTT后就可以占满了带宽（类似的算法在动态数组的内存分配上也可以找到影子）。<br>所以说在你家网速慢的时候没必要狂点刷新，慢启动算法保证了不会因为的刷新频率而获得更高的带宽。  </p>
-<h2 id="产品经理与研发工程师"><a href="#产品经理与研发工程师" class="headerlink" title="产品经理与研发工程师"></a>产品经理与研发工程师</h2><p>在保护紧缺资源的点上，技术管理所使用的原则其实和上面的本质是相同的。<br>都说技术部门的研发和产品是相爱相杀的关系（哈哈。。。。。。）<br>如果产品经理与研发工程师的比例高于合理的比例会怎样？<br>产品设计好了，没有人实现，尴尬。<br>如果研发工程师与产品经理的比例高于合理的比例会怎样？<br>研发资源大量闲置，产品经理被各种挑战，大老板、市场部、运营部。  </p>
-<p>我们来分析下上面这两种情况，以及对应的措施。<br>对于第一种情况，就需要建立标准很高的需求评审机制，让真正的重要需求实现，这里可以要求需求的粒度，需求的完备度都要达到高的标准才能交到研发的手中。<br>对于第二种情况，允许粗粒度的需求交付研发，但是需要与研发在细节上充分沟通。<br>看到了么？这其实是对不同情况下的稀缺资源做的必要保护。核心就一个推动产品向健康的方向发展，毕竟“想”和“做”是不可分割的，产品经理和研发工程师这两个角色离开了谁都搞不成事，就酱。</p>
+<p>达成以上的熟练度就可以考虑预约考试了。</p>
+<h2 id="参加考试前的准备"><a href="#参加考试前的准备" class="headerlink" title="参加考试前的准备"></a>参加考试前的准备</h2><p>关于考试的提示 Github上已经有很多详细的FAQ 了， 可以参考下面的这两个文档：  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/kodekloudhub/community-faq#exam-environment">KodeKloud Community FAQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fireflycons/tips-for-CKA-CKAD-CKS">tips-for-CKA-CKAD-CKS</a></li>
+</ul>
+<h3 id="需要强调的"><a href="#需要强调的" class="headerlink" title="需要强调的"></a>需要强调的</h3><ol>
+<li>准备好身份证</li>
+<li>准备好一个大显示屏（23寸就够用）</li>
+<li>注备好一个支持自动变焦的高清晰度摄像头（本人考试时使用 罗技C930c）<br>这个挺重要的，如果在考试checkin的过程中需要拍身份证的照片，如果拍不清楚的话监考官会在后续要求你重新拍摄，如果还不清楚就需要练习在海外的技术支持进行远程协助。<br>注意： 这里的技术支持是不能提供汉语沟通服务的，需要全程英语沟通。</li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Cloud-Native/">Cloud Native</a>
+</div>
 
 
 </div>
@@ -182,7 +156,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://blogs.lirui.me/posts/9d999a37/" data-title="五边飞行与网络拥塞控制 | CombinatorX" data-tsina="" class="share clearfix">
+	  <div data-url="https://blogs.lirui.me/posts/b3656056/" data-title="CKS 2023年9月 考试小贴士 | CombinatorX" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -195,19 +169,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/posts/f4573ea8/" title="在Mac上安装TensorFlow">
-  <strong>上一篇：</strong><br/>
-  <span>
-  在Mac上安装TensorFlow</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/posts/cac864f3/"  title="如何用递归的方式解决问题？">
+<a href="/posts/4ad26398/"  title="《函数式编程思维》书摘">
  <strong>下一篇：</strong><br/> 
- <span>如何用递归的方式解决问题？
+ <span>《函数式编程思维》书摘
 </span>
 </a>
 </div>
@@ -228,7 +194,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E8%BE%B9%E9%A3%9E%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">五边飞行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%EF%BC%8C%E6%85%A2%E5%90%AF%E5%8A%A8"><span class="toc-number">2.</span> <span class="toc-text">TCP拥塞控制，慢启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E4%B8%8E%E7%A0%94%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="toc-number">3.</span> <span class="toc-text">产品经理与研发工程师</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%80%83%E8%AF%95%E6%9C%AC%E8%BA%AB"><span class="toc-number">1.</span> <span class="toc-text">关于考试本身</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E5%88%B0%E4%BB%80%E4%B9%88%E6%A0%B7%E7%A8%8B%E5%BA%A6"><span class="toc-number">2.</span> <span class="toc-text">需要准备到什么样程度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BE%E7%A8%8B%E5%8F%8A%E7%BB%83%E4%B9%A0"><span class="toc-number">2.1.</span> <span class="toc-text">课程及练习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%AC%AC%E4%B8%80%E9%A1%BA%E4%BD%8D"><span class="toc-number">2.1.1.</span> <span class="toc-text">推荐第一顺位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E6%8E%A8%E8%8D%90"><span class="toc-number">2.1.2.</span> <span class="toc-text">补充推荐</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%BE%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E7%8A%B6%E6%80%81%E5%B0%B1%E5%8F%AF%E4%BB%A5%E9%A2%84%E7%BA%A6%E8%80%83%E8%AF%95%E4%BA%86"><span class="toc-number">2.2.</span> <span class="toc-text">达成什么样的状态就可以预约考试了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E5%8A%A0%E8%80%83%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">参加考试前的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E5%BC%BA%E8%B0%83%E7%9A%84"><span class="toc-number">3.1.</span> <span class="toc-text">需要强调的</span></a></li></ol></li></ol>
  
   </div>
 
