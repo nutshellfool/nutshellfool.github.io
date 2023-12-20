@@ -1,0 +1,753 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ChatGPT 提示工程（chatgpt-prompt-engineering） | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+    
+    <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    
+      <meta name="description" content="提示指南提示原则原则1: 给出清晰且具体的指令技巧1. 使用分隔符清晰分割出“输入”部分分隔符可以为：&#96;&#96;&#96;, “”””, &lt; &gt;,&lt;tag&gt; &lt;&#x2F;tag&gt;, : 例如： 123456789101112131415161718&#96;&#96;&#96;##### 技巧2: 要求按结构化形式（JSON，HTML）输出##### 技巧3: 要求模型检查是否满足条件##### 技巧4:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ChatGPT 提示工程（chatgpt-prompt-engineering）">
+<meta property="og:url" content="https://blogs.lirui.me/posts/37d3e2eb/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="提示指南提示原则原则1: 给出清晰且具体的指令技巧1. 使用分隔符清晰分割出“输入”部分分隔符可以为：&#96;&#96;&#96;, “”””, &lt; &gt;,&lt;tag&gt; &lt;&#x2F;tag&gt;, : 例如： 123456789101112131415161718&#96;&#96;&#96;##### 技巧2: 要求按结构化形式（JSON，HTML）输出##### 技巧3: 要求模型检查是否满足条件##### 技巧4:">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-20T03:43:24.000Z">
+<meta property="article:modified_time" content="2023-12-20T03:43:35.670Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+      
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/37d3e2eb/" title="ChatGPT 提示工程（chatgpt-prompt-engineering）" itemprop="url">ChatGPT 提示工程（chatgpt-prompt-engineering）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2023-12-20T03:43:24.000Z" itemprop="datePublished"> 发表于 2023-12-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">提示指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99"><span class="toc-number">1.1.</span> <span class="toc-text">提示原则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%88%991-%E7%BB%99%E5%87%BA%E6%B8%85%E6%99%B0%E4%B8%94%E5%85%B7%E4%BD%93%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-number">1.1.1.</span> <span class="toc-text">原则1: 给出清晰且具体的指令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%80%E5%B7%A71-%E4%BD%BF%E7%94%A8%E5%88%86%E9%9A%94%E7%AC%A6%E6%B8%85%E6%99%B0%E5%88%86%E5%89%B2%E5%87%BA%E2%80%9C%E8%BE%93%E5%85%A5%E2%80%9D%E9%83%A8%E5%88%86"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">技巧1. 使用分隔符清晰分割出“输入”部分</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%88%992-%E7%BB%99%E6%A8%A1%E5%9E%8B%E6%97%B6%E9%97%B4%E8%BF%9B%E8%A1%8C%E6%80%9D%E8%80%83"><span class="toc-number">1.1.2.</span> <span class="toc-text">原则2: 给模型时间进行思考</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%80%E5%B7%A71-%E5%88%86%E8%A7%A3%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%A4%9A%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">技巧1: 分解完成一个任务的多个步骤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%80%E5%B7%A72-%E5%9C%A8%E5%BE%97%E5%87%BA%E7%BB%93%E8%AE%BA%E4%B9%8B%E5%89%8D%E8%A6%81%E6%B1%82%E6%A8%A1%E5%9E%8B%E7%BB%99%E5%87%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E8%A7%A3"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">技巧2: 在得出结论之前要求模型给出自己的解</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%99%90%E5%88%B6%EF%BC%9A%E5%B9%BB%E8%A7%89%EF%BC%88Hallucinations%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">模型限制：幻觉（Hallucinations）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%BC%8F%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.</span> <span class="toc-text">迭代式提示工程开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ML%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%91%A8%E6%9C%9F"><span class="toc-number">1.2.1.</span> <span class="toc-text">ML的迭代周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%91%A8%E6%9C%9F%E6%8C%87%E5%8D%97"><span class="toc-number">1.2.2.</span> <span class="toc-text">提示工程周期指南</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">例子</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E5%8F%8A%E6%8F%90%E5%8F%96"><span class="toc-number">1.3.</span> <span class="toc-text">总结及提取</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%A1%88%E4%BE%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">总结案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E7%94%A8%E6%88%B7%E8%AF%84%E8%AE%BA%E9%87%8D%E7%82%B9"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">总结用户评论重点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E6%96%AD"><span class="toc-number">1.4.</span> <span class="toc-text">推断</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%EF%BC%88%E6%8E%A8%E6%96%AD%E4%BA%A7%E5%93%81%E8%AF%84%E8%AE%BA%E6%98%AF%E6%AD%A3%E5%90%91%E8%BF%98%E6%98%AF%E8%B4%9F%E5%90%91%EF%BC%89"><span class="toc-number">1.4.1.</span> <span class="toc-text">案例（推断产品评论是正向还是负向）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E4%BB%8E%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%AD%E6%8E%A8%E6%96%AD%EF%BC%88Inferring%EF%BC%89%E4%B8%BB%E9%A2%98"><span class="toc-number">1.4.2.</span> <span class="toc-text">案例 从一篇文章中推断（Inferring）主题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%EF%BC%88Transforming%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">转换（Transforming）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BF%BB%E8%AF%91"><span class="toc-number">1.5.1.</span> <span class="toc-text">翻译</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E4%B8%8D%E5%90%8C%E8%AF%AD%E8%A8%80%E7%9A%84%E7%BF%BB%E8%AF%91"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">案例 不同语言的翻译</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%EF%BC%88Expanding%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">扩展（Expanding）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%9B%9E%E5%A4%8D%E5%AE%A2%E6%88%B7%E9%82%AE%E4%BB%B6"><span class="toc-number">1.6.1.</span> <span class="toc-text">自动回复客户邮件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT-%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">GPT 中的几个参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#temperature"><span class="toc-number">1.7.1.</span> <span class="toc-text">temperature</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="提示指南"><a href="#提示指南" class="headerlink" title="提示指南"></a>提示指南</h2><h3 id="提示原则"><a href="#提示原则" class="headerlink" title="提示原则"></a>提示原则</h3><h4 id="原则1-给出清晰且具体的指令"><a href="#原则1-给出清晰且具体的指令" class="headerlink" title="原则1: 给出清晰且具体的指令"></a>原则1: 给出清晰且具体的指令</h4><h5 id="技巧1-使用分隔符清晰分割出“输入”部分"><a href="#技巧1-使用分隔符清晰分割出“输入”部分" class="headerlink" title="技巧1. 使用分隔符清晰分割出“输入”部分"></a>技巧1. 使用分隔符清晰分割出“输入”部分</h5><p>分隔符可以为：```, “”””, &lt; &gt;,<code>&lt;tag&gt; &lt;/tag&gt;</code>, <code>:</code></p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">##### 技巧2: 要求按结构化形式（JSON，HTML）输出</span><br><span class="line"></span><br><span class="line">##### 技巧3: 要求模型检查是否满足条件</span><br><span class="line"></span><br><span class="line">##### 技巧4: “少样本提示” （&quot;Few-shot&quot; prompting）</span><br><span class="line"></span><br><span class="line">Few-shot prompting是一种自然语言处理技术，用于解决对于仅有少量样本或无标注数据的情况下，如何构建高质量的语言模型的问题。在这种方法中，一个预训练的语言模型被设计用于从少量的示例中快速学习和推理新任务的解决方案，通常是利用模板式提示（prompting）来指导学习。</span><br><span class="line"></span><br><span class="line">举个例子，一个少样本的文本分类任务可以通过给模型一些文本片段作为提示，告诉模型如何将文本分类为某个特定的类别。这些提示可以是简单的单词或短语，也可以是更复杂的结构化提示，比如“选择一个句子，其中描述了XX”，从而让模型更好地理解和执行任务。Few-shot prompting在各种自然语言处理任务中都具有广泛的应用，包括文本分类、命名实体识别、机器翻译等。</span><br><span class="line"></span><br><span class="line">简而言之就是给模型举个例子，然后向模型提问类似问题。</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">```plainText</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="原则2-给模型时间进行思考"><a href="#原则2-给模型时间进行思考" class="headerlink" title="原则2: 给模型时间进行思考"></a>原则2: 给模型时间进行思考</h4><h5 id="技巧1-分解完成一个任务的多个步骤"><a href="#技巧1-分解完成一个任务的多个步骤" class="headerlink" title="技巧1: 分解完成一个任务的多个步骤"></a>技巧1: 分解完成一个任务的多个步骤</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">In a charming village, siblings Jack and Jill set out on \ </span></span><br><span class="line"><span class="string">a quest to fetch water from a hilltop \ </span></span><br><span class="line"><span class="string">well. As they climbed, singing joyfully, misfortune \ </span></span><br><span class="line"><span class="string">struck—Jack tripped on a stone and tumbled \ </span></span><br><span class="line"><span class="string">down the hill, with Jill following suit. \ </span></span><br><span class="line"><span class="string">Though slightly battered, the pair returned home to \ </span></span><br><span class="line"><span class="string">comforting embraces. Despite the mishap, \ </span></span><br><span class="line"><span class="string">their adventurous spirits remained undimmed, and they \ </span></span><br><span class="line"><span class="string">continued exploring with delight.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># example 1</span></span><br><span class="line">prompt_1 = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Perform the following actions: </span></span><br><span class="line"><span class="string">1 - Summarize the following text delimited by triple \</span></span><br><span class="line"><span class="string">backticks with 1 sentence.</span></span><br><span class="line"><span class="string">2 - Translate the summary into French.</span></span><br><span class="line"><span class="string">3 - List each name in the French summary.</span></span><br><span class="line"><span class="string">4 - Output a json object that contains the following \</span></span><br><span class="line"><span class="string">keys: french_summary, num_names.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Separate your answers with line breaks.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Text:</span></span><br><span class="line"><span class="string">```<span class="subst">&#123;text&#125;</span>```</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response = get_completion(prompt_1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Completion for prompt 1:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<h5 id="技巧2-在得出结论之前要求模型给出自己的解"><a href="#技巧2-在得出结论之前要求模型给出自己的解" class="headerlink" title="技巧2: 在得出结论之前要求模型给出自己的解"></a>技巧2: 在得出结论之前要求模型给出自己的解</h5><p>直接给出结果的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Determine if the student&#x27;s solution is correct or not.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Question:</span></span><br><span class="line"><span class="string">I&#x27;m building a solar power installation and I need \</span></span><br><span class="line"><span class="string"> help working out the financials. </span></span><br><span class="line"><span class="string">- Land costs $100 / square foot</span></span><br><span class="line"><span class="string">- I can buy solar panels for $250 / square foot</span></span><br><span class="line"><span class="string">- I negotiated a contract for maintenance that will cost \ </span></span><br><span class="line"><span class="string">me a flat $100k per year, and an additional $10 / square \</span></span><br><span class="line"><span class="string">foot</span></span><br><span class="line"><span class="string">What is the total cost for the first year of operations </span></span><br><span class="line"><span class="string">as a function of the number of square feet.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Student&#x27;s Solution:</span></span><br><span class="line"><span class="string">Let x be the size of the installation in square feet.</span></span><br><span class="line"><span class="string">Costs:</span></span><br><span class="line"><span class="string">1. Land cost: 100x</span></span><br><span class="line"><span class="string">2. Solar panel cost: 250x</span></span><br><span class="line"><span class="string">3. Maintenance cost: 100,000 + 100x</span></span><br><span class="line"><span class="string">Total cost: 100x + 250x + 100,000 + 100x = 450x + 100,000</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response = get_completion(prompt)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>要求模型给出自己的解，再得出结论：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Your task is to determine if the student&#x27;s solution \</span></span><br><span class="line"><span class="string">is correct or not.</span></span><br><span class="line"><span class="string">To solve the problem do the following:</span></span><br><span class="line"><span class="string">- First, work out your own solution to the problem. </span></span><br><span class="line"><span class="string">- Then compare your solution to the student&#x27;s solution \ </span></span><br><span class="line"><span class="string">and evaluate if the student&#x27;s solution is correct or not. </span></span><br><span class="line"><span class="string">Don&#x27;t decide if the student&#x27;s solution is correct until </span></span><br><span class="line"><span class="string">you have done the problem yourself.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Use the following format:</span></span><br><span class="line"><span class="string">Question:</span></span><br></pre></td></tr></table></figure>
+
+<p>question here</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student&#x27;s solution:</span><br></pre></td></tr></table></figure>
+
+<p>student’s solution here</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Actual solution:</span><br></pre></td></tr></table></figure>
+
+<p>steps to work out the solution and your solution here</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Is the student&#x27;s solution the same as actual solution \</span><br><span class="line">just calculated:</span><br></pre></td></tr></table></figure>
+
+<p>yes or no</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student grade:</span><br></pre></td></tr></table></figure>
+
+<p>correct or incorrect</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Question:</span><br></pre></td></tr></table></figure>
+
+<p>I’m building a solar power installation and I need help <br>working out the financials.</p>
+<ul>
+<li>Land costs $100 / square foot</li>
+<li>I can buy solar panels for $250 / square foot</li>
+<li>I negotiated a contract for maintenance that will cost <br>me a flat $100k per year, and an additional $10 / square <br>foot<br>What is the total cost for the first year of operations <br>as a function of the number of square feet.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student&#x27;s solution:</span><br></pre></td></tr></table></figure>
+
+<p>Let x be the size of the installation in square feet.<br>Costs:</p>
+<ol>
+<li>Land cost: 100x</li>
+<li>Solar panel cost: 250x</li>
+<li>Maintenance cost: 100,000 + 100x<br>Total cost: 100x + 250x + 100,000 + 100x = 450x + 100,000</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Actual solution:</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">response = get_completion(prompt)</span><br><span class="line">print(response)</span><br></pre></td></tr></table></figure>
+
+<h4 id="模型限制：幻觉（Hallucinations）"><a href="#模型限制：幻觉（Hallucinations）" class="headerlink" title="模型限制：幻觉（Hallucinations）"></a>模型限制：幻觉（Hallucinations）</h4><p>就是常说的模型“一本正经胡说八道”，会对可能的结果（并不真实存在）做出描述。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tell me about  AeroGlide UltraSlim Smart Toothbrush by boie</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">The AeroGlide UltraSlim Smart Toothbrush by Boie is a high-tech toothbrush that incorporates advanced features to provide an optimal teeth cleaning experience. It uses patented AeroGlide bristles to gently yet effectively clean teeth and gums, reducing the risk of gum disease and cavities. The bristles are made from an ultra-soft material that is gentle on tooth enamel and won&#x27;t scratch or damage it.</span><br><span class="line"></span><br><span class="line">The toothbrush also features a smart timer that ensures users brush their teeth for the recommended two minutes, and a rechargeable battery that provides up to two weeks of use on a single charge. Additionally, it comes with a sleek travel case that makes it easy to take the toothbrush with you on the go.</span><br><span class="line"></span><br><span class="line">Overall, the AeroGlide UltraSlim Smart Toothbrush by Boie is a great choice for those who want a high-quality, effective toothbrush that incorporates advanced features to improve their oral health.</span><br></pre></td></tr></table></figure>
+
+<p>Boie 是真实存在的公司，但是“AeroGlide UltraSlim Smart Toothbrush” 产品不存在</p>
+<h3 id="迭代式提示工程开发"><a href="#迭代式提示工程开发" class="headerlink" title="迭代式提示工程开发"></a>迭代式提示工程开发</h3><h4 id="ML的迭代周期"><a href="#ML的迭代周期" class="headerlink" title="ML的迭代周期"></a>ML的迭代周期</h4><p>想法（Idea）-&gt; 实现/代码-数据 （Implementation(code/data) prompt） -&gt; 实验结果（Experimental result）-&gt; 错误分析（Error Analysis） -&gt; 想法 …..</p>
+<h4 id="提示工程周期指南"><a href="#提示工程周期指南" class="headerlink" title="提示工程周期指南"></a>提示工程周期指南</h4><ul>
+<li>提示清晰具体</li>
+<li>分析输出为什么没有给出预期结果</li>
+<li>调优想法及提示</li>
+<li>重复</li>
+</ul>
+<h5 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h5><h3 id="总结及提取"><a href="#总结及提取" class="headerlink" title="总结及提取"></a>总结及提取</h3><h4 id="总结案例"><a href="#总结案例" class="headerlink" title="总结案例"></a>总结案例</h4><h5 id="总结用户评论重点"><a href="#总结用户评论重点" class="headerlink" title="总结用户评论重点"></a>总结用户评论重点</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Got this panda plush toy for my daughter&#x27;s birthday, \</span><br><span class="line">who loves it and takes it everywhere. It&#x27;s soft and \ </span><br><span class="line">super cute, and its face has a friendly look. It&#x27;s \ </span><br><span class="line">a bit small for what I paid though. I think there \ </span><br><span class="line">might be other options that are bigger for the \ </span><br><span class="line">same price. It arrived a day earlier than expected, \ </span><br><span class="line">so I got to play with it myself before I gave it \ </span><br><span class="line">to her.</span><br></pre></td></tr></table></figure>
+
+<p>提示指令：</p>
+<ul>
+<li>有字数限制的总结</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Your task is to generate a short summary of a product \</span><br><span class="line">review from an ecommerce site. </span><br><span class="line"></span><br><span class="line">Summarize the review below, delimited by triple </span><br><span class="line">backticks, in at most 30 words. </span><br><span class="line"></span><br><span class="line">Review: ```&#123;prod_review&#125;```</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关注某个方面（示例中为：交付/快递）的总结</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Your task is to generate a short summary of a product \</span><br><span class="line">review from an ecommerce site to give feedback to the \</span><br><span class="line">Shipping deparmtment. </span><br><span class="line"></span><br><span class="line">Summarize the review below, delimited by triple </span><br><span class="line">backticks, in at most 30 words, and focusing on any aspects \</span><br><span class="line">that mention shipping and delivery of the product. </span><br><span class="line"></span><br><span class="line">Review: ```&#123;prod_review&#125;```</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关注某几个方面（示例中为：价格及价值）的总结</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Your task is to generate a short summary of a product \</span><br><span class="line">review from an ecommerce site to give feedback to the \</span><br><span class="line">pricing deparmtment, responsible for determining the \</span><br><span class="line">price of the product.  </span><br><span class="line"></span><br><span class="line">Summarize the review below, delimited by triple </span><br><span class="line">backticks, in at most 30 words, and focusing on any aspects \</span><br><span class="line">that are relevant to the price and perceived value. </span><br><span class="line"></span><br><span class="line">Review: ```&#123;prod_review&#125;```</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用“抽取”（extract）代替“总结”（summarize）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Your task is to extract relevant information from \ </span><br><span class="line">a product review from an ecommerce site to give \</span><br><span class="line">feedback to the Shipping department. </span><br><span class="line"></span><br><span class="line">From the review below, delimited by triple quotes \</span><br><span class="line">extract the information relevant to shipping and \ </span><br><span class="line">delivery. Limit to 30 words. </span><br><span class="line"></span><br><span class="line">Review: ```&#123;prod_review&#125;```</span><br></pre></td></tr></table></figure>
+
+<h3 id="推断"><a href="#推断" class="headerlink" title="推断"></a>推断</h3><h4 id="案例（推断产品评论是正向还是负向）"><a href="#案例（推断产品评论是正向还是负向）" class="headerlink" title="案例（推断产品评论是正向还是负向）"></a>案例（推断产品评论是正向还是负向）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Needed a nice lamp for my bedroom, and this one had \</span><br><span class="line">additional storage and not too high of a price point. \</span><br><span class="line">Got it fast.  The string to our lamp broke during the \</span><br><span class="line">transit and the company happily sent over a new one. \</span><br><span class="line">Came within a few days as well. It was easy to put \</span><br><span class="line">together.  I had a missing part, so I contacted their \</span><br><span class="line">support and they very quickly got me the missing piece! \</span><br><span class="line">Lumina seems to me to be a great company that cares \</span><br><span class="line">about their customers and products!!</span><br></pre></td></tr></table></figure>
+
+<p>提示指令：  </p>
+<ul>
+<li>产品评论情感是正向还是负向</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">What is the sentiment of the following product review, </span><br><span class="line">which is delimited with triple backticks?</span><br><span class="line"></span><br><span class="line">Review text: &#x27;&#x27;&#x27;&#123;lamp_review&#125;&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>简化回答</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">What is the sentiment of the following product review, </span><br><span class="line">which is delimited with triple backticks?</span><br><span class="line"></span><br><span class="line">Give your answer as a single word, either &quot;positive&quot; \</span><br><span class="line">or &quot;negative&quot;.</span><br><span class="line"></span><br><span class="line">Review text: &#x27;&#x27;&#x27;&#123;lamp_review&#125;&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>识别情绪类型(多个，用“，” 连接)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Identify a list of emotions that the writer of the \</span><br><span class="line">following review is expressing. Include no more than \</span><br><span class="line">five items in the list. Format your answer as a list of \</span><br><span class="line">lower-case words separated by commas.</span><br><span class="line"></span><br><span class="line">Review text: &#x27;&#x27;&#x27;&#123;lamp_review&#125;&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>识别愤怒</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Is the writer of the following review expressing anger?\</span><br><span class="line">The review is delimited with triple backticks. \</span><br><span class="line">Give your answer as either yes or no.</span><br><span class="line"></span><br><span class="line">Review text: &#x27;&#x27;&#x27;&#123;lamp_review&#125;&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从用户评论中提取产品及公司名</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Identify the following items from the review text: </span><br><span class="line">- Item purchased by reviewer</span><br><span class="line">- Company that made the item</span><br><span class="line"></span><br><span class="line">The review is delimited with triple backticks. \</span><br><span class="line">Format your response as a JSON object with \</span><br><span class="line">&quot;Item&quot; and &quot;Brand&quot; as the keys. </span><br><span class="line">If the information isn&#x27;t present, use &quot;unknown&quot; \</span><br><span class="line">as the value.</span><br><span class="line">Make your response as short as possible.</span><br><span class="line">  </span><br><span class="line">Review text: &#x27;&#x27;&#x27;&#123;lamp_review&#125;&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;Item&quot;</span>: <span class="string">&quot;lamp&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;Brand&quot;</span>: <span class="string">&quot;Lumina&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="案例-从一篇文章中推断（Inferring）主题"><a href="#案例-从一篇文章中推断（Inferring）主题" class="headerlink" title="案例 从一篇文章中推断（Inferring）主题"></a>案例 从一篇文章中推断（Inferring）主题</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">In a recent survey conducted by the government, </span><br><span class="line">public sector employees were asked to rate their level </span><br><span class="line">of satisfaction with the department they work at. </span><br><span class="line">The results revealed that NASA was the most popular </span><br><span class="line">department with a satisfaction rating of 95%.</span><br><span class="line"></span><br><span class="line">One NASA employee, John Smith, commented on the findings, </span><br><span class="line">stating, &quot;I&#x27;m not surprised that NASA came out on top. </span><br><span class="line">It&#x27;s a great place to work with amazing people and </span><br><span class="line">incredible opportunities. I&#x27;m proud to be a part of </span><br><span class="line">such an innovative organization.&quot;</span><br><span class="line"></span><br><span class="line">The results were also welcomed by NASA&#x27;s management team, </span><br><span class="line">with Director Tom Johnson stating, &quot;We are thrilled to </span><br><span class="line">hear that our employees are satisfied with their work at NASA. </span><br><span class="line">We have a talented and dedicated team who work tirelessly </span><br><span class="line">to achieve our goals, and it&#x27;s fantastic to see that their </span><br><span class="line">hard work is paying off.&quot;</span><br><span class="line"></span><br><span class="line">The survey also revealed that the </span><br><span class="line">Social Security Administration had the lowest satisfaction </span><br><span class="line">rating, with only 45% of employees indicating they were </span><br><span class="line">satisfied with their job. The government has pledged to </span><br><span class="line">address the concerns raised by employees in the survey and </span><br><span class="line">work towards improving job satisfaction across all departments.</span><br></pre></td></tr></table></figure>
+
+<p>提示指令</p>
+<ul>
+<li>推断5个主题</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Determine five topics that are being discussed in the \</span><br><span class="line">following text, which is delimited by triple backticks.</span><br><span class="line"></span><br><span class="line">Make each item one or two words long. </span><br><span class="line"></span><br><span class="line">Format your response as a list of items separated by commas.</span><br><span class="line"></span><br><span class="line">Text sample: &#x27;&#x27;&#x27;&#123;story&#125;&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对特定主题设置提醒，进行监控</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Determine whether each item in the following list of \</span></span><br><span class="line"><span class="string">topics is a topic in the text below, which</span></span><br><span class="line"><span class="string">is delimited with triple backticks.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Give your answer as list with 0 or 1 for each topic.\</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">List of topics: <span class="subst">&#123;<span class="string">&quot;, &quot;</span>.join(topic_list)&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Text sample: &#x27;&#x27;&#x27;<span class="subst">&#123;story&#125;</span>&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response = get_completion(prompt)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nasa: 1</span><br><span class="line">local government: 0</span><br><span class="line">engineering: 0</span><br><span class="line">employee satisfaction: 1</span><br><span class="line">federal government: 1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">topic_dict = &#123;i.split(<span class="string">&#x27;: &#x27;</span>)[<span class="number">0</span>]: <span class="built_in">int</span>(i.split(<span class="string">&#x27;: &#x27;</span>)[<span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> response.split(sep=<span class="string">&#x27;\n&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">if</span> topic_dict[<span class="string">&#x27;nasa&#x27;</span>] == <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ALERT: New NASA story!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALERT: New NASA story!</span><br></pre></td></tr></table></figure>
+
+<h3 id="转换（Transforming）"><a href="#转换（Transforming）" class="headerlink" title="转换（Transforming）"></a>转换（Transforming）</h3><h4 id="翻译"><a href="#翻译" class="headerlink" title="翻译"></a>翻译</h4><h5 id="案例-不同语言的翻译"><a href="#案例-不同语言的翻译" class="headerlink" title="案例 不同语言的翻译"></a>案例 不同语言的翻译</h5><p>提示指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Translate the following English text to Spanish: \ </span><br><span class="line">```Hi, I would like to order a blender```</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检测是哪种语言？</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Tell me which language this is: </span><br><span class="line">&#x27;&#x27;&#x27;Combien coûte le lampadaire?&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>翻译多个语言</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Translate the following  text to French and Spanish</span><br><span class="line">and English pirate: \</span><br><span class="line">&#x27;&#x27;&#x27;I want to order a basketball&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>翻译为书面语及非书面语</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Translate the following text to Spanish in both the \</span><br><span class="line">formal and informal forms: </span><br><span class="line">&#x27;Would you like to order a pillow?&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>多种语言翻译为统一语言</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">user_messages = [</span><br><span class="line">  <span class="string">&quot;La performance du système est plus lente que d&#x27;habitude.&quot;</span>,  <span class="comment"># System performance is slower than normal         </span></span><br><span class="line">  <span class="string">&quot;Mi monitor tiene píxeles que no se iluminan.&quot;</span>,              <span class="comment"># My monitor has pixels that are not lighting</span></span><br><span class="line">  <span class="string">&quot;Il mio mouse non funziona&quot;</span>,                                 <span class="comment"># My mouse is not working</span></span><br><span class="line">  <span class="string">&quot;Mój klawisz Ctrl jest zepsuty&quot;</span>,                             <span class="comment"># My keyboard has a broken control key</span></span><br><span class="line">  <span class="string">&quot;我的屏幕在闪烁&quot;</span>                                               <span class="comment"># My screen is flashing</span></span><br><span class="line">] </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> issue <span class="keyword">in</span> user_messages:</span><br><span class="line">    prompt = <span class="string">f&quot;Tell me what language this is: ```<span class="subst">&#123;issue&#125;</span>```&quot;</span></span><br><span class="line">    lang = get_completion(prompt)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Original message (<span class="subst">&#123;lang&#125;</span>): <span class="subst">&#123;issue&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Translate the following  text to English \</span></span><br><span class="line"><span class="string">    and Korean: ```<span class="subst">&#123;issue&#125;</span>```</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    response = get_completion(prompt)</span><br><span class="line">    <span class="built_in">print</span>(response, <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>语气转换（Tone transformation）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Translate the following from slang to a business letter: </span><br><span class="line">&#x27;Dude, This is Joe, check out this spec on this standing lamp.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dear Sir/Madam,</span><br><span class="line"></span><br><span class="line">I am writing to bring to your attention a standing lamp that I believe may be of interest to you. Please find attached the specifications for your review.</span><br><span class="line"></span><br><span class="line">Thank you for your time and consideration.</span><br><span class="line"></span><br><span class="line">Sincerely,</span><br><span class="line"></span><br><span class="line">Joe</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>格式转换（JSON 转 HTML）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data_json = &#123; <span class="string">&quot;resturant employees&quot;</span> :[ </span><br><span class="line">    &#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;Shyam&quot;</span>, <span class="string">&quot;email&quot;</span>:<span class="string">&quot;shyamjaiswal@gmail.com&quot;</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;Bob&quot;</span>, <span class="string">&quot;email&quot;</span>:<span class="string">&quot;bob32@gmail.com&quot;</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;Jai&quot;</span>, <span class="string">&quot;email&quot;</span>:<span class="string">&quot;jai87@gmail.com&quot;</span>&#125;</span><br><span class="line">]&#125;</span><br><span class="line"></span><br><span class="line">prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Translate the following python dictionary from JSON to an HTML \</span></span><br><span class="line"><span class="string">table with column headers and title: <span class="subst">&#123;data_json&#125;</span></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response = get_completion(prompt)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">caption</span>&gt;</span>Restaurant Employees<span class="tag">&lt;/<span class="name">caption</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>Email<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>Shyam<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>shyamjaiswal@gmail.com<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>bob32@gmail.com<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>Jai<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>jai87@gmail.com<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> display, Markdown, Latex, HTML, JSON</span><br><span class="line">display(HTML(response))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>拼写/语法检查</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">text = [ </span><br><span class="line">  <span class="string">&quot;The girl with the black and white puppies have a ball.&quot;</span>,  <span class="comment"># The girl has a ball.</span></span><br><span class="line">  <span class="string">&quot;Yolanda has her notebook.&quot;</span>, <span class="comment"># ok</span></span><br><span class="line">  <span class="string">&quot;Its going to be a long day. Does the car need it’s oil changed?&quot;</span>,  <span class="comment"># Homonyms</span></span><br><span class="line">  <span class="string">&quot;Their goes my freedom. There going to bring they’re suitcases.&quot;</span>,  <span class="comment"># Homonyms</span></span><br><span class="line">  <span class="string">&quot;Your going to need you’re notebook.&quot;</span>,  <span class="comment"># Homonyms</span></span><br><span class="line">  <span class="string">&quot;That medicine effects my ability to sleep. Have you heard of the butterfly affect?&quot;</span>, <span class="comment"># Homonyms</span></span><br><span class="line">  <span class="string">&quot;This phrase is to cherck chatGPT for speling abilitty&quot;</span>  <span class="comment"># spelling</span></span><br><span class="line">]</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> text:</span><br><span class="line">    prompt = <span class="string">f&quot;&quot;&quot;Proofread and correct the following text</span></span><br><span class="line"><span class="string">    and rewrite the corrected version. If you don&#x27;t find</span></span><br><span class="line"><span class="string">    and errors, just say &quot;No errors found&quot;. Don&#x27;t use </span></span><br><span class="line"><span class="string">    any punctuation around the text:</span></span><br><span class="line"><span class="string">    ```<span class="subst">&#123;t&#125;</span>```&quot;&quot;&quot;</span></span><br><span class="line">    response = get_completion(prompt)</span><br><span class="line">    <span class="built_in">print</span>(response)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>提示指令关键词：  </p>
+<ul>
+<li>proofread （校对）</li>
+<li>rewrite （重写）</li>
+<li>correct （纠正）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Got this for my daughter for her birthday cuz she keeps taking \</span></span><br><span class="line"><span class="string">mine from my room.  Yes, adults also like pandas too.  She takes \</span></span><br><span class="line"><span class="string">it everywhere with her, and it&#x27;s super soft and cute.  One of the \</span></span><br><span class="line"><span class="string">ears is a bit lower than the other, and I don&#x27;t think that was \</span></span><br><span class="line"><span class="string">designed to be asymmetrical. It&#x27;s a bit small for what I paid for it \</span></span><br><span class="line"><span class="string">though. I think there might be other options that are bigger for \</span></span><br><span class="line"><span class="string">the same price.  It arrived a day earlier than expected, so I got \</span></span><br><span class="line"><span class="string">to play with it myself before I gave it to my daughter.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">prompt = <span class="string">f&quot;proofread and correct this review: ```<span class="subst">&#123;text&#125;</span>```&quot;</span></span><br><span class="line">response = get_completion(prompt)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br><span class="line"></span><br><span class="line"><span class="comment"># show the diff</span></span><br><span class="line"><span class="keyword">from</span> redlines <span class="keyword">import</span> Redlines</span><br><span class="line"></span><br><span class="line">diff = Redlines(text,response)</span><br><span class="line">display(Markdown(diff.output_markdown))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>以某种写作风格改写文字</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">proofread and correct this review. Make it more compelling. </span></span><br><span class="line"><span class="string">Ensure it follows APA style guide and targets an advanced reader. </span></span><br><span class="line"><span class="string">Output in markdown format.</span></span><br><span class="line"><span class="string">Text: ```<span class="subst">&#123;text&#125;</span>```</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response = get_completion(prompt)</span><br><span class="line">display(Markdown(response))</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展（Expanding）"><a href="#扩展（Expanding）" class="headerlink" title="扩展（Expanding）"></a>扩展（Expanding）</h3><h4 id="自动回复客户邮件"><a href="#自动回复客户邮件" class="headerlink" title="自动回复客户邮件"></a>自动回复客户邮件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># given the sentiment from the lesson on &quot;inferring&quot;,</span></span><br><span class="line"><span class="comment"># and the original customer message, customize the email</span></span><br><span class="line">sentiment = <span class="string">&quot;negative&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># review for a blender</span></span><br><span class="line">review = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">So, they still had the 17 piece system on seasonal \</span></span><br><span class="line"><span class="string">sale for around $49 in the month of November, about \</span></span><br><span class="line"><span class="string">half off, but for some reason (call it price gouging) \</span></span><br><span class="line"><span class="string">around the second week of December the prices all went \</span></span><br><span class="line"><span class="string">up to about anywhere from between $70-$89 for the same \</span></span><br><span class="line"><span class="string">system. And the 11 piece system went up around $10 or \</span></span><br><span class="line"><span class="string">so in price also from the earlier sale price of $29. \</span></span><br><span class="line"><span class="string">So it looks okay, but if you look at the base, the part \</span></span><br><span class="line"><span class="string">where the blade locks into place doesn’t look as good \</span></span><br><span class="line"><span class="string">as in previous editions from a few years ago, but I \</span></span><br><span class="line"><span class="string">plan to be very gentle with it (example, I crush \</span></span><br><span class="line"><span class="string">very hard items like beans, ice, rice, etc. in the \ </span></span><br><span class="line"><span class="string">blender first then pulverize them in the serving size \</span></span><br><span class="line"><span class="string">I want in the blender then switch to the whipping \</span></span><br><span class="line"><span class="string">blade for a finer flour, and use the cross cutting blade \</span></span><br><span class="line"><span class="string">first when making smoothies, then use the flat blade \</span></span><br><span class="line"><span class="string">if I need them finer/less pulpy). Special tip when making \</span></span><br><span class="line"><span class="string">smoothies, finely cut and freeze the fruits and \</span></span><br><span class="line"><span class="string">vegetables (if using spinach-lightly stew soften the \ </span></span><br><span class="line"><span class="string">spinach then freeze until ready for use-and if making \</span></span><br><span class="line"><span class="string">sorbet, use a small to medium sized food processor) \ </span></span><br><span class="line"><span class="string">that you plan to use that way you can avoid adding so \</span></span><br><span class="line"><span class="string">much ice if at all-when making your smoothie. \</span></span><br><span class="line"><span class="string">After about a year, the motor was making a funny noise. \</span></span><br><span class="line"><span class="string">I called customer service but the warranty expired \</span></span><br><span class="line"><span class="string">already, so I had to buy another one. FYI: The overall \</span></span><br><span class="line"><span class="string">quality has gone done in these types of products, so \</span></span><br><span class="line"><span class="string">they are kind of counting on brand recognition and \</span></span><br><span class="line"><span class="string">consumer loyalty to maintain sales. Got it in about \</span></span><br><span class="line"><span class="string">two days.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">You are a customer service AI assistant.</span></span><br><span class="line"><span class="string">Your task is to send an email reply to a valued customer.</span></span><br><span class="line"><span class="string">Given the customer email delimited by ```, \</span></span><br><span class="line"><span class="string">Generate a reply to thank the customer for their review.</span></span><br><span class="line"><span class="string">If the sentiment is positive or neutral, thank them for \</span></span><br><span class="line"><span class="string">their review.</span></span><br><span class="line"><span class="string">If the sentiment is negative, apologize and suggest that \</span></span><br><span class="line"><span class="string">they can reach out to customer service. </span></span><br><span class="line"><span class="string">Make sure to use specific details from the review.</span></span><br><span class="line"><span class="string">Write in a concise and professional tone.</span></span><br><span class="line"><span class="string">Sign the email as `AI customer agent`.</span></span><br><span class="line"><span class="string">Customer review: ```<span class="subst">&#123;review&#125;</span>```</span></span><br><span class="line"><span class="string">Review sentiment: <span class="subst">&#123;sentiment&#125;</span></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response = get_completion(prompt)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dear Valued Customer,</span><br><span class="line"></span><br><span class="line">Thank you for taking the time to leave a review about our product. We are sorry to hear that you experienced an increase in price and that the quality of the product did not meet your expectations. We apologize for any inconvenience this may have caused you.</span><br><span class="line"></span><br><span class="line">We would like to assure you that we take all feedback seriously and we will be sure to pass your comments along to our team. If you have any further concerns, please do not hesitate to reach out to our customer service team for assistance.</span><br><span class="line"></span><br><span class="line">Thank you again for your review and for choosing our product. We hope to have the opportunity to serve you better in the future.</span><br><span class="line"></span><br><span class="line">Best regards,</span><br><span class="line"></span><br><span class="line">AI customer agent</span><br></pre></td></tr></table></figure>
+
+<h3 id="GPT-中的几个参数"><a href="#GPT-中的几个参数" class="headerlink" title="GPT 中的几个参数"></a>GPT 中的几个参数</h3><h4 id="temperature"><a href="#temperature" class="headerlink" title="temperature"></a>temperature</h4><p>0-1 取值闭区间参数， 数据越小代表结果约确定/精确， 数值越大结果返回更多样。  </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/37d3e2eb/" data-title="ChatGPT 提示工程（chatgpt-prompt-engineering） | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/posts/b3656056/"  title="CKS 2023年9月 考试小贴士">
+ <strong>下一篇：</strong><br/> 
+ <span>CKS 2023年9月 考试小贴士
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">提示指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99"><span class="toc-number">1.1.</span> <span class="toc-text">提示原则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%88%991-%E7%BB%99%E5%87%BA%E6%B8%85%E6%99%B0%E4%B8%94%E5%85%B7%E4%BD%93%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-number">1.1.1.</span> <span class="toc-text">原则1: 给出清晰且具体的指令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%80%E5%B7%A71-%E4%BD%BF%E7%94%A8%E5%88%86%E9%9A%94%E7%AC%A6%E6%B8%85%E6%99%B0%E5%88%86%E5%89%B2%E5%87%BA%E2%80%9C%E8%BE%93%E5%85%A5%E2%80%9D%E9%83%A8%E5%88%86"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">技巧1. 使用分隔符清晰分割出“输入”部分</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%88%992-%E7%BB%99%E6%A8%A1%E5%9E%8B%E6%97%B6%E9%97%B4%E8%BF%9B%E8%A1%8C%E6%80%9D%E8%80%83"><span class="toc-number">1.1.2.</span> <span class="toc-text">原则2: 给模型时间进行思考</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%80%E5%B7%A71-%E5%88%86%E8%A7%A3%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%A4%9A%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">技巧1: 分解完成一个任务的多个步骤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%80%E5%B7%A72-%E5%9C%A8%E5%BE%97%E5%87%BA%E7%BB%93%E8%AE%BA%E4%B9%8B%E5%89%8D%E8%A6%81%E6%B1%82%E6%A8%A1%E5%9E%8B%E7%BB%99%E5%87%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E8%A7%A3"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">技巧2: 在得出结论之前要求模型给出自己的解</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%99%90%E5%88%B6%EF%BC%9A%E5%B9%BB%E8%A7%89%EF%BC%88Hallucinations%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">模型限制：幻觉（Hallucinations）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%BC%8F%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.</span> <span class="toc-text">迭代式提示工程开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ML%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%91%A8%E6%9C%9F"><span class="toc-number">1.2.1.</span> <span class="toc-text">ML的迭代周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%91%A8%E6%9C%9F%E6%8C%87%E5%8D%97"><span class="toc-number">1.2.2.</span> <span class="toc-text">提示工程周期指南</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">例子</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E5%8F%8A%E6%8F%90%E5%8F%96"><span class="toc-number">1.3.</span> <span class="toc-text">总结及提取</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%A1%88%E4%BE%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">总结案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E7%94%A8%E6%88%B7%E8%AF%84%E8%AE%BA%E9%87%8D%E7%82%B9"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">总结用户评论重点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E6%96%AD"><span class="toc-number">1.4.</span> <span class="toc-text">推断</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%EF%BC%88%E6%8E%A8%E6%96%AD%E4%BA%A7%E5%93%81%E8%AF%84%E8%AE%BA%E6%98%AF%E6%AD%A3%E5%90%91%E8%BF%98%E6%98%AF%E8%B4%9F%E5%90%91%EF%BC%89"><span class="toc-number">1.4.1.</span> <span class="toc-text">案例（推断产品评论是正向还是负向）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E4%BB%8E%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%AD%E6%8E%A8%E6%96%AD%EF%BC%88Inferring%EF%BC%89%E4%B8%BB%E9%A2%98"><span class="toc-number">1.4.2.</span> <span class="toc-text">案例 从一篇文章中推断（Inferring）主题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%EF%BC%88Transforming%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">转换（Transforming）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BF%BB%E8%AF%91"><span class="toc-number">1.5.1.</span> <span class="toc-text">翻译</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E4%B8%8D%E5%90%8C%E8%AF%AD%E8%A8%80%E7%9A%84%E7%BF%BB%E8%AF%91"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">案例 不同语言的翻译</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%EF%BC%88Expanding%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">扩展（Expanding）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%9B%9E%E5%A4%8D%E5%AE%A2%E6%88%B7%E9%82%AE%E4%BB%B6"><span class="toc-number">1.6.1.</span> <span class="toc-text">自动回复客户邮件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT-%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">GPT 中的几个参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#temperature"><span class="toc-number">1.7.1.</span> <span class="toc-text">temperature</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2023
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+<!-- 
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+ -->
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+
