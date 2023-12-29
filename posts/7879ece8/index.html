@@ -1,0 +1,677 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>prompt engineering 101 | CombinatorX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="李瑞">
+    
+    
+    <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+    
+      <meta name="description" content="基础通用技巧提示词相关概念零样本（zero shot）通过大量数据集训练并调整的LLM能够执行零样本任务，典型的例子就是判断一段话的情感分类（正面，负面和中性） prompt: 123将文本分类为中性、负面或正面。文本：我认为这次假期还可以。情感：  output: 1中性  原始论文 [^1] 少样本（few shot）虽然LLM在一些简单场景中可以做到零样本提示，但是对于稍复杂的任务表现不佳，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="prompt engineering 101">
+<meta property="og:url" content="https://blogs.lirui.me/posts/7879ece8/index.html">
+<meta property="og:site_name" content="CombinatorX">
+<meta property="og:description" content="基础通用技巧提示词相关概念零样本（zero shot）通过大量数据集训练并调整的LLM能够执行零样本任务，典型的例子就是判断一段话的情感分类（正面，负面和中性） prompt: 123将文本分类为中性、负面或正面。文本：我认为这次假期还可以。情感：  output: 1中性  原始论文 [^1] 少样本（few shot）虽然LLM在一些简单场景中可以做到零样本提示，但是对于稍复杂的任务表现不佳，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blogs.lirui.me/posts/images/prompt-emgineering/TOT.png">
+<meta property="article:published_time" content="2023-12-28T10:39:13.000Z">
+<meta property="article:modified_time" content="2023-12-28T10:40:03.537Z">
+<meta property="article:author" content="李瑞">
+<meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blogs.lirui.me/posts/images/prompt-emgineering/TOT.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="CombinatorX" type="application/atom+xml">
+    
+    <!--  -->
+
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+      
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96909480-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-96909480-1');
+    </script>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="CombinatorX">CombinatorX</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/Algorithm">算法数据结构</a></li>
+					
+						<li><a href="/categories/System-Design">系统设计</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/posts/7879ece8/" title="prompt engineering 101" itemprop="url">prompt engineering 101</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="李瑞" target="_blank" itemprop="author">李瑞</a>
+		
+  <p class="article-time">
+    <time datetime="2023-12-28T10:39:13.000Z" itemprop="datePublished"> 发表于 2023-12-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.1.</span> <span class="toc-text">通用技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">提示词相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%A0%B7%E6%9C%AC%EF%BC%88zero-shot%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">零样本（zero shot）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%91%E6%A0%B7%E6%9C%AC%EF%BC%88few-shot%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">少样本（few shot）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E9%93%BE%EF%BC%88Chain-of-Thought-CoT-%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">思维链（Chain of Thought(CoT)）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%B6%E6%A0%B7%E6%9C%AC%E6%80%9D%E7%BB%B4%E9%93%BE%E6%8F%90%E7%A4%BA-zero-shot-CoT-prompt"><span class="toc-number">2.3.1.</span> <span class="toc-text">零样本思维链提示(zero-shot CoT prompt)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E4%BD%BF%E7%94%A8%E9%AD%94%E6%B3%95%E8%AF%8D%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">没有使用魔法词的效果</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%AD%94%E6%B3%95%E8%AF%8D%E5%90%8E%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">使用魔法词后的效果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E5%88%92-%E8%A7%A3%E5%86%B3%E6%8F%90%E7%A4%BA%EF%BC%88Plan-and-Solve-Prompting%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">计划-解决提示（Plan-and-Solve Prompting）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Auto-CoT"><span class="toc-number">2.4.1.</span> <span class="toc-text">Auto-CoT</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E6%88%91%E4%B8%80%E8%87%B4%EF%BC%88self-consistency%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">自我一致（self consistency）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#OpenAI-%E8%87%AA%E6%88%91%E4%B8%80%E8%87%B4%E4%BE%8B%E5%AD%90"><span class="toc-number">2.5.1.</span> <span class="toc-text">OpenAI 自我一致例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E6%A0%91%EF%BC%88Tree-of-Thought%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">思维树（Tree of Thought）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90-%EF%BC%88Retrieval-Augmented-Generation-RAG-%EF%BC%89"><span class="toc-number">2.7.</span> <span class="toc-text">检索增强生成 （Retrieval Augmented Generation (RAG)）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReAct"><span class="toc-number">2.8.</span> <span class="toc-text">ReAct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LangChain-%E7%9A%84-ReAct-%E5%AE%9E%E7%8E%B0%E4%BE%8B%E5%AD%90"><span class="toc-number">2.8.1.</span> <span class="toc-text">LangChain 的 ReAct 实现例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%8E%A8%E7%90%86%E5%B9%B6%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%EF%BC%88Automatic-multi-step-Reasoning-and-Tool-use-ART-%EF%BC%89"><span class="toc-number">2.9.</span> <span class="toc-text">自动推理并使用工具（Automatic multi-step Reasoning and Tool-use (ART) ）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="通用技巧"><a href="#通用技巧" class="headerlink" title="通用技巧"></a>通用技巧</h3><h2 id="提示词相关概念"><a href="#提示词相关概念" class="headerlink" title="提示词相关概念"></a>提示词相关概念</h2><h3 id="零样本（zero-shot）"><a href="#零样本（zero-shot）" class="headerlink" title="零样本（zero shot）"></a>零样本（zero shot）</h3><p>通过大量数据集训练并调整的LLM能够执行零样本任务，典型的例子就是判断一段话的情感分类（正面，负面和中性）</p>
+<p>prompt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">将文本分类为中性、负面或正面。</span><br><span class="line">文本：我认为这次假期还可以。</span><br><span class="line">情感：</span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">中性</span><br></pre></td></tr></table></figure>
+
+<p>原始论文 [^1]</p>
+<h3 id="少样本（few-shot）"><a href="#少样本（few-shot）" class="headerlink" title="少样本（few shot）"></a>少样本（few shot）</h3><p>虽然LLM在一些简单场景中可以做到零样本提示，但是对于稍复杂的任务表现不佳，少样本提示可以作为一种技术，以启用上下文学习，我们在提示中提供演示以引导模型实现更好的性能。<br>如果用一句话概括少样本提示技术就是： “给LLM举例子来帮助他理解任务”， 一个示例就是1-shot，对于更复杂的例子可以尝试增加演示（例如： 3-shot, 5-shot, 10-shot等）。  </p>
+<p>prompt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A &quot;whatpu&quot; is a small, furry animal native to Tanzania. An example of a sentence that uses</span><br><span class="line">the word whatpu is:</span><br><span class="line">We were traveling in Africa and we saw these very cute whatpus.</span><br><span class="line">To do a &quot;farduddle&quot; means to jump up and down really fast. An example of a sentence that uses</span><br><span class="line">the word farduddle is:</span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">When we won the game, we all started to farduddle in celebration.</span><br></pre></td></tr></table></figure>
+
+<h3 id="思维链（Chain-of-Thought-CoT-）"><a href="#思维链（Chain-of-Thought-CoT-）" class="headerlink" title="思维链（Chain of Thought(CoT)）"></a>思维链（Chain of Thought(CoT)）</h3><p>对于更复杂的推理任务，少样本依然不能很好地解决问题，请看以下这个问题 [^2]：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. </span><br><span class="line"></span><br><span class="line">A: </span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Yes, the odd numbers in this group add up to 107, which is an even number.</span><br></pre></td></tr></table></figure>
+
+<p>显然，答案是不正确的，是样例给的少了么？增加一些样例(4-shots)我们来看看：  </p>
+<p>prompt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.</span><br><span class="line">A: The answer is False.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 17,  10, 19, 4, 8, 12, 24.</span><br><span class="line">A: The answer is True.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 16,  11, 14, 4, 8, 13, 24.</span><br><span class="line">A: The answer is True.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 17,  9, 10, 12, 13, 4, 2.</span><br><span class="line">A: The answer is False.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. </span><br><span class="line">A: </span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The answer is True.</span><br></pre></td></tr></table></figure>
+
+<p>显然也依然不正确，如果增加更多的样例，可以要理由相信不会得到更好的提升。<br>我们仔细分析下就知道，这类的问题并不是通过一层逻辑就可以处理和判断的，换句话说这类任务其实是需要几步推理步骤才能解决的，解决这类问题就需要 思维链（CoT）。<br>另外，这类问题的特征是： 算数、常识和符号推理问题。  </p>
+<p>prompt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.</span><br><span class="line">A: Adding all the odd numbers (9, 15, 1) gives 25. The answer is False.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 17,  10, 19, 4, 8, 12, 24.</span><br><span class="line">A: Adding all the odd numbers (17, 19) gives 36. The answer is True.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 16,  11, 14, 4, 8, 13, 24.</span><br><span class="line">A: Adding all the odd numbers (11, 13) gives 24. The answer is True.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 17,  9, 10, 12, 13, 4, 2.</span><br><span class="line">A: Adding all the odd numbers (17, 9, 13) gives 39. The answer is False.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. </span><br><span class="line">A:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Adding all the odd numbers (15, 5, 13, 7, 1) gives 41. The answer is False.</span><br></pre></td></tr></table></figure>
+
+<p>结果正确，那么减少一些示例可以得到结果么？</p>
+<p>prompt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.</span><br><span class="line">A: Adding all the odd numbers (9, 15, 1) gives 25. The answer is False.</span><br><span class="line"></span><br><span class="line">The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. </span><br><span class="line">A:</span><br></pre></td></tr></table></figure>
+
+<p>output:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Adding all the odd numbers (15, 5, 13, 7, 1) gives 41. The answer is False.</span><br></pre></td></tr></table></figure>
+
+<h4 id="零样本思维链提示-zero-shot-CoT-prompt"><a href="#零样本思维链提示-zero-shot-CoT-prompt" class="headerlink" title="零样本思维链提示(zero-shot CoT prompt)"></a>零样本思维链提示(zero-shot CoT prompt)</h4><p>“让我们一步一步思考”（Let’s think step by step）魔法，在提示词中添加上述魔法词就可以在一类算数、符号推理问题中提升问题的准确度[^3]。  </p>
+<p>让我们看一个例子 （以下测试执行与 <code>chatglm_turbo</code> 单轮对话， temperature = 0.95， top_p = 0.7, maxtoken = 1024 <a target="_blank" rel="noopener" href="https://open.bigmodel.cn/trialcenter?modelCode=chatglm_turbo">test sites</a>），首先是</p>
+<h5 id="没有使用魔法词的效果"><a href="#没有使用魔法词的效果" class="headerlink" title="没有使用魔法词的效果"></a>没有使用魔法词的效果</h5><p>prompt:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Q: A juggler can juggle 16 balls. Half of the balls are golf balls,</span><br><span class="line">and half of the golf balls are blue. How many blue golf balls are</span><br><span class="line">there?</span><br><span class="line">A: The answer (arabic numerals) is</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8</span><br></pre></td></tr></table></figure>
+
+<p>显然答案是错误的，那我们看下加了魔法词后的效果</p>
+<h5 id="使用魔法词后的效果"><a href="#使用魔法词后的效果" class="headerlink" title="使用魔法词后的效果"></a>使用魔法词后的效果</h5><p>prompt：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Q: A juggler can juggle 16 balls. Half of the balls are golf balls,</span><br><span class="line">and half of the golf balls are blue. How many blue golf balls are</span><br><span class="line">there?</span><br><span class="line">A: Let&#x27;s think step by step,</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Half of the 16 balls are golf balls, so there are 16 / 2 = 8 golf balls.</span><br><span class="line"></span><br><span class="line">Half of the golf balls are blue, so there are 8 / 2 = 4 blue golf balls.</span><br><span class="line"></span><br><span class="line">So, there are 4 blue golf balls.</span><br></pre></td></tr></table></figure>
+
+<h3 id="计划-解决提示（Plan-and-Solve-Prompting）"><a href="#计划-解决提示（Plan-and-Solve-Prompting）" class="headerlink" title="计划-解决提示（Plan-and-Solve Prompting）"></a>计划-解决提示（Plan-and-Solve Prompting）</h3><p>先看一个例子：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Q：在一个20人的舞蹈教室里，20%的学生参加了现代舞课程，剩下的25%参加爵士舞课程，其余的人参加了hip-pop课程，那么参加了hip-pop课程的学生占总体学生的比例是多少？</span><br><span class="line">A: </span><br></pre></td></tr></table></figure>
+
+<p>如果我们使用zero-shot CoT 魔法词技巧：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Q：在一个20人的舞蹈教室里，20%的学生参加了现代舞课程，剩下的25%参加爵士舞课程，其余的人参加了hip-pop课程，那么参加了hip-pop课程的学生占总体学生的比例是多少？</span><br><span class="line">A：让我们一步步思考</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Output:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">首先，我们知道教室里有20人。</span><br><span class="line"></span><br><span class="line">现代舞课程的学生占了20人的20%，也就是4人。</span><br><span class="line"></span><br><span class="line">剩下的学生中，25%的人参加了爵士舞课程，也就是5人。</span><br><span class="line"></span><br><span class="line">那么，剩下的学生人数就是20（总人数）- 4（现代舞人数）- 5（爵士舞人数）= 11人。</span><br><span class="line"></span><br><span class="line">这11人全部参加了hip-pop课程。</span><br><span class="line"></span><br><span class="line">所以，参加hip-pop课程的学生占总体学生的比例是：</span><br><span class="line"></span><br><span class="line">（11人 / 20人）* 100% = 55%</span><br><span class="line"></span><br><span class="line">因此，参加hip-pop课程的学生占总体学生的55%。</span><br></pre></td></tr></table></figure>
+
+<p>很显然答案是不对的，如果换一种处理提示方式：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Q：在一个20人的舞蹈教室里，20%的学生参加了现代舞课程，剩下的25%参加爵士舞课程，其余的人参加了hip-pop课程，那么参加了hip-pop课程的学生占总体学生的比例是多少？</span><br><span class="line"></span><br><span class="line">A: 让我们先理解问题并制定一个计划去解决问题，然后再按照计划执行并一步一步解决问题。</span><br></pre></td></tr></table></figure>
+
+<p>Output:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">首先，我们已知20%的学生参加了现代舞课程，25%的学生参加了爵士舞课程。那么，我们可以先从总数中减去这两个比例，以得出参加hip-pop课程的学生所占的比例。</span><br><span class="line"></span><br><span class="line">20人总数中，现代舞课程的学生有20 * 20% = 4人。</span><br><span class="line">剩下的学生数为20 - 4 = 16人。</span><br><span class="line">在这16人中，爵士舞课程的学生有16 * 25% = 4人。</span><br><span class="line">再次剩下的学生数为16 - 4 = 12人。</span><br><span class="line">最后，参加hip-pop课程的学生占总体学生的比例为：(12 / 20) * 100% = 60%。</span><br><span class="line">所以，参加hip-pop课程的学生占总体学生的比例是60%。</span><br></pre></td></tr></table></figure>
+
+<p>这个答案就符合预期了，这类需要多步骤推理计算解决的任务提示词工程叫 Plan-and-Solve prompt[^8]</p>
+<h4 id="Auto-CoT"><a href="#Auto-CoT" class="headerlink" title="Auto-CoT"></a>Auto-CoT</h4><p>基于 “让我们一步步思考”（Let’s think step by step）在zero-shot CoT prompt 的应用效果，Auto-CoT 的主要思想就是准备一个类似问题数据集，然后通过计算相似度（向量距离）对问题数据集进行排序，再通过 zero-shot Cot prompt 生成few-shot prompt样例候选，然后从这些候选中选取样本并排序，与问题最后组成 few-shot CoT prompt。更多Auto-CoT 详情参考[^4]</p>
+<p>总体上上述论文将这一过程描述为两个步骤 :  </p>
+<ol>
+<li>Question Clustering</li>
+<li>Demonstration Sampling</li>
+</ol>
+<p>Question Clustering 主要做样本的向量距离计算及排序<br>Demonstration Sampling 主要是遍历候选数据集，并使用 zero-shot CoT 技巧获取 （问题，推理，答案） 数据集对， 并按照实际选取标准组成 Few-shot Cot提示词</p>
+<h3 id="自我一致（self-consistency）"><a href="#自我一致（self-consistency）" class="headerlink" title="自我一致（self consistency）"></a>自我一致（self consistency）</h3><p>自我一致的主要思想就是通过不同的思路去进行推理得出结果，然后通过选取出频度最高的答案，然后作为最后的答案。</p>
+<p>自我一致性旨在“替换链式思维提示中使用的天真贪婪解码方法”。其想法是通过少样本CoT采样多个不同的推理路径，并使用生成结果选择最一致的答案。这有助于提高CoT提示在涉及算术和常识推理的任务中的性能。[^5]</p>
+<h4 id="OpenAI-自我一致例子"><a href="#OpenAI-自我一致例子" class="headerlink" title="OpenAI 自我一致例子"></a>OpenAI 自我一致例子</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">question = <span class="string">&quot;&quot;&quot;Q: 如果停车场里有3辆汽车，又有2辆汽车到达，停车场里有多少辆汽车？</span></span><br><span class="line"><span class="string">A: 停车场里已经有3辆汽车。又有2辆汽车到达。现在总共有3 + 2 = 5辆汽车。答案是5辆。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Q: Janet的鸭子每天下16个蛋。她每天早上吃掉其中三个，并用四个蛋每天烤松饼给她的朋友。她以每个蛋2美元的价格卖掉剩下的蛋。她每天能赚多少钱？</span></span><br><span class="line"><span class="string">A: &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">COMPLETION_MODEL = <span class="string">&quot;text-davinci-002&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_top_response</span>(<span class="params">prompt, n=<span class="number">10</span>, model = COMPLETION_MODEL, temperature = <span class="number">1.0</span>, stop=<span class="literal">None</span></span>):</span></span><br><span class="line">    messages = []</span><br><span class="line">    completions = openai.Completion.create(</span><br><span class="line">        engine=model,</span><br><span class="line">        prompt=prompt,</span><br><span class="line">        max_tokens=<span class="number">1024</span>,</span><br><span class="line">        n=n,</span><br><span class="line">        stop=stop,</span><br><span class="line">        temperature=temperature,</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">for</span> choice <span class="keyword">in</span> completions[<span class="string">&#x27;choices&#x27;</span>]: <span class="comment"># type: ignore</span></span><br><span class="line">        messages.append(choice[<span class="string">&#x27;text&#x27;</span>])</span><br><span class="line">    <span class="keyword">return</span> messages</span><br><span class="line"></span><br><span class="line">answers = []</span><br><span class="line"></span><br><span class="line">answers = get_top_response(question, n=<span class="number">10</span>, model=<span class="string">&quot;text-davinci-003&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> answer, i <span class="keyword">in</span> <span class="built_in">zip</span>(answers, <span class="built_in">range</span>(<span class="number">10</span>)):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Answer: &quot;</span> + <span class="built_in">str</span>(i))</span><br><span class="line">    <span class="built_in">print</span>(answer)</span><br><span class="line"></span><br><span class="line">vote_question = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Janet的鸭子每天下16个蛋。她每天早上吃掉其中三个，并用四个蛋每天烤松饼给她的朋友。她以每个蛋2美元的价格卖掉剩下的蛋。她每天能赚多少钱？</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">请从以下5个人的答案中，选出票数最多答案作为最终答案。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> answer, i <span class="keyword">in</span> <span class="built_in">zip</span>(answers, <span class="built_in">range</span>(<span class="number">10</span>)):</span><br><span class="line">    vote_question += <span class="string">f&quot;\n答案<span class="subst">&#123;i&#125;</span>: <span class="subst">&#123;answer&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">final_answer = get_response(vote_question, model=<span class="string">&quot;text-davinci-003&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Final answer:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(final_answer)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Answer: 0</span><br><span class="line"> Janet每天收入= (7个蛋x 2美元/个蛋) = 14美元。答案是每天14美元。</span><br><span class="line">Answer: 1</span><br><span class="line">一天Janet的鸭子下16个蛋。她每天早上吃掉3个蛋，烤松饼给她的朋友用4个蛋，剩下16-3-4=9个蛋卖掉。每个蛋2美元，Janet每天可以赚9乘以2等于18美元。答案是18美元。</span><br><span class="line">Answer: 2</span><br><span class="line"> Janet能卖掉的蛋有16-3-4=9个。这9个蛋每个2美元，所以Janet每天可以以9x2= 18 美元的价格卖掉这些蛋，答案是18美元。</span><br><span class="line">Answer: 3</span><br><span class="line"> Janet每天下16个蛋，其中3个蛋被吃掉了，4个蛋用于烤松饼，剩下的9个蛋可以用2美元的价格出售，所以Janet每天可以赚9×2= 18美元。</span><br><span class="line">Answer: 4</span><br><span class="line"> Janet的鸭子每天下16个蛋，她每天早上吃掉其中三个，并用四个蛋每天烤松饼给她的朋友，剩下的蛋她以每个蛋2美元的价格卖出。因此她每天能赚16个蛋 - 3个蛋 - 4个蛋 = 9个蛋 x 2美元/蛋 = 18美元。答案是每天18美元。</span><br><span class="line">Answer: 5</span><br><span class="line"> Janet 每天下了16个蛋。如果她每天早上吃掉三个蛋，并用四个蛋烤松饼给她的朋友，那么剩下的九个蛋可以卖出来。因此，她每天能卖出九个蛋，每个蛋价格为2美元，所以她每天能赚9 x 2 = 18美元。</span><br><span class="line">Answer: 6</span><br><span class="line"> Janet一共有16个蛋，每天吃掉三个，用四个蛋烤松饼，剩下的九个蛋可以出售。每个蛋价2美元，所以Janet每天可以赚9美元（9 × 2）。</span><br><span class="line">Answer: 7</span><br><span class="line"> Janet能赚到2 × (16 - 3 - 4) = 2 × 9 = 18美元。</span><br><span class="line">Answer: 8</span><br><span class="line"> Janet每天会产16个鸭蛋，每天她会吃掉3个，并用4个蛋每天烤松饼给她的朋友。于是，她会用9个蛋每天卖掉剩下的蛋。每个蛋是2美元，所以她每天会赚9×2=18美元。答案是18美元。</span><br><span class="line">Answer: 9</span><br><span class="line"> Janet 的鸭子每天下16个蛋，她每天早上吃掉其中三个，并用四个蛋每天烤松饼给她的朋友，留下9个蛋。每个蛋以2美元的价格卖掉，因此一天能赚9×2=18美元。答案是每天能赚18美元。</span><br><span class="line">Final answer:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">最终答案：Janet每天能赚18美元</span><br></pre></td></tr></table></figure>
+
+<h3 id="思维树（Tree-of-Thought）"><a href="#思维树（Tree-of-Thought）" class="headerlink" title="思维树（Tree of Thought）"></a>思维树（Tree of Thought）</h3><p>对于需要探索或预判战略的复杂任务来说，传统或简单的提示技巧是不够的, TOT 基于思维链提示进行了总结，引导语言模型探索把思维作为中间步骤来解决通用问题。[^6]</p>
+<p><img src="../images/prompt-emgineering/TOT.png" alt="Tree of Thought - Yao et el. (2023)"></p>
+<h3 id="检索增强生成-（Retrieval-Augmented-Generation-RAG-）"><a href="#检索增强生成-（Retrieval-Augmented-Generation-RAG-）" class="headerlink" title="检索增强生成 （Retrieval Augmented Generation (RAG)）"></a>检索增强生成 （Retrieval Augmented Generation (RAG)）</h3><p>要完成更复杂和知识密集型的任务，可以基于语言模型构建一个系统，访问外部知识源来做到。RAG的实现与事实更加一性，生成的答案更可靠，还有助于缓解“幻觉”问题。<br>RAG 把一个信息检索组件和文本生成模型结合在一起。RAG 可以微调，其内部知识的修改方式很高效，不需要对整个模型进行重新训练。[^7]</p>
+<h3 id="ReAct"><a href="#ReAct" class="headerlink" title="ReAct"></a>ReAct</h3><p>ReAct 源自 ReasoningAction，是一种提示词框架，利用LLMs以交错的方式生成 推理追踪（reasoning traces）和任务相关动作（task-specific actions）。<br>生成推理轨迹使模型能够诱导、跟踪和更新操作计划，甚至处理异常情况。操作步骤允许与外部源（如知识库或环境）进行交互并且收集信息。<br>ReAct 在处理语言和决策相关任务上有着优异的表现[^9]</p>
+<p>main prompt:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Solve a question answering task with interleaving Thought,Action,Observation steps.</span><br><span class="line">Thought can reason about the current situation, and Action can be three types:</span><br><span class="line">(1)Search[entity] which searches the exact entity on Wikipedia and returns the first paragraph if it exists.</span><br><span class="line">If not, it will return some similar entities to search.</span><br><span class="line">(2)Lookup[keyword],which returns the next sentence containing keyword in the</span><br><span class="line">urrent passage.</span><br><span class="line">(3) Finish[answer], which returns the answer and finishes the task.</span><br></pre></td></tr></table></figure>
+
+<p>Few-shot:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Question What is the elevation range for the area that the eastern sector of the </span><br><span class="line">Colorado oroqeny extends into?</span><br><span class="line">Thought l I need to search Colorado orogeny, find the areathat the eastern sector </span><br><span class="line">of the Colorado orogeny extends into, then find the elevation range of the area.</span><br><span class="line">Action 1 Search[Colorado orogeny] </span><br><span class="line">Observation 1 The Colorado orogeny was an episode of mountain building (an orogeny) in </span><br><span class="line">Colorado and surrounding areas.</span><br><span class="line">Thought 2 It does not mention the eastern sector. So I need to look up eastern </span><br><span class="line">sector.</span><br><span class="line">Action 2 Lookup [eastern sector]</span><br><span class="line">Observation 2 (Result 1 / 1) The eastern sector extends into the High Plains and is called </span><br><span class="line">the Central Plains orogeny.</span><br><span class="line">Thought 3 The eastern sector of Colorado orogeny extends into the High Plains. So I </span><br><span class="line">need to search High Plains and find its elevation range.</span><br><span class="line">Action 3 Search[High Plains] </span><br><span class="line">Observation 3 High Plains refers to one of two distinct land regions </span><br><span class="line">Thought 4 I need to instead search Hiqh Plains (United States). </span><br><span class="line">Action 4 Search[High Plains (United States)]</span><br></pre></td></tr></table></figure>
+
+<h4 id="LangChain-的-ReAct-实现例子"><a href="#LangChain-的-ReAct-实现例子" class="headerlink" title="LangChain 的 ReAct 实现例子"></a>LangChain 的 ReAct 实现例子</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">!pip install --upgrade openai</span><br><span class="line">!pip install --upgrade langchain</span><br><span class="line">!pip install --upgrade python-dotenv</span><br><span class="line">!pip install google-search-results</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 引入库</span></span><br><span class="line"><span class="keyword">import</span> openai</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> langchain.llms <span class="keyword">import</span> OpenAI</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> load_tools</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> initialize_agent</span><br><span class="line"><span class="keyword">from</span> dotenv <span class="keyword">import</span> load_dotenv</span><br><span class="line">load_dotenv()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 载入 API keys; 如果没有，你需要先获取。 </span></span><br><span class="line">os.environ[<span class="string">&quot;OPENAI_API_KEY&quot;</span>] = os.getenv(<span class="string">&quot;OPENAI_API_KEY&quot;</span>)</span><br><span class="line">os.environ[<span class="string">&quot;SERPER_API_KEY&quot;</span>] = os.getenv(<span class="string">&quot;SERPER_API_KEY&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">llm = OpenAI(model_name=<span class="string">&quot;text-davinci-003&quot;</span> ,temperature=<span class="number">0</span>)</span><br><span class="line">tools = load_tools([<span class="string">&quot;google-serper&quot;</span>, <span class="string">&quot;llm-math&quot;</span>], llm=llm)</span><br><span class="line">agent = initialize_agent(tools, llm, agent=<span class="string">&quot;zero-shot-react-description&quot;</span>, verbose=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">agent.run(<span class="string">&quot;Who is Leo DiCaprio&#x27;s girlfriend? What is her current age raised to the 0.43 power?&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">I need to find out who Leo DiCaprio&#x27;s girlfriend is and then calculate her age raised to the 0.43 power.</span><br><span class="line">Action: Search</span><br><span class="line">Action Input: &quot;Who is Leo DiCaprio&#x27;s girlfriend?&quot;</span><br><span class="line">Observation: Leonardo DiCaprio and Gigi Hadid were recently spotted at a pre-Oscars party, sparking interest once again in their rumored romance. The Revenant actor and the model first made headlines when they were spotted together at a New York Fashion Week afterparty in September 2022.</span><br><span class="line">Thought: I need to find out Gigi Hadid&#x27;s age</span><br><span class="line">Action: Search</span><br><span class="line">Action Input: &quot;How old is Gigi Hadid?&quot;</span><br><span class="line">Observation: 28 years</span><br><span class="line">Thought:```</span><br><span class="line">...numexpr.evaluate(&quot;28**0.43&quot;)...</span><br><span class="line"></span><br><span class="line">Answer: 4.1906168361987195</span><br><span class="line">&gt; Finished chain.</span><br><span class="line"></span><br><span class="line">Observation: Answer: 4.1906168361987195</span><br><span class="line">Thought: I now know the final answer</span><br><span class="line">Final Answer: Gigi Hadid is 28 years old and her age raised to the 0.43 power is 4.1906168361987195.</span><br><span class="line"></span><br><span class="line">&gt; Finished chain.</span><br><span class="line"></span><br><span class="line">&#x27;Gigi Hadid is 28 years old and her age raised to the 0.43 power is 4.1906168361987195.&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自动推理并使用工具（Automatic-multi-step-Reasoning-and-Tool-use-ART-）"><a href="#自动推理并使用工具（Automatic-multi-step-Reasoning-and-Tool-use-ART-）" class="headerlink" title="自动推理并使用工具（Automatic multi-step Reasoning and Tool-use (ART) ）"></a>自动推理并使用工具（Automatic multi-step Reasoning and Tool-use (ART) ）</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>[^1]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2109.01652.pdf">Finetuned Language Models Are Zero-Shot Learners</a>  </li>
+<li>[^2]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2201.11903.pdf">Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</a></li>
+<li>[^3]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.11916.pdf">Large Language Models are Zero-Shot Reasoners</a></li>
+<li>[^4]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2210.03493.pdf">AUTOMATIC CHAIN OF THOUGHT PROMPTING IN LARGE LANGUAGE MODELS</a></li>
+<li>[^5]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2203.11171.pdf">SELF-CONSISTENCY IMPROVES CHAIN OF THOUGHT REASONING IN LANGUAGE MODELS</a></li>
+<li>[^6]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.10601.pdf">Tree of Thoughts: Deliberate Problem Solving with Large Language Models</a></li>
+<li>[^7]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2005.11401.pdf">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></li>
+<li>[^8]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.04091.pdf">Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models</a></li>
+<li>[^9]: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2210.03629.pdf">REAC T: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://blogs.lirui.me/posts/7879ece8/" data-title="prompt engineering 101 | CombinatorX" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/posts/37d3e2eb/"  title="ChatGPT 提示工程（chatgpt-prompt-engineering）">
+ <strong>下一篇：</strong><br/> 
+ <span>ChatGPT 提示工程（chatgpt-prompt-engineering）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.1.</span> <span class="toc-text">通用技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">提示词相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%A0%B7%E6%9C%AC%EF%BC%88zero-shot%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">零样本（zero shot）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%91%E6%A0%B7%E6%9C%AC%EF%BC%88few-shot%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">少样本（few shot）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E9%93%BE%EF%BC%88Chain-of-Thought-CoT-%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">思维链（Chain of Thought(CoT)）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%B6%E6%A0%B7%E6%9C%AC%E6%80%9D%E7%BB%B4%E9%93%BE%E6%8F%90%E7%A4%BA-zero-shot-CoT-prompt"><span class="toc-number">2.3.1.</span> <span class="toc-text">零样本思维链提示(zero-shot CoT prompt)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E4%BD%BF%E7%94%A8%E9%AD%94%E6%B3%95%E8%AF%8D%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">没有使用魔法词的效果</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%AD%94%E6%B3%95%E8%AF%8D%E5%90%8E%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">使用魔法词后的效果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E5%88%92-%E8%A7%A3%E5%86%B3%E6%8F%90%E7%A4%BA%EF%BC%88Plan-and-Solve-Prompting%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">计划-解决提示（Plan-and-Solve Prompting）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Auto-CoT"><span class="toc-number">2.4.1.</span> <span class="toc-text">Auto-CoT</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E6%88%91%E4%B8%80%E8%87%B4%EF%BC%88self-consistency%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">自我一致（self consistency）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#OpenAI-%E8%87%AA%E6%88%91%E4%B8%80%E8%87%B4%E4%BE%8B%E5%AD%90"><span class="toc-number">2.5.1.</span> <span class="toc-text">OpenAI 自我一致例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E6%A0%91%EF%BC%88Tree-of-Thought%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">思维树（Tree of Thought）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90-%EF%BC%88Retrieval-Augmented-Generation-RAG-%EF%BC%89"><span class="toc-number">2.7.</span> <span class="toc-text">检索增强生成 （Retrieval Augmented Generation (RAG)）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReAct"><span class="toc-number">2.8.</span> <span class="toc-text">ReAct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LangChain-%E7%9A%84-ReAct-%E5%AE%9E%E7%8E%B0%E4%BE%8B%E5%AD%90"><span class="toc-number">2.8.1.</span> <span class="toc-text">LangChain 的 ReAct 实现例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%8E%A8%E7%90%86%E5%B9%B6%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%EF%BC%88Automatic-multi-step-Reasoning-and-Tool-use-ART-%EF%BC%89"><span class="toc-number">2.9.</span> <span class="toc-text">自动推理并使用工具（Automatic multi-step Reasoning and Tool-use (ART) ）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Algorithm/" title="Algorithm">Algorithm<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cloud-Native/" title="Cloud Native">Cloud Native<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Efficiency/" title="Efficiency">Efficiency<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Management/" title="Management">Management<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Network/" title="Network">Network<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Operations/" title="Operations">Operations<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Programming-Languages/" title="Programming Languages">Programming Languages<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reading-Notes/" title="Reading Notes">Reading Notes<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/System-Design/" title="System Design">System Design<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coolshell.cn/" target="_blank" title="酷壳">酷壳</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.cleancoder.com/" target="_blank" title="The Clean Code Blog">The Clean Code Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.youxu.info/" target="_blank" title="4G Spaces(徐宥)">4G Spaces(徐宥)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		<!-- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> -->
+		© 2023
+		
+		<a href="/about" target="_blank" title="李瑞">李瑞</a>
+		
+		<!-- and <a target="_blank" rel="noopener" href="https://pages.github.com" style="font-weight: bold">GitHub</a> -->
+		</p>
+		<p class="copyright">
+			Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'nutshellfool';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+<!-- 
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96909480-1', 'blogs.lirui.me');  
+ga('send', 'pageview');
+</script>
+
+ -->
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?da064bc11a3418ff9faed4f05b877de9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
+
