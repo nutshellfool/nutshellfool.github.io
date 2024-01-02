@@ -12,16 +12,16 @@
     
     <meta name="keywords" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
     
-      <meta name="description" content="基础通用技巧提示词元素 指令（Instructions）需要模型做的任务或指令  上下文（Context）能够引导语言模型更好响应的信息或额外信息  输入数据（Input Data）输入的内容或问题  输出指示（Output Indicator）指定输出的类型或格式   放之四海的通用技巧 清晰的指令  在提问之前先给LLM一个人设 在提问时尽可能给定问题的详细信息和限定条件 在提示词中清晰描述用">
+      <meta name="description" content="基础通用技巧提示词元素 指令（Instructions）需要模型做的任务或指令(分类，总结，提取，翻译 等指令&#x2F;任务关键词)  上下文（Context）能够引导语言模型更好响应的信息或额外信息  输入数据（Input Data）输入的内容或问题  输出指示（Output Indicator）指定输出的类型或格式   放之四海的通用技巧 清晰的指令  在提问之前先给LLM一个人设 在提问时尽可能给定">
 <meta property="og:type" content="article">
 <meta property="og:title" content="prompt engineering 101">
 <meta property="og:url" content="https://blogs.lirui.me/posts/7879ece8/index.html">
 <meta property="og:site_name" content="CombinatorX">
-<meta property="og:description" content="基础通用技巧提示词元素 指令（Instructions）需要模型做的任务或指令  上下文（Context）能够引导语言模型更好响应的信息或额外信息  输入数据（Input Data）输入的内容或问题  输出指示（Output Indicator）指定输出的类型或格式   放之四海的通用技巧 清晰的指令  在提问之前先给LLM一个人设 在提问时尽可能给定问题的详细信息和限定条件 在提示词中清晰描述用">
+<meta property="og:description" content="基础通用技巧提示词元素 指令（Instructions）需要模型做的任务或指令(分类，总结，提取，翻译 等指令&#x2F;任务关键词)  上下文（Context）能够引导语言模型更好响应的信息或额外信息  输入数据（Input Data）输入的内容或问题  输出指示（Output Indicator）指定输出的类型或格式   放之四海的通用技巧 清晰的指令  在提问之前先给LLM一个人设 在提问时尽可能给定">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blogs.lirui.me/posts/images/prompt-emgineering/TOT.png">
 <meta property="article:published_time" content="2023-12-28T10:39:13.000Z">
-<meta property="article:modified_time" content="2024-01-02T03:36:17.575Z">
+<meta property="article:modified_time" content="2024-01-02T06:57:41.981Z">
 <meta property="article:author" content="李瑞">
 <meta property="article:tag" content="算法,移动开发,项目管理,机器学习,面试,Algorithm,Data structure,mobile,Machine learning,TensorFlow,iOS,Android,interview,Java,Python,Linux,Mac,Web,Project Management,System design,Docker">
 <meta name="twitter:card" content="summary">
@@ -124,7 +124,7 @@
 		</div>
 		
 		<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="通用技巧"><a href="#通用技巧" class="headerlink" title="通用技巧"></a>通用技巧</h3><h4 id="提示词元素"><a href="#提示词元素" class="headerlink" title="提示词元素"></a>提示词元素</h4><ul>
-<li><p>指令（Instructions）<br>需要模型做的任务或指令</p>
+<li><p>指令（Instructions）<br>需要模型做的任务或指令(分类，总结，提取，翻译 等指令/任务关键词)</p>
 </li>
 <li><p>上下文（Context）<br>能够引导语言模型更好响应的信息或额外信息</p>
 </li>
@@ -148,11 +148,22 @@
 </li>
 <li><p>需要LLM以什么样的格式输出，需要在提示词中明确提出</p>
 <ul>
-<li>JSON 格式输出时如何严格控制格式？</li>
+<li>JSON 格式输出时如何严格控制格式？<br>直接表述，要求输出格式为JSON</li>
 </ul>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">请从分割线以下文本中抽取出指定schema的实体，要求如下：</span><br><span class="line">1. 严格依据文本内容提取，不额外推理，直接返回，除实体结果外不要返回额外内容</span><br><span class="line">2. 直接输出结果,不做解释和说明</span><br><span class="line">3. 无法提取的字段内容返回空字符串</span><br><span class="line">4. 提取 &#123;schema&#125; 信息，并以JSON格式输出</span><br><span class="line">5. json 格式如下：</span><br><span class="line">&#123;json&#125;</span><br><span class="line">-------------</span><br><span class="line">&#123;content&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请从分割线以下文本中抽取出指定schema的实体，要求如下：</span><br><span class="line">*. 提取 &#123;schema&#125; 信息，并以JSON格式输出</span><br><span class="line">*. json 格式如下：</span><br><span class="line">&#123;json&#125;</span><br><span class="line">-------------</span><br><span class="line">&#123;content&#125;</span><br></pre></td></tr></table></figure>
 
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">请从分割线以下文本中抽取出指定schema的实体，要求如下：</span><br><span class="line">1. 严格依据文本内容提取，不额外推理，直接返回，除实体结果外不要返回额外内容</span><br><span class="line">2. 直接输出结果,不做解释和说明</span><br><span class="line">3. 无法提取的字段内容返回空字符串</span><br><span class="line">4. 提取 &#123;schema&#125; 信息，并以严格符合RFC8259标准的JSON格式输出</span><br><span class="line">5. json 格式如下：</span><br><span class="line">&#123;json&#125;</span><br><span class="line">-------------</span><br><span class="line">&#123;content&#125;</span><br></pre></td></tr></table></figure></li>
+<p> 输出：<br> 多数情况下输出会是JSON，但是调用样本数上来（样本数 10+）之后，会出现这样的输出：  </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">抽取结果： &#123;json_output&#125;</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">markdown\n&#123;json_output&#125;</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json\n&#123;json_output&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 如果这个结果需要与下游系统进行集成，而下游系统期望得到的结果是标准的JSON输出，问题就出现了，对于上述这样不标准的输出，该如何处理？<br> 直接的思路就是，返回的结果后做一下正则匹配和抽取，可行，但是不够优雅，那么还有没有更简单优雅的办法？<br> 试一试按RFC JSON标准进行输出，会是怎样？</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请从分割线以下文本中抽取出指定schema的实体，要求如下：</span><br><span class="line">*. 提取 &#123;schema&#125; 信息，并以严格符合RFC8259标准的JSON格式输出</span><br><span class="line">*. json 格式如下：</span><br><span class="line">&#123;json&#125;</span><br><span class="line">-------------</span><br><span class="line">&#123;content&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 实测，样本（样本数100+）都会稳定按照约定JSON格式输出。</p>
+</li>
 <li><p>需要明确告知LLM无法处理的情形下的行为</p>
 </li>
 <li><p>明确告知LLM哪些事情不能做</p>
