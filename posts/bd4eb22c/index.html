@@ -39,8 +39,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -55,7 +53,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -151,7 +149,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start fail2ban</span><br><span class="line">systemctl <span class="built_in">enable</span> fail2ban</span><br></pre></td></tr></table></figure>
 
 <p>配置服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local</span><br><span class="line">cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.<span class="built_in">local</span></span><br><span class="line"><span class="built_in">cp</span> /etc/fail2ban/jail.conf /etc/fail2ban/jail.local</span><br></pre></td></tr></table></figure>
 
 <p>CentOS 或者是 Fedora 需要修改jail.local配置文件配置：  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">backend = systemd</span><br></pre></td></tr></table></figure>
@@ -179,7 +177,7 @@
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/src</span><br><span class="line">wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tgz</span><br><span class="line">tar xzf Python-3.6.2.tgz</span><br><span class="line"><span class="built_in">cd</span> Python-3.6.2</span><br><span class="line">./configure --enable-optimizations</span><br><span class="line">make altinstall</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">rm Python-3.6.2.tgz</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line"><span class="built_in">rm</span> Python-3.6.2.tgz</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>MySQL  </li>
@@ -285,7 +283,7 @@
 <ul>
 <li>创建并启动redis容器</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 6379:6379 -v /path/to/redis/home/:/usr/<span class="built_in">local</span>/etc/redis/ --name redis-latest redis redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 6379:6379 -v /path/to/redis/home/:/usr/local/etc/redis/ --name redis-latest redis redis-server /usr/local/etc/redis/redis.conf</span><br></pre></td></tr></table></figure></li>
 <li><p>Ansible<br><a target="_blank" rel="noopener" href="http://codeheaven.io/an-introduction-to-ansible/">An Introduction to Ansible: Installing Jenkins on your server</a><br><a target="_blank" rel="noopener" href="https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e">Deployment with Ansible, Docker, Jenkins and Git</a><br><a target="_blank" rel="noopener" href="https://chromatichq.com/blog/automated-servers-and-deployments-ansible-jenkins">Automated Servers and Deployments with Ansible &amp; Jenkins</a></p>
 </li>
 <li><p>ApacheBench（ab）</p>

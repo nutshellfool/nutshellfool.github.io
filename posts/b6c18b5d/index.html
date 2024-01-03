@@ -39,8 +39,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -55,7 +53,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -228,9 +226,9 @@
 </li>
 </ul>
 <p>支持SSL的siege配置 - 首先安装openssl：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">sudo wget https://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.0f.tar.gz</span><br><span class="line">sudo tar -xzvf openssl-1.1.0f.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openssl-1.1.0f</span><br><span class="line">sudo ./config --prefix=/usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f</span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/mac-dev-env/openssl-1.1.0f /usr/<span class="built_in">local</span>/openssl</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=/usr/local/openssl/bin:$PATH&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export MANPATH=/usr/local/openssl/share/man:$MANPATH&#x27;</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/src</span><br><span class="line">sudo wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz</span><br><span class="line">sudo tar -xzvf openssl-1.1.0f.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openssl-1.1.0f</span><br><span class="line">sudo ./config --prefix=/usr/local/mac-dev-env/openssl-1.1.0f</span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line">sudo <span class="built_in">ln</span> -s /usr/local/mac-dev-env/openssl-1.1.0f /usr/local/openssl</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=/usr/local/openssl/bin:$PATH&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export MANPATH=/usr/local/openssl/share/man:$MANPATH&#x27;</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.joedog.org/siege/siege-latest.tar.gz</span><br><span class="line">tar -xvf siege-latest.tar.gz</span><br><span class="line"><span class="built_in">cd</span> siege-*/</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span> --with-ssl=/usr/<span class="built_in">local</span>/openssl</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">siege.config</span><br><span class="line">siege -C</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.joedog.org/siege/siege-latest.tar.gz</span><br><span class="line">tar -xvf siege-latest.tar.gz</span><br><span class="line"><span class="built_in">cd</span> siege-*/</span><br><span class="line">./configure --prefix=/usr/local --with-ssl=/usr/local/openssl</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">siege.config</span><br><span class="line">siege -C</span><br></pre></td></tr></table></figure>
 
 <h3 id="last-but-not-least"><a href="#last-but-not-least" class="headerlink" title="last but not least"></a>last but not least</h3><p>使用time machine备份现在的系统状态。</p>
 <hr>

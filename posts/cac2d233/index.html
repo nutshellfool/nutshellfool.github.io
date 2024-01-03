@@ -39,8 +39,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -55,7 +53,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -129,7 +127,7 @@
 </ul>
 <p><code>$ mkdir sample_web</code>  </p>
 <p>Dockerfile</p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">14.04</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> Richard Li <span class="string">&quot;lirui.sep@gmail.com&quot;</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get install -y nginx</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&#x27;Hello from docker&#x27;</span> \</span></span><br><span class="line"><span class="bash">	&gt;/usr/share/nginx/html/index.html</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">14.04</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> Richard Li <span class="string">&quot;lirui.sep@gmail.com&quot;</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get install -y nginx</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;Hello from docker&#x27;</span> \</span></span><br><span class="line"><span class="language-bash">	&gt;/usr/share/nginx/html/index.html</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
 
 <p>然后在构建目录下输入下面的docker命令：<br><code>$ docker build -t=&quot;nutshell/sample_web&quot; .</code><br>注意命令的最后是一个“.”是告诉docker在当前目录下去寻找Dockerfile<br>一切正常，完成镜像构建。<br>下面就需要从新镜像启动容器，还记得启动容器的docker命令是什么嘛？<br>对就是 <code>docker run &lt;image name&gt;</code><br>注意到我们的这个镜像是nginx，需要长时间运行的守护进程，查看<code>docker run --help</code> 的帮助文档后可以使用 <code>-d</code> 这个参数使容器以detach的方式在后台运行  </p>
 <p>于是我们就有了下面启动容器的docker命令：  </p>
@@ -157,10 +155,10 @@
 <li><code>ENTRYPOINT</code>就可以了。</li>
 </ul>
 <p>以<code>ENTRYPOINT</code>为例，只需在dockerfile的最后添加：  </p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;nginx&quot;</span>,<span class="string">&quot;-g&quot;</span>,<span class="string">&quot;daemon off;&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;nginx&quot;</span>,<span class="string">&quot;-g&quot;</span>,<span class="string">&quot;daemon off;&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;nginx&quot;</span>,<span class="string">&quot;-g&quot;</span>,<span class="string">&quot;daemon off;&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;nginx&quot;</span>,<span class="string">&quot;-g&quot;</span>,<span class="string">&quot;daemon off;&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
 <p>重新build，重新run一个新容器，一切照旧，成功。<br>到这里你会问，既然一样为什么还要用两个指令？  </p>
 <blockquote>
@@ -172,13 +170,13 @@
 <li><code>COPY</code></li>
 </ul>
 <p>只需将原dockerfile中的这一句</p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&#x27;Hello from docker&#x27;</span> /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;Hello from docker&#x27;</span> /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
 
 <p>替换为</p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="bash"> project/index.html /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="language-bash"> project/index.html /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash"> project/index.html /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="language-bash"> project/index.html /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
 
 <p>重新build，重新run一个新容器，一切照旧，成功。  </p>
 <p>同样的，你会问，既然一样为什么要用两个命令？</p>

@@ -42,8 +42,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -58,7 +56,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -233,7 +231,7 @@
 
 <p>令test的复杂度为$O(T)$, block1的复杂度为$O(B1)$ block2的复杂度为$O(B2)$, 那么这段程序的复杂度是怎样的？  </p>
 <p>其次乘法法则可以帮助我们理解由循环控制的程序段的复杂度。<br>举个例子：<br>程序结构如下：  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">for</span> i in <span class="title">range</span><span class="params">(N)</span>:</span></span><br><span class="line"><span class="function">    <span class="title">f</span><span class="params">(...)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i in <span class="title function_">range</span><span class="params">(N)</span>:</span><br><span class="line">    f(...)</span><br></pre></td></tr></table></figure>
 
 <p>其中$O(f(…)) = N^2$<br>那么这段程序段的复杂度为： $O(N) \cdot O(f(…)) = O(N) \cdot O(N^2) = O(N \cdot N^2)$<br>好的有了这两个工具，相信多数的Big-Oh案例分析能轻松搞定。</p>
 <h2 id="常见排序、查找算法复杂度"><a href="#常见排序、查找算法复杂度" class="headerlink" title="常见排序、查找算法复杂度"></a>常见排序、查找算法复杂度</h2><p>其实这些算法复杂度都可以通过上面的运算法则以及操作的复杂度推算出来的，但是作为一个可以作为快速备查的cheatsheet下面就直接罗列出结论：<br>先来查找（search）：</p>

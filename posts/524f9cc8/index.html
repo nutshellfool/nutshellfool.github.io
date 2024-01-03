@@ -39,8 +39,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -55,7 +53,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -130,7 +128,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namei -l /var/www/vhosts/xxx.example.com/</span><br></pre></td></tr></table></figure>
 
 <p>下面命令是给静态资源文件夹下的静态文件设置统一的可读权限：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /var/www/vhosts/xxx.example.com/ -<span class="built_in">type</span> f -print0 | xargs -0 chmod a+r</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /var/www/vhosts/xxx.example.com/ -<span class="built_in">type</span> f -print0 | xargs -0 <span class="built_in">chmod</span> a+r</span><br></pre></td></tr></table></figure>
 
 <p>可能会涉及到SELinux 相关的安全权限设置：<br>参考下面文档：<br><a target="_blank" rel="noopener" href="https://wiki.centos.org/HowTos/SELinux">SELinux官方wiki</a><br><a target="_blank" rel="noopener" href="https://www.nginx.com/blog/using-nginx-plus-with-selinux/">Using NGINX and NGINX Plus with SELinux
 </a></p>
@@ -236,7 +234,7 @@
 </tr>
 </tbody></table>
 <h3 id="一些使用问题"><a href="#一些使用问题" class="headerlink" title="一些使用问题"></a>一些使用问题</h3><h4 id="413-Request-Entity-Too-Large"><a href="#413-Request-Entity-Too-Large" class="headerlink" title="413 Request Entity Too Large"></a><code>413 Request Entity Too Large</code></h4><p>常常出现在向服务上传文件的场景提示，主要原因是请求body的大小超出设定值，需要检查反向代理和应用服务器的相关设置，反向代理Nginx的directive为：<br><code>client_max_body_size</code>  </p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax: <span class="attribute">client_max_body_size</span> size;</span><br><span class="line">Default: <span class="attribute">client_max_body_size</span> <span class="number">1m</span>;</span><br><span class="line">Context: http, server, location</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax: <span class="attribute">client_max_body_size</span> size;</span><br><span class="line">Default: <span class="attribute">client_max_body_size</span> <span class="number">1m</span>;</span><br><span class="line">Context: http, server, <span class="section">location</span></span><br></pre></td></tr></table></figure>
 
 <p>默认值为1M，可以根据需要在对应的context设置合理的值即可。</p>
 <h2 id="HTTPS-TSL"><a href="#HTTPS-TSL" class="headerlink" title="HTTPS / TSL"></a>HTTPS / TSL</h2><p>支持HTTPS需要向CA机构申请证书，根据证书类型（DV、OV、EV）的不同和CA机构的情况会有免费和付费的证书选择，下文会对申请Let’s Encrypt免费DV证书进行说明。  </p>
@@ -290,7 +288,7 @@
 <li>重定向HTTP到HTTPS</li>
 </ul>
 <p>由于这里值涉及到特定站点的跳转，所以只需要在站点内的Nginx配置文件中做修改即可，以下是修改内容的参考：  </p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> www.example.com example.com;</span><br><span class="line">  <span class="comment"># redirects both www and non-www to https</span></span><br><span class="line">  <span class="attribute">return</span> <span class="number">301</span> https://example.com$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> www.example.com example.com;</span><br><span class="line">  <span class="comment"># redirects both www and non-www to https</span></span><br><span class="line">  <span class="attribute">return</span> <span class="number">301</span> https://example.com<span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>测试Nginx配置语法，重新加载新配置</li>

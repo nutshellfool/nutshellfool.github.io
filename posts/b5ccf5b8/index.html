@@ -39,8 +39,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -55,7 +53,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -136,7 +134,7 @@
 <ul>
 <li>openSSL - 支持https协议， SSL和其他模块依赖</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://www.openssl.org/<span class="built_in">source</span>/openssl-1.1.1b.tar.gz</span><br><span class="line">$ tar -zxf openssl-1.1.1b.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> openssl-1.1.1b</span><br><span class="line">$ ./Configure linux-x86_64 --prefix=/usr</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://www.openssl.org/source/openssl-1.1.1b.tar.gz</span><br><span class="line">$ tar -zxf openssl-1.1.1b.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> openssl-1.1.1b</span><br><span class="line">$ ./Configure linux-x86_64 --prefix=/usr</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
 
 <h2 id="下载解压源码"><a href="#下载解压源码" class="headerlink" title="下载解压源码"></a>下载解压源码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://nginx.org/download/nginx-1.15.11.tar.gz</span><br><span class="line">$ tar xzf nginx-1.15.11.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nginx-1.15.11</span><br></pre></td></tr></table></figure>
 
@@ -145,10 +143,10 @@
 <p>以上是使用nginx的默认配置，具体的配置请参考官方文档 <a target="_blank" rel="noopener" href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#configuring-the-build-options">nginx build options</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
 
-<h2 id="让vim支持nginx配置文件语法"><a href="#让vim支持nginx配置文件语法" class="headerlink" title="让vim支持nginx配置文件语法"></a>让vim支持nginx配置文件语法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp -r contrib/vim/* ~/.vim/</span><br><span class="line">$ cp -r contrib/vim/* /root/.vim/</span><br></pre></td></tr></table></figure>
+<h2 id="让vim支持nginx配置文件语法"><a href="#让vim支持nginx配置文件语法" class="headerlink" title="让vim支持nginx配置文件语法"></a>让vim支持nginx配置文件语法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> -r contrib/vim/* ~/.vim/</span><br><span class="line">$ <span class="built_in">cp</span> -r contrib/vim/* /root/.vim/</span><br></pre></td></tr></table></figure>
 
 <h2 id="以service的方式运行Nginx-OpenResty"><a href="#以service的方式运行Nginx-OpenResty" class="headerlink" title="以service的方式运行Nginx/OpenResty"></a>以service的方式运行Nginx/OpenResty</h2><p>以CentOS7为例：<br>在以下路径下创建systemd unit 配置文件<code>/usr/lib/systemd/system/nginx.service</code><br>文件配置内容(OpenResty)：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=The nginx HTTP and reverse proxy server</span><br><span class="line">After=syslog.target network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/usr/<span class="built_in">local</span>/openresty/nginx/logs/nginx.pid</span><br><span class="line">ExecStartPre=/usr/<span class="built_in">local</span>/openresty/nginx/sbin/nginx -t</span><br><span class="line">ExecStart=/usr/<span class="built_in">local</span>/openresty/nginx/sbin/nginx</span><br><span class="line">ExecReload=/bin/<span class="built_in">kill</span> -s HUP <span class="variable">$MAINPID</span></span><br><span class="line">ExecStop=/bin/<span class="built_in">kill</span> -s QUIT <span class="variable">$MAINPID</span></span><br><span class="line">PrivateTmp=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=The nginx HTTP and reverse proxy server</span><br><span class="line">After=syslog.target network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/usr/local/openresty/nginx/logs/nginx.pid</span><br><span class="line">ExecStartPre=/usr/local/openresty/nginx/sbin/nginx -t</span><br><span class="line">ExecStart=/usr/local/openresty/nginx/sbin/nginx</span><br><span class="line">ExecReload=/bin/kill -s HUP <span class="variable">$MAINPID</span></span><br><span class="line">ExecStop=/bin/kill -s QUIT <span class="variable">$MAINPID</span></span><br><span class="line">PrivateTmp=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 
 <p>启用这个nginx的systemd unit</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> nginx.service</span><br><span class="line">systemctl start nginx.service</span><br></pre></td></tr></table></figure>

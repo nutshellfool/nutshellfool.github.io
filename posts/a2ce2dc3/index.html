@@ -39,8 +39,6 @@
     
       
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/%02.css">
-<link rel="stylesheet" href="/.css">
 
 
     
@@ -55,7 +53,7 @@
     </script>
     
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
   <body>
     <header>
@@ -127,7 +125,7 @@
 <li>已经选择了合适的网络代理，并为 terminal 设置了合适的环境变量</li>
 </ul>
 <h3 id="安装-kubernates"><a href="#安装-kubernates" class="headerlink" title="安装 kubernates"></a>安装 kubernates</h3><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p>在安装部署的过程中可以使用下面的命令查看日志：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pred=<span class="string">&#x27;process matches &quot;.*(ocker|vpnkit).*&quot;</span></span><br><span class="line"><span class="string">  || (process in &#123;&quot;taskgated-helper&quot;, &quot;launchservicesd&quot;, &quot;kernel&quot;&#125; &amp;&amp; eventMessage contains[c] &quot;docker&quot;)&#x27;</span></span><br><span class="line">/usr/bin/<span class="built_in">log</span> stream --style syslog --level=debug --color=always --predicate <span class="string">&quot;<span class="variable">$pred</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pred=<span class="string">&#x27;process matches &quot;.*(ocker|vpnkit).*&quot;</span></span><br><span class="line"><span class="string">  || (process in &#123;&quot;taskgated-helper&quot;, &quot;launchservicesd&quot;, &quot;kernel&quot;&#125; &amp;&amp; eventMessage contains[c] &quot;docker&quot;)&#x27;</span></span><br><span class="line">/usr/bin/log stream --style syslog --level=debug --color=always --predicate <span class="string">&quot;<span class="variable">$pred</span>&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="长时间处于-Kubernetes-is-starting-状态"><a href="#长时间处于-Kubernetes-is-starting-状态" class="headerlink" title="长时间处于 Kubernetes is starting ... 状态"></a>长时间处于 <code>Kubernetes is starting ...</code> 状态</h4><p>这是处于国内环境最经常遇到的问题，碰到这个问题常见操作就是：  </p>
 <ol>
